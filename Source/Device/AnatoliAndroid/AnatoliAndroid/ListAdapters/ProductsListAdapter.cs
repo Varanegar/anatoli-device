@@ -23,7 +23,7 @@ using Square.Picasso;
 
 namespace AnatoliAndroid.ListAdapters
 {
-    class ProductsListAdapter : BaseSwipeListAdapter<ProductManager, ProductModel>
+    class ProductsListAdapter : BaseListAdapter<ProductManager, ProductModel>
     {
         TextView _productCountTextView;
         TextView _productNameTextView;
@@ -247,7 +247,6 @@ namespace AnatoliAndroid.ListAdapters
                     try
                     {
                         _removeAllProductsButton.Enabled = false;
-                        OptionsClicked(position);
                         if (AnatoliApp.GetInstance().AnatoliUser != null)
                         {
                             int a = await ShoppingCardManager.GetItemsCountAsync();
@@ -320,7 +319,6 @@ namespace AnatoliAndroid.ListAdapters
                             OnFavoritAdded(this[position]);
                         }
                     }
-                    OptionsClicked(position);
                     _favoritsButton.Enabled = true;
                 };
                 _favoritsButton.SetOnTouchListener(_favoritsTouchlistener);
@@ -344,7 +342,6 @@ namespace AnatoliAndroid.ListAdapters
                         {
                             if (await ShoppingCardManager.AddProductAsync(item))
                             {
-                                item.count++;
                                 if (item.product_name.Equals(_productNameTextView.Text))
                                     if (item.count == 1)
                                     {
@@ -388,7 +385,6 @@ namespace AnatoliAndroid.ListAdapters
                         {
                             if (await ShoppingCardManager.RemoveProductAsync(item))
                             {
-                                item.count--;
                                 if (item.count == 0)
                                 {
                                     if (item.product_name.Equals(_productNameTextView.Text))
@@ -423,16 +419,8 @@ namespace AnatoliAndroid.ListAdapters
                 };
                 _productRemoveButton.SetOnTouchListener(_removeTouchlistener);
 
-                OnTouchListener tcl = new OnTouchListener();
-                view.SetOnTouchListener(tcl);
-                tcl.SwipeLeft += (s, e) =>
-                {
-                    OnSwipeLeft(position);
-                };
-                tcl.SwipeRight += (s, e) =>
-                {
-                    OnSwipeRight(position);
-                };
+                
+
 
                 return view;
             }

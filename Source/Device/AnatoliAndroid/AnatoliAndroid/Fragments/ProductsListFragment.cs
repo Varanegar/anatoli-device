@@ -24,7 +24,7 @@ using Anatoli.Framework;
 namespace AnatoliAndroid.Fragments
 {
     [FragmentTitle("دسته بندی کالا")]
-    class ProductsListFragment : BaseSwipeListFragment<ProductManager, ProductsListAdapter, NoListToolsDialog, ProductModel>
+    class ProductsListFragment : BaseListFragment<ProductManager, ProductsListAdapter, NoListToolsDialog, ProductModel>
     {
         public ProductsListFragment()
         {

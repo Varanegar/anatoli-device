@@ -28,7 +28,7 @@ namespace AnatoliAndroid.Fragments
         where DataModel : BaseViewModel, new()
     {
         protected View _view;
-        protected SwipeListView _listView;
+        protected ListView _listView;
         TextView _resultTextView;
         protected DataListAdapter _listAdapter;
         protected BaseDataManager _dataManager;
@@ -77,7 +77,7 @@ namespace AnatoliAndroid.Fragments
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             _view = InflateLayout(inflater, container, savedInstanceState);
-            _listView = _view.FindViewById<SwipeListView>(Resource.Id.itemsListView);
+            _listView = _view.FindViewById<ListView>(Resource.Id.itemsListView);
             _resultTextView = _view.FindViewById<TextView>(Resource.Id.resultTextView);
             _listView.ScrollStateChanged += _listView_ScrollStateChanged;
             _listView.Adapter = _listAdapter;

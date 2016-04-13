@@ -81,14 +81,14 @@
     </Reference>
     <Reference Include="Mono.Android.Export" />
     <Reference Include="Square.OkHttp">
-      <HintPath>..\..\Framework V0.1\Anatoli\packages\Square.OkHttp.2.4.0.0\lib\MonoAndroid\Square.OkHttp.dll</HintPath>
+      <HintPath>..\..\packages\Square.OkHttp.2.4.0.0\lib\MonoAndroid\Square.OkHttp.dll</HintPath>
     </Reference>
     <Reference Include="Square.OkIO">
-      <HintPath>..\..\Framework V0.1\Anatoli\packages\Square.OkIO.1.5.0.0\lib\MonoAndroid\Square.OkIO.dll</HintPath>
+      <HintPath>..\..\packages\Square.OkIO.1.5.0.0\lib\MonoAndroid\Square.OkIO.dll</HintPath>
     </Reference>
     <Reference Include="Square.Picasso, Version=2.5.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Framework V0.1\Anatoli\packages\Square.Picasso.2.5.2.1\lib\MonoAndroid\Square.Picasso.dll</HintPath>
+      <HintPath>..\..\packages\Square.Picasso.2.5.2.1\lib\MonoAndroid\Square.Picasso.dll</HintPath>
     </Reference>
     <Reference Include="System.Collections" />
     <Reference Include="HockeyApp.Android">
@@ -157,11 +157,8 @@
     <Compile Include="Components\AnatoliSwitch.cs" />
     <Compile Include="Components\AnatoliTextView.cs" />
     <Compile Include="Components\RoundedImageView.cs" />
-    <Compile Include="Components\SwipeListView.cs" />
-    <Compile Include="Components\SwipeTouchListener.cs" />
     <Compile Include="Components\TypeFaceProvider.cs" />
     <Compile Include="Extentions.cs" />
-    <Compile Include="Fragments\BaseSwipeListFragment.cs" />
     <Compile Include="Fragments\ConfirmDialog.cs" />
     <Compile Include="Fragments\EditShippingInfoFragment.cs" />
     <Compile Include="Fragments\FavoritsListFragment.cs" />
@@ -181,7 +178,6 @@
     <Compile Include="Fragments\ResetPasswordDialog.cs" />
     <Compile Include="Fragments\SettingsFragment.cs" />
     <Compile Include="Fragments\ShoppingCardListToolsFragment.cs" />
-    <Compile Include="ListAdapters\BaseSwipeListAdapter.cs" />
     <Compile Include="ListAdapters\CityRegionListAdapter.cs" />
     <Compile Include="ListAdapters\DeliveryTimeListAdapter.cs" />
     <Compile Include="ListAdapters\DeliveryTypeListAdapter.cs" />
@@ -272,9 +268,6 @@
       <SubType>AndroidResource</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\ShoppingCardToolsLayout.axml">
-      <SubType>AndroidResource</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\layout\ItemsSwipeListLayout.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\shippingInfoLayout.axml">

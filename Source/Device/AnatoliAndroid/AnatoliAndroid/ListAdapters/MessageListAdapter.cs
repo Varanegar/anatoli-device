@@ -15,7 +15,7 @@ using AnatoliAndroid.Fragments;
 
 namespace AnatoliAndroid.ListAdapters
 {
-    class MessageListAdapter : BaseSwipeListAdapter<MessageManager, MessageModel>
+    class MessageListAdapter : BaseListAdapter<MessageManager, MessageModel>
     {
         public override View GetItemView(int position, View convertView, ViewGroup parent)
         {
