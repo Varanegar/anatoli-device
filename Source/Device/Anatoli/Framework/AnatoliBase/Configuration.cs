@@ -24,9 +24,9 @@ namespace Anatoli.Framework.AnatoliBase
         }
         public struct WebService
         {
-            public static string PortalAddress = "http://192.168.201.205:8081";
+            //public static string PortalAddress = "http://192.168.201.205:8081";
             //public static string PortalAddress = "http://46.209.104.2:7000";
-            //public static string PortalAddress = "http://217.218.53.71:7000";
+            public static string PortalAddress = "http://217.218.53.71:7000";
             //public static string PortalAddress = "http://46.32.2.234:8081";
             //public static string PortalAddress = "http://79.175.166.186/";
             //public static  string PortalAddress = "http://192.168.201.46/";

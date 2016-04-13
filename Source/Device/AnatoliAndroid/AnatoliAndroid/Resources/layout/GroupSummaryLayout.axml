@@ -5,15 +5,13 @@
     android:layout_height="fill_parent">
     <LinearLayout
         android:id="@+id/back"
-        android:tag="back"
-        style="@style/ListBackContent" />
+        android:tag="back" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/front"
         android:tag="front"
-        android:padding="10dp"
-        style="@style/ListFrontContent">
+        android:padding="10dp">
         <AnatoliAndroid.Components.AnatoliTextView
             android:text=""
             android:layout_width="wrap_content"

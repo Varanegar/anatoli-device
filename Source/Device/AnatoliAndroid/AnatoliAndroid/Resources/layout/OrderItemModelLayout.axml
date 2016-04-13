@@ -7,8 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/front"
-        android:tag="front"
-        style="@style/ListFrontContent">
+        android:tag="front">
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
