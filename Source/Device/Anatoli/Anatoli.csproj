@@ -98,6 +98,7 @@
     <Compile Include="App\RequestModel\BaseRequestModel.cs" />
     <Compile Include="App\RequestModel\CustomerRequestModel.cs" />
     <Compile Include="App\RequestModel\PurchaseOrderRequestModel.cs" />
+    <Compile Include="App\RequestModel\UserRequestModel.cs" />
     <Compile Include="Framework\AnatoliBase\AnatoliClient.cs" />
     <Compile Include="Framework\AnatoliBase\AnatoliSQLite.cs" />
     <Compile Include="Framework\AnatoliBase\AnatoliWebClient.cs" />

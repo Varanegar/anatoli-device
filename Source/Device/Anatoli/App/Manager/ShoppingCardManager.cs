@@ -175,7 +175,7 @@ namespace Anatoli.App.Manager
 			return result;
         }
 
-        public static async Task<PurchaseOrderViewModel> CalcPromo(CustomerViewModel customerModel, string userId, string storeId, string deliveryTypeId)
+        public static async Task<PurchaseOrderViewModel> CalcPromo(CustomerViewModel customerModel, string userId, string storeId, string deliveryTypeId, DeliveryTimeModel deliveryTime)
         {
             try
             {
@@ -186,6 +186,16 @@ namespace Anatoli.App.Manager
                 order.PaymentTypeValueId = Guid.Parse("3a27504c-a9ba-46ce-9376-a63403bfe82a");
                 order.StoreGuid = Guid.Parse(storeId);
                 order.UserId = Guid.Parse(userId);
+                order.OrderDate = DateTime.Now;
+                order.OrderTime = DateTime.Now.TimeOfDay;
+                order.DeliveryDate = DateTime.Now;
+                order.ActionSourceValueId = "65DEC223-059E-48BA-8281-E4FAAFF6E32D";
+
+                if (deliveryTime != null)
+                {
+                    order.DeliveryFromTime = deliveryTime.timespan;
+                    order.DeliveryToTime = deliveryTime.timespan + TimeSpan.FromMinutes(30);
+                }
                 foreach (var item in products)
                 {
                     PurchaseOrderLineItemViewModel line = new PurchaseOrderLineItemViewModel();
@@ -205,7 +215,7 @@ namespace Anatoli.App.Manager
             }
         }
 
-        public static async Task<PurchaseOrderViewModel> Checkout(CustomerViewModel customerModel, string userId, string storeId, string deliveryTypeId, DeliveryTimeModel time)
+        public static async Task<PurchaseOrderViewModel> Checkout(CustomerViewModel customerModel, string userId, string storeId, string deliveryTypeId, DeliveryTimeModel deliveryTime)
         {
             try
             {
@@ -217,8 +227,12 @@ namespace Anatoli.App.Manager
                 order.StoreGuid = Guid.Parse(storeId);
                 order.OrderDate = DateTime.Now;
                 order.OrderTime = DateTime.Now.TimeOfDay;
-                if (time != null)
-                    order.DeliveryFromTime = time.timespan;
+                order.DeliveryDate = DateTime.Now;
+                if (deliveryTime != null)
+                {
+                    order.DeliveryFromTime = deliveryTime.timespan;
+                    order.DeliveryToTime = deliveryTime.timespan + TimeSpan.FromMinutes(30);
+                }
                 order.PurchaseOrderStatusValueId = Guid.Parse("A591658A-E46B-440D-9ADB-E3E5B01B7489");
                 order.UserId = Guid.Parse(userId);
                 order.ActionSourceValueId = "65DEC223-059E-48BA-8281-E4FAAFF6E32D";
@@ -229,7 +243,9 @@ namespace Anatoli.App.Manager
                     line.Qty = item.count;
                     order.LineItems.Add(line);
                 }
-                var o = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<PurchaseOrderViewModel>(TokenType.AppToken, Configuration.WebService.Purchase.Create, order);
+                var requestModel = new RequestModel.PurchaseOrderRequestModel();
+                requestModel.orderEntity = order;
+                var o = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<PurchaseOrderViewModel>(TokenType.AppToken, Configuration.WebService.Purchase.Create, requestModel);
                 return o;
             }
             catch (Exception ex)

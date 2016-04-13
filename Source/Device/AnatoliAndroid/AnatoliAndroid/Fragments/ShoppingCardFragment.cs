@@ -138,7 +138,7 @@ namespace AnatoliAndroid.Fragments
                                 pDialog.SetTitle("در حال ارسال سفارش");
                                 pDialog.Show();
                                 // "BE2919AB-5564-447A-BE49-65A81E6AF712"
-                                var o = await ShoppingCardManager.CalcPromo(AnatoliApp.GetInstance().Customer, _customerViewModel.UniqueId, store.store_id, _deliveryTypeListBox.SelectedItem.id);
+                                var o = await ShoppingCardManager.CalcPromo(AnatoliApp.GetInstance().Customer, _customerViewModel.UniqueId, store.store_id, _deliveryTypeListBox.SelectedItem.id,_deliveryTimeListBox.SelectedItem);
                                 pDialog.Dismiss();
                                 if (o.IsValid)
                                 {
@@ -216,7 +216,7 @@ namespace AnatoliAndroid.Fragments
                             pDialog.SetMessage(AnatoliApp.GetResources().GetText(Resource.String.PleaseWait));
                             pDialog.SetTitle("در حال ارسال سفارش");
                             pDialog.Show();
-                            var o = await ShoppingCardManager.CalcPromo(AnatoliApp.GetInstance().Customer, _customerViewModel.UniqueId, store.store_id, _deliveryTypeListBox.SelectedItem.id);
+                            var o = await ShoppingCardManager.CalcPromo(AnatoliApp.GetInstance().Customer, _customerViewModel.UniqueId, store.store_id, _deliveryTypeListBox.SelectedItem.id,_deliveryTimeListBox.SelectedItem);
                             pDialog.Dismiss();
                             if (o.IsValid)
                             {

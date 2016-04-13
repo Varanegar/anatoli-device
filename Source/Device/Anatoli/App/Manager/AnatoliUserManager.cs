@@ -168,19 +168,27 @@ namespace Anatoli.App.Manager
 
         public static async Task<BaseWebClientResult> SendConfirmCode(string userName, string code)
         {
-            var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<BaseWebClientResult>(TokenType.AppToken, Configuration.WebService.Users.ConfirmMobile + "?username=" + userName + "&code=" + code);
+            var userRequestModel = new RequestModel.UserRequestModel();
+            userRequestModel.username = userName;
+            userRequestModel.code = code;
+            var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<BaseWebClientResult>(TokenType.AppToken, Configuration.WebService.Users.ConfirmMobile ,userRequestModel);
             return result;
         }
 
         public static async Task<BaseWebClientResult> RequestConfirmCode(string userName)
         {
-            var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<BaseWebClientResult>(TokenType.AppToken, Configuration.WebService.Users.ResendConfirmCode + "?username=" + userName);
+            var userRequestModel = new RequestModel.UserRequestModel();
+            userRequestModel.username = userName;
+            var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<BaseWebClientResult>(TokenType.AppToken, Configuration.WebService.Users.ResendConfirmCode, userRequestModel);
             return result;
         }
 
         public static async Task<BaseWebClientResult> ResetPassword(string userName, string passWord)
         {
-            var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<BaseWebClientResult>(TokenType.AppToken, Configuration.WebService.Users.ResetPassWord + "?username=" + userName + "&password=" + passWord);
+            var userRequestModel = new RequestModel.UserRequestModel();
+            userRequestModel.username = userName;
+            userRequestModel.password = passWord;
+            var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<BaseWebClientResult>(TokenType.AppToken, Configuration.WebService.Users.ResetPassWord, userRequestModel);
             return result;
         }
 

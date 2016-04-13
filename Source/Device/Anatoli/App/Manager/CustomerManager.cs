@@ -96,10 +96,10 @@ namespace Anatoli.App.Manager
             var data = new CustomerRequestModel();
             data.customerId = user.UniqueId;
             data.customerData = user;
-            var userModel = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<CustomerViewModel>>(TokenType.AppToken, 
+            var userModel = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<CustomerViewModel>(TokenType.AppToken, 
                 Configuration.WebService.Users.SaveProfileUrl,
                 data);
-            return userModel.First();
+            return userModel;
         }
 
         public static async Task<string> UploadImageAsync(string userId, Byte[] obj, System.Threading.CancellationTokenSource cancelToken)
