@@ -35,8 +35,8 @@ namespace AnatoliAndroid.Fragments
         {
             base.OnStart();
             AnatoliApp.GetInstance().ShowSearchIcon();
-
         }
+
         public override async Task Search(DBQuery query, string value)
         {
             _dataManager.ShowGroups = true;

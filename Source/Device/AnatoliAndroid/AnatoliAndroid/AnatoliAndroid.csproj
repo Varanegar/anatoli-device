@@ -173,6 +173,7 @@
     <Compile Include="Fragments\OnTouchListener.cs" />
     <Compile Include="Fragments\OrderDetailFragment.cs" />
     <Compile Include="Fragments\OrdersListFragment.cs" />
+    <Compile Include="Fragments\ProductDetailFragment.cs" />
     <Compile Include="Fragments\ProfileFragment.cs" />
     <Compile Include="Fragments\ProformaFragment.cs" />
     <Compile Include="Fragments\ResetPasswordDialog.cs" />
@@ -323,6 +324,9 @@
       <SubType>AndroidResource</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\SimpleList1.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\ProductDetailLayout.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
   </ItemGroup>

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:local="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:id="@+id/relativeLayout6">
+        <ImageView
+            android:src="@android:drawable/ic_menu_gallery"
+            android:id="@+id/productImageView"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_centerInParent="true" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/favoritImageView"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@android:drawable/btn_star_big_off"
+            android:layout_margin="20dp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:id="@+id/relativeLayout1">
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="55dp"
+            android:id="@+id/addImageButton"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_shoppingcard_blue_24dp"
+            android:layout_marginRight="5dp" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:id="@+id/counterLinearLayout"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="0dp">
+            <AnatoliAndroid.Components.AnatoliTextView
+                android:text="عدد"
+                local:customFont="Fonts/anatoli.ttf"
+                android:textSize="12dp"
+                android:textColor="@color/white"
+                android:background="@drawable/greenbutton"
+                android:id="@+id/productCountTextView"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_width="45dp"
+                android:layout_height="40dp"
+                android:padding="0dp" />
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/removeProductImageView"
+                android:layout_centerVertical="true"
+                android:src="@drawable/removeproductimage"
+                android:background="@drawable/graybutton"
+                android:scaleType="centerCrop"
+                android:layout_margin="0dp" />
+        </LinearLayout>
+        <AnatoliAndroid.Components.AnatoliTextView
+            local:customFont="Fonts/anatoli.ttf"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/addImageButton"
+            android:layout_toRightOf="@id/counterLinearLayout"
+            android:id="@+id/titleTextView"
+            android:gravity="center_vertical|right"
+            android:layout_marginRight="5dp" />
+    </RelativeLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout1"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp">
+        <RelativeLayout
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/priceRelativeLayout"
+            android:layout_margin="5dp">
+            <AnatoliAndroid.Components.AnatoliTextView
+                local:customFont="Fonts/anatoli.ttf"
+                android:text=""
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/priceTextView"
+                android:layout_alignParentRight="true" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/relativeLayout2"
+            android:layout_margin="5dp">
+            <AnatoliAndroid.Components.AnatoliTextView
+                local:customFont="Fonts/anatoli.ttf"
+                android:text="واحد تعداد کالا : "
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView1"
+                android:layout_alignParentRight="true" />
+            <AnatoliAndroid.Components.AnatoliTextView
+                local:customFont="Fonts/anatoli.ttf"
+                android:text=""
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/textView1"
+                android:id="@+id/unitTextView" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/relativeLayout3"
+            android:layout_margin="5dp">
+            <AnatoliAndroid.Components.AnatoliTextView
+                local:customFont="Fonts/anatoli.ttf"
+                android:text="تولیدکننده :"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView2"
+                android:layout_alignParentRight="true" />
+            <AnatoliAndroid.Components.AnatoliTextView
+                local:customFont="Fonts/anatoli.ttf"
+                android:text=""
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/textView2"
+                android:id="@+id/producerTextView" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/relativeLayout4"
+            android:layout_margin="5dp">
+            <AnatoliAndroid.Components.AnatoliTextView
+                local:customFont="Fonts/anatoli.ttf"
+                android:text="دسته محصول : "
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView3"
+                android:layout_alignParentRight="true" />
+            <AnatoliAndroid.Components.AnatoliTextView
+                local:customFont="Fonts/anatoli.ttf"
+                android:text=""
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/textView3"
+                android:id="@+id/productGroupTextView" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/relativeLayout5"
+            android:layout_margin="5dp">
+            <AnatoliAndroid.Components.AnatoliTextView
+                local:customFont="Fonts/anatoli.ttf"
+                android:text="تگ ها : "
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView4"
+                android:layout_alignParentRight="true" />
+            <AnatoliAndroid.Components.AnatoliTextView
+                local:customFont="Fonts/anatoli.ttf"
+                android:text=""
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/textView4"
+                android:id="@+id/tagsTextView" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

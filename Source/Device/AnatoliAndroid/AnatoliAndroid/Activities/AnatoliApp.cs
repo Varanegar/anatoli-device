@@ -681,12 +681,12 @@ namespace AnatoliAndroid.Activities
             fragment.Arguments = bundle;
             return SetFragment(fragment, tag);
         }
-        public FragmentType SetFragment<FragmentType>(FragmentType fragment, string tag) where FragmentType : Android.App.Fragment, new()
+        public FragmentType SetFragment<FragmentType>(FragmentType fragment, string tag) where FragmentType : Android.App.Fragment
         {
             var transaction = _activity.FragmentManager.BeginTransaction();
             if (fragment == null)
             {
-                fragment = new FragmentType();
+                throw new ArgumentNullException();
             }
             transaction.Replace(Resource.Id.content_frame, fragment, tag);
             transaction.Commit();

@@ -42,7 +42,7 @@ namespace AnatoliAndroid.Activities
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-           
+
             HockeyApp.CrashManager.Register(this, HOCKEYAPP_APPID, new AnatoliCrashManagerListener());
             HockeyApp.TraceWriter.Initialize();
             // Wire up Unhandled Expcetion handler from Android
@@ -123,7 +123,7 @@ namespace AnatoliAndroid.Activities
                     AnatoliApp.GetInstance().RefreshMenuItems();
                     AnatoliAndroid.Activities.AnatoliApp.GetInstance().ShoppingCardItemCount.Text = (await ShoppingCardManager.GetItemsCountAsync()).ToString();
                     AnatoliAndroid.Activities.AnatoliApp.GetInstance().SetTotalPrice(await ShoppingCardManager.GetTotalPriceAsync());
-                    AnatoliApp.GetInstance().SetFragment<FirstFragment>(null, "first_fragment");
+                    AnatoliApp.GetInstance().SetFragment<FirstFragment>(new FirstFragment(), "first_fragment");
                     if (AnatoliApp.GetInstance().AnatoliUser != null)
                     {
 #pragma warning disable
@@ -144,7 +144,7 @@ namespace AnatoliAndroid.Activities
                 }
                 else
                 {
-                    var storesF = AnatoliApp.GetInstance().SetFragment<StoresListFragment>(null, "stores_fragment");
+                    var storesF = AnatoliApp.GetInstance().SetFragment<StoresListFragment>(new StoresListFragment(), "stores_fragment");
                     await storesF.RefreshAsync();
                 }
             }

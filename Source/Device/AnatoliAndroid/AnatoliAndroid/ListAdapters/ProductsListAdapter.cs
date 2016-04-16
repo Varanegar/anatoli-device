@@ -230,7 +230,7 @@ namespace AnatoliAndroid.ListAdapters
                     _favoritsButton.Enabled = false;
                     if (this[position].IsFavorit)
                     {
-                        if (await ProductManager.RemoveFavoritAsync(this[position].product_id.ToString()) == true)
+                        if (await ProductManager.RemoveFavoritAsync(this[position]) == true)
                         {
                             this[position].favorit = 0;
                             NotifyDataSetChanged();
@@ -239,7 +239,7 @@ namespace AnatoliAndroid.ListAdapters
                     }
                     else
                     {
-                        if (await ProductManager.AddToFavoritsAsync(this[position].product_id.ToString()) == true)
+                        if (await ProductManager.AddToFavoritsAsync(this[position]) == true)
                         {
                             this[position].favorit = 1;
                             NotifyDataSetChanged();
@@ -345,7 +345,21 @@ namespace AnatoliAndroid.ListAdapters
                     }
                 };
                 _productRemoveButton.SetOnTouchListener(_removeTouchlistener);
-
+                _productIimageView.Click += delegate
+                {
+                    var d = new ProductDetailFragment(item);
+                    AnatoliApp.GetInstance().SetFragment<ProductDetailFragment>(d, "product_detail");
+                };
+                _productNameTextView.Click += delegate
+                {
+                    var d = new ProductDetailFragment(item);
+                    AnatoliApp.GetInstance().SetFragment<ProductDetailFragment>(d, "product_detail");
+                };
+                _productPriceTextView.Click += delegate
+                {
+                    var d = new ProductDetailFragment(item);
+                    AnatoliApp.GetInstance().SetFragment<ProductDetailFragment>(d, "product_detail");
+                };
                 return view;
             }
         }
