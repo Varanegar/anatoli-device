@@ -98,19 +98,17 @@ namespace AnatoliAndroid.ListAdapters
                 _groupNameTextView.Text = item.product_name;
                 _groupNameTextView.Click += async (s, e) =>
                 {
-                    if (AnatoliApp.GetInstance().ProductsListF == null)
-                        AnatoliApp.GetInstance().ProductsListF = new ProductsListFragment();
-                    AnatoliApp.GetInstance().ProductsListF.SetCatId(item.cat_id.ToString());
-                    await AnatoliApp.GetInstance().ProductsListF.RefreshAsync();
+                    var p = new ProductsListFragment();
+                    p.SetCatId(item.cat_id.ToString());
+                    await p.RefreshAsync();
                 };
                 if (_groupImageView != null)
                 {
                     _groupImageView.Click += async (s, e) =>
                     {
-                        if (AnatoliApp.GetInstance().ProductsListF == null)
-                            AnatoliApp.GetInstance().ProductsListF = new ProductsListFragment();
-                        AnatoliApp.GetInstance().ProductsListF.SetCatId(item.cat_id.ToString());
-                        await AnatoliApp.GetInstance().ProductsListF.RefreshAsync();
+                        var p = new ProductsListFragment();
+                        p.SetCatId(item.cat_id.ToString());
+                        await p.RefreshAsync();
                     };
                 }
                 return view;
@@ -395,5 +393,5 @@ namespace AnatoliAndroid.ListAdapters
 
     }
 
-   
+
 }
