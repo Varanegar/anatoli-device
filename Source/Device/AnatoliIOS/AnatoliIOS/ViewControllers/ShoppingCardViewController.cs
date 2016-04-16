@@ -155,6 +155,22 @@ namespace AnatoliIOS.ViewControllers
         {
             return _items.Count;
         }
+        public override UIView GetView(UIPickerView pickerView, nint row, nint component, UIView view)
+        {
+            var label = new UILabel();
+            label.BackgroundColor = UIColor.Clear;
+            label.TextAlignment = UITextAlignment.Center;
+            label.Font = UIFont.FromName("IRAN", 12);
+            label.TextColor = UIColor.Black;
+            if (_items != null)
+            {
+                if (_items[(int)row] != null)
+                {
+                    label.Text = _items[(int)row].ToString();
+                }
+            }
+            return label;
+        }
     }
     class DeliveryTypePickerViewModel : UIPickerViewModel
     {
@@ -188,7 +204,22 @@ namespace AnatoliIOS.ViewControllers
         {
             return _items.Count;
         }
-
+        public override UIView GetView(UIPickerView pickerView, nint row, nint component, UIView view)
+        {
+            var label = new UILabel();
+            label.BackgroundColor = UIColor.Clear;
+            label.TextAlignment = UITextAlignment.Center;
+            label.Font = UIFont.FromName("IRAN", 12);
+            label.TextColor = UIColor.Black;
+            if (_items != null)
+            {
+                if (_items[(int)row] != null)
+                {
+                    label.Text = _items[(int)row].ToString();
+                }
+            }
+            return label;
+        }
         public event ItemSelectedEventHandler ItemSelected;
         public delegate void ItemSelectedEventHandler(DeliveryTypeModel item);
     }
