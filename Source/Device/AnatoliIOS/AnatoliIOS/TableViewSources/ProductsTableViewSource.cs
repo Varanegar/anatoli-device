@@ -33,7 +33,7 @@ namespace AnatoliIOS.TableViewSources
 			if (Items [indexPath.Row].IsFavorit) {
 				favoritAction = UITableViewRowAction.Create (UITableViewRowActionStyle.Destructive, "حذف از فهرست من", async delegate {
 					tableView.Editing = false;
-					var result = await ProductManager.RemoveFavoritAsync (Items [indexPath.Row].product_id);
+					var result = await ProductManager.RemoveFavoritAsync (Items [indexPath.Row]);
 					if (result) {
 						Items [indexPath.Row].favorit = 0;
 					}
@@ -41,7 +41,7 @@ namespace AnatoliIOS.TableViewSources
 			} else {
 				favoritAction = UITableViewRowAction.Create (UITableViewRowActionStyle.Normal, "افزودن به فهرست من", async delegate {
 					tableView.Editing = false;
-					var result = await ProductManager.AddToFavoritsAsync (Items [indexPath.Row].product_id);
+					var result = await ProductManager.AddToFavoritsAsync (Items [indexPath.Row]);
 					if (result) {
 						Items [indexPath.Row].favorit = 1;
 					}
@@ -68,6 +68,12 @@ namespace AnatoliIOS.TableViewSources
 		public override nfloat GetHeightForRow (UITableView tableView, Foundation.NSIndexPath indexPath)
 		{
 			return 70f;
+		}
+		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
+		{
+			tableView.DeselectRow (indexPath, true);
+			ProductDetailViewController p = new ProductDetailViewController (Items [indexPath.Row]);
+			AnatoliApp.GetInstance ().PresentViewController (p);
 		}
 	}
 }
