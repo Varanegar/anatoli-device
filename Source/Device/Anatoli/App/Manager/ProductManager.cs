@@ -232,23 +232,25 @@ namespace Anatoli.App.Manager
         }
 
 
-        public static async Task<bool> RemoveFavoritAsync(string pId)
+        public static async Task<bool> RemoveFavoritAsync(ProductModel product)
         {
-            var dbQuery = new UpdateCommand("products", new EqFilterParam("product_id", pId.ToString()), new BasicParam("favorit", "0"));
+            var dbQuery = new UpdateCommand("products", new EqFilterParam("product_id", product.product_id), new BasicParam("favorit", "0"));
             var r = await DataAdapter.UpdateItemAsync(dbQuery) > 0 ? true : false;
             if (r)
             {
-                RemoveFavoritFromCloud(pId);
+                product.favorit = 0;
+                RemoveFavoritFromCloud(product.product_id);
             }
             return r;
         }
 
-        public static async Task<bool> AddToFavoritsAsync(string pId)
+        public static async Task<bool> AddToFavoritsAsync(ProductModel product)
         {
-            var dbQuery = new UpdateCommand("products", new EqFilterParam("product_id", pId.ToString()), new BasicParam("favorit", "1"));
+            var dbQuery = new UpdateCommand("products", new EqFilterParam("product_id", product.product_id), new BasicParam("favorit", "1"));
             var r = await DataAdapter.UpdateItemAsync(dbQuery) > 0 ? true : false;
             if (r)
             {
+                product.favorit = 1;
                 AddFavoritToCloud();
             }
             return r;
