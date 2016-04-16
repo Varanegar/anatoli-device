@@ -216,6 +216,11 @@
     <Compile Include="ViewControllers\FooterView.designer.cs">
       <DependentUpon>FooterView.cs</DependentUpon>
     </Compile>
+    <InterfaceDefinition Include="ViewControllers\ProductDetailViewController.xib" />
+    <Compile Include="ViewControllers\ProductDetailViewController.cs" />
+    <Compile Include="ViewControllers\ProductDetailViewController.designer.cs">
+      <DependentUpon>ProductDetailViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="RootViewController.cs" />
