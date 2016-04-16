@@ -872,15 +872,15 @@ namespace AnatoliAndroid.Activities
             //    mainItems.Add(logoutMenuEntry);
             //}
 
-            var updateMenuEntry = new DrawerMainItem();
-            updateMenuEntry.ItemId = DrawerMainItem.DrawerMainItems.Update;
-            updateMenuEntry.Name = AnatoliApp.GetResources().GetText(Resource.String.Update);
-            mainItems.Add(updateMenuEntry);
+            //var updateMenuEntry = new DrawerMainItem();
+            //updateMenuEntry.ItemId = DrawerMainItem.DrawerMainItems.Update;
+            //updateMenuEntry.Name = AnatoliApp.GetResources().GetText(Resource.String.Update);
+            //mainItems.Add(updateMenuEntry);
 
-            var settingsMenuEntry = new DrawerMainItem();
-            settingsMenuEntry.ItemId = DrawerMainItem.DrawerMainItems.Settings;
-            settingsMenuEntry.Name = AnatoliApp.GetResources().GetText(Resource.String.Settings);
-            mainItems.Add(settingsMenuEntry);
+            //var settingsMenuEntry = new DrawerMainItem();
+            //settingsMenuEntry.ItemId = DrawerMainItem.DrawerMainItems.Settings;
+            //settingsMenuEntry.Name = AnatoliApp.GetResources().GetText(Resource.String.Settings);
+            //mainItems.Add(settingsMenuEntry);
 
             AnatoliMenuItems = mainItems;
             _drawerListView.Adapter = new DrawerMenuItems(AnatoliMenuItems, _activity);

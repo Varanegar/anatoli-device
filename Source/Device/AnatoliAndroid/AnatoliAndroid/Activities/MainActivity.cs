@@ -132,7 +132,12 @@ namespace AnatoliAndroid.Activities
                             await OrderManager.SyncOrdersAsync(AnatoliApp.GetInstance().CustomerId);
                             AnatoliApp.GetInstance().RefreshCutomerProfile();
                             ProductManager.SyncFavoritsAsync();
-                            Configuration.ReadConfigFromFile();
+                            SyncManager.SyncDatabase();
+                            SyncManager.ProgressChanged += (status, step) =>
+                            {
+                                Console.WriteLine(step.ToString() + " :: " + status);
+                            };
+
                         }
                         catch (Exception e)
                         {
