@@ -20,6 +20,10 @@ namespace AnatoliIOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton backButton { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIView counterView { get; set; }
 
 		[Outlet]
@@ -59,6 +63,10 @@ namespace AnatoliIOS
 			if (addButton != null) {
 				addButton.Dispose ();
 				addButton = null;
+			}
+			if (backButton != null) {
+				backButton.Dispose ();
+				backButton = null;
 			}
 			if (counterView != null) {
 				counterView.Dispose ();
