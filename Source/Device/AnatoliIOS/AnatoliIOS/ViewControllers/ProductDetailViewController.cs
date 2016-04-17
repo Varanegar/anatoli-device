@@ -30,7 +30,7 @@ namespace AnatoliIOS
         public override void ViewDidAppear(bool animated)
         {
             base.ViewDidAppear(animated);
-
+			EdgesForExtendedLayout = UIRectEdge.None;
             var imgUri = ProductManager.GetImageAddress(_product.product_id, _product.image);
             if (imgUri != null)
             {
