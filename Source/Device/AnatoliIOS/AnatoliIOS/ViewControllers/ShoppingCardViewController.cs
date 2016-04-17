@@ -144,7 +144,10 @@ namespace AnatoliIOS.ViewControllers
         }
         public override void Selected(UIPickerView pickerView, nint row, nint component)
         {
-            SelectedItem = _items[(int)row];
+            if (_items.Count > (int)row)
+            {
+                SelectedItem = _items[(int)row];
+            }
         }
         public override nint GetComponentCount(UIPickerView pickerView)
         {

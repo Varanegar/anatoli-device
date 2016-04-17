@@ -65,7 +65,7 @@ namespace AnatoliIOS
 		public async Task SyncDataBase ()
 		{
 			var updateTime = await SyncManager.GetLogAsync (SyncManager.UpdateCompleted);
-			if (updateTime < (DateTime.Now - TimeSpan.FromDays (1000))) {
+			if (updateTime < (DateTime.Now - TimeSpan.FromMinutes (10))) {
 				try {
 					SyncManager.ProgressChanged += (status, step) => {
 						Console.WriteLine (status);

@@ -111,10 +111,10 @@ namespace AnatoliAndroid.Activities
                     await AnatoliApp.GetInstance().SyncDatabase();
                 }
                 var latestUpdateTime = await SyncManager.GetLogAsync(SyncManager.OnHand);
-                if ((DateTime.Now - latestUpdateTime).TotalMinutes > 10)
-                {
-                    StartService(new Intent(this, typeof(StockFeedService)));
-                }
+                //if ((DateTime.Now - latestUpdateTime).TotalMinutes > 10)
+                //{
+                //    StartService(new Intent(this, typeof(StockFeedService)));
+                //}
                 var defaultStore = await StoreManager.GetDefaultAsync();
                 if (defaultStore != null)
                 {
@@ -131,8 +131,7 @@ namespace AnatoliAndroid.Activities
                         {
                             await OrderManager.SyncOrdersAsync(AnatoliApp.GetInstance().CustomerId);
                             AnatoliApp.GetInstance().RefreshCutomerProfile();
-                            ProductManager.SyncFavoritsAsync();
-                            SyncManager.SyncDatabase();
+                            await SyncManager.SyncDatabase();
                             SyncManager.ProgressChanged += (status, step) =>
                             {
                                 Console.WriteLine(step.ToString() + " :: " + status);
