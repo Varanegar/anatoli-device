@@ -163,7 +163,7 @@ namespace AnatoliIOS.ViewControllers
             var label = new UILabel();
             label.BackgroundColor = UIColor.Clear;
             label.TextAlignment = UITextAlignment.Center;
-            label.Font = UIFont.FromName("IRAN", 12);
+            label.Font = UIFont.FromName("IRAN", 10);
             label.TextColor = UIColor.Black;
             if (_items != null)
             {
@@ -212,7 +212,7 @@ namespace AnatoliIOS.ViewControllers
             var label = new UILabel();
             label.BackgroundColor = UIColor.Clear;
             label.TextAlignment = UITextAlignment.Center;
-            label.Font = UIFont.FromName("IRAN", 12);
+            label.Font = UIFont.FromName("IRAN", 10);
             label.TextColor = UIColor.Black;
             if (_items != null)
             {
