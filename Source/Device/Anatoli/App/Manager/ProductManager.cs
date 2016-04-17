@@ -105,7 +105,7 @@ namespace Anatoli.App.Manager
                     var currentList = query.ExecuteQuery<ProductPriceModel>();
                     foreach (var item in currentList)
                     {
-                        items.Add(item.product_id.ToUpper() + item.store_id.ToUpper(), item);
+                        items.Add(item.UniqueId, item);
                     }
                 }
                 using (var connection = AnatoliClient.GetInstance().DbClient.GetConnection())
@@ -113,9 +113,11 @@ namespace Anatoli.App.Manager
                     connection.BeginTransaction();
                     foreach (var item in list)
                     {
-                        if (items.ContainsKey(item.ProductGuid.ToUpper() + item.StoreGuid.ToString().ToUpper()))
+                        if (items.ContainsKey(item.UniqueId))
                         {
-                            UpdateCommand command = new UpdateCommand("products_price", new BasicParam("price", item.Price.ToString()),
+
+                            UpdateCommand command = new UpdateCommand("products_price",
+                                new BasicParam("price", item.Price.ToString()),
                             new EqFilterParam("product_id", item.ProductGuid.ToUpper()),
                             new EqFilterParam("store_id", item.StoreGuid.ToString().ToUpper()));
                             var query = connection.CreateCommand(command.GetCommand());
@@ -123,7 +125,9 @@ namespace Anatoli.App.Manager
                         }
                         else
                         {
-                            InsertCommand command = new InsertCommand("products_price", new BasicParam("price", item.Price.ToString()),
+                            InsertCommand command = new InsertCommand("products_price",
+                                 new BasicParam("product_price_id", item.UniqueId),
+                                 new BasicParam("price", item.Price.ToString()),
                             new BasicParam("product_id", item.ProductGuid.ToUpper()),
                             new BasicParam("store_id", item.StoreGuid.ToString().ToUpper()));
                             var query = connection.CreateCommand(command.GetCommand());
@@ -161,7 +165,7 @@ namespace Anatoli.App.Manager
                     var onhandList = query.ExecuteQuery<StoreActiveOnhandViewModel>();
                     foreach (var item in onhandList)
                     {
-                        currentOnHand.Add(item.ProductGuid + item.StoreGuid, item);
+                        currentOnHand.Add(item.UniqueId, item);
                     }
                 }
                 using (var connection = AnatoliClient.GetInstance().DbClient.GetConnection())
@@ -169,7 +173,7 @@ namespace Anatoli.App.Manager
                     connection.BeginTransaction();
                     foreach (var item in list)
                     {
-                        if (currentOnHand.ContainsKey(item.ProductGuid + item.StoreGuid))
+                        if (currentOnHand.ContainsKey(item.UniqueId))
                         {
                             UpdateCommand command = new UpdateCommand("store_onhand", new BasicParam("qty", item.Qty.ToString()),
                             new EqFilterParam("product_id", item.ProductGuid.ToUpper()),
@@ -180,6 +184,7 @@ namespace Anatoli.App.Manager
                         else
                         {
                             InsertCommand command = new InsertCommand("store_onhand", new BasicParam("qty", item.Qty.ToString()),
+                                 new BasicParam("onhand_id", item.UniqueId),
                             new BasicParam("product_id", item.ProductGuid),
                             new BasicParam("store_id", item.StoreGuid));
                             var query = connection.CreateCommand(command.GetCommand());
