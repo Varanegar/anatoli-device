@@ -6,6 +6,7 @@ using Anatoli.App.Manager;
 using AnatoliIOS.TableViewCells;
 using Foundation;
 using CoreGraphics;
+using AnatoliIOS.Components;
 
 namespace AnatoliIOS.ViewControllers
 {
@@ -23,6 +24,9 @@ namespace AnatoliIOS.ViewControllers
 		public async override void ViewDidAppear (bool animated)
 		{
 			base.ViewDidAppear (animated);
+
+            var loadingOverlay = new LoadingOverlay(View.Bounds);
+            View.Add(loadingOverlay);
 
 			var searchButton = new UIBarButtonItem (UIImage.FromBundle ("ic_search_white_24dp").Scale (new CGSize (26, 26)),
 				UIBarButtonItemStyle.Plain,
@@ -66,13 +70,15 @@ namespace AnatoliIOS.ViewControllers
 				await AnatoliApp.GetInstance ().RefreshMenu ("0");
 				_productsTableViewSource.SetDataQuery (ProductManager.GetAll (AnatoliApp.GetInstance ().DefaultStore.store_id));
 			}
-			await _productsTableViewSource.RefreshAsync ();
+            
+            await _productsTableViewSource.RefreshAsync ();
 			_productsTableViewSource.Updated += (object sender, EventArgs e) => {
 				productsTableView.ReloadData ();
 			};
 			//productsTableView.RegisterNibForCellReuse(UINib.FromName(ProductSummaryViewCell.Key, NSBundle.MainBundle), ProductSummaryViewCell.Key);
 			productsTableView.Source = _productsTableViewSource;
 			productsTableView.ReloadData ();
+            loadingOverlay.Hide();
 		}
 		public override void ViewDidLoad ()
 		{
