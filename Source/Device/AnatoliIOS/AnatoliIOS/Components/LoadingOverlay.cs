@@ -48,6 +48,7 @@ namespace AnatoliIOS.Components
             loadingLabel.BackgroundColor = UIColor.Clear;
             loadingLabel.TextColor = UIColor.White;
             loadingLabel.Text = "لطفا صبور باشید";
+            loadingLabel.Font = UIFont.FromName("IRAN", 13);
             loadingLabel.TextAlignment = UITextAlignment.Center;
             loadingLabel.AutoresizingMask = UIViewAutoresizing.All;
             AddSubview(loadingLabel);
