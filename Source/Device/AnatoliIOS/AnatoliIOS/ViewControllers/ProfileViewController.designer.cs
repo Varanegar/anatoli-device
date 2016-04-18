@@ -28,19 +28,19 @@ namespace AnatoliIOS.ViewControllers
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIPickerView level1Picker { get; set; }
+		UILabel level1Picker { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIPickerView level2Picker { get; set; }
+		UILabel level2Picker { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIPickerView level3Picker { get; set; }
+		UILabel level3Picker { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIPickerView level4Picker { get; set; }
+		UILabel level4Picker { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]

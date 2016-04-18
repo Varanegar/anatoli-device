@@ -133,51 +133,58 @@ namespace AnatoliIOS.ViewControllers
             };
 
 
-            var level1PickerModel = new CityRegionPickerViewModel(await CityRegionManager.GetFirstLevelAsync());
-            var level2PickerModel = new CityRegionPickerViewModel(await CityRegionManager.GetGroupsAsync(AnatoliApp.GetInstance().Customer.RegionLevel1Id));
-            var level3PickerModel = new CityRegionPickerViewModel(await CityRegionManager.GetGroupsAsync(AnatoliApp.GetInstance().Customer.RegionLevel2Id));
-            var level4PickerModel = new CityRegionPickerViewModel(await CityRegionManager.GetGroupsAsync(AnatoliApp.GetInstance().Customer.RegionLevel3Id));
+			var level1PickerViewController = new RegionChooserViewController(await CityRegionManager.GetFirstLevelAsync());
+			var level2PickerViewController = new RegionChooserViewController(await CityRegionManager.GetGroupsAsync(AnatoliApp.GetInstance().Customer.RegionLevel1Id));
+			var level3PickerViewController = new RegionChooserViewController(await CityRegionManager.GetGroupsAsync(AnatoliApp.GetInstance().Customer.RegionLevel2Id));
+			var level4PickerViewController = new RegionChooserViewController(await CityRegionManager.GetGroupsAsync(AnatoliApp.GetInstance().Customer.RegionLevel3Id));
 
-            level1Picker.Model = level1PickerModel;
-            level2Picker.Model = level2PickerModel;
-            level3Picker.Model = level3PickerModel;
-            level4Picker.Model = level4PickerModel;
+            
+			level1PickerViewController.SelectByGroupId(AnatoliApp.GetInstance().Customer.RegionLevel1Id);
+			level1Picker.Text = level1PickerViewController.SelectedItem.group_name;
+			level2PickerViewController.SelectByGroupId( AnatoliApp.GetInstance().Customer.RegionLevel2Id);
+			level2Picker.Text = level2PickerViewController.SelectedItem.group_name;
+			level3PickerViewController.SelectByGroupId( AnatoliApp.GetInstance().Customer.RegionLevel3Id);
+			level3Picker.Text = level3PickerViewController.SelectedItem.group_name;
+			level4PickerViewController.SelectByGroupId( AnatoliApp.GetInstance().Customer.RegionLevel4Id);
+			level4Picker.Text = level4PickerViewController.SelectedItem.group_name;
 
-            SelectByGroupId(level1Picker, AnatoliApp.GetInstance().Customer.RegionLevel1Id);
-            SelectByGroupId(level2Picker, AnatoliApp.GetInstance().Customer.RegionLevel2Id);
-            SelectByGroupId(level3Picker, AnatoliApp.GetInstance().Customer.RegionLevel3Id);
-            SelectByGroupId(level4Picker, AnatoliApp.GetInstance().Customer.RegionLevel4Id);
-
-            level1PickerModel.ItemSelected += async (item) =>
+			level1PickerViewController.ItemSelected += async (item) =>
             {
                 if (item != null)
                 {
-                    (level2Picker.Model as CityRegionPickerViewModel).SetItems(await CityRegionManager.GetGroupsAsync(item.group_id));
-                    level2Picker.ReloadComponent(0);
+					level1Picker.Text = level1PickerViewController.SelectedItem.group_name;
+					level2PickerViewController.SetItems(await CityRegionManager.GetGroupsAsync(item.group_id));
                 }
-                level2Picker.Select(0, 0, true);
-                level3Picker.Select(0, 0, true);
-                level4Picker.Select(0, 0, true);
+				level2PickerViewController.Select(0);
+				level3PickerViewController.Select(0);
+				level4PickerViewController.Select(0);
             };
-            level2PickerModel.ItemSelected += async (item) =>
-            {
-                if (item != null)
-                {
-                    (level3Picker.Model as CityRegionPickerViewModel).SetItems(await CityRegionManager.GetGroupsAsync(item.group_id));
-                    level3Picker.ReloadComponent(0);
-                }
-                level3Picker.Select(0, 0, true);
-                level4Picker.Select(0, 0, true);
-            };
-            level3PickerModel.ItemSelected += async (item) =>
-            {
-                if (item != null)
-                {
-                    (level4Picker.Model as CityRegionPickerViewModel).SetItems(await CityRegionManager.GetGroupsAsync(item.group_id));
-                    level4Picker.ReloadComponent(0);
-                }
-                level4Picker.Select(0, 0, true);
-            };
+			level2PickerViewController.ItemSelected += async (item) =>
+			{
+				if (item != null)
+				{
+					level2Picker.Text = level2PickerViewController.SelectedItem.group_name;
+					level3PickerViewController.SetItems(await CityRegionManager.GetGroupsAsync(item.group_id));
+				}
+				level3PickerViewController.Select(0);
+				level4PickerViewController.Select(0);
+			};
+			level3PickerViewController.ItemSelected += async (item) =>
+			{
+				if (item != null)
+				{
+					level3Picker.Text = level1PickerViewController.SelectedItem.group_name;
+					level4PickerViewController.SetItems(await CityRegionManager.GetGroupsAsync(item.group_id));
+				}
+				level4PickerViewController.Select(0);
+			};
+			level4PickerViewController.ItemSelected += async (item) =>
+			{
+				if (item != null)
+				{
+					level4Picker.Text = level1PickerViewController.SelectedItem.group_name;
+				}
+			};
 
             logoutButton.TouchUpInside += async (object sender, EventArgs e) =>
             {
@@ -235,89 +242,9 @@ namespace AnatoliIOS.ViewControllers
 
         }
 
-        public void SelectByGroupId(UIPickerView picker, string groupId)
-        {
-            var regionPicker = (picker.Model as CityRegionPickerViewModel);
-            if (regionPicker.ItemsDictionary.ContainsKey(groupId))
-            {
-                picker.Select(regionPicker.ItemsDictionary[groupId], 0, true);
-            }
-        }
+
     }
 
-    class CityRegionPickerViewModel : UIPickerViewModel
-    {
-        List<CityRegionModel> _items;
-        public Dictionary<string, int> ItemsDictionary;
-
-        public void SetItems(List<CityRegionModel> items)
-        {
-            _items = items;
-            _items.Insert(0, null);
-            ItemsDictionary = new Dictionary<string, int>();
-            for (int i = 0; i < _items.Count; i++)
-            {
-                if (_items[i] != null)
-                {
-                    ItemsDictionary.Add(_items[i].group_id, i);
-                }
-            }
-        }
-
-        public CityRegionPickerViewModel(List<CityRegionModel> items)
-        {
-            SetItems(items);
-        }
-
-        public override nint GetComponentCount(UIPickerView pickerView)
-        {
-            return 1;
-        }
-
-        public override nint GetRowsInComponent(UIPickerView pickerView, nint component)
-        {
-            return _items.Count;
-        }
-
-        public override string GetTitle(UIPickerView pickerView, nint row, nint component)
-        {
-            if (_items[(int)row] != null)
-                return _items[(int)row].group_name;
-            else
-                return "";
-        }
-
-        public override void Selected(UIPickerView pickerView, nint row, nint component)
-        {
-            OnSelected(_items[(int)row]);
-        }
-        public override UIView GetView(UIPickerView pickerView, nint row, nint component, UIView view)
-        {
-            var label = new UILabel();
-            label.BackgroundColor = UIColor.Clear;
-            label.TextAlignment = UITextAlignment.Center;
-            label.Font = UIFont.FromName("IRAN", 12);
-            label.TextColor = UIColor.Black;
-            if (_items != null)
-            {
-                if (_items[(int)row] != null)
-                {
-                    label.Text = _items[(int)row].group_name;
-                }
-            }
-            return label;
-        }
-        void OnSelected(CityRegionModel item)
-        {
-            if (ItemSelected != null)
-            {
-                ItemSelected.Invoke(item);
-            }
-        }
-
-        public event ItemSelectedEventHandler ItemSelected;
-
-        public delegate void ItemSelectedEventHandler(CityRegionModel item);
-    }
+    
 
 }

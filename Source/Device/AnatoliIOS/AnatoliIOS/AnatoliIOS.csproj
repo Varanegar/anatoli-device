@@ -222,6 +222,16 @@
     <Compile Include="ViewControllers\ProductDetailViewController.designer.cs">
       <DependentUpon>ProductDetailViewController.cs</DependentUpon>
     </Compile>
+    <InterfaceDefinition Include="ViewControllers\RegionChooserViewController.xib" />
+    <Compile Include="ViewControllers\RegionChooserViewController.cs" />
+    <Compile Include="ViewControllers\RegionChooserViewController.designer.cs">
+      <DependentUpon>RegionChooserViewController.cs</DependentUpon>
+    </Compile>
+    <InterfaceDefinition Include="TableViewCells\RegionChooserTableViewCell.xib" />
+    <Compile Include="TableViewCells\RegionChooserTableViewCell.cs" />
+    <Compile Include="TableViewCells\RegionChooserTableViewCell.designer.cs">
+      <DependentUpon>RegionChooserTableViewCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="RootViewController.cs" />
