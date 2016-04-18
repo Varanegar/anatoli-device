@@ -20,7 +20,9 @@ namespace AnatoliIOS.TableViewCells
 		{
 		}
 		public void Update(CityRegionModel item){
-			titleLabel.Text = item.group_name;
+			if (item != null) {
+				titleLabel.Text = item.group_name;
+			}
 		}
 	}
 }
