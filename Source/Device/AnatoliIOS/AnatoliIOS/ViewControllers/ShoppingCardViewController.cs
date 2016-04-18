@@ -8,6 +8,7 @@ using Anatoli.App.Model.Product;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Anatoli.App.Model.Store;
+using AnatoliIOS.Components;
 
 namespace AnatoliIOS.ViewControllers
 {
@@ -58,10 +59,10 @@ namespace AnatoliIOS.ViewControllers
             {
                 if (deliveryTypeModel.SelectedItem != null)
                 {
-					var model = new TimePickerViewModel(await DeliveryTimeManager.GetAvailableDeliveryTimes(AnatoliApp.GetInstance().DefaultStore.store_id, DateTime.Now, deliveryTypeModel.SelectedItem.id));
-					timePicker.Model = model;
-					timePicker.Select(0,0,true);
-					model.Selected(timePicker,0,0);
+                    var model = new TimePickerViewModel(await DeliveryTimeManager.GetAvailableDeliveryTimes(AnatoliApp.GetInstance().DefaultStore.store_id, DateTime.Now, deliveryTypeModel.SelectedItem.id));
+                    timePicker.Model = model;
+                    timePicker.Select(0, 0, true);
+                    model.Selected(timePicker, 0, 0);
                 }
             };
             deliveryTypePicker.Select(0, 0, true);
@@ -72,55 +73,79 @@ namespace AnatoliIOS.ViewControllers
             ShoppingCardManager.ItemChanged += UpdateLabels;
             checkoutButton.TouchUpInside += async (object sender, EventArgs e) =>
             {
+                CalcPromo();
+            };
+        }
+        async void CalcPromo()
+        {
+            try
+            {
+                await ShoppingCardManager.ValidateRequest(AnatoliApp.GetInstance().Customer);
+                if ((deliveryTypePicker.Model as DeliveryTypePickerViewModel).SelectedItem == null)
+                {
+                    var alert = UIAlertController.Create("خطا", "نحوه تحویا سفارش را انتخاب نمایید", UIAlertControllerStyle.Alert);
+                    alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, null));
+                    PresentViewController(alert, true, null);
+                    return;
+                }
+                if ((timePicker.Model as TimePickerViewModel).SelectedItem == null)
+                {
+                    var alert = UIAlertController.Create("خذا", "زمان تحویل کالا را انتخاب نمایید", UIAlertControllerStyle.Alert);
+                    alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, null));
+                    PresentViewController(alert, true, null);
+                    return;
+                }
+                LoadingOverlay loading = new LoadingOverlay(View.Bounds);
+                View.AddSubview(loading);
                 try
                 {
-                    await ShoppingCardManager.ValidateRequest(AnatoliApp.GetInstance().Customer);
-					if ((deliveryTypePicker.Model as DeliveryTypePickerViewModel).SelectedItem == null) {
-						var alert = UIAlertController.Create("خطا","نحوه تحویا سفارش را انتخاب نمایید",UIAlertControllerStyle.Alert);
-						alert.AddAction(UIAlertAction.Create("باشه",UIAlertActionStyle.Default,null));
-						PresentViewController(alert,true,null);
-						return;
-					}
-					if ((timePicker.Model as TimePickerViewModel).SelectedItem == null) {
-						var alert = UIAlertController.Create("خذا","زمان تحویل کالا را انتخاب نمایید",UIAlertControllerStyle.Alert);
-						alert.AddAction(UIAlertAction.Create("باشه",UIAlertActionStyle.Default,null));
-						PresentViewController(alert,true,null);
-						return;
-					}
-					var order = await ShoppingCardManager.CalcPromo(AnatoliApp.GetInstance().Customer,
-						AnatoliApp.GetInstance().User.UniqueId,
-						AnatoliApp.GetInstance().DefaultStore.store_id,
-						(deliveryTypePicker.Model as DeliveryTypePickerViewModel).SelectedItem.id,
-						(timePicker.Model as TimePickerViewModel).SelectedItem);
-					if (order != null) {
-						if (order.IsValid) {
-							AnatoliApp.GetInstance().PresentViewController(new ProformaViewController(order));
-						}
-					}
+                    var order = await ShoppingCardManager.CalcPromo(AnatoliApp.GetInstance().Customer,
+                    AnatoliApp.GetInstance().User.Id,
+                    AnatoliApp.GetInstance().DefaultStore.store_id,
+                    (deliveryTypePicker.Model as DeliveryTypePickerViewModel).SelectedItem.id,
+                    (timePicker.Model as TimePickerViewModel).SelectedItem);
+                    if (order != null)
+                    {
+                        if (order.IsValid)
+                        {
+                            AnatoliApp.GetInstance().PresentViewController(new ProformaViewController(order));
+                        }
+                    }
                 }
-                catch (ValidationException ex)
+                catch (Exception)
                 {
-                    if (ex.Code == ValidationErrorCode.CustomerInfo)
-                    {
-                        var alert = UIAlertController.Create("خطا", "اطلاعات خود را کامل نمایید", UIAlertControllerStyle.Alert);
-                        alert.AddAction(UIAlertAction.Create("بیخیال", UIAlertActionStyle.Cancel, null));
-                        alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, delegate
-                        {
-                            AnatoliApp.GetInstance().PushViewController(new ProfileViewController());
-                        }));
-                        PresentViewController(alert, true, null);
-                    }
-                    else if (ex.Code == ValidationErrorCode.NoLogin)
-                    {
-                        var alert = UIAlertController.Create("خطا", "لطفا وارد حساب کاربری خود شوید", UIAlertControllerStyle.Alert);
-                        alert.AddAction(UIAlertAction.Create("بیخیال", UIAlertActionStyle.Cancel, null));
-                        alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, delegate
-                        {
-                            AnatoliApp.GetInstance().PushViewController(new LoginViewController());
-                        }));
-                    }
+                    var alert = UIAlertController.Create("خطا", "درخواست شما با خطا روبرو شد", UIAlertControllerStyle.Alert);
+                    alert.AddAction(UIAlertAction.Create("بی خیال", UIAlertActionStyle.Cancel, null));
+                    alert.AddAction(UIAlertAction.Create("دوباره تلاش کن", UIAlertActionStyle.Default, delegate { CalcPromo(); }));
+                    PresentViewController(alert, true, null);
                 }
-            };
+                finally
+                {
+                    loading.Hidden = true;
+                }
+            }
+            catch (ValidationException ex)
+            {
+                if (ex.Code == ValidationErrorCode.CustomerInfo)
+                {
+                    var alert = UIAlertController.Create("خطا", "اطلاعات خود را کامل نمایید", UIAlertControllerStyle.Alert);
+                    alert.AddAction(UIAlertAction.Create("بیخیال", UIAlertActionStyle.Cancel, null));
+                    alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, delegate
+                    {
+                        AnatoliApp.GetInstance().PushViewController(new ProfileViewController());
+                    }));
+                    PresentViewController(alert, true, null);
+                }
+                else if (ex.Code == ValidationErrorCode.NoLogin)
+                {
+                    var alert = UIAlertController.Create("خطا", "لطفا وارد حساب کاربری خود شوید", UIAlertControllerStyle.Alert);
+                    alert.AddAction(UIAlertAction.Create("بیخیال", UIAlertActionStyle.Cancel, null));
+                    alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, delegate
+                    {
+                        AnatoliApp.GetInstance().PushViewController(new LoginViewController());
+                    }));
+                }
+            }
         }
         public override void ViewDidLoad()
         {

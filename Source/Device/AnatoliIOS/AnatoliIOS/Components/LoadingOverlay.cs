@@ -47,7 +47,7 @@ namespace AnatoliIOS.Components
                 ));
             loadingLabel.BackgroundColor = UIColor.Clear;
             loadingLabel.TextColor = UIColor.White;
-            loadingLabel.Text = "Loading Data...";
+            loadingLabel.Text = "لطفا صبور باشید";
             loadingLabel.TextAlignment = UITextAlignment.Center;
             loadingLabel.AutoresizingMask = UIViewAutoresizing.All;
             AddSubview(loadingLabel);
