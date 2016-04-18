@@ -63,6 +63,12 @@
                     <constraint id="19" firstItem="7" firstAttribute="leading" secondItem="15" secondAttribute="trailing" constant="5"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="itemRowLabel" destination="2" id="name-outlet-2"/>
+                <outlet property="itemNameLabel" destination="7" id="name-outlet-7"/>
+                <outlet property="itemCountLabel" destination="15" id="name-outlet-15"/>
+                <outlet property="itemPriceLabel" destination="11" id="name-outlet-11"/>
+            </connections>
         </tableViewCell>
     </objects>
     <resources>
