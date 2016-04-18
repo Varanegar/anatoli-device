@@ -99,16 +99,18 @@ namespace AnatoliIOS.ViewControllers
                 View.AddSubview(loading);
                 try
                 {
+                    var deliveryType = (deliveryTypePicker.Model as DeliveryTypePickerViewModel).SelectedItem;
+                    var deliveryTime = (timePicker.Model as TimePickerViewModel).SelectedItem;
                     var order = await ShoppingCardManager.CalcPromo(AnatoliApp.GetInstance().Customer,
                     AnatoliApp.GetInstance().User.Id,
                     AnatoliApp.GetInstance().DefaultStore.store_id,
-                    (deliveryTypePicker.Model as DeliveryTypePickerViewModel).SelectedItem.id,
-                    (timePicker.Model as TimePickerViewModel).SelectedItem);
+                    deliveryType.id,
+                    deliveryTime);
                     if (order != null)
                     {
                         if (order.IsValid)
                         {
-                            AnatoliApp.GetInstance().PresentViewController(new ProformaViewController(order));
+                            AnatoliApp.GetInstance().PresentViewController(new ProformaViewController(order, deliveryTime, deliveryType));
                         }
                     }
                 }

@@ -8,22 +8,26 @@ using AnatoliIOS.TableViewCells;
 using Foundation;
 using ObjCRuntime;
 using System.Collections.Generic;
+using Anatoli.App.Manager;
 
 namespace AnatoliIOS.ViewControllers
 {
     public partial class ProformaViewController : BaseController
     {
         PurchaseOrderViewModel _order;
-
+        DeliveryTimeModel _deliveryTime;
+        DeliveryTypeModel _deliveryType;
         public ProformaViewController()
             : base("ProformaViewController", null)
         {
         }
 
-        public ProformaViewController(PurchaseOrderViewModel order)
+        public ProformaViewController(PurchaseOrderViewModel order, DeliveryTimeModel deliveryTime, DeliveryTypeModel deliveryType)
             : this()
         {
             _order = order;
+            _deliveryTime = deliveryTime;
+            _deliveryType = deliveryType;
         }
 
         public override void ViewDidLoad()
@@ -53,7 +57,44 @@ namespace AnatoliIOS.ViewControllers
             footerView.Count = count.ToString("N0");
             footerView.Tax = (_order.ChargeAmount + _order.TaxAmount).ToCurrency();
             table.Source = new OrderItemsTableViewSource(_order.LineItems);
-            //table.TableFooterView.Bounds = new CoreGraphics.CGRect (0, -10, View.Frame.Width, table.TableFooterView.Bounds.Height);
+            okButton.TouchUpInside += async delegate
+            {
+                try
+                {
+                    var result = await ShoppingCardManager.Checkout(AnatoliApp.GetInstance().Customer,
+                    AnatoliApp.GetInstance().User.Id,
+                    AnatoliApp.GetInstance().DefaultStore.store_id,
+                    _deliveryType.id,
+                    _deliveryTime);
+                    if (result != null && result.IsValid)
+                    {
+                        var alert = UIAlertController.Create("", "سفارش شما ثبت شد", UIAlertControllerStyle.Alert);
+                        alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, delegate
+                        {
+                            AnatoliApp.GetInstance().PushViewController(new FirstPageViewController());
+                        }));
+                        PresentViewController(alert, true, null);
+                    }
+                    else
+                    {
+                        var alert = UIAlertController.Create("خطا", "خطا در ارسال سفارش", UIAlertControllerStyle.Alert);
+                        alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, delegate
+                        {
+                            DismissViewController(true, null);
+                        }));
+                        PresentViewController(alert, true, null);
+                    }
+                }
+                catch (Exception)
+                {
+                    var alert = UIAlertController.Create("خطا", "خطا در ارسال سفارش", UIAlertControllerStyle.Alert);
+                    alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, delegate
+                    {
+                        DismissViewController(true, null);
+                    }));
+                    PresentViewController(alert, true, null);
+                }
+            };
         }
 
         public override void DidReceiveMemoryWarning()
@@ -86,7 +127,7 @@ namespace AnatoliIOS.ViewControllers
             {
                 if (_items.Count > indexPath.Row)
                 {
-                    cell.Update(_items[indexPath.Row],tableView, indexPath);
+                    cell.Update(_items[indexPath.Row], tableView, indexPath);
                 }
             }
             return cell;
