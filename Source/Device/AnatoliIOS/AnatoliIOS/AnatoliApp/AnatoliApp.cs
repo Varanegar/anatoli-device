@@ -105,6 +105,10 @@ namespace AnatoliIOS
 				(UIApplication.SharedApplication.Delegate as AppDelegate).RootViewController.NavController.PushViewController (viewController, true);
 				_views.AddLast (viewController.GetType ());
 			}
+            if (_views.Last.Value != typeof(ProductsViewController))
+            {
+                RefreshMenu();
+            }
 		}
 
 		public bool PopViewController ()
