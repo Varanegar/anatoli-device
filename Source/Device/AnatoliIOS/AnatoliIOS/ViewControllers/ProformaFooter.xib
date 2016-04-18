@@ -95,6 +95,12 @@
                 <constraint firstItem="bRN-3E-we5" firstAttribute="top" secondItem="4" secondAttribute="bottom" constant="8" id="tYy-cR-ctU"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="totalCountLabel" destination="YeP-hE-SUW" id="name-outlet-YeP-hE-SUW"/>
+                <outlet property="totalDiscountLabel" destination="bRN-3E-we5" id="name-outlet-bRN-3E-we5"/>
+                <outlet property="totalTaxLabel" destination="Fl6-eQ-Hyk" id="name-outlet-Fl6-eQ-Hyk"/>
+                <outlet property="totalPriceLabel" destination="hvq-bG-iac" id="name-outlet-hvq-bG-iac"/>
+            </connections>
         </view>
     </objects>
     <resources>

@@ -58,7 +58,10 @@ namespace AnatoliIOS.ViewControllers
             {
                 if (deliveryTypeModel.SelectedItem != null)
                 {
-                    timePicker.Model = new TimePickerViewModel(await DeliveryTimeManager.GetAvailableDeliveryTimes(AnatoliApp.GetInstance().DefaultStore.store_id, DateTime.Now, deliveryTypeModel.SelectedItem.id));
+					var model = new TimePickerViewModel(await DeliveryTimeManager.GetAvailableDeliveryTimes(AnatoliApp.GetInstance().DefaultStore.store_id, DateTime.Now, deliveryTypeModel.SelectedItem.id));
+					timePicker.Model = model;
+					timePicker.Select(0,0,true);
+					model.Selected(timePicker,0,0);
                 }
             };
             deliveryTypePicker.Select(0, 0, true);
@@ -72,7 +75,28 @@ namespace AnatoliIOS.ViewControllers
                 try
                 {
                     await ShoppingCardManager.ValidateRequest(AnatoliApp.GetInstance().Customer);
-                    AnatoliApp.GetInstance().PresentViewController(new ProformaViewController());
+					if ((deliveryTypePicker.Model as DeliveryTypePickerViewModel).SelectedItem == null) {
+						var alert = UIAlertController.Create("خطا","نحوه تحویا سفارش را انتخاب نمایید",UIAlertControllerStyle.Alert);
+						alert.AddAction(UIAlertAction.Create("باشه",UIAlertActionStyle.Default,null));
+						PresentViewController(alert,true,null);
+						return;
+					}
+					if ((timePicker.Model as TimePickerViewModel).SelectedItem == null) {
+						var alert = UIAlertController.Create("خذا","زمان تحویل کالا را انتخاب نمایید",UIAlertControllerStyle.Alert);
+						alert.AddAction(UIAlertAction.Create("باشه",UIAlertActionStyle.Default,null));
+						PresentViewController(alert,true,null);
+						return;
+					}
+					var order = await ShoppingCardManager.CalcPromo(AnatoliApp.GetInstance().Customer,
+						AnatoliApp.GetInstance().User.UniqueId,
+						AnatoliApp.GetInstance().DefaultStore.store_id,
+						(deliveryTypePicker.Model as DeliveryTypePickerViewModel).SelectedItem.id,
+						(timePicker.Model as TimePickerViewModel).SelectedItem);
+					if (order != null) {
+						if (order.IsValid) {
+							AnatoliApp.GetInstance().PresentViewController(new ProformaViewController(order));
+						}
+					}
                 }
                 catch (ValidationException ex)
                 {

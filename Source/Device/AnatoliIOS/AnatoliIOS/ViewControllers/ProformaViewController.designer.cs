@@ -28,6 +28,22 @@ namespace AnatoliIOS.ViewControllers
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton okButton { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel orderAddress { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel orderDate { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel orderSum { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UITableView table { get; set; }
 
 		void ReleaseDesignerOutlets ()
@@ -43,6 +59,22 @@ namespace AnatoliIOS.ViewControllers
 			if (header != null) {
 				header.Dispose ();
 				header = null;
+			}
+			if (okButton != null) {
+				okButton.Dispose ();
+				okButton = null;
+			}
+			if (orderAddress != null) {
+				orderAddress.Dispose ();
+				orderAddress = null;
+			}
+			if (orderDate != null) {
+				orderDate.Dispose ();
+				orderDate = null;
+			}
+			if (orderSum != null) {
+				orderSum.Dispose ();
+				orderSum = null;
 			}
 			if (table != null) {
 				table.Dispose ();
