@@ -52,6 +52,10 @@ namespace AnatoliIOS.ViewControllers
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UITextField nationalCodeTextField { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel numberLabel { get; set; }
 
 		[Outlet]
@@ -107,6 +111,10 @@ namespace AnatoliIOS.ViewControllers
 			if (nameTextField != null) {
 				nameTextField.Dispose ();
 				nameTextField = null;
+			}
+			if (nationalCodeTextField != null) {
+				nationalCodeTextField.Dispose ();
+				nationalCodeTextField = null;
 			}
 			if (numberLabel != null) {
 				numberLabel.Dispose ();

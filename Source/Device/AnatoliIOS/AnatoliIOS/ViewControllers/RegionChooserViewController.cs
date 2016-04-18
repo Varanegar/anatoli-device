@@ -78,6 +78,7 @@ namespace AnatoliIOS.ViewControllers
 		{
 			base.ViewDidLoad ();
 			// Perform any additional setup after loading the view, typically from a nib.
+			EdgesForExtendedLayout = UIRectEdge.None;
 			
 		}
 
