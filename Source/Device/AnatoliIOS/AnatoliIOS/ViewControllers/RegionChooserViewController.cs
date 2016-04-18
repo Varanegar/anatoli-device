@@ -51,25 +51,34 @@ namespace AnatoliIOS.ViewControllers
 				}
 			}
 		}
+        public override void ViewDidAppear(bool animated)
+        {
+            base.ViewDidAppear(animated);
+            _dataSource = new RegionTableViewSource(_items);
+            _dataSource.ItemSelected += (CityRegionModel item) =>
+            {
+                OnItemSelected(item);
+            };
+            table.Source = _dataSource;
+            Foundation.NSIndexPath indexPath;
+            if (SelectedItem != null)
+            {
+                indexPath = Foundation.NSIndexPath.FromRowSection((nint)ItemsDictionary[SelectedItem.group_id], 0);
+            }
+            else
+                indexPath = Foundation.NSIndexPath.FromRowSection(0, 0);
+            table.SelectRow(indexPath, true, UITableViewScrollPosition.None);
+            backButton.TouchUpInside += (object sender, EventArgs e) =>
+            {
+                DismissViewController(true, null);
+            };
+        }
 
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 			// Perform any additional setup after loading the view, typically from a nib.
-			_dataSource = new RegionTableViewSource (_items);
-			_dataSource.ItemSelected += (CityRegionModel item) => {
-				OnItemSelected (item);
-			};
-			table.Source = _dataSource;
-			Foundation.NSIndexPath indexPath;
-			if (SelectedItem != null) {
-				indexPath = Foundation.NSIndexPath.FromRowSection ((nint)ItemsDictionary [SelectedItem.group_id], 0);
-			} else
-				indexPath = Foundation.NSIndexPath.FromRowSection (0, 0);
-			table.SelectRow (indexPath, true, UITableViewScrollPosition.None);
-			backButton.TouchUpInside += (object sender, EventArgs e) => {
-				DismissViewController (true, null);
-			};
+			
 		}
 
 		void OnItemSelected (CityRegionModel item)
