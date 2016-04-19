@@ -101,7 +101,7 @@ namespace Anatoli.Framework.AnatoliBase
                         await RefreshTokenAsync();
                         if (_userTokenInfo == null)
                         {
-                            throw new ServerUnreachable();
+                            throw new ServerUnreachableException();
                         }
                     }
                 }
@@ -117,7 +117,7 @@ namespace Anatoli.Framework.AnatoliBase
                         await RefreshTokenAsync();
                         if (_appTokenInfo == null)
                         {
-                            throw new ServerUnreachable();
+                            throw new ServerUnreachableException();
                         }
                     }
                 }
@@ -202,7 +202,7 @@ namespace Anatoli.Framework.AnatoliBase
                     oauthresult = await tclient.RequestResourceOwnerPasswordAsync(parameters.UserName, parameters.Password, parameters.Scope);
                     if (oauthresult.AccessToken == null)
                         if (oauthresult.Raw.Equals("{\"error\":\"خطا در ورود به سیستم\",\"error_description\":\"تایید نام کاربری دریافت نشده است\"}"))
-                            throw new UnConfirmedUser();
+                            throw new UnConfirmedUserException();
                         else
                             throw new TokenException();
                     _userTokenInfo = new AnatoliTokenInfo();
@@ -472,11 +472,11 @@ namespace Anatoli.Framework.AnatoliBase
         public string Password { get; set; }
         public string Scope { get; set; }
     }
-    public class ServerUnreachable : Exception
+    public class ServerUnreachableException : Exception
     {
 
     }
-    public class UnConfirmedUser : Exception
+    public class UnConfirmedUserException : Exception
     {
 
     }
@@ -488,6 +488,7 @@ namespace Anatoli.Framework.AnatoliBase
     {
         public string RequestUri { get; private set; }
         public HttpStatusCode StatusCode { get; private set; }
+        public AnatoliMetaInfo MetaInfo { get; private set; }
         public AnatoliWebClientException(string uri, string message = "Web Exception", Exception ex = null)
             : base(message, ex)
         {
@@ -500,19 +501,28 @@ namespace Anatoli.Framework.AnatoliBase
         {
             RequestUri = response.ResponseUri.ToString();
             StatusCode = response.StatusCode;
+            JsonDeserializer deserializer = new JsonDeserializer();
+            MetaInfo = deserializer.Deserialize<AnatoliMetaInfo>(response);
+            MetaInfo.ModelState = MetaInfo.modelState;
         }
     }
-    public class ConnectionFailed : AnatoliWebClientException
+    public class ConnectionFailedException : AnatoliWebClientException
     {
-        public ConnectionFailed(string uri, string message = "Connection Failed", Exception ex = null) : base(uri, message, ex) { }
+        public ConnectionFailedException(string uri, string message = "Connection Failed", Exception ex = null) : base(uri, message, ex) { }
     }
-    public class NoInternetAccess : AnatoliWebClientException
+    public class NoInternetAccessException : AnatoliWebClientException
     {
-        public NoInternetAccess(string uri, string message = "No Internet Access", Exception ex = null) : base(uri, message, ex) { }
+        public NoInternetAccessException(string uri, string message = "No Internet Access", Exception ex = null) : base(uri, message, ex) { }
     }
 
     public class BaseWebClientResult : BaseViewModel
     {
 
+    }
+
+    public class AnatoliMetaInfo : BaseViewModel
+    {
+        public string message { get; set; }
+        public Dictionary<string, string[]> modelState { get; set; }
     }
 }

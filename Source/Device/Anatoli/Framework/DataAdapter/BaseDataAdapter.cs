@@ -48,7 +48,7 @@ namespace Anatoli.Framework.DataAdapter
                 }
             }
             {
-                throw new NoInternetAccess(query.WebServiceEndpoint);
+                throw new NoInternetAccessException(query.WebServiceEndpoint);
             }
         }
         public static async Task<List<DataModel>> GetListAsync(DBQuery query)
