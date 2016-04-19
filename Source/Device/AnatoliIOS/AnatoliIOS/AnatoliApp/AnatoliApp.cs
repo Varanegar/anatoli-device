@@ -378,7 +378,14 @@ namespace AnatoliIOS
 			_counterLabel.Text = ShoppingCardItemsCount.ToString();
 			//_priceLabel.Text = ShoppingCardTotalPrice.ToCurrency () + " تومان";
 		}
-	}
+
+        public async Task LoginAsync()
+        {
+            Customer = await CustomerManager.ReadCustomerAsync();
+            User = await AnatoliUserManager.ReadUserInfoAsync();
+            RefreshMenu();
+        }
+    }
 
 	public static class Extensions
 	{

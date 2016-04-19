@@ -9,6 +9,7 @@ using Anatoli.App.Model;
 using AnatoliIOS.Components;
 using CoreAnimation;
 using Foundation;
+using Anatoli.Framework.AnatoliBase;
 
 namespace AnatoliIOS.ViewControllers
 {
@@ -41,7 +42,7 @@ namespace AnatoliIOS.ViewControllers
                 lastNameTextField.Text = AnatoliApp.GetInstance().Customer.LastName;
                 emailTextField.Text = AnatoliApp.GetInstance().Customer.Email;
                 addressTextField.Text = AnatoliApp.GetInstance().Customer.MainStreet;
-				nationalCodeTextField.Text = AnatoliApp.GetInstance ().Customer.NationalCode;
+                nationalCodeTextField.Text = AnatoliApp.GetInstance().Customer.NationalCode;
                 titleLabel.Text = AnatoliApp.GetInstance().Customer.FirstName + " " + AnatoliApp.GetInstance().Customer.LastName;
                 numberLabel.Text = AnatoliApp.GetInstance().Customer.Mobile;
                 var imageUri = CustomerManager.GetImageAddress(AnatoliApp.GetInstance().Customer.UniqueId);
@@ -241,7 +242,7 @@ namespace AnatoliIOS.ViewControllers
                     String.IsNullOrEmpty(lastNameTextField.Text) ||
                     String.IsNullOrEmpty(nameTextField.Text) ||
                     String.IsNullOrEmpty(emailTextField.Text) ||
-					String.IsNullOrEmpty(nationalCodeTextField.Text) ||
+                    String.IsNullOrEmpty(nationalCodeTextField.Text) ||
                     level1PickerViewController.SelectedItem == null ||
                     level2PickerViewController.SelectedItem == null ||
                     level3PickerViewController.SelectedItem == null ||
@@ -252,14 +253,14 @@ namespace AnatoliIOS.ViewControllers
                     PresentViewController(alert, true, null);
                     return;
                 }
-				var customer = AnatoliApp.GetInstance().Customer;
+                var customer = AnatoliApp.GetInstance().Customer;
                 customer.Address = addressTextField.Text;
                 customer.MainStreet = addressTextField.Text;
                 customer.LastName = lastNameTextField.Text;
                 customer.FirstName = nameTextField.Text;
                 customer.Email = emailTextField.Text;
-				customer.Mobile = numberLabel.Text;
-				customer.NationalCode = nationalCodeTextField.Text;
+                customer.Mobile = numberLabel.Text;
+                customer.NationalCode = nationalCodeTextField.Text;
                 customer.RegionLevel1Id = level1PickerViewController.SelectedItem.group_id;
                 customer.RegionLevel2Id = level2PickerViewController.SelectedItem.group_id;
                 customer.RegionLevel3Id = level3PickerViewController.SelectedItem.group_id;
@@ -278,8 +279,8 @@ namespace AnatoliIOS.ViewControllers
                             try
                             {
                                 var downloadedcustomer = await CustomerManager.DownloadCustomerAsync(AnatoliApp.GetInstance().User, null);
-								await CustomerManager.SaveCustomerAsync(downloadedcustomer);
-								AnatoliApp.GetInstance().Customer = downloadedcustomer;
+                                await CustomerManager.SaveCustomerAsync(downloadedcustomer);
+                                AnatoliApp.GetInstance().Customer = downloadedcustomer;
                                 var alert = UIAlertController.Create("", "اطلاعات شما ذخیره شد", UIAlertControllerStyle.Alert);
                                 alert.AddAction(UIAlertAction.Create("خب", UIAlertActionStyle.Default, delegate
                                 {
@@ -294,6 +295,27 @@ namespace AnatoliIOS.ViewControllers
                                 PresentViewController(alert, true, null);
                             }
                         }
+                    }
+                }
+                catch (ServerUnreachableException)
+                {
+                    var connectionalert = UIAlertController.Create("خطا", "خطا در برقرای ارتباط", UIAlertControllerStyle.Alert);
+                    connectionalert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, null));
+                    PresentViewController(connectionalert, true, null);
+                }
+                catch (NoInternetAccessException)
+                {
+                    var connectionalert = UIAlertController.Create("خطا", "لطفا دستگاه خود را به اینترنت متصل نمایید", UIAlertControllerStyle.Alert);
+                    connectionalert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, null));
+                    PresentViewController(connectionalert, true, null);
+                }
+                catch (AnatoliWebClientException ex)
+                {
+                    if (ex.StatusCode == System.Net.HttpStatusCode.BadRequest)
+                    {
+                        var alert = UIAlertController.Create("خطا", ex.MetaInfo.ModelStateString, UIAlertControllerStyle.Alert);
+                        alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, null));
+                        PresentViewController(alert, true, null);
                     }
                 }
                 catch (Exception)

@@ -244,9 +244,9 @@
     <Compile Include="TableViewCells\RegionChooserTableViewCell.designer.cs">
       <DependentUpon>RegionChooserTableViewCell.cs</DependentUpon>
     </Compile>
-    <InterfaceDefinition Include="ViewControllers\ConfirmRegisterationViewController.xib" />
     <InterfaceDefinition Include="ViewControllers\ForgetPasswordViewController.xib" />
     <InterfaceDefinition Include="ViewControllers\SendConfirmCodeViewController.xib" />
+    <InterfaceDefinition Include="ViewControllers\ConfirmRegisterationViewController.xib" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="RootViewController.cs" />

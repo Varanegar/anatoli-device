@@ -85,6 +85,27 @@ namespace AnatoliIOS.ViewControllers
                         PresentViewController(alert, true, null);
                     }
                 }
+                catch (ServerUnreachableException)
+                {
+                    var connectionalert = UIAlertController.Create("خطا", "خطا در برقرای ارتباط", UIAlertControllerStyle.Alert);
+                    connectionalert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, null));
+                    PresentViewController(connectionalert, true, null);
+                }
+                catch (NoInternetAccessException)
+                {
+                    var connectionalert = UIAlertController.Create("خطا", "لطفا دستگاه خود را به اینترنت متصل نمایید", UIAlertControllerStyle.Alert);
+                    connectionalert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, null));
+                    PresentViewController(connectionalert, true, null);
+                }
+                catch (AnatoliWebClientException ex)
+                {
+                    if (ex.StatusCode == System.Net.HttpStatusCode.BadRequest)
+                    {
+                        var alert = UIAlertController.Create("خطا", ex.MetaInfo.ModelStateString, UIAlertControllerStyle.Alert);
+                        alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, null));
+                        PresentViewController(alert, true, null);
+                    }
+                }
                 catch (Exception)
                 {
                     var alert = UIAlertController.Create("خطا", "خطا در ارسال سفارش", UIAlertControllerStyle.Alert);

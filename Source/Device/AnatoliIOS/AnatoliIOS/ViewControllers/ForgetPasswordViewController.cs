@@ -1,4 +1,4 @@
-using Anatoli.App.Manager;
+﻿using Anatoli.App.Manager;
 using Anatoli.Framework.AnatoliBase;
 using AnatoliIOS.Components;
 using System;
@@ -53,10 +53,31 @@ namespace AnatoliIOS.ViewControllers
                         AnatoliApp.GetInstance().PushViewController(new SendConfirmCodeViewController(phoneTextField.Text));
                     }
                 }
+                catch (ServerUnreachableException)
+                {
+                    var connectionalert = UIAlertController.Create("خطا", "خطا در برقرای ارتباط", UIAlertControllerStyle.Alert);
+                    connectionalert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, null));
+                    PresentViewController(connectionalert, true, null);
+                }
+                catch (NoInternetAccessException)
+                {
+                    var connectionalert = UIAlertController.Create("خطا", "لطفا دستگاه خود را به اینترنت متصل نمایید", UIAlertControllerStyle.Alert);
+                    connectionalert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, null));
+                    PresentViewController(connectionalert, true, null);
+                }
                 catch (AnatoliWebClientException ex)
                 {
-                    var alert = UIAlertController.Create("���", ex.MetaInfo.ModelStateString, UIAlertControllerStyle.Alert);
-                    alert.AddAction(UIAlertAction.Create("����", UIAlertActionStyle.Default, null));
+                    if (ex.StatusCode == System.Net.HttpStatusCode.BadRequest)
+                    {
+                        var alert = UIAlertController.Create("خطا", ex.MetaInfo.ModelStateString, UIAlertControllerStyle.Alert);
+                        alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, null));
+                        PresentViewController(alert, true, null);
+                    }
+                }
+                catch (Exception)
+                {
+                    var alert = UIAlertController.Create("", "درخواست شما با خطا مواجه شد", UIAlertControllerStyle.Alert);
+                    alert.AddAction(UIAlertAction.Create("خب", UIAlertActionStyle.Default, null));
                     PresentViewController(alert, true, null);
                 }
                 finally

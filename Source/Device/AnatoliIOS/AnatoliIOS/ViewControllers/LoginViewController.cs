@@ -66,23 +66,53 @@ namespace AnatoliIOS.ViewControllers
                     {
                         if (result.IsValid)
                         {
-                            AnatoliApp.GetInstance().Customer = await CustomerManager.ReadCustomerAsync();
-                            AnatoliApp.GetInstance().User = await AnatoliUserManager.ReadUserInfoAsync();
-                            AnatoliApp.GetInstance().RefreshMenu();
+                            await AnatoliApp.GetInstance().LoginAsync();
                             AnatoliApp.GetInstance().PushViewController(new ProductsViewController());
                         }
                     }
                     loadingOverlay.Hide();
                 }
-                catch (Exception ex)
+                catch (AnatoliWebClientException ex)
+                {
+                    var alert = UIAlertController.Create("خطا", ex.MetaInfo.ModelStateString, UIAlertControllerStyle.Alert);
+                    alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, null));
+                    PresentViewController(alert, true, null);
+                }
+                catch (TokenException)
                 {
                     loadingOverlay.Hide();
-                    if (ex.GetType() == typeof(TokenException))
+                    var alert = UIAlertController.Create("خطا", "نام کاربری یا کلمه عبور اشتباه است", UIAlertControllerStyle.Alert);
+                    alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, null));
+                    PresentViewController(alert, true, null);
+                }
+
+                catch (UnConfirmedUserException)
+                {
+                    var alert = UIAlertController.Create("خطا", "ثبت نام شما هنوز کامل نشده است!", UIAlertControllerStyle.Alert);
+                    alert.AddAction(UIAlertAction.Create("بی خیال", UIAlertActionStyle.Cancel, null));
+                    alert.AddAction(UIAlertAction.Create("تایید حساب کاربری", UIAlertActionStyle.Default, async delegate
                     {
-                        var alert = UIAlertController.Create("خطا", "نام کاربری یا کلمه عبور اشتباه است", UIAlertControllerStyle.Alert);
-                        alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, null));
-                        PresentViewController(alert, true, null);
-                    }
+                        try
+                        {
+                            var codeResult = await AnatoliUserManager.RequestConfirmCode(userNameTextField.Text);
+                            AnatoliApp.GetInstance().PushViewController(new ConfirmRegisterationViewController(userNameTextField.Text, passwordTextField.Text));
+                        }
+                        catch (Exception)
+                        {
+
+                        }
+                    }));
+                    PresentViewController(alert, true, null);
+                }
+                catch (Exception)
+                {
+                    var alert = UIAlertController.Create("خطا", "درخواست شما با خطا مواجه شد!", UIAlertControllerStyle.Alert);
+                    alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Cancel, null));
+                    PresentViewController(alert, true, null);
+                }
+                finally
+                {
+                    loadingOverlay.Hidden = true;
                 }
             };
         }

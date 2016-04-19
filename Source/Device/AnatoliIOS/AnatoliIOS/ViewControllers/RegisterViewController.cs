@@ -56,7 +56,7 @@ namespace AnatoliIOS.ViewControllers
                     var result = await AnatoliUserManager.RegisterAsync(passwordTextField.Text, passwordTextField.Text, phoneTextField.Text, emailTextField.Text);
                     if (result != null && result.IsValid)
                     {
-                        loading.Hidden = true;
+                        var codeResult = await AnatoliUserManager.RequestConfirmCode(phoneTextField.Text);
                         AnatoliApp.GetInstance().PushViewController(new ConfirmRegisterationViewController(phoneTextField.Text, passwordTextField.Text));
                     }
 
@@ -76,6 +76,12 @@ namespace AnatoliIOS.ViewControllers
                         alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, null));
                         PresentViewController(alert, true, null);
                     }
+                }
+                catch (Exception)
+                {
+                    var alert = UIAlertController.Create("خطا", "درخواست شما با خطا مواجه شد!", UIAlertControllerStyle.Alert);
+                    alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Cancel, null));
+                    PresentViewController(alert, true, null);
                 }
                 finally
                 {
