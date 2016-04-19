@@ -494,6 +494,7 @@ namespace Anatoli.Framework.AnatoliBase
         {
             RequestUri = uri;
             StatusCode = 0;
+            MetaInfo = new AnatoliMetaInfo();
         }
         public AnatoliWebClientException(IRestResponse response)
             : base("Web Exception, Http status: " + response.StatusCode.ToString() + " at :" + response.ResponseUri.ToString() + "" +
@@ -503,7 +504,10 @@ namespace Anatoli.Framework.AnatoliBase
             StatusCode = response.StatusCode;
             JsonDeserializer deserializer = new JsonDeserializer();
             MetaInfo = deserializer.Deserialize<AnatoliMetaInfo>(response);
-            MetaInfo.ModelState = MetaInfo.modelState;
+            if (MetaInfo != null)
+            {
+                MetaInfo.ModelState = MetaInfo.modelState;
+            }
         }
     }
     public class ConnectionFailedException : AnatoliWebClientException

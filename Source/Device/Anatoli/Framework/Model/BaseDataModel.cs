@@ -25,9 +25,10 @@ namespace Anatoli.Framework.Model
         {
             get
             {
-                string str = "";
+                string str = "نامشخص";
                 if (ModelState != null)
                 {
+                    str = "";
                     foreach (var item in ModelState)
                     {
                         foreach (var item2 in item.Value)

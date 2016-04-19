@@ -105,6 +105,10 @@
     <Compile Include="ViewControllers\FirstPageViewController.designer.cs">
       <DependentUpon>FirstPageViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="ViewControllers\ForgetPasswordViewController.cs" />
+    <Compile Include="ViewControllers\ForgetPasswordViewController.designer.cs">
+      <DependentUpon>ForgetPasswordViewController.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewControllers\IntroController.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
@@ -119,6 +123,10 @@
     <Compile Include="ViewControllers\RegisterViewController.cs" />
     <Compile Include="ViewControllers\RegisterViewController.designer.cs">
       <DependentUpon>RegisterViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\SendConfirmCodeViewController.cs" />
+    <Compile Include="ViewControllers\SendConfirmCodeViewController.designer.cs">
+      <DependentUpon>SendConfirmCodeViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="ViewControllers\SideMenuController.cs" />
     <Compile Include="ViewControllers\SideMenuController.designer.cs">
@@ -237,6 +245,8 @@
       <DependentUpon>RegionChooserTableViewCell.cs</DependentUpon>
     </Compile>
     <InterfaceDefinition Include="ViewControllers\ConfirmRegisterationViewController.xib" />
+    <InterfaceDefinition Include="ViewControllers\ForgetPasswordViewController.xib" />
+    <InterfaceDefinition Include="ViewControllers\SendConfirmCodeViewController.xib" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="RootViewController.cs" />

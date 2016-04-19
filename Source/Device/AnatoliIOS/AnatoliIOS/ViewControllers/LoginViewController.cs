@@ -37,10 +37,14 @@ namespace AnatoliIOS.ViewControllers
                 textField.ResignFirstResponder();
                 return true;
             };
-            
+
             registerButton.TouchUpInside += delegate
             {
                 AnatoliApp.GetInstance().PushViewController(new RegisterViewController());
+            };
+            forgotPasswordButton.TouchUpInside += delegate
+            {
+                AnatoliApp.GetInstance().PushViewController(new ForgetPasswordViewController());
             };
             loginButton.TouchUpInside += async delegate
             {

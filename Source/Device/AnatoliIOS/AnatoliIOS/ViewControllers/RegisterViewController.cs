@@ -61,7 +61,7 @@ namespace AnatoliIOS.ViewControllers
                     }
 
                 }
-                catch (ConnectionFailedException ex)
+                catch (ConnectionFailedException)
                 {
 
                     var alert = UIAlertController.Create("خطا", "خطا در برقراری ارتباط", UIAlertControllerStyle.Alert);
@@ -70,7 +70,7 @@ namespace AnatoliIOS.ViewControllers
                 }
                 catch (AnatoliWebClientException ex)
                 {
-                    if ((ex as AnatoliWebClientException).StatusCode == System.Net.HttpStatusCode.BadRequest)
+                    if (ex.StatusCode == System.Net.HttpStatusCode.BadRequest)
                     {
                         var alert = UIAlertController.Create("خطا", ex.MetaInfo.ModelStateString, UIAlertControllerStyle.Alert);
                         alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, null));
