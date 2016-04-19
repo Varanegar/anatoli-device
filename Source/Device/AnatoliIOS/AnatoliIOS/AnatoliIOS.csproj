@@ -97,6 +97,10 @@
     <Compile Include="Clients\IosSqliteClient.cs" />
     <Compile Include="Clients\IosWebClient.cs" />
     <Compile Include="Clients\Reachability.cs" />
+    <Compile Include="ViewControllers\ConfirmRegisterationViewController.cs" />
+    <Compile Include="ViewControllers\ConfirmRegisterationViewController.designer.cs">
+      <DependentUpon>ConfirmRegisterationViewController.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewControllers\FirstPageViewController.cs" />
     <Compile Include="ViewControllers\FirstPageViewController.designer.cs">
       <DependentUpon>FirstPageViewController.cs</DependentUpon>
@@ -232,6 +236,7 @@
     <Compile Include="TableViewCells\RegionChooserTableViewCell.designer.cs">
       <DependentUpon>RegionChooserTableViewCell.cs</DependentUpon>
     </Compile>
+    <InterfaceDefinition Include="ViewControllers\ConfirmRegisterationViewController.xib" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="RootViewController.cs" />

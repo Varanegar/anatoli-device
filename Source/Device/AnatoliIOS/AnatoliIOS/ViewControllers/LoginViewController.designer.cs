@@ -16,7 +16,7 @@ namespace AnatoliIOS.ViewControllers
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel forgotPassWordLabel { get; set; }
+		UIButton forgotPasswordButton { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -36,9 +36,9 @@ namespace AnatoliIOS.ViewControllers
 
 		void ReleaseDesignerOutlets ()
 		{
-			if (forgotPassWordLabel != null) {
-				forgotPassWordLabel.Dispose ();
-				forgotPassWordLabel = null;
+			if (forgotPasswordButton != null) {
+				forgotPasswordButton.Dispose ();
+				forgotPasswordButton = null;
 			}
 			if (loginButton != null) {
 				loginButton.Dispose ();

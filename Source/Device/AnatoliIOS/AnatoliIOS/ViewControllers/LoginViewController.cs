@@ -27,6 +27,17 @@ namespace AnatoliIOS.ViewControllers
             Title = "ورود";
 
             EdgesForExtendedLayout = UIRectEdge.None;
+            userNameTextField.ShouldReturn += (textField) =>
+            {
+                textField.ResignFirstResponder();
+                return true;
+            };
+            passwordTextField.ShouldReturn += (textField) =>
+            {
+                textField.ResignFirstResponder();
+                return true;
+            };
+            
             registerButton.TouchUpInside += delegate
             {
                 AnatoliApp.GetInstance().PushViewController(new RegisterViewController());
@@ -45,7 +56,7 @@ namespace AnatoliIOS.ViewControllers
                 View.Add(loadingOverlay);
                 try
                 {
-                    
+
                     var result = await AnatoliUserManager.LoginAsync(userNameTextField.Text, passwordTextField.Text);
                     if (result != null)
                     {
