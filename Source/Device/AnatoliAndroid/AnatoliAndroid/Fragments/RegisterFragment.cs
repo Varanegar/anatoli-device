@@ -129,7 +129,7 @@ namespace AnatoliAndroid.Fragments
                             {
                                 ex.SendTrace();
                                 pDialog.Dismiss();
-                                if (ex.GetType() == typeof(ServerUnreachable))
+                                if (ex.GetType() == typeof(ServerUnreachableException))
                                 {
                                     errDialog.SetMessage(Resources.GetText(Resource.String.ServerUnreachable));
                                     errDialog.SetPositiveButton(Resource.String.Ok, (s2, e2) => { });
@@ -174,7 +174,7 @@ namespace AnatoliAndroid.Fragments
             {
                 ex.SendTrace();
                 dialog.Dismiss();
-                if (ex.GetType() == typeof(ServerUnreachable))
+                if (ex.GetType() == typeof(ServerUnreachableException))
                 {
                     alertDialog.SetMessage(Resource.String.ConnectionFailed);
                     alertDialog.SetPositiveButton(Resource.String.Ok, (s, a) => { });

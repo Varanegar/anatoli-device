@@ -122,7 +122,7 @@ namespace AnatoliAndroid.Fragments
             {
                 ex.SendTrace();
                 pDialog.Dismiss();
-                if (ex.GetType() == typeof(ServerUnreachable))
+                if (ex.GetType() == typeof(ServerUnreachableException))
                 {
                     AlertDialog.Builder errDialog = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
                     errDialog.SetMessage(Resources.GetText(Resource.String.ServerUnreachable));
@@ -136,7 +136,7 @@ namespace AnatoliAndroid.Fragments
                     errDialog.SetPositiveButton(Resource.String.Ok, delegate { });
                     errDialog.Show();
                 }
-                else if (ex.GetType() == typeof(UnConfirmedUser))
+                else if (ex.GetType() == typeof(UnConfirmedUserException))
                 {
                     AlertDialog.Builder alert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
                     alert.SetTitle(Resource.String.Error);
@@ -197,7 +197,7 @@ namespace AnatoliAndroid.Fragments
                             {
                                 ex2.SendTrace();
                                 pDialog.Dismiss();
-                                if (ex2.GetType() == typeof(ServerUnreachable))
+                                if (ex2.GetType() == typeof(ServerUnreachableException))
                                 {
                                     AlertDialog.Builder errDialog4 = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
                                     errDialog4.SetMessage(Resources.GetText(Resource.String.ServerUnreachable));
