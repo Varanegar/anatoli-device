@@ -10,12 +10,22 @@ namespace AnatoliIOS.Clients
     {
         public override SQLite.SQLiteConnection GetConnection()
         {
-            if (System.IO.File.Exists("paa.db"))
+            string documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string dbPath = Path.Combine(documents, "paa.db");
+            if (!File.Exists(dbPath))
             {
-                var conn = new SQLite.SQLiteConnection("paa.db");
-                return conn;
+                if (System.IO.File.Exists("paa.db"))
+                {
+                    File.Copy("paa.db", dbPath);
+                }
+                else
+                {
+                    throw new FileNotFoundException("Database file not found");
+                }
             }
-            throw new FileNotFoundException("Database file not found");
+            var conn = new SQLite.SQLiteConnection(dbPath);
+            return conn;
         }
+
     }
 }
