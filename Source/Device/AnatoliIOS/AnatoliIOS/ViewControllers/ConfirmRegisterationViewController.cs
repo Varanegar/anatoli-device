@@ -32,9 +32,14 @@ namespace AnatoliIOS.ViewControllers
         public override void ViewDidAppear(bool animated)
         {
             base.ViewDidAppear(animated);
-
+            codeTextField.ShouldReturn += delegate
+            {
+                codeTextField.ResignFirstResponder();
+                return true;
+            };
             codeButton.TouchUpInside += delegate
             {
+                ResignFirstResponder();
                 var alert = UIAlertController.Create("", "کد رمز دوباره ارسال شود؟", UIAlertControllerStyle.Alert);
                 alert.AddAction(UIAlertAction.Create("بله", UIAlertActionStyle.Default,
                     async delegate
@@ -72,6 +77,7 @@ namespace AnatoliIOS.ViewControllers
             };
             sendButton.TouchUpInside += async delegate
             {
+                ResignFirstResponder();
                 if (!String.IsNullOrEmpty(codeTextField.Text))
                 {
                     LoadingOverlay loading = new LoadingOverlay(View.Bounds);

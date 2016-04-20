@@ -37,7 +37,7 @@ namespace AnatoliIOS.ViewControllers
                 textField.ResignFirstResponder();
                 return true;
             };
-
+            
             registerButton.TouchUpInside += delegate
             {
                 AnatoliApp.GetInstance().PushViewController(new RegisterViewController());
@@ -48,6 +48,7 @@ namespace AnatoliIOS.ViewControllers
             };
             loginButton.TouchUpInside += async delegate
             {
+                ResignFirstResponder();
                 if (String.IsNullOrEmpty(userNameTextField.Text) || String.IsNullOrEmpty(passwordTextField.Text))
                 {
                     var alert = UIAlertController.Create("خطا", "ورود نام کاربری و کلمه عبور اجباریست!", UIAlertControllerStyle.Alert);
