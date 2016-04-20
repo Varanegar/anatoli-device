@@ -41,6 +41,7 @@ namespace AnatoliIOS.ViewControllers
             };
             sendButton.TouchUpInside += async delegate
             {
+				ResignFirstResponder();
                 LoadingOverlay loading = new LoadingOverlay(View.Bounds);
 
                 try

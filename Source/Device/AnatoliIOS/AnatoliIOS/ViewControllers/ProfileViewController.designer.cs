@@ -20,6 +20,10 @@ namespace AnatoliIOS.ViewControllers
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton changePasswordButton { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UITextField emailTextField { get; set; }
 
 		[Outlet]
@@ -79,6 +83,10 @@ namespace AnatoliIOS.ViewControllers
 			if (addressTextField != null) {
 				addressTextField.Dispose ();
 				addressTextField = null;
+			}
+			if (changePasswordButton != null) {
+				changePasswordButton.Dispose ();
+				changePasswordButton = null;
 			}
 			if (emailTextField != null) {
 				emailTextField.Dispose ();

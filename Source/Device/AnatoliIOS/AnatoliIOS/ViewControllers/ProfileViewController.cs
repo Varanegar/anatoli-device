@@ -38,6 +38,27 @@ namespace AnatoliIOS.ViewControllers
             View.Bounds = UIScreen.MainScreen.Bounds;
             if (AnatoliApp.GetInstance().Customer != null)
             {
+				nameTextField.ShouldReturn += delegate {
+					nameTextField.ResignFirstResponder();
+					return true;
+				};
+				lastNameTextField.ShouldReturn += delegate {
+					lastNameTextField.ResignFirstResponder();
+					return true;
+				};
+				emailTextField.ShouldReturn += delegate {
+					emailTextField.ResignFirstResponder ();
+					return true;
+				};
+				addressTextField.ShouldReturn += delegate {
+					addressTextField.ResignFirstResponder ();
+					return true;
+				};
+				nationalCodeTextField.ShouldReturn += delegate {
+					nationalCodeTextField.ResignFirstResponder ();
+					return true;
+				};
+
                 nameTextField.Text = AnatoliApp.GetInstance().Customer.FirstName;
                 lastNameTextField.Text = AnatoliApp.GetInstance().Customer.LastName;
                 emailTextField.Text = AnatoliApp.GetInstance().Customer.Email;
