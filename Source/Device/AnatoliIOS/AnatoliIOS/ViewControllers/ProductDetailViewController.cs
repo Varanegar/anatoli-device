@@ -1,11 +1,11 @@
 ﻿using System;
 
 using UIKit;
-using Haneke;
 using Anatoli.App.Manager;
 using Anatoli.App.Model.Product;
 using Foundation;
 using Anatoli.Framework.AnatoliBase;
+using SDWebImage;
 
 namespace AnatoliIOS
 {

@@ -6,7 +6,7 @@ using Anatoli.App.Model.Product;
 using Anatoli.Framework.AnatoliBase;
 using Anatoli.App.Manager;
 using System.Drawing;
-using Haneke;
+using SDWebImage;
 
 namespace AnatoliIOS.TableViewCells
 {
@@ -73,7 +73,7 @@ namespace AnatoliIOS.TableViewCells
 			if (imgUri != null) {
 				try {
 					using (var url = new NSUrl (imgUri)) {
-						productImageView.SetImage (url : url, placeholder: UIImage.FromBundle ("igicon"));
+						productImageView.SetImage (url : url);
 					}
 
 

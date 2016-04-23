@@ -3,7 +3,7 @@
 using Foundation;
 using UIKit;
 using Anatoli.App.Model.Product;
-using Haneke;
+using SDWebImage;
 using Anatoli.App.Manager;
 
 namespace AnatoliIOS
