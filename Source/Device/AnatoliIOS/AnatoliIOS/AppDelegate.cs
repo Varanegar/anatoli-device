@@ -51,18 +51,20 @@ namespace AnatoliIOS
             });
 
 
-			UINavigationBar.Appearance.SetTitleTextAttributes(new UITextAttributes() {
-				TextColor = UIColor.White,
-				TextShadowColor = UIColor.LightGray,
-				Font = UIFont.FromName("IRAN",15f)
-			}); 
-			UIBarButtonItem.Appearance.SetTitleTextAttributes(new UITextAttributes() {
-				TextColor = UIColor.White,
-				TextShadowColor = UIColor.LightGray,
-				Font = UIFont.FromName("IRAN",15f)
-			},UIControlState.Normal); 
-			UINavigationBar.Appearance.BarTintColor = UIColor.Clear.FromHex(0x085e7d);
-			UINavigationBar.Appearance.TintColor = UIColor.White;
+            UINavigationBar.Appearance.SetTitleTextAttributes(new UITextAttributes()
+            {
+                TextColor = UIColor.White,
+                TextShadowColor = UIColor.LightGray,
+                Font = UIFont.FromName("IRAN", 15f)
+            });
+            UIBarButtonItem.Appearance.SetTitleTextAttributes(new UITextAttributes()
+            {
+                TextColor = UIColor.White,
+                TextShadowColor = UIColor.LightGray,
+                Font = UIFont.FromName("IRAN", 15f)
+            }, UIControlState.Normal);
+            UINavigationBar.Appearance.BarTintColor = UIColor.Clear.FromHex(0x085e7d);
+            UINavigationBar.Appearance.TintColor = UIColor.White;
 
             return true;
         }
