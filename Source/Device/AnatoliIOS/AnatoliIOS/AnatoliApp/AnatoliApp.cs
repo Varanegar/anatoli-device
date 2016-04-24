@@ -219,6 +219,12 @@ namespace AnatoliIOS
 					Title = " لیست من",
 					Type = MenuItem.MenuType.Favorits
 				});
+
+			if(Customer != null)
+				source.Items.Add (new MenuItem () {
+					Title = " سفارشات قبلی",
+					Type = MenuItem.MenuType.Orders
+				});
 			
 			if (DefaultStore == null)
 				source.Items.Add (new MenuItem () {
@@ -258,6 +264,10 @@ namespace AnatoliIOS
 				break;
 			case MenuItem.MenuType.Profile:
 				PushViewController (new ProfileViewController ());
+				CloseMenu ();
+				break;
+			case MenuItem.MenuType.Orders:
+				PushViewController (new OrdersStatusViewController());
 				CloseMenu ();
 				break;
 			case MenuItem.MenuType.Products:

@@ -21,7 +21,8 @@ namespace AnatoliIOS
 			Favorits,
 			Stores,
 			MainMenu,
-			CatId
+			CatId,
+			Orders
 		}
     }
 }

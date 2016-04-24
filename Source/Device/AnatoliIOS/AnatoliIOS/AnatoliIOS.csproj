@@ -253,6 +253,17 @@
     <InterfaceDefinition Include="ViewControllers\ForgetPasswordViewController.xib" />
     <InterfaceDefinition Include="ViewControllers\SendConfirmCodeViewController.xib" />
     <InterfaceDefinition Include="ViewControllers\ConfirmRegisterationViewController.xib" />
+    <InterfaceDefinition Include="TableViewCells\OrderStatusTableViewCell.xib" />
+    <Compile Include="TableViewCells\OrderStatusTableViewCell.cs" />
+    <Compile Include="TableViewCells\OrderStatusTableViewCell.designer.cs">
+      <DependentUpon>OrderStatusTableViewCell.cs</DependentUpon>
+    </Compile>
+    <InterfaceDefinition Include="ViewControllers\OrdersStatusViewController.xib" />
+    <Compile Include="ViewControllers\OrdersStatusViewController.cs" />
+    <Compile Include="ViewControllers\OrdersStatusViewController.designer.cs">
+      <DependentUpon>OrdersStatusViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TableViewSources\OrderStatusTableViewSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="RootViewController.cs" />
