@@ -1,6 +1,9 @@
 ﻿using Foundation;
 using UIKit;
 using AnatoliIOS;
+using HockeyApp;
+using System;
+using System.Threading.Tasks;
 
 namespace AnatoliIOS
 {
@@ -22,6 +25,32 @@ namespace AnatoliIOS
         {
             // Override point for customization after application launch.
             // If not required for your application you can safely delete this method
+
+            HockeyApp.Setup.EnableCustomCrashReporting(() =>
+            {
+
+                //Get the shared instance
+                var manager = BITHockeyManager.SharedHockeyManager;
+
+                //Configure it to use our APP_ID
+                manager.Configure("2593c24acb0c42d9af831e611b40b752");
+
+                //Start the manager
+                manager.StartManager();
+
+                //Authenticate (there are other authentication options)
+                manager.Authenticator.AuthenticateInstallation();
+
+                //Rethrow any unhandled .NET exceptions as native iOS 
+                // exceptions so the stack traces appear nicely in HockeyApp
+                AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
+                    Setup.ThrowExceptionAsNative(e.ExceptionObject);
+
+                TaskScheduler.UnobservedTaskException += (sender, e) =>
+                    Setup.ThrowExceptionAsNative(e.Exception);
+            });
+
+
 			UINavigationBar.Appearance.SetTitleTextAttributes(new UITextAttributes() {
 				TextColor = UIColor.White,
 				TextShadowColor = UIColor.LightGray,
@@ -34,6 +63,7 @@ namespace AnatoliIOS
 			},UIControlState.Normal); 
 			UINavigationBar.Appearance.BarTintColor = UIColor.Clear.FromHex(0x085e7d);
 			UINavigationBar.Appearance.TintColor = UIColor.White;
+
             return true;
         }
 
