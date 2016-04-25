@@ -101,7 +101,7 @@ namespace AnatoliAndroid.Fragments
                             AnatoliApp.GetInstance().ShoppingCardItemCount.Text = (await ShoppingCardManager.GetItemsCountAsync()).ToString();
                             AnatoliApp.GetInstance().SetTotalPrice(await ShoppingCardManager.GetTotalPriceAsync());
                             Toast.MakeText(AnatoliApp.GetInstance().Activity, String.Format("{0} آیتم به سبد خرید اضافه شد", a.ToString()), ToastLength.Short).Show();
-                            AnatoliApp.GetInstance().SetFragment<ShoppingCardFragment>(null, "shopping_fragment");
+                            AnatoliApp.GetInstance().SetFragment<ShoppingCardFragment>(new ShoppingCardFragment(), "shopping_fragment");
                         }
                         else
                             Toast.MakeText(AnatoliApp.GetInstance().Activity, "کالای مورد نظر هم اکنون در دسترس نمی باشد", ToastLength.Short).Show();

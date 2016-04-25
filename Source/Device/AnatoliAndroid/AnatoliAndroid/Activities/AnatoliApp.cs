@@ -459,11 +459,11 @@ namespace AnatoliAndroid.Activities
                         DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);
                         ProgressDialog pDialog = new ProgressDialog(_activity);
                         var g = await SyncDatabase();
-                        SetFragment<FirstFragment>(null, "first_fragment)");
+                        SetFragment<FirstFragment>(new FirstFragment(), "first_fragment)");
                         break;
                     case DrawerMainItem.DrawerMainItems.Settings:
                         DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);
-                        SetFragment<SettingsFragment>(null, "settings_fragment)");
+                        SetFragment<SettingsFragment>(new SettingsFragment(), "settings_fragment)");
                         break;
                     case DrawerMainItem.DrawerMainItems.Logout:
                         DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);

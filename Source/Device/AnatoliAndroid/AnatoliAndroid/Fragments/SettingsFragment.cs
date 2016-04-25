@@ -34,7 +34,7 @@ namespace AnatoliAndroid.Fragments
             {
                 Anatoli.Framework.AnatoliBase.Configuration.WebService.PortalAddress = ipAddress.Text;
                 await Anatoli.Framework.AnatoliBase.Configuration.SaveConfigToFile();
-                AnatoliApp.GetInstance().SetFragment<FirstFragment>(null, "first_fragment");
+                AnatoliApp.GetInstance().SetFragment<FirstFragment>(new FirstFragment(), "first_fragment");
                 await AnatoliApp.GetInstance().ClearDatabase();
                 await AnatoliApp.GetInstance().SaveLogoutAsync();
                 AlertDialog.Builder alert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);

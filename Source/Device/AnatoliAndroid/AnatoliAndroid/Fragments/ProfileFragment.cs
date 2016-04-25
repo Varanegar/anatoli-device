@@ -201,13 +201,20 @@ namespace AnatoliAndroid.Fragments
                 alert.SetMessage(AnatoliApp.GetResources().GetText(Resource.String.AreYouSure));
                 alert.SetPositiveButton(AnatoliApp.GetResources().GetText(Resource.String.Yes), async (s2, e2) =>
                 {
-                    bool result = await AnatoliApp.GetInstance().SaveLogoutAsync();
-                    if (result)
+                    try
                     {
-                        AnatoliApp.GetInstance().SetFragment<FirstFragment>(null, "first_fragment");
-                        Dismiss();
-                    }
+                        bool result = await AnatoliApp.GetInstance().SaveLogoutAsync();
+                        if (result)
+                        {
+                            AnatoliApp.GetInstance().SetFragment<FirstFragment>(new FirstFragment(), "first_fragment");
+                            Dismiss();
+                        }
 
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.SendTrace();
+                    }
                 });
                 alert.SetNegativeButton(AnatoliApp.GetResources().GetText(Resource.String.No), (s2, e2) => { });
                 alert.Show();

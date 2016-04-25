@@ -206,7 +206,7 @@ namespace AnatoliAndroid.Fragments
                             lAlert.SetNegativeButton(Resource.String.Cancel, delegate
                             {
                                 Toast.MakeText(AnatoliApp.GetInstance().Activity, "سفارش شما کنسل شد", ToastLength.Short).Show();
-                                AnatoliApp.GetInstance().SetFragment<ProductsListFragment>(null, "products_fragment");
+                                AnatoliApp.GetInstance().SetFragment<ProductsListFragment>(new ProductsListFragment(), "products_fragment");
                             });
                             lAlert.Show();
                         }
