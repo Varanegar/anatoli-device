@@ -21,17 +21,20 @@ namespace Anatoli.App.Manager
                 query = new SelectQuery("stores_calendar", new EqFilterParam("StoreId", storeId), new EqFilterParam("CalendarTypeValueId", StoreCalendarViewModel.StoreActivedeliveryTime));
             else
                 query = new SelectQuery("stores_calendar", new EqFilterParam("StoreId", storeId), new EqFilterParam("CalendarTypeValueId", StoreCalendarViewModel.StoreOpenTime));
-
+            query.Unlimited = true;
             var result = await BaseDataAdapter<StoreCalendarViewModel>.GetListAsync(query);
             var time = new TimeSpan(DateTime.Now.Hour, 30, 0);
-            if (time > result.First().FromTime)
+            if (result.Count > 0)
             {
-                for (TimeSpan i = time; i < result.First().ToTime; i += TimeSpan.FromMinutes(30))
+                if (time > result.First().FromTime)
                 {
-                    var t = new DeliveryTimeModel();
-                    t.timespan = i;
-                    t.UniqueId = Guid.NewGuid().ToString().ToUpper();
-                    times.Add(t);
+                    for (TimeSpan i = time; i < result.First().ToTime; i += TimeSpan.FromMinutes(30))
+                    {
+                        var t = new DeliveryTimeModel();
+                        t.timespan = i;
+                        t.UniqueId = Guid.NewGuid().ToString().ToUpper();
+                        times.Add(t);
+                    }
                 }
             }
             return times;
