@@ -128,10 +128,10 @@
       <HintPath>packages\RestSharp.Portable.dll</HintPath>
     </Reference>
     <Reference Include="SQLite-net">
-      <HintPath>..\AnatoliAndroid\Packages\SQLite-net.dll</HintPath>
+      <HintPath>packages\SQLite-net.dll</HintPath>
     </Reference>
     <Reference Include="SQLitePCL.raw">
-      <HintPath>..\AnatoliAndroid\Packages\SQLitePCL.raw.dll</HintPath>
+      <HintPath>packages\SQLitePCL.raw.dll</HintPath>
     </Reference>
     <Reference Include="Thinktecture.IdentityModel.Client">
       <HintPath>packages\Thinktecture.IdentityModel.Client.dll</HintPath>

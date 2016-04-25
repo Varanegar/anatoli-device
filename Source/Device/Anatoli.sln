@@ -1,16 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anatoli", "Anatoli\Anatoli.csproj", "{7652423F-F5E3-4A1A-958F-7331C42AE409}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenerateDbFile", "GenerateDbFile\GenerateDbFile.csproj", "{DCBD924F-F770-44FF-BA36-12534114EF59}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnatoliAndroid", "AnatoliAndroid\AnatoliAndroid\AnatoliAndroid.csproj", "{90745782-5D4B-4704-994C-0AE11D293270}"
-	ProjectSection(ProjectDependencies) = postProject
-		{DCBD924F-F770-44FF-BA36-12534114EF59} = {DCBD924F-F770-44FF-BA36-12534114EF59}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnatoliIOS", "AnatoliIOS\AnatoliIOS\AnatoliIOS.csproj", "{E49A4BFC-4AA1-43D4-9A48-01C051657B71}"
 EndProject
@@ -61,30 +56,6 @@ Global
 		{7652423F-F5E3-4A1A-958F-7331C42AE409}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{7652423F-F5E3-4A1A-958F-7331C42AE409}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{7652423F-F5E3-4A1A-958F-7331C42AE409}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{DCBD924F-F770-44FF-BA36-12534114EF59}.Ad-Hoc|Any CPU.ActiveCfg = Release|Any CPU
-		{DCBD924F-F770-44FF-BA36-12534114EF59}.Ad-Hoc|Any CPU.Build.0 = Release|Any CPU
-		{DCBD924F-F770-44FF-BA36-12534114EF59}.Ad-Hoc|iPhone.ActiveCfg = Release|Any CPU
-		{DCBD924F-F770-44FF-BA36-12534114EF59}.Ad-Hoc|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{DCBD924F-F770-44FF-BA36-12534114EF59}.Ad-Hoc|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{DCBD924F-F770-44FF-BA36-12534114EF59}.Ad-Hoc|Mixed Platforms.Build.0 = Release|Any CPU
-		{DCBD924F-F770-44FF-BA36-12534114EF59}.AppStore|Any CPU.ActiveCfg = Release|Any CPU
-		{DCBD924F-F770-44FF-BA36-12534114EF59}.AppStore|Any CPU.Build.0 = Release|Any CPU
-		{DCBD924F-F770-44FF-BA36-12534114EF59}.AppStore|iPhone.ActiveCfg = Release|Any CPU
-		{DCBD924F-F770-44FF-BA36-12534114EF59}.AppStore|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{DCBD924F-F770-44FF-BA36-12534114EF59}.AppStore|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{DCBD924F-F770-44FF-BA36-12534114EF59}.AppStore|Mixed Platforms.Build.0 = Release|Any CPU
-		{DCBD924F-F770-44FF-BA36-12534114EF59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DCBD924F-F770-44FF-BA36-12534114EF59}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DCBD924F-F770-44FF-BA36-12534114EF59}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{DCBD924F-F770-44FF-BA36-12534114EF59}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{DCBD924F-F770-44FF-BA36-12534114EF59}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{DCBD924F-F770-44FF-BA36-12534114EF59}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{DCBD924F-F770-44FF-BA36-12534114EF59}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DCBD924F-F770-44FF-BA36-12534114EF59}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DCBD924F-F770-44FF-BA36-12534114EF59}.Release|iPhone.ActiveCfg = Release|Any CPU
-		{DCBD924F-F770-44FF-BA36-12534114EF59}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{DCBD924F-F770-44FF-BA36-12534114EF59}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{DCBD924F-F770-44FF-BA36-12534114EF59}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{90745782-5D4B-4704-994C-0AE11D293270}.Ad-Hoc|Any CPU.ActiveCfg = FinalRelease|Any CPU
 		{90745782-5D4B-4704-994C-0AE11D293270}.Ad-Hoc|Any CPU.Build.0 = FinalRelease|Any CPU
 		{90745782-5D4B-4704-994C-0AE11D293270}.Ad-Hoc|Any CPU.Deploy.0 = FinalRelease|Any CPU
