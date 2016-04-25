@@ -16,8 +16,8 @@ namespace UpdateDB
             var currentPath = Environment.CurrentDirectory;
             DirectoryInfo info = new DirectoryInfo(currentPath);
             var folder = info.Parent;
-            folder = info.Parent;
-            folder = info.Parent;
+            folder = folder.Parent;
+            folder = folder.Parent;
             string path = Path.Combine(folder.FullName, "db", "paa.db");
 #endif
 #if(!DEBUG)
