@@ -82,13 +82,12 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <Target Name="AfterBuild" Condition="'$(Configuration)' == 'Release'">
-    <Exec Command="$(ProjectDir)$(OutputPath)$(AssemblyName).$(OutputType)" ContinueOnError="false" />
-  </Target>
-  <Target Name="BeforeClean">
-    <Copy SourceFiles="..\db\paa_empty.db" DestinationFiles="..\db\paa.db" />
-  </Target>
-  <Target Name="BeforeRebuild">
-    <Copy SourceFiles="..\db\paa_empty.db" DestinationFiles="..\db\paa.db" />
-  </Target>
+   <Target Name="AfterBuild" >
+    <MakeDir
+            Directories="bin/Debug/x86"/>
+			<MakeDir
+            Directories="bin/Debug/x64"/>
+       <Copy SourceFiles="packages\x64\sqlite3.dll" DestinationFolder="bin\Debug\x64" />
+	   <Copy SourceFiles="packages\x86\sqlite3.dll" DestinationFolder="bin\Debug\x86" />
+   </Target>
 </Project>
