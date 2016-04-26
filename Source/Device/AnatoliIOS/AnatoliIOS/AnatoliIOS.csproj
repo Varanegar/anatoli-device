@@ -25,6 +25,8 @@
     <MtouchDebug>true</MtouchDebug>
     <MtouchI18n>
     </MtouchI18n>
+    <CodesignProvision>8e0383fd-6b2c-4edb-863a-1e57927c6020</CodesignProvision>
+    <CodesignKey>iPhone Developer: Arman Fazly (G34LZVS594)</CodesignKey>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -281,10 +283,6 @@
     <Reference Include="SDWebImage">
       <HintPath>..\packages\SDWebImage.dll</HintPath>
     </Reference>
-    <Reference Include="SQLite-net, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\SQLite-net.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Net.Http.Extensions">
       <HintPath>..\..\packages\System.Net.Http.Extensions.dll</HintPath>
@@ -309,6 +307,9 @@
     </Reference>
     <Reference Include="XPComponentKeyGenerator">
       <HintPath>..\packages\XPComponentKeyGenerator.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLite-net">
+      <HintPath>..\packages\SQLite-net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
