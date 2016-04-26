@@ -24,6 +24,8 @@ namespace Anatoli.App.Model.Product
         public string image { get; set; }
         public int is_group { get; set; }
         public decimal qty { get; set; }
+        public int cat_left { get; set; }
+        public int cat_right { get; set; }
         public bool IsGroup
         {
             get { return is_group == 1 ? true : false; }

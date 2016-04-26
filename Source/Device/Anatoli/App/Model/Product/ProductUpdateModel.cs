@@ -26,7 +26,8 @@ namespace Anatoli.App.Model.Product
 
         //public List<SupplierViewModel> Suppliers { get; set; }
         public string MainProductGroupIdString { get; set; }
-        public string ProductGroupIdString { get; set; }
+        string _productGroupId;
+        public string ProductGroupId { get {return _productGroupId;} set { _productGroupId = (value == null ) ? null : value.ToUpper();} }
         public string ManufactureIdString { get; set; }
 
         //public List<CharValueViewModel> CharValues { get; set; }

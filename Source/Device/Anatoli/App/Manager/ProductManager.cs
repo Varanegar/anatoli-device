@@ -60,7 +60,7 @@ namespace Anatoli.App.Manager
                             UpdateCommand command = new UpdateCommand("products", new EqFilterParam("product_id", item.UniqueId.ToUpper()),
                             new BasicParam("product_name", item.StoreProductName),
                             new BasicParam("is_removed", (item.IsRemoved == true) ? "1" : "0"),
-                            new BasicParam("cat_id", (item.ProductGroupIdString != null) ? item.ProductGroupIdString.ToUpper() : item.ProductGroupIdString));
+                            new BasicParam("cat_id", item.ProductGroupId));
                             var query = connection.CreateCommand(command.GetCommand());
                             int t = query.ExecuteNonQuery();
                         }
@@ -69,7 +69,7 @@ namespace Anatoli.App.Manager
                             InsertCommand command = new InsertCommand("products", new BasicParam("product_id", item.UniqueId.ToUpper()),
                             new BasicParam("product_name", item.StoreProductName),
                             new BasicParam("is_removed", (item.IsRemoved == true) ? "1" : "0"),
-                            new BasicParam("cat_id", (item.ProductGroupIdString != null) ? item.ProductGroupIdString.ToUpper() : item.ProductGroupIdString));
+                            new BasicParam("cat_id", item.ProductGroupId));
                             var query = connection.CreateCommand(command.GetCommand());
                             queryString = query.ToString();
                             int t = query.ExecuteNonQuery();
@@ -484,7 +484,7 @@ namespace Anatoli.App.Manager
             var leftRight = CategoryManager.GetLeftRight(catId);
             StringQuery query;
             if (leftRight != null)
-                query = new StringQuery(string.Format("SELECT *,store_onhand.qty as qty FROM products_price_view JOIN store_onhand ON store_onhand.product_id = products_price_view.product_id WHERE cat_left >= {0} AND cat_right <= {1} AND products_price_view.store_id = '{2}' AND store_onhand.store_id = '{2}' AND products_price_view.is_removed='0'  ORDER BY product_name", leftRight.left, leftRight.right, storeId).PersianToArabic());
+                query = new StringQuery(string.Format("SELECT *,store_onhand.qty as qty FROM products_price_view JOIN store_onhand ON store_onhand.product_id = products_price_view.product_id AND products_price_view.store_id = '{2}' AND store_onhand.store_id = '{2}' AND products_price_view.is_removed='0' WHERE cat_left >= {0} AND cat_right <= {1} ORDER BY product_name", leftRight.left, leftRight.right, storeId).PersianToArabic());
             else
                 query = new StringQuery(string.Format("SELECT *,store_onhand.qty as qty FROM products_price_view JOIN store_onhand ON store_onhand.product_id = products_price_view.product_id AND products_price_view.store_id='{0}' AND store_onhand.store_id='{0}' AND products_price_view.is_removed='0' ORDER BY product_name", storeId).PersianToArabic());
             return query;

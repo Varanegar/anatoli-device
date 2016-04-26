@@ -20,17 +20,7 @@ namespace Anatoli.Framework.Manager
             get { return _limit; }
             set { _limit = value; }
         }
-        public void ResetQueryLimits()
-        {
-            if (_localP != null)
-            {
-                _localP.Index = 0;
-            }
-            if (_remoteP != null)
-            {
-                _remoteP.Index = 0;
-            }
-        }
+       
         public void SetQueries(DBQuery dbQuery, RemoteQuery remoteQuery)
         {
             _localP = dbQuery;
