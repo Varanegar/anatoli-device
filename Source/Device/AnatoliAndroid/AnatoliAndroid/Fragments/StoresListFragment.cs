@@ -22,7 +22,7 @@ using System.Threading.Tasks;
 namespace AnatoliAndroid.Fragments
 {
     [FragmentTitle("انتخاب فروشگاه")]
-    class StoresListFragment : BaseListFragment<StoreManager, StoresListAdapter, NoListToolsDialog, StoreDataModel>
+    class StoresListFragment : BaseListFragment<StoreManager, StoresListAdapter, StoreDataModel>
     {
         Location _currentLocation;
         public StoresListFragment()

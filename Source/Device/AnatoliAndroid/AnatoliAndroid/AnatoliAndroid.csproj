@@ -164,14 +164,11 @@
     <Compile Include="Fragments\ConfirmDialog.cs" />
     <Compile Include="Fragments\EditShippingInfoFragment.cs" />
     <Compile Include="Fragments\FavoritsListFragment.cs" />
-    <Compile Include="Fragments\FavoritsToolsFragment.cs" />
     <Compile Include="Fragments\FirstFragment.cs" />
     <Compile Include="Fragments\ForgetPasswordDialog.cs" />
     <Compile Include="Fragments\FragmentTitle.cs" />
-    <Compile Include="Fragments\ListToolsDialog.cs" />
     <Compile Include="Fragments\ChangePassFragment.cs" />
     <Compile Include="Fragments\MessagesListFragment.cs" />
-    <Compile Include="Fragments\NoListToolsDialog.cs" />
     <Compile Include="Fragments\OnTouchListener.cs" />
     <Compile Include="Fragments\OrderDetailFragment.cs" />
     <Compile Include="Fragments\OrdersListFragment.cs" />
@@ -180,7 +177,6 @@
     <Compile Include="Fragments\ProformaFragment.cs" />
     <Compile Include="Fragments\ResetPasswordDialog.cs" />
     <Compile Include="Fragments\SettingsFragment.cs" />
-    <Compile Include="Fragments\ShoppingCardListToolsFragment.cs" />
     <Compile Include="ListAdapters\CityRegionListAdapter.cs" />
     <Compile Include="ListAdapters\DeliveryTimeListAdapter.cs" />
     <Compile Include="ListAdapters\DeliveryTypeListAdapter.cs" />

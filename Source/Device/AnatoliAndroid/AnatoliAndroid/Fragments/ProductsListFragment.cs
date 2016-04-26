@@ -24,23 +24,29 @@ using Anatoli.Framework;
 namespace AnatoliAndroid.Fragments
 {
     [FragmentTitle("دسته بندی کالا")]
-    class ProductsListFragment : BaseListFragment<ProductManager, ProductsListAdapter, NoListToolsDialog, ProductModel>
+    class ProductsListFragment : BaseListFragment<ProductManager, ProductsListAdapter, ProductModel>
     {
-        public ProductsListFragment()
-        {
-            var query = ProductManager.GetAll(AnatoliApp.GetInstance().DefaultStoreId);
-            _dataManager.SetQueries(query, null);
-        }
         public override void OnStart()
         {
             base.OnStart();
             AnatoliApp.GetInstance().ShowSearchIcon();
         }
 
-        public override async Task Search(DBQuery query, string value)
+        public async Task Search(DBQuery query, string value)
         {
             _dataManager.ShowGroups = true;
-            await base.Search(query, value);
+
+            _dataManager.SetQueries(query, null);
+            try
+            {
+                _listAdapter.List = await _dataManager.GetNextAsync();
+                AnatoliApp.GetInstance().SetToolbarTitle(string.Format("جستجو  \"{0}\"", value.Trim()));
+            }
+            catch (Exception ex)
+            {
+                ex.SendTrace();
+            }
+
             var groups = await CategoryManager.SearchAsync(value);
             List<ProductModel> pl = new List<ProductModel>();
             foreach (var item in groups)

@@ -17,7 +17,7 @@ using AnatoliAndroid.Activities;
 
 namespace AnatoliAndroid.Fragments
 {
-    class OrdersListFragment : BaseListFragment<OrderManager, OrdersListAdapter, NoListToolsDialog, OrderModel>
+    class OrdersListFragment : BaseListFragment<OrderManager, OrdersListAdapter, OrderModel>
     {
         public OrdersListFragment()
         {

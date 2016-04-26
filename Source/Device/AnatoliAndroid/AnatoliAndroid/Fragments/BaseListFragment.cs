@@ -21,10 +21,9 @@ using Anatoli.Framework;
 
 namespace AnatoliAndroid.Fragments
 {
-    abstract class BaseListFragment<BaseDataManager, DataListAdapter, ListTools, DataModel> : Fragment
+    abstract class BaseListFragment<BaseDataManager, DataListAdapter, DataModel> : Fragment
         where BaseDataManager : BaseManager<DataModel>, new()
         where DataListAdapter : BaseListAdapter<BaseDataManager, DataModel>, new()
-        where ListTools : ListToolsDialog, new()
         where DataModel : BaseViewModel, new()
     {
         protected View _view;
@@ -32,47 +31,30 @@ namespace AnatoliAndroid.Fragments
         TextView _resultTextView;
         protected DataListAdapter _listAdapter;
         protected BaseDataManager _dataManager;
-        protected ListTools _toolsDialogFragment;
-        private bool _refresh = true;
         public BaseListFragment()
             : base()
         {
             _listAdapter = new DataListAdapter();
             _dataManager = new BaseDataManager();
-            _toolsDialogFragment = new ListTools();
-
         }
-        public virtual async Task Search(DBQuery query, string value)
-        {
-            _dataManager.SetQueries(query, null);
-            try
-            {
-                _listAdapter.List = await _dataManager.GetNextAsync();
-                AnatoliApp.GetInstance().SetToolbarTitle(string.Format("جستجو  \"{0}\"", value.Trim()));
-            }
-            catch (Exception ex)
-            {
-                ex.SendTrace();
-            }
-        }
+        //public virtual async Task Search(DBQuery query, string value)
+        //{
+        //    _dataManager.SetQueries(query, null);
+        //    try
+        //    {
+        //        _listAdapter.List = await _dataManager.GetNextAsync();
+        //        AnatoliApp.GetInstance().SetToolbarTitle(string.Format("جستجو  \"{0}\"", value.Trim()));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ex.SendTrace();
+        //    }
+        //}
         protected virtual View InflateLayout(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = inflater.Inflate(
                 Resource.Layout.ItemsListLayout, container, false);
             return view;
-        }
-        public async override void OnStart()
-        {
-            base.OnStart();
-            if (_refresh)
-            {
-                await RefreshAsync();
-            }
-        }
-        public override void OnDetach()
-        {
-            _refresh = true;
-            base.OnDetach();
         }
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -81,19 +63,6 @@ namespace AnatoliAndroid.Fragments
             _resultTextView = _view.FindViewById<TextView>(Resource.Id.resultTextView);
             _listView.ScrollStateChanged += _listView_ScrollStateChanged;
             _listView.Adapter = _listAdapter;
-
-            if (_toolsDialogFragment.GetType() == typeof(NoListToolsDialog))
-            {
-                AnatoliApp.GetInstance().HideMenuIcon();
-            }
-            else
-            {
-                AnatoliApp.GetInstance().ShowMenuIcon();
-                AnatoliApp.GetInstance().MenuClicked = () =>
-                {
-                    _toolsDialogFragment.Show(AnatoliApp.GetInstance().Activity.FragmentManager, "sss");
-                };
-            }
             EmptyList += (s, e) =>
             {
                 _resultTextView.Visibility = ViewStates.Visible;
@@ -105,13 +74,15 @@ namespace AnatoliAndroid.Fragments
             };
             return _view;
         }
+        public void SetQuery(DBQuery query)
+        {
+            _dataManager = new BaseDataManager();
+            _dataManager.SetQueries(query, null);
+        }
         internal async Task RefreshAsync()
         {
             try
             {
-                _refresh = false;
-               
-                _dataManager.ResetQueryLimits();
                 _listAdapter.List = await _dataManager.GetNextAsync();
                 if (_listAdapter.Count == 0)
                     OnEmptyList();
@@ -147,16 +118,6 @@ namespace AnatoliAndroid.Fragments
                     }
                 }
             }
-        }
-
-        public void HideTools()
-        {
-            _toolsDialogFragment.Dismiss();
-        }
-        public void ShowTools()
-        {
-            var transaction = FragmentManager.BeginTransaction();
-            _toolsDialogFragment.Show(transaction, "tools_dialog");
         }
         protected void OnEmptyList()
         {

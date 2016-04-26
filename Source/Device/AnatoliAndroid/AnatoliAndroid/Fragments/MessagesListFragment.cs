@@ -19,7 +19,7 @@ using AnatoliAndroid.Activities;
 namespace AnatoliAndroid.Fragments
 {
     [FragmentTitle("پیغام ها")]
-    class MessagesListFragment : BaseListFragment<MessageManager, MessageListAdapter,NoListToolsDialog, MessageModel>
+    class MessagesListFragment : BaseListFragment<MessageManager, MessageListAdapter, MessageModel>
     {
         List<int> msgIds;
         public MessagesListFragment()
