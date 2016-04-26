@@ -9,11 +9,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>UpdateDB</RootNamespace>
     <AssemblyName>UpdateDB</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -90,7 +91,6 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  
   <Target Name="AfterBuild" Condition="'$(Configuration)' == 'Release'">
     <Exec Command="$(ProjectDir)$(OutputPath)$(AssemblyName).$(OutputType)" ContinueOnError="false" />
   </Target>
@@ -100,5 +100,4 @@
   <Target Name="BeforeRebuild">
     <Copy SourceFiles="..\db\paa_empty.db" DestinationFiles="..\db\paa.db" />
   </Target>
-  
 </Project>

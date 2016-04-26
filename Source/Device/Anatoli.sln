@@ -1,19 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anatoli", "Anatoli\Anatoli.csproj", "{7652423F-F5E3-4A1A-958F-7331C42AE409}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnatoliAndroid", "AnatoliAndroid\AnatoliAndroid\AnatoliAndroid.csproj", "{90745782-5D4B-4704-994C-0AE11D293270}"
-	ProjectSection(ProjectDependencies) = postProject
-		{CA07425C-87F7-40E5-AA91-2F5FD3CEC29C} = {CA07425C-87F7-40E5-AA91-2F5FD3CEC29C}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnatoliIOS", "AnatoliIOS\AnatoliIOS\AnatoliIOS.csproj", "{E49A4BFC-4AA1-43D4-9A48-01C051657B71}"
-	ProjectSection(ProjectDependencies) = postProject
-		{CA07425C-87F7-40E5-AA91-2F5FD3CEC29C} = {CA07425C-87F7-40E5-AA91-2F5FD3CEC29C}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpdateDB", "UpdateDB\UpdateDB.csproj", "{CA07425C-87F7-40E5-AA91-2F5FD3CEC29C}"
 EndProject
