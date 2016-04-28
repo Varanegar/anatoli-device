@@ -145,7 +145,6 @@ namespace AnatoliAndroid.Activities
         public void ShowKeyboard(View pView)
         {
             pView.RequestFocus();
-
             InputMethodManager inputMethodManager = _activity.GetSystemService(Context.InputMethodService) as InputMethodManager;
             inputMethodManager.ShowSoftInput(pView, ShowFlags.Forced);
             inputMethodManager.ToggleSoftInput(ShowFlags.Forced, HideSoftInputFlags.ImplicitOnly);
@@ -362,7 +361,7 @@ namespace AnatoliAndroid.Activities
                             else
                             {
                                 var p = new ProductsListFragment();
-                                p.SetCatId(null);
+                                await p.SetCatIdAsync(null);
                                 SetFragment<ProductsListFragment>(p, "products_fragment");
                                 await p.RefreshAsync();
                             }
@@ -476,7 +475,7 @@ namespace AnatoliAndroid.Activities
                 if ((selectedItem as DrawerPCItem).ItemType == DrawerPCItem.ItemTypes.Leaf)
                 {
                     var p = new ProductsListFragment();
-                    p.SetCatId(selectedItem.ItemId);
+                    await p.SetCatIdAsync(selectedItem.ItemId);
                     await p.RefreshAsync();
                     SetFragment<ProductsListFragment>(p, "products_fragment");
                     AnatoliApp.GetInstance()._toolBarTextView.Text = selectedItem.Name;
@@ -487,7 +486,7 @@ namespace AnatoliAndroid.Activities
                 if (temp != null)
                 {
                     var p = new ProductsListFragment();
-                    p.SetCatId(selectedItem.ItemId);
+                    await p.SetCatIdAsync(selectedItem.ItemId);
                     await p.RefreshAsync();
                     SetFragment<ProductsListFragment>(p, "products_fragment");
                     var categories = new List<DrawerItemType>();

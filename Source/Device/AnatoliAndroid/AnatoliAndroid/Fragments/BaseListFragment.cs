@@ -21,7 +21,7 @@ using Anatoli.Framework;
 
 namespace AnatoliAndroid.Fragments
 {
-    abstract class BaseListFragment<BaseDataManager, DataListAdapter, DataModel> : Fragment
+    abstract class BaseListFragment<BaseDataManager, DataListAdapter, DataModel> : AnatoliFragment
         where BaseDataManager : BaseManager<DataModel>, new()
         where DataListAdapter : BaseListAdapter<BaseDataManager, DataModel>, new()
         where DataModel : BaseViewModel, new()

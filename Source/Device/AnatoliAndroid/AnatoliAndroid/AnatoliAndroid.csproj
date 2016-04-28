@@ -161,6 +161,7 @@
     <Compile Include="Components\RoundedImageView.cs" />
     <Compile Include="Components\TypeFaceProvider.cs" />
     <Compile Include="Extentions.cs" />
+    <Compile Include="Fragments\AnatoliFragment.cs" />
     <Compile Include="Fragments\ConfirmDialog.cs" />
     <Compile Include="Fragments\EditShippingInfoFragment.cs" />
     <Compile Include="Fragments\FavoritsListFragment.cs" />

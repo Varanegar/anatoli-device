@@ -21,6 +21,11 @@ namespace AnatoliAndroid
     {
         public static string GetTitle(this Fragment fragment)
         {
+            if (fragment is AnatoliFragment)
+            {
+                if ((fragment as AnatoliFragment).Title != null)
+                    return (fragment as AnatoliFragment).Title;
+            }
             var title = Attribute.GetCustomAttribute(fragment.GetType(), typeof(FragmentTitle));
             if (title != null)
                 return (title as FragmentTitle).Title;

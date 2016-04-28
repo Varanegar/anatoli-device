@@ -35,7 +35,6 @@ namespace AnatoliAndroid.Fragments
         public async Task Search(DBQuery query, string value)
         {
             _dataManager.ShowGroups = true;
-
             _dataManager.SetQueries(query, null);
             try
             {
@@ -65,13 +64,14 @@ namespace AnatoliAndroid.Fragments
             else
                 OnEmptyList();
         }
-        public void SetCatId(string id)
+        public async Task SetCatIdAsync(string id)
         {
             try
             {
                 _dataManager.ShowGroups = false;
                 var query = ProductManager.SetCatId(id, AnatoliApp.GetInstance().DefaultStoreId);
                 _dataManager.SetQueries(query, null);
+                Title = (await CategoryManager.GetCategoryInfoAsync(id)).cat_name;
             }
             catch (Exception ex)
             {
