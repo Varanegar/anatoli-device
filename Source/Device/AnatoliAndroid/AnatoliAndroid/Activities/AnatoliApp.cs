@@ -684,6 +684,10 @@ namespace AnatoliAndroid.Activities
                     {
                         RefreshMenuItems();
                     }
+                    if (fragment is BaseListFragment)
+                    {
+                        (fragment as BaseListFragment).RefreshAsync();
+                    }
                     return true;
                 }
             }

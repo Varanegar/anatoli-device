@@ -21,7 +21,7 @@ using Anatoli.Framework;
 
 namespace AnatoliAndroid.Fragments
 {
-    abstract class BaseListFragment<BaseDataManager, DataListAdapter, DataModel> : AnatoliFragment
+    abstract class BaseListFragment<BaseDataManager, DataListAdapter, DataModel> : BaseListFragment
         where BaseDataManager : BaseManager<DataModel>, new()
         where DataListAdapter : BaseListAdapter<BaseDataManager, DataModel>, new()
         where DataModel : BaseViewModel, new()
@@ -50,6 +50,7 @@ namespace AnatoliAndroid.Fragments
         //        ex.SendTrace();
         //    }
         //}
+
         protected virtual View InflateLayout(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = inflater.Inflate(
@@ -79,10 +80,11 @@ namespace AnatoliAndroid.Fragments
             _dataManager = new BaseDataManager();
             _dataManager.SetQueries(query, null);
         }
-        internal async Task RefreshAsync()
+        public async override Task RefreshAsync()
         {
             try
             {
+                _dataManager.Reset();
                 _listAdapter.List = await _dataManager.GetNextAsync();
                 if (_listAdapter.Count == 0)
                     OnEmptyList();
@@ -96,6 +98,23 @@ namespace AnatoliAndroid.Fragments
                 ex.SendTrace();
             }
         }
+        //internal async Task RefreshAsync()
+        //{
+        //    try
+        //    {
+        //        _listAdapter.List = await _dataManager.GetNextAsync();
+        //        if (_listAdapter.Count == 0)
+        //            OnEmptyList();
+        //        else
+        //            OnFullList();
+        //        _listView.SetSelection(0);
+        //        _listAdapter.NotifyDataSetChanged();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ex.SendTrace();
+        //    }
+        //}
 
         async void _listView_ScrollStateChanged(object sender, AbsListView.ScrollStateChangedEventArgs e)
         {
@@ -136,5 +155,10 @@ namespace AnatoliAndroid.Fragments
             }
         }
         public event EventHandler FullList;
+    }
+
+    public abstract class BaseListFragment : AnatoliFragment
+    {
+        public abstract Task RefreshAsync();
     }
 }
