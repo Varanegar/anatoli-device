@@ -100,6 +100,7 @@ namespace AnatoliAndroid.ListAdapters
                 {
                     var p = new ProductsListFragment();
                     await p.SetCatIdAsync(item.cat_id.ToString());
+                    AnatoliApp.GetInstance().SetFragment<ProductsListFragment>(p, "products_fragment");
                     await p.RefreshAsync();
                 };
                 if (_groupImageView != null)
@@ -108,6 +109,7 @@ namespace AnatoliAndroid.ListAdapters
                     {
                         var p = new ProductsListFragment();
                         await p.SetCatIdAsync(item.cat_id.ToString());
+                        AnatoliApp.GetInstance().SetFragment<ProductsListFragment>(p, "products_fragment");
                         await p.RefreshAsync();
                     };
                 }
