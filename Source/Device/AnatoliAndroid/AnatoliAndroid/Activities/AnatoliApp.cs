@@ -342,44 +342,23 @@ namespace AnatoliAndroid.Activities
                 switch (selectedItem.ItemId)
                 {
                     case DrawerMainItem.DrawerMainItems.ProductCategries:
-                        bool go = true;
-                        if ((await SyncManager.GetLogAsync(SyncManager.PriceTbl)) == DateTime.MinValue)
+                        if (DefaultStoreId == null)
                         {
-                            go = await AnatoliApp.GetInstance().SyncDatabase();
+                            Toast.MakeText(Activity, "لطفا ابتدا فروشگاه مورد نظر را انتخاب نمایید", ToastLength.Short).Show();
+                            DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);
+                            StoresListFragment s = new StoresListFragment();
+                            AnatoliApp.GetInstance().SetFragment<StoresListFragment>(s, "stores_fragment");
+                            await s.RefreshAsync();
+                            return;
                         }
-                        if (go)
+                        else
                         {
-                            if (await StoreManager.GetDefaultAsync() == null)
-                            {
-                                Toast.MakeText(Activity, "لطفا ابتدا فروشگاه مورد نظر را انتخاب نمایید", ToastLength.Short).Show();
-                                DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);
-                                StoresListFragment s = new StoresListFragment();
-                                AnatoliApp.GetInstance().SetFragment<StoresListFragment>(s, "stores_fragment");
-                                await s.RefreshAsync();
-                                return;
-                            }
-                            else
-                            {
-                                var p = new ProductsListFragment();
-                                await p.SetCatIdAsync(null);
-                                SetFragment<ProductsListFragment>(p, "products_fragment");
-                                await p.RefreshAsync();
-                            }
-                            var temp = await CategoryManager.GetFirstLevelAsync();
-                            var categories = new List<DrawerItemType>();
-                            categories.Add(new DrawerMainItem(DrawerMainItem.DrawerMainItems.MainMenu, AnatoliApp.GetResources().GetText(Resource.String.MainMenu)));
-                            categories.Add(new DrawerMainItem(DrawerMainItem.DrawerMainItems.AllProducts, AnatoliApp.GetResources().GetText(Resource.String.AllProducts)));
-                            if (temp != null)
-                            {
-                                foreach (var item in temp)
-                                {
-                                    var it = new DrawerPCItem(item.cat_id.ToString(), item.cat_name);
-                                    categories.Add(it);
-                                }
-                                AnatoliApp.GetInstance().RefreshMenuItems(categories);
-                            }
+                            var p = new ProductsListFragment();
+                            await p.SetCatIdAsync(null);
+                            SetFragment<ProductsListFragment>(p, "products_fragment");
+                            await p.RefreshAsync();
+                            await RefreshMenuItems("0");
                         }
-
                         break;
                     case DrawerMainItem.DrawerMainItems.ShoppingCard:
                         if (AnatoliApp.GetInstance().AnatoliUser == null)
@@ -472,59 +451,16 @@ namespace AnatoliAndroid.Activities
             }
             else
             {
+                var p = new ProductsListFragment();
+                await p.SetCatIdAsync(selectedItem.ItemId);
+                SetFragment<ProductsListFragment>(p, "products_fragment");
+                await p.RefreshAsync();
+                AnatoliApp.GetInstance()._toolBarTextView.Text = selectedItem.Name;
+                DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);
                 if ((selectedItem as DrawerPCItem).ItemType == DrawerPCItem.ItemTypes.Leaf)
                 {
-                    var p = new ProductsListFragment();
-                    await p.SetCatIdAsync(selectedItem.ItemId);
-                    await p.RefreshAsync();
-                    SetFragment<ProductsListFragment>(p, "products_fragment");
-                    AnatoliApp.GetInstance()._toolBarTextView.Text = selectedItem.Name;
-                    DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);
-                    return;
-                }
-                var temp = await CategoryManager.GetCategoriesAsync(selectedItem.ItemId);
-                if (temp != null)
-                {
-                    var p = new ProductsListFragment();
-                    await p.SetCatIdAsync(selectedItem.ItemId);
-                    await p.RefreshAsync();
-                    SetFragment<ProductsListFragment>(p, "products_fragment");
-                    var categories = new List<DrawerItemType>();
-                    categories.Add(new DrawerMainItem(DrawerMainItem.DrawerMainItems.MainMenu, AnatoliApp.GetResources().GetText(Resource.String.MainMenu)));
-                    var parent = await CategoryManager.GetParentCategoryAsync(selectedItem.ItemId);
-                    var current = await CategoryManager.GetCategoryInfoAsync(selectedItem.ItemId);
-                    if (current != null)
-                    {
-                        if (parent != null)
-                        {
-                            categories.Add(new DrawerPCItem(parent.cat_id.ToString(), parent.cat_name, DrawerPCItem.ItemTypes.Parent));
-                            categories.Add(new DrawerPCItem(current.cat_id.ToString(), current.cat_name, DrawerPCItem.ItemTypes.Leaf));
-                        }
-                        else
-                        {
-                            categories.Add(new DrawerMainItem(DrawerMainItem.DrawerMainItems.ProductCategries, AnatoliApp.GetResources().GetText(Resource.String.AllProducts)));
-                            categories.Add(new DrawerPCItem(current.cat_id.ToString(), current.cat_name, DrawerPCItem.ItemTypes.Leaf));
-                        }
-                        foreach (var item in temp)
-                        {
-                            var it = new DrawerPCItem(item.cat_id.ToString(), item.cat_name);
-                            categories.Add(it);
-                        }
-                        AnatoliApp.GetInstance().RefreshMenuItems(categories);
-                        AnatoliApp.GetInstance()._toolBarTextView.Text = selectedItem.Name;
-                        if (temp.Count == 0)
-                        {
-                            AnatoliApp.GetInstance()._toolBarTextView.Text = selectedItem.Name;
-                            DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);
-                        }
-                    }
-                }
-                else
-                {
-                    AnatoliApp.GetInstance()._toolBarTextView.Text = selectedItem.Name;
                     DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);
                 }
-
             }
         }
         internal async Task<CustomerViewModel> RefreshCutomerProfile(bool cancelable = false)
@@ -753,16 +689,40 @@ namespace AnatoliAndroid.Activities
                 return false;
             }
         }
-        public void RefreshMenuItems(List<DrawerItemType> items = null)
+        public async Task RefreshMenuItems(string catId)
         {
-            if (items != null)
+            List<CategoryInfoModel> temp;
+            if (catId == "0")
+                temp = await CategoryManager.GetFirstLevelAsync();
+            else
+                temp = await CategoryManager.GetCategoriesAsync(catId);
+            if (temp == null || temp.Count == 0)
             {
-                AnatoliMenuItems = items;
-                _drawerListView.Adapter = new DrawerMenuItems(AnatoliMenuItems, _activity);
-                _drawerListView.InvalidateViews();
                 return;
             }
+            var categories = new List<DrawerItemType>();
+            categories.Add(new DrawerMainItem(DrawerMainItem.DrawerMainItems.MainMenu, AnatoliApp.GetResources().GetText(Resource.String.MainMenu)));
+            categories.Add(new DrawerMainItem(DrawerMainItem.DrawerMainItems.ProductCategries, AnatoliApp.GetResources().GetText(Resource.String.AllProducts)));
+            if (catId != "0")
+            {
+                var info = await CategoryManager.GetCategoryInfoAsync(catId);
+                categories.Add(new DrawerPCItem(catId, info.cat_name, DrawerPCItem.ItemTypes.Leaf));
+            }
+            if (temp != null)
+            {
+                foreach (var item in temp)
+                {
+                    var it = new DrawerPCItem(item.cat_id.ToString(), item.cat_name);
+                    categories.Add(it);
+                }
+            }
+            AnatoliMenuItems = categories;
+            _drawerListView.Adapter = new DrawerMenuItems(AnatoliMenuItems, _activity);
+            _drawerListView.InvalidateViews();
+        }
 
+        public void RefreshMenuItems()
+        {
             var mainItems = new List<DrawerItemType>();
             if (AnatoliUser != null)
             {

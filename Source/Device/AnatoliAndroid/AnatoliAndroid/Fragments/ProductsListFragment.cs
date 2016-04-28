@@ -26,10 +26,15 @@ namespace AnatoliAndroid.Fragments
     [FragmentTitle("دسته بندی کالا")]
     class ProductsListFragment : BaseListFragment<ProductManager, ProductsListAdapter, ProductModel>
     {
-        public override void OnStart()
+        string _catId;
+        public async override void OnStart()
         {
             base.OnStart();
             AnatoliApp.GetInstance().ShowSearchIcon();
+            if (!string.IsNullOrEmpty(_catId))
+                await AnatoliApp.GetInstance().RefreshMenuItems(_catId);
+            else
+                await AnatoliApp.GetInstance().RefreshMenuItems("0");
         }
 
         public async Task Search(DBQuery query, string value)
@@ -72,6 +77,7 @@ namespace AnatoliAndroid.Fragments
                 var query = ProductManager.SetCatId(id, AnatoliApp.GetInstance().DefaultStoreId);
                 _dataManager.SetQueries(query, null);
                 Title = (await CategoryManager.GetCategoryInfoAsync(id)).cat_name;
+                _catId = id;
             }
             catch (Exception ex)
             {

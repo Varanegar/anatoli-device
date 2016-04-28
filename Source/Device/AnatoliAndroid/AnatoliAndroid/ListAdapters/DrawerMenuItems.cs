@@ -163,7 +163,6 @@ namespace AnatoliAndroid.ListAdapters
         public struct DrawerMainItems
         {
             public const string MainMenu = "MainMenu";
-            public const string AllProducts = "AllProducts";
             public const string ProductCategries = "ProductCategries";
             public const string ShoppingCard = "ShoppingCard";
             public const string Profile = "Profile";
