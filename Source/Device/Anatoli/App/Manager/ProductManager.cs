@@ -481,6 +481,11 @@ namespace Anatoli.App.Manager
 
         public static StringQuery SetCatId(string catId, string storeId)
         {
+            if (catId == null)
+            {
+                var q = new StringQuery(string.Format("SELECT *,store_onhand.qty as qty FROM products_price_view JOIN store_onhand ON store_onhand.product_id = products_price_view.product_id AND products_price_view.store_id='{0}' AND store_onhand.store_id='{0}' AND products_price_view.is_removed='0' ORDER BY product_name", storeId).PersianToArabic());
+                return q;
+            }
             var leftRight = CategoryManager.GetLeftRight(catId);
             StringQuery query;
             if (leftRight != null)

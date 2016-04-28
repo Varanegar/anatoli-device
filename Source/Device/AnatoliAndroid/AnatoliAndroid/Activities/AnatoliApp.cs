@@ -410,6 +410,7 @@ namespace AnatoliAndroid.Activities
                         DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);
                         var f = new FavoritsListFragment();
                         AnatoliApp.GetInstance().SetFragment<FavoritsListFragment>(f, "favorits_fragment");
+                        await f.RefreshAsync();
                         break;
                     case DrawerMainItem.DrawerMainItems.Profile:
                         DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);
@@ -421,11 +422,13 @@ namespace AnatoliAndroid.Activities
                         DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);
                         var m = new MessagesListFragment();
                         AnatoliApp.GetInstance().SetFragment<MessagesListFragment>(m, "messages_fragment");
+                        await m.RefreshAsync();
                         break;
                     case DrawerMainItem.DrawerMainItems.Orders:
                         DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);
                         var o = new OrdersListFragment();
                         AnatoliApp.GetInstance().SetFragment<OrdersListFragment>(o, "orders_fragment");
+                        await o.RefreshAsync();
                         break;
                     case DrawerMainItem.DrawerMainItems.Update:
                         DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);
