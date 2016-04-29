@@ -32,8 +32,10 @@ namespace Anatoli.App.Manager
             DBQuery query = null;
             try
             {
-                var item = await GetItemAsync(productId);
-                if (item == null || item.count == 0)
+                var item = await ProductManager.GetItemAsync(productId);
+                if (item == null || !item.IsAvailable)
+                    return false;
+                if (item.count == 0)
                     query = new InsertCommand("shopping_card", new BasicParam("count", (count).ToString()), new BasicParam("product_id", productId));
                 else
                     query = new UpdateCommand("shopping_card", new BasicParam("count", (item.count + count).ToString()), new EqFilterParam("product_id", item.product_id.ToString()));

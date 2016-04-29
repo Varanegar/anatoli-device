@@ -112,7 +112,7 @@ namespace Anatoli.App.Manager
             var list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<PurchaseOrderLineItemViewModel>>(TokenType.AppToken, Configuration.WebService.Purchase.OrderItems, data);
             return list;
         }
-        public static async Task SynOrderItemsAsync(string customerId, OrderModel order)
+        public static async Task SyncOrderItemsAsync(string customerId, OrderModel order)
         {
             try
             {

@@ -73,28 +73,40 @@ namespace AnatoliAndroid.Fragments
                 _orderIdTextView.Text = order.order_id.ToString();
                 _orderStatusTextView.Text = PurchaseOrderStatusHistoryViewModel.GetStatusName(order.order_status);
 
-                var pDialog = new ProgressDialog(AnatoliApp.GetInstance().Activity);
-                pDialog.SetMessage("در حال بروزرسانی اطلاعات");
-                pDialog.SetButton("بی خیال", delegate
+
+                if (AnatoliClient.GetInstance().WebClient.IsOnline())
                 {
-                    AnatoliApp.GetInstance().BackFragment();
-                });
-                pDialog.Show();
-                try
-                {
-                    await Task.Run(async delegate
+                    var pDialog = new ProgressDialog(AnatoliApp.GetInstance().Activity);
+                    pDialog.SetMessage("در حال بروزرسانی اطلاعات");
+                    pDialog.SetButton("بی خیال", delegate
                     {
-                        await OrderManager.SynOrderItemsAsync(AnatoliApp.GetInstance().CustomerId, order);
+                        AnatoliApp.GetInstance().BackFragment();
                     });
+                    pDialog.Show();
+                    await Task.Delay(1000);
+                    try
+                    {
+                        await Task.Run(async delegate
+                        {
+                            await OrderManager.SyncOrderItemsAsync(AnatoliApp.GetInstance().CustomerId, order);
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        pDialog.Dismiss();
+                        ex.SendTrace();
+                    }
+                    finally
+                    {
+                        pDialog.Dismiss();
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    pDialog.Dismiss();
-                    ex.SendTrace();
-                }
-                finally
-                {
-                    pDialog.Dismiss();
+                    var alert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
+                    alert.SetMessage("برای اطلاع از آخرین وضعیت سفارش دستگاه خود را به اینترنت متصل نمایید.");
+                    alert.SetPositiveButton(Resource.String.Ok, delegate { });
+                    alert.Show();
                 }
 
 

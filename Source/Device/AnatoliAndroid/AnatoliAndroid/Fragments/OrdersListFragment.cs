@@ -34,8 +34,18 @@ namespace AnatoliAndroid.Fragments
                     Toast.MakeText(AnatoliAndroid.Activities.AnatoliApp.GetInstance().Activity, "هیچ سفارشی ثبت نشده است", ToastLength.Short).Show();
                 }
             };
-            await OrderManager.SyncOrdersAsync(AnatoliApp.GetInstance().CustomerId);
-            await RefreshAsync();
+            if (AnatoliClient.GetInstance().WebClient.IsOnline())
+            {
+                await OrderManager.SyncOrdersAsync(AnatoliApp.GetInstance().CustomerId);
+                await RefreshAsync();
+            }
+            else
+            {
+                var alert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
+                alert.SetMessage("برای اطلاع از آخرین وضعیت سفارش ها دستگاه خود را به اینترنت متصل نمایید.");
+                alert.SetPositiveButton(Resource.String.Ok, delegate { });
+                alert.Show();
+            }
         }
         public override void OnStart()
         {
