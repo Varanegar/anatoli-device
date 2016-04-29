@@ -65,7 +65,7 @@ namespace AnatoliAndroid.Fragments
                 ViewGroup.LayoutParams lparams = _groupsGridView.LayoutParameters;
                 var scale = AnatoliApp.GetResources().DisplayMetrics.Density;
                 int pixels = (int)(120 * scale + 0.5f);
-                lparams.Height = pixels * (groupAdapter.Count / 2 + 1);
+                lparams.Height = pixels * (groupAdapter.Count / 2 + 2);
                 _groupsGridView.LayoutParameters = lparams;
                 _groupsGridView.RequestLayout();
             }
