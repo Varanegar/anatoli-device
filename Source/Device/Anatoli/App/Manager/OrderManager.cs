@@ -53,7 +53,7 @@ namespace Anatoli.App.Manager
             }
         }
 
-        public static async Task<OrderModel> GetOrderAsync(string orderId)
+        public static async Task<OrderModel> GetOrderByIdAsync(string orderId)
         {
             try
             {
@@ -66,19 +66,86 @@ namespace Anatoli.App.Manager
             }
         }
 
+        public static async Task<OrderModel> GetOrderByUniqueIdAsync(string uniqueId)
+        {
+            try
+            {
+                SelectQuery query = new SelectQuery("orders_view", new EqFilterParam("UniqueId", uniqueId));
+                return await BaseDataAdapter<OrderModel>.GetItemAsync(query);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         public static async Task<List<PurchaseOrderViewModel>> DownloadOrdersAsync(string customerId)
         {
             var data = new RequestModel.PurchaseOrderRequestModel();
             data.customerId = customerId;
-            var list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<PurchaseOrderViewModel>>(TokenType.AppToken, Configuration.WebService.Purchase.OrdersList,data);
+            var list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<PurchaseOrderViewModel>>(TokenType.AppToken, Configuration.WebService.Purchase.OrdersList, data);
             return list;
         }
 
-        //public static async Task<List<PurchaseOrderStatusHistoryViewModel>> GetOrderHistoryAsync(string orderId)
+        public static async Task<List<PurchaseOrderStatusHistoryViewModel>> GetOrderHistoryAsync(string customerId, string poId)
+        {
+            var data = new RequestModel.PurchaseOrderRequestModel();
+            data.customerId = customerId;
+            data.poId = poId;
+            var list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<PurchaseOrderStatusHistoryViewModel>>(TokenType.AppToken, Configuration.WebService.Purchase.OrderHistory, data);
+            return list;
+        }
+
+        //public static async Task SyncOrderHistoryAsync(string customerId, string poId)
         //{
-        //    var list = await AnatoliClient.GetInstance().WebClient.SendGetRequestAsync<List<PurchaseOrderStatusHistoryViewModel>>(TokenType.AppToken, Configuration.WebService.Purchase.OrderHistory + "&poId=" + orderId);
-        //    return list;
+        //    var data = new RequestModel.PurchaseOrderRequestModel();
+        //    data.customerId = customerId;
+        //    data.poId = poId;
+        //    var list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<PurchaseOrderStatusHistoryViewModel>>(TokenType.AppToken, Configuration.WebService.Purchase.OrderHistory, data);
         //}
+
+        public static async Task<List<PurchaseOrderLineItemViewModel>> DownloadOrderItemsAsync(string customerId, string poId)
+        {
+            var data = new RequestModel.PurchaseOrderRequestModel();
+            data.customerId = customerId;
+            data.poId = poId;
+            var list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<PurchaseOrderLineItemViewModel>>(TokenType.AppToken, Configuration.WebService.Purchase.OrderItems, data);
+            return list;
+        }
+        public static async Task SynOrderItemsAsync(string customerId, OrderModel order)
+        {
+            try
+            {
+                SelectQuery q = new SelectQuery("order_items", new EqFilterParam("order_id", order.order_id.ToString()));
+                var l = await BaseDataAdapter<OrderItemModel>.GetListAsync(q);
+                if (l.Count > 0)
+                {
+                    return;
+                }
+
+                var items = await DownloadOrderItemsAsync(customerId, order.UniqueId);
+                if (items.Count > 0)
+                {
+                   
+                    List<List<BasicParam>> parametres = new List<List<BasicParam>>();
+                    foreach (var item in items)
+                    {
+                        var p = new List<BasicParam>();
+                        p.Add(new BasicParam("order_id", order.order_id.ToString()));
+                        p.Add(new BasicParam("product_id", item.ProductId.ToString().ToUpper()));
+                        p.Add(new BasicParam("product_count", item.FinalQty.ToString()));
+                        p.Add(new BasicParam("product_price", item.FinalNetAmount.ToString()));
+                        parametres.Add(p);
+                    }
+                    InsertAllCommand command2 = new InsertAllCommand("order_items", parametres);
+                    var r = await DataAdapter.UpdateItemAsync(command2);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public static async Task SyncOrdersAsync(string customerId)
         {
             try

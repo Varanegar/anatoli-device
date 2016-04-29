@@ -27,7 +27,7 @@ order_items.product_price as product_price
 FROM
 orders JOIN order_items ON orders.order_id = order_items.order_id
 JOIN stores ON orders.store_id = stores.store_id
-JOIN products ON order_items.product_id = products.product_id
+JOIN products ON order_items.product_id = products.product_id 
 WHERE orders.order_id = {0}", orderId));
                 return await BaseDataAdapter<OrderItemModel>.GetListAsync(query);
             }

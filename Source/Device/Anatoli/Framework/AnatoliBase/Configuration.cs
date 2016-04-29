@@ -63,6 +63,7 @@ namespace Anatoli.Framework.AnatoliBase
             public struct Purchase
             {
                 public static readonly string OrdersList = "/api/gateway/purchaseorder/bycustomerid/?PrivateOwnerId=3EEE33CE-E2FD-4A5D-A71C-103CC5046D0C";
+                public static readonly string OrderItems = "/api/gateway/purchaseorder/lineitem/?PrivateOwnerId=3EEE33CE-E2FD-4A5D-A71C-103CC5046D0C";
                 public static readonly string OrderHistory = "/api/gateway/purchaseorder/statushistory/?PrivateOwnerId=3EEE33CE-E2FD-4A5D-A71C-103CC5046D0C";
                 public static readonly string CalcPromo = "/api/gateway/purchaseorder/calcpromo/?PrivateOwnerId=3EEE33CE-E2FD-4A5D-A71C-103CC5046D0C";
                 public static readonly string Create = "/api/gateway/purchaseorder/create/?PrivateOwnerId=3EEE33CE-E2FD-4A5D-A71C-103CC5046D0C";

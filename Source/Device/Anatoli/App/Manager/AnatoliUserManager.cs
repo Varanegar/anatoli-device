@@ -35,7 +35,6 @@ namespace Anatoli.App.Manager
                     if (customer.IsValid)
                     {
                         await CustomerManager.SaveCustomerAsync(customer);
-                        // todo: Sync orders does not work. fix it
                         await OrderManager.SyncOrdersAsync(customer.UniqueId);
                     }
                 }

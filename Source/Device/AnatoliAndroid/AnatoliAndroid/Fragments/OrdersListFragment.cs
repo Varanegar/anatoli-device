@@ -24,7 +24,7 @@ namespace AnatoliAndroid.Fragments
             StringQuery query = OrderManager.GetOrderQueryString();
             _dataManager.SetQueries(query, null);
         }
-        public override void OnResume()
+        public async override void OnResume()
         {
             base.OnResume();
             EmptyList += (s, e) =>
@@ -34,6 +34,8 @@ namespace AnatoliAndroid.Fragments
                     Toast.MakeText(AnatoliAndroid.Activities.AnatoliApp.GetInstance().Activity, "هیچ سفارشی ثبت نشده است", ToastLength.Short).Show();
                 }
             };
+            await OrderManager.SyncOrdersAsync(AnatoliApp.GetInstance().CustomerId);
+            await RefreshAsync();
         }
         public override void OnStart()
         {

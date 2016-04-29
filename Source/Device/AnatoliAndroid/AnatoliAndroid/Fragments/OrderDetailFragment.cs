@@ -66,12 +66,36 @@ namespace AnatoliAndroid.Fragments
             }
             else
             {
-                OrderModel order = await OrderManager.GetOrderAsync(_orderId);
+                OrderModel order = await OrderManager.GetOrderByIdAsync(_orderId);
                 _dateTextView.Text = " " + order.order_date;
                 _storeNameTextView.Text = " " + order.store_name;
                 _priceTextView.Text = " " + order.order_price.ToCurrency() + " تومان";
                 _orderIdTextView.Text = order.order_id.ToString();
                 _orderStatusTextView.Text = PurchaseOrderStatusHistoryViewModel.GetStatusName(order.order_status);
+
+                var pDialog = new ProgressDialog(AnatoliApp.GetInstance().Activity);
+                pDialog.SetMessage("در حال بروزرسانی اطلاعات");
+                pDialog.SetButton("بی خیال", delegate
+                {
+                    AnatoliApp.GetInstance().BackFragment();
+                });
+                pDialog.Show();
+                try
+                {
+                    await Task.Run(async delegate
+                    {
+                        await OrderManager.SynOrderItemsAsync(AnatoliApp.GetInstance().CustomerId, order);
+                    });
+                }
+                catch (Exception ex)
+                {
+                    pDialog.Dismiss();
+                    ex.SendTrace();
+                }
+                finally
+                {
+                    pDialog.Dismiss();
+                }
 
 
                 List<OrderItemModel> items = await OrderItemsManager.GetItemsAsync(_orderId);

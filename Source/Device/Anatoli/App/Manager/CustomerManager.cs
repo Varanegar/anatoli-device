@@ -92,7 +92,6 @@ namespace Anatoli.App.Manager
 
         public static async Task<CustomerViewModel> UploadCustomerAsync(CustomerViewModel user)
         {
-            // todo : fix this. does not work 
             var data = new CustomerRequestModel();
             data.customerId = user.UniqueId;
             data.customerData = user;

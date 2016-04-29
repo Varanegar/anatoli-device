@@ -12,7 +12,8 @@ namespace Anatoli.App.Model.Store
         public long order_id { get; set; }
         public double item_price { get; set; }
         public string product_name { get; set; }
-        public string product_id { get; set; }
+        string _productId;
+        public string product_id { get { return _productId.ToUpper(); } set { _productId = value; } }
         public int item_count { get; set; }
         public double product_price { get; set; }
         public int favorit { get; set; }
