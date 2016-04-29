@@ -39,6 +39,7 @@ namespace AnatoliAndroid.Fragments
 
         public async Task Search(DBQuery query, string value)
         {
+            _refreshAtStart = false;
             _dataManager.ShowGroups = true;
             _dataManager.SetQueries(query, null);
             try

@@ -149,7 +149,6 @@ namespace AnatoliAndroid.Activities
                 {
                     var storesF = new StoresListFragment();
                     AnatoliApp.GetInstance().SetFragment<StoresListFragment>(storesF, "stores_fragment");
-                    await storesF.RefreshAsync();
                 }
             }
             catch (Exception)

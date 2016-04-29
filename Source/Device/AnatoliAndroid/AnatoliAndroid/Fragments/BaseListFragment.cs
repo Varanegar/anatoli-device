@@ -31,6 +31,7 @@ namespace AnatoliAndroid.Fragments
         TextView _resultTextView;
         protected DataListAdapter _listAdapter;
         protected BaseDataManager _dataManager;
+        protected bool _refreshAtStart = true;
         public BaseListFragment()
             : base()
         {
@@ -57,6 +58,14 @@ namespace AnatoliAndroid.Fragments
                 Resource.Layout.ItemsListLayout, container, false);
             return view;
         }
+        public override void OnStart()
+        {
+            base.OnStart();
+            if (_refreshAtStart)
+            {
+                RefreshAsync();
+            }
+        }
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             _view = InflateLayout(inflater, container, savedInstanceState);
@@ -80,7 +89,7 @@ namespace AnatoliAndroid.Fragments
             _dataManager = new BaseDataManager();
             _dataManager.SetQueries(query, null);
         }
-        public async override Task RefreshAsync()
+        protected async override Task RefreshAsync()
         {
             try
             {
@@ -159,6 +168,6 @@ namespace AnatoliAndroid.Fragments
 
     public abstract class BaseListFragment : AnatoliFragment
     {
-        public abstract Task RefreshAsync();
+        protected abstract Task RefreshAsync();
     }
 }

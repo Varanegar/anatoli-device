@@ -348,7 +348,6 @@ namespace AnatoliAndroid.Activities
                             DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);
                             StoresListFragment s = new StoresListFragment();
                             AnatoliApp.GetInstance().SetFragment<StoresListFragment>(s, "stores_fragment");
-                            await s.RefreshAsync();
                             return;
                         }
                         else
@@ -356,7 +355,6 @@ namespace AnatoliAndroid.Activities
                             var p = new ProductsListFragment();
                             await p.SetCatIdAsync(null);
                             SetFragment<ProductsListFragment>(p, "products_fragment");
-                            await p.RefreshAsync();
                             await RefreshMenuItems("0");
                         }
                         break;
@@ -376,7 +374,6 @@ namespace AnatoliAndroid.Activities
                         DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);
                         var stores = new StoresListFragment();
                         AnatoliApp.GetInstance().SetFragment<StoresListFragment>(stores, "stores_fragment");
-                        await stores.RefreshAsync();
                         break;
                     case DrawerMainItem.DrawerMainItems.FirstPage:
                         DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);
@@ -394,12 +391,10 @@ namespace AnatoliAndroid.Activities
                                 DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);
                                 var s = new StoresListFragment();
                                 AnatoliApp.GetInstance().SetFragment<StoresListFragment>(s, "stores_fragment");
-                                await s.RefreshAsync();
                                 return;
                             }
                             var p = new ProductsListFragment();
                             AnatoliApp.GetInstance().SetFragment<ProductsListFragment>(p, "products_fragment");
-                            await p.RefreshAsync();
                         };
                         loginFragment.Show(transaction, "shipping_dialog");
                         break;
@@ -410,7 +405,6 @@ namespace AnatoliAndroid.Activities
                         DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);
                         var f = new FavoritsListFragment();
                         AnatoliApp.GetInstance().SetFragment<FavoritsListFragment>(f, "favorits_fragment");
-                        await f.RefreshAsync();
                         break;
                     case DrawerMainItem.DrawerMainItems.Profile:
                         DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);
@@ -422,13 +416,11 @@ namespace AnatoliAndroid.Activities
                         DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);
                         var m = new MessagesListFragment();
                         AnatoliApp.GetInstance().SetFragment<MessagesListFragment>(m, "messages_fragment");
-                        await m.RefreshAsync();
                         break;
                     case DrawerMainItem.DrawerMainItems.Orders:
                         DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);
                         var o = new OrdersListFragment();
                         AnatoliApp.GetInstance().SetFragment<OrdersListFragment>(o, "orders_fragment");
-                        await o.RefreshAsync();
                         break;
                     //case DrawerMainItem.DrawerMainItems.Update:
                     //    DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);
@@ -457,7 +449,6 @@ namespace AnatoliAndroid.Activities
                 var p = new ProductsListFragment();
                 await p.SetCatIdAsync(selectedItem.ItemId);
                 SetFragment<ProductsListFragment>(p, "products_fragment", true);
-                await p.RefreshAsync();
                 AnatoliApp.GetInstance()._toolBarTextView.Text = selectedItem.Name;
                 DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);
                 if ((selectedItem as DrawerPCItem).ItemType == DrawerPCItem.ItemTypes.Leaf)
@@ -691,10 +682,6 @@ namespace AnatoliAndroid.Activities
                     if (fragment.GetType() != typeof(ProductsListFragment))
                     {
                         RefreshMenuItems();
-                    }
-                    if (fragment is BaseListFragment)
-                    {
-                        (fragment as BaseListFragment).RefreshAsync();
                     }
                     return true;
                 }

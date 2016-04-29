@@ -377,7 +377,6 @@ namespace AnatoliAndroid.Fragments
                 {
                     var storef = new StoresListFragment();
                     AnatoliApp.GetInstance().SetFragment<StoresListFragment>(new StoresListFragment(), "stores_fragment");
-                    await storef.RefreshAsync();
                 }
 
             }
