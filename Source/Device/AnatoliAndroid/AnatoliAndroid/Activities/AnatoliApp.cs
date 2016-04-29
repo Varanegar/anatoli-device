@@ -353,7 +353,7 @@ namespace AnatoliAndroid.Activities
                         else
                         {
                             var p = new ProductsListFragment();
-                            await p.SetCatIdAsync(null);
+                            p.SetCatId(null);
                             SetFragment<ProductsListFragment>(p, "products_fragment");
                             await RefreshMenuItems("0");
                         }
@@ -447,7 +447,7 @@ namespace AnatoliAndroid.Activities
             else
             {
                 var p = new ProductsListFragment();
-                await p.SetCatIdAsync(selectedItem.ItemId);
+                p.SetCatId(selectedItem.ItemId);
                 SetFragment<ProductsListFragment>(p, "products_fragment", true);
                 AnatoliApp.GetInstance()._toolBarTextView.Text = selectedItem.Name;
                 DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);

@@ -99,7 +99,7 @@ namespace AnatoliAndroid.ListAdapters
                 _groupNameTextView.Click += async (s, e) =>
                 {
                     var p = new ProductsListFragment();
-                    await p.SetCatIdAsync(item.cat_id.ToString());
+                    p.SetCatId(item.cat_id.ToString());
                     AnatoliApp.GetInstance().SetFragment<ProductsListFragment>(p, "products_fragment", true);
                 };
                 if (_groupImageView != null)
@@ -107,7 +107,7 @@ namespace AnatoliAndroid.ListAdapters
                     _groupImageView.Click += async (s, e) =>
                     {
                         var p = new ProductsListFragment();
-                        await p.SetCatIdAsync(item.cat_id.ToString());
+                        p.SetCatId(item.cat_id.ToString());
                         AnatoliApp.GetInstance().SetFragment<ProductsListFragment>(p, "products_fragment", true);
                     };
                 }

@@ -32,7 +32,10 @@ namespace AnatoliAndroid.Fragments
             base.OnStart();
             AnatoliApp.GetInstance().ShowSearchIcon();
             if (!string.IsNullOrEmpty(_catId))
+            {
                 await AnatoliApp.GetInstance().RefreshMenuItems(_catId);
+                Title = (await CategoryManager.GetCategoryInfoAsync(_catId)).cat_name;
+            }
             else
                 await AnatoliApp.GetInstance().RefreshMenuItems("0");
         }
@@ -70,14 +73,13 @@ namespace AnatoliAndroid.Fragments
             else
                 OnEmptyList();
         }
-        public async Task SetCatIdAsync(string id)
+        public void SetCatId(string id)
         {
             try
             {
                 _dataManager.ShowGroups = false;
                 var query = ProductManager.SetCatId(id, AnatoliApp.GetInstance().DefaultStoreId);
                 _dataManager.SetQueries(query, null);
-                Title = (await CategoryManager.GetCategoryInfoAsync(id)).cat_name;
                 _catId = id;
             }
             catch (Exception ex)
