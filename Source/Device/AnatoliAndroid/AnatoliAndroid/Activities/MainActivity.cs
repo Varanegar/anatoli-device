@@ -106,15 +106,19 @@ namespace AnatoliAndroid.Activities
             try
             {
                 var updateTime = await SyncManager.GetLogAsync(SyncManager.UpdateCompleted);
-                if (updateTime == DateTime.MinValue)
-                {
-                    await AnatoliApp.GetInstance().SyncDatabase();
-                }
-                var latestUpdateTime = await SyncManager.GetLogAsync(SyncManager.OnHand);
-                //if ((DateTime.Now - latestUpdateTime).TotalMinutes > 10)
+                //if (updateTime == DateTime.MinValue)
                 //{
-                //    StartService(new Intent(this, typeof(StockFeedService)));
+                //    await AnatoliApp.GetInstance().SyncDatabase();
                 //}
+                var latestUpdateTime = await SyncManager.GetLogAsync(SyncManager.UpdateCompleted);
+                SyncManager.ProgressChanged += (status, step) =>
+                {
+                    Console.WriteLine(step.ToString() + " :: " + status);
+                };
+                if ((DateTime.Now - latestUpdateTime).TotalMinutes > 10)
+                {
+                    SyncManager.SyncDatabase();
+                }
                 var defaultStore = await StoreManager.GetDefaultAsync();
                 if (defaultStore != null)
                 {
@@ -131,11 +135,6 @@ namespace AnatoliAndroid.Activities
                         {
                             await OrderManager.SyncOrdersAsync(AnatoliApp.GetInstance().CustomerId);
                             AnatoliApp.GetInstance().RefreshCutomerProfile();
-                            await SyncManager.SyncDatabase();
-                            SyncManager.ProgressChanged += (status, step) =>
-                            {
-                                Console.WriteLine(step.ToString() + " :: " + status);
-                            };
 
                         }
                         catch (Exception e)
@@ -282,7 +281,7 @@ namespace AnatoliAndroid.Activities
     }
 
     [Service]
-    class StockFeedService : Service
+    class SyncDataBaseService : Service
     {
 
         public override IBinder OnBind(Intent intent)
@@ -296,7 +295,7 @@ namespace AnatoliAndroid.Activities
             {
                 try
                 {
-                    await ProductManager.SyncOnHandAsync(null);
+                    await SyncManager.SyncDatabase();
                 }
                 catch (Exception e)
                 {
