@@ -92,6 +92,14 @@ namespace AnatoliAndroid.Fragments
             _fullNametextView = view.FindViewById<TextView>(Resource.Id.fullNametextView);
             view.FindViewById<TextView>(Resource.Id.changePassTextView).Click += (s, e) =>
             {
+                if (!AnatoliClient.GetInstance().WebClient.IsOnline())
+                {
+                    var alert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
+                    alert.SetMessage("لطفا دستگاه خود را به اینترنت متصل نمایید");
+                    alert.SetPositiveButton(Resource.String.Ok, delegate { });
+                    alert.Show();
+                    return;
+                }
                 ChangePassFragment fragment = new ChangePassFragment();
                 var transaction = AnatoliApp.GetInstance().Activity.FragmentManager.BeginTransaction();
                 fragment.Show(transaction, "changepass_fragment");
