@@ -254,7 +254,7 @@ namespace AnatoliAndroid.Activities
             {
                 var p = new ProductsListFragment();
                 await p.Search(ProductManager.Search(value, AnatoliApp.GetInstance().DefaultStoreId), value);
-                SetFragment<ProductsListFragment>(p, "products_fragment");
+                SetFragment<ProductsListFragment>(p, "products_fragment", true);
             }
             if (AnatoliApp.GetInstance().GetCurrentFragmentType() == typeof(FirstFragment))
             {
