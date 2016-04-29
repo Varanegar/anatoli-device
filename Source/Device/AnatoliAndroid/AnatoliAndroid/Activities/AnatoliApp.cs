@@ -456,7 +456,7 @@ namespace AnatoliAndroid.Activities
             {
                 var p = new ProductsListFragment();
                 await p.SetCatIdAsync(selectedItem.ItemId);
-                SetFragment<ProductsListFragment>(p, "products_fragment");
+                SetFragment<ProductsListFragment>(p, "products_fragment", true);
                 await p.RefreshAsync();
                 AnatoliApp.GetInstance()._toolBarTextView.Text = selectedItem.Name;
                 DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);
@@ -614,8 +614,16 @@ namespace AnatoliAndroid.Activities
             fragment.Arguments = bundle;
             SetFragment(fragment, tag);
         }
-        public void SetFragment<FragmentType>(FragmentType fragment, string tag) where FragmentType : Android.App.Fragment
+        public void SetFragment<FragmentType>(FragmentType fragment, string tag, bool force = false) where FragmentType : Android.App.Fragment
         {
+            if (_list.Count > 0)
+            {
+                if ((fragment.GetType() == _list.Last.Value.FragmentType) && !force)
+                {
+                    return;
+                }
+            }
+
             var transaction = _activity.FragmentManager.BeginTransaction();
             if (fragment == null)
             {
