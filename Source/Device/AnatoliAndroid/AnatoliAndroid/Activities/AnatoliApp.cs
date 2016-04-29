@@ -394,6 +394,7 @@ namespace AnatoliAndroid.Activities
                                 return;
                             }
                             var p = new ProductsListFragment();
+                            p.SetCatId(null);
                             AnatoliApp.GetInstance().SetFragment<ProductsListFragment>(p, "products_fragment");
                         };
                         loginFragment.Show(transaction, "shipping_dialog");
