@@ -117,7 +117,18 @@ namespace AnatoliAndroid.Activities
                 };
                 if ((DateTime.Now - latestUpdateTime).TotalMinutes > 10)
                 {
-                    SyncManager.SyncDatabase();
+                    try
+                    {
+                        SyncManager.SyncDatabase();
+                    }
+                    catch (System.Net.WebException)
+                    {
+                        Toast.MakeText(this, "لطفا دستگاه خود را به منظور بروزرسانی اطلاعات به اینترنت متصل نمایید", ToastLength.Short).Show();
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.SendTrace();
+                    }
                 }
                 var defaultStore = await StoreManager.GetDefaultAsync();
                 if (defaultStore != null)
