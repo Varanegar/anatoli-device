@@ -395,7 +395,7 @@ namespace AnatoliAndroid.Fragments
             {
                 _timeOptions = await DeliveryTimeManager.GetAvailableDeliveryTimes(AnatoliApp.GetInstance().DefaultStoreId, DateTime.Now.ToLocalTime(), _deliveryTypeListBox.SelectedItem.id);
                 _deliveryTimeListBox.SetList(_timeOptions);
-                _deliveryTimeListBox.Deselect();
+                _deliveryTimeListBox.SelectItem(0);
             };
             _deliveryTimeListBox.ItemSelected += (item) => { _checkoutButton.Enabled = CheckCheckout(); };
             _deliveryTypeListBox.SelectItem(1);
