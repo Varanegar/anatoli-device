@@ -16,8 +16,11 @@ using Android.Net;
 
 namespace AnatoliAndroid
 {
-    [Application(Name = "anatoliandroid.ParseApplication")]
-
+#if RELEASE
+[Application(Debuggable=false,Name = "anatoliandroid.ParseApplication")]
+#else
+    [Application(Debuggable = true, Name = "anatoliandroid.ParseApplication")]
+#endif
     public class ParseApplication : Application
     {
         public ParseApplication(IntPtr javaReference, JniHandleOwnership transfer)
@@ -43,7 +46,7 @@ namespace AnatoliAndroid
         {
             var data = e.Payload;
             var s = e.StringPayload;
-            
+
         }
     }
 }

@@ -209,6 +209,7 @@
     </AndroidAsset>
     <None Include="app.config" />
     <AndroidAsset Include="Assets\Fonts\anatoli.ttf" />
+    <ProguardConfiguration Include="proguard.cfg" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <AndroidResource Include="Resources\layout\ProductSummaryLayout.axml">
