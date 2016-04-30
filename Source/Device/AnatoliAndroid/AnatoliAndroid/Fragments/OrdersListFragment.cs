@@ -36,8 +36,15 @@ namespace AnatoliAndroid.Fragments
             };
             if (AnatoliClient.GetInstance().WebClient.IsOnline())
             {
-                await OrderManager.SyncOrdersAsync(AnatoliApp.GetInstance().CustomerId);
-                await RefreshAsync();
+                try
+                {
+                    await OrderManager.SyncOrdersAsync(AnatoliApp.GetInstance().CustomerId);
+                    await RefreshAsync();
+                }
+                catch (Exception ex)
+                {
+                    ex.SendTrace();
+                }
             }
             else
             {

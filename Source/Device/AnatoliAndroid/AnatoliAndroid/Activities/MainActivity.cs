@@ -115,21 +115,14 @@ namespace AnatoliAndroid.Activities
                 {
                     Console.WriteLine(step.ToString() + " :: " + status);
                 };
-                if ((DateTime.Now - latestUpdateTime).TotalMinutes > 10)
+                if (AnatoliClient.GetInstance().WebClient.IsOnline())
                 {
-                    try
+                    if ((DateTime.Now - latestUpdateTime).TotalMinutes > 10)
                     {
-                        SyncManager.SyncDatabase();
-                    }
-                    catch (System.Net.WebException)
-                    {
-                        Toast.MakeText(this, "لطفا دستگاه خود را به منظور بروزرسانی اطلاعات به اینترنت متصل نمایید", ToastLength.Short).Show();
-                    }
-                    catch (Exception ex)
-                    {
-                        ex.SendTrace();
+                        StartService(new Intent(this, typeof(SyncDataBaseService)));
                     }
                 }
+
                 var defaultStore = await StoreManager.GetDefaultAsync();
                 if (defaultStore != null)
                 {
@@ -144,9 +137,11 @@ namespace AnatoliAndroid.Activities
 #pragma warning disable
                         try
                         {
-                            await OrderManager.SyncOrdersAsync(AnatoliApp.GetInstance().CustomerId);
-                            AnatoliApp.GetInstance().RefreshCutomerProfile();
-
+                            if (AnatoliClient.GetInstance().WebClient.IsOnline())
+                            {
+                                await OrderManager.SyncOrdersAsync(AnatoliApp.GetInstance().CustomerId);
+                                AnatoliApp.GetInstance().RefreshCutomerProfile();
+                            }
                         }
                         catch (Exception e)
                         {
@@ -306,6 +301,10 @@ namespace AnatoliAndroid.Activities
                 try
                 {
                     await SyncManager.SyncDatabase();
+                }
+                catch (System.Net.WebException)
+                {
+                    Toast.MakeText(this, "لطفا دستگاه خود را به منظور بروزرسانی اطلاعات به اینترنت متصل نمایید", ToastLength.Short).Show();
                 }
                 catch (Exception e)
                 {
