@@ -96,6 +96,7 @@ namespace AnatoliAndroid.Fragments
             }
             _loginButton.Enabled = false;
             ProgressDialog pDialog = new ProgressDialog(AnatoliApp.GetInstance().Activity);
+            pDialog.SetCanceledOnTouchOutside(false);
             try
             {
                 pDialog.SetTitle(Resources.GetText(Resource.String.Login));
@@ -120,7 +121,6 @@ namespace AnatoliAndroid.Fragments
             }
             catch (Exception ex)
             {
-                ex.SendTrace();
                 pDialog.Dismiss();
                 if (ex.GetType() == typeof(ServerUnreachableException))
                 {
@@ -195,7 +195,6 @@ namespace AnatoliAndroid.Fragments
                             }
                             catch (Exception ex2)
                             {
-                                ex2.SendTrace();
                                 pDialog.Dismiss();
                                 if (ex2.GetType() == typeof(ServerUnreachableException))
                                 {
@@ -224,6 +223,7 @@ namespace AnatoliAndroid.Fragments
                                     errDialog4.SetMessage(Resource.String.ErrorOccured);
                                     errDialog4.SetPositiveButton(Resource.String.Ok, delegate { });
                                     errDialog4.Show();
+                                    ex2.SendTrace();
                                 }
                             }
 
@@ -248,6 +248,7 @@ namespace AnatoliAndroid.Fragments
                     errDialog.SetTitle(Resource.String.Error);
                     errDialog.SetMessage(Resource.String.ErrorOccured);
                     errDialog.Show();
+                    ex.SendTrace();
                 }
             }
             _loginButton.Enabled = true;

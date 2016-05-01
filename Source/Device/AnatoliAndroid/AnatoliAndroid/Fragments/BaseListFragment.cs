@@ -84,11 +84,6 @@ namespace AnatoliAndroid.Fragments
             };
             return _view;
         }
-        public void SetQuery(DBQuery query)
-        {
-            _dataManager = new BaseDataManager();
-            _dataManager.SetQueries(query, null);
-        }
         protected async override Task RefreshAsync()
         {
             try
@@ -107,24 +102,7 @@ namespace AnatoliAndroid.Fragments
                 ex.SendTrace();
             }
         }
-        //internal async Task RefreshAsync()
-        //{
-        //    try
-        //    {
-        //        _listAdapter.List = await _dataManager.GetNextAsync();
-        //        if (_listAdapter.Count == 0)
-        //            OnEmptyList();
-        //        else
-        //            OnFullList();
-        //        _listView.SetSelection(0);
-        //        _listAdapter.NotifyDataSetChanged();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ex.SendTrace();
-        //    }
-        //}
-
+       
         async void _listView_ScrollStateChanged(object sender, AbsListView.ScrollStateChangedEventArgs e)
         {
             if (e.ScrollState == ScrollState.Idle)

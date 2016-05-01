@@ -39,14 +39,30 @@ namespace AnatoliAndroid.Fragments
             _currentPassEditText = view.FindViewById<EditText>(Resource.Id.currentPassEditText);
             _passwordEditText = view.FindViewById<EditText>(Resource.Id.passwordEditText);
             _saveButton = view.FindViewById<Button>(Resource.Id.saveButton);
-            AlertDialog.Builder alert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
             _saveButton.Click += async (s, e) =>
             {
                 if (!AnatoliClient.GetInstance().WebClient.IsOnline())
                 {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
                     alert.SetTitle(Resource.String.Error);
                     alert.SetMessage(Resource.String.PleaseConnectToInternet);
-                    alert.SetPositiveButton(Resource.String.Ok, (s2, e2) => { });
+                    alert.SetPositiveButton(Resource.String.Ok, delegate { });
+                    return;
+                }
+                if (string.IsNullOrEmpty(_currentPassEditText.Text))
+                {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
+                    alert.SetTitle(Resource.String.Error);
+                    alert.SetMessage("لطفا کلمه عبور فعلی را وارد نمایید");
+                    alert.SetPositiveButton(Resource.String.Ok, delegate { });
+                    return;
+                }
+                if (string.IsNullOrEmpty(_passwordEditText.Text))
+                {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
+                    alert.SetTitle(Resource.String.Error);
+                    alert.SetMessage("لطفا کلمه عبور جدید را وارد کنید");
+                    alert.SetPositiveButton(Resource.String.Ok, delegate { });
                     return;
                 }
                 ProgressDialog pDialog = new ProgressDialog(AnatoliApp.GetInstance().Activity);
@@ -58,25 +74,35 @@ namespace AnatoliAndroid.Fragments
                     pDialog.Dismiss();
                     if (result != null)
                     {
-
                         if (result.IsValid)
                         {
+                            AlertDialog.Builder alert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
                             alert.SetMessage("کلمه عبور با موفقیت تغییر کرد");
                             alert.SetPositiveButton(Resource.String.Ok, delegate { Dismiss(); });
                             alert.Show();
                         }
                         else
                         {
+                            AlertDialog.Builder alert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
                             alert.SetMessage("تغییر کلمه عبور با خطا مواجه شد");
                             alert.SetPositiveButton(Resource.String.Ok, delegate { });
                             alert.Show();
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (AnatoliWebClientException ex)
                 {
-                    ex.SendTrace();
-                    alert.SetMessage("تغییر کلمه عبور با خطا مواجه شد");
+                    AlertDialog.Builder alert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
+                    alert.SetTitle("خطا");
+                    alert.SetMessage(ex.MetaInfo.ModelStateString);
+                    alert.SetPositiveButton(Resource.String.Ok, delegate { });
+                    alert.Show();
+                }
+                catch (Exception)
+                {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
+                    alert.SetTitle("خطا");
+                    alert.SetMessage("خطای نامشخص");
                     alert.SetPositiveButton(Resource.String.Ok, delegate { });
                     alert.Show();
                 }
