@@ -14,7 +14,7 @@ using AnatoliAndroid.Activities;
 
 namespace AnatoliAndroid.Fragments
 {
-    public class SettingsFragment : Fragment
+    public class SettingsFragment : AnatoliFragment
     {
         public override void OnCreate(Bundle savedInstanceState)
         {

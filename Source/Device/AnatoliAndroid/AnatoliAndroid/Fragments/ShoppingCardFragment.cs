@@ -27,7 +27,7 @@ using Anatoli.Framework;
 namespace AnatoliAndroid.Fragments
 {
     [FragmentTitle("سبد خرید")]
-    class ShoppingCardFragment : Fragment
+    class ShoppingCardFragment : AnatoliFragment
     {
         ListView _itemsListView;
         TextView _itemCountTextView;
@@ -471,7 +471,7 @@ namespace AnatoliAndroid.Fragments
                 return true;
         }
     }
-    public class OrderSavedDialogFragment : DialogFragment
+    public class OrderSavedDialogFragment : Android.Support.V4.App.DialogFragment
     {
         public override Dialog OnCreateDialog(Bundle savedInstanceState)
         {

@@ -21,7 +21,7 @@ using Square.Picasso;
 namespace AnatoliAndroid.Fragments
 {
     [FragmentTitle("")]
-    public class FirstFragment : Fragment
+    public class FirstFragment : AnatoliFragment
     {
         ImageView _slideShowImageView;
         AnatoliSlideShow _slideShow;

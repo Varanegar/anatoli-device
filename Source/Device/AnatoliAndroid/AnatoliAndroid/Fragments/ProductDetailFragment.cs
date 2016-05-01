@@ -18,7 +18,7 @@ using Square.Picasso;
 
 namespace AnatoliAndroid.Fragments
 {
-    public class ProductDetailFragment : Fragment
+    public class ProductDetailFragment : AnatoliFragment
     {
         ProductModel _product;
         public ProductDetailFragment(ProductModel product)

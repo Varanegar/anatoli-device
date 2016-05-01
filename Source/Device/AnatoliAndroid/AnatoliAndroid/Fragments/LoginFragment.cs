@@ -36,6 +36,7 @@ namespace AnatoliAndroid.Fragments
         {
             base.OnCreate(savedInstanceState);
             var view = inflater.Inflate(Resource.Layout.LoginLayout, container, false);
+
             _userNameEditText = view.FindViewById<EditText>(Resource.Id.userNameEditText);
             _passwordEditText = view.FindViewById<EditText>(Resource.Id.passwordEditText);
             _fgTextView = view.FindViewById<TextView>(Resource.Id.fgTextView);

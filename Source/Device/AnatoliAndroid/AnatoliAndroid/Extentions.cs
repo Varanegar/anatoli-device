@@ -19,7 +19,7 @@ namespace AnatoliAndroid
 {
     public static class Extentions
     {
-        public static string GetTitle(this Fragment fragment)
+        public static string GetTitle(this AnatoliFragment fragment)
         {
             if (fragment is AnatoliFragment)
             {
