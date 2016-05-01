@@ -78,7 +78,7 @@ namespace AnatoliAndroid.ListAdapters
             // todo : add store close open 
 
             storeStatusTextView.Text = AnatoliApp.GetResources().GetText(Resource.String.Open);
-            storeStatusTextView.SetTextColor(Android.Graphics.Color.Green);
+            storeStatusTextView.SetTextColor(AnatoliApp.GetResources().GetColor(Resource.Color.green));
 
             //storeStatusTextView.Text = AnatoliApp.GetResources().GetText(Resource.String.Close);
             //storeStatusTextView.SetTextColor(Android.Graphics.Color.Red);
