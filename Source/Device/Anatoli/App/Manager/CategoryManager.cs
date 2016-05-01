@@ -38,30 +38,33 @@ namespace Anatoli.App.Manager
                     connection.BeginTransaction();
                     foreach (var item in list)
                     {
-                        if (items.ContainsKey(item.UniqueId))
+                        if (!item.UniqueId.Equals("169EBC7C-6112-4566-93B9-2869C3D3A112") && !item.UniqueId.Equals("E54AF059-5C22-4FAF-BC40-4169BF74C020"))
                         {
-                            UpdateCommand command = new UpdateCommand("categories", new EqFilterParam("cat_id", item.UniqueId.ToUpper()),
-                           new BasicParam("cat_name", item.GroupName.Trim()),
-                           new BasicParam("cat_parent", item.ParentUniqueIdString.ToUpper()),
-                           new BasicParam("cat_left", item.NLeft.ToString()),
-                           new BasicParam("cat_right", item.NRight.ToString()),
-                           new BasicParam("is_removed", (item.IsRemoved) ? "1" : "0"),
-                           new BasicParam("cat_depth", item.NLevel.ToString()));
-                            var query = connection.CreateCommand(command.GetCommand());
-                            int t = query.ExecuteNonQuery();
-                        }
-                        else
-                        {
-                            InsertCommand command = new InsertCommand("categories", new BasicParam("cat_id", item.UniqueId.ToUpper()),
-                           new BasicParam("cat_name", item.GroupName.Trim()),
-                           new BasicParam("cat_parent", item.ParentUniqueIdString.ToUpper()),
-                           new BasicParam("cat_left", item.NLeft.ToString()),
-                           new BasicParam("is_removed", (item.IsRemoved) ? "1" : "0"),
-                           new BasicParam("cat_right", item.NRight.ToString()),
-                           new BasicParam("cat_depth", item.NLevel.ToString()));
-                            string qq = command.GetCommand();
-                            var query = connection.CreateCommand(qq);
-                            int t = query.ExecuteNonQuery();
+                            if (items.ContainsKey(item.UniqueId))
+                            {
+                                UpdateCommand command = new UpdateCommand("categories", new EqFilterParam("cat_id", item.UniqueId.ToUpper()),
+                               new BasicParam("cat_name", item.GroupName.Trim()),
+                               new BasicParam("cat_parent", item.ParentUniqueIdString.ToUpper()),
+                               new BasicParam("cat_left", item.NLeft.ToString()),
+                               new BasicParam("cat_right", item.NRight.ToString()),
+                               new BasicParam("is_removed", (item.IsRemoved) ? "1" : "0"),
+                               new BasicParam("cat_depth", item.NLevel.ToString()));
+                                var query = connection.CreateCommand(command.GetCommand());
+                                int t = query.ExecuteNonQuery();
+                            }
+                            else
+                            {
+                                InsertCommand command = new InsertCommand("categories", new BasicParam("cat_id", item.UniqueId.ToUpper()),
+                               new BasicParam("cat_name", item.GroupName.Trim()),
+                               new BasicParam("cat_parent", item.ParentUniqueIdString.ToUpper()),
+                               new BasicParam("cat_left", item.NLeft.ToString()),
+                               new BasicParam("is_removed", (item.IsRemoved) ? "1" : "0"),
+                               new BasicParam("cat_right", item.NRight.ToString()),
+                               new BasicParam("cat_depth", item.NLevel.ToString()));
+                                string qq = command.GetCommand();
+                                var query = connection.CreateCommand(qq);
+                                int t = query.ExecuteNonQuery();
+                            }
                         }
                     }
                     connection.Commit();

@@ -46,27 +46,30 @@ namespace Anatoli.App.Manager
                     connection.BeginTransaction();
                     foreach (var item in list)
                     {
-                        if (items.ContainsKey(item.UniqueId))
+                        if (!item.UniqueId.Equals("680D21FE-5D68-4396-A99F-60814DF27D07"))
                         {
-                            UpdateCommand command = new UpdateCommand("stores", new EqFilterParam("store_id", item.UniqueId.ToUpper()),
-                            new BasicParam("store_name", item.storeName.Trim()),
-                            new BasicParam("store_tel", item.Phone),
-                            new BasicParam("lat", item.lat.ToString()),
-                            new BasicParam("lng", item.lng.ToString()),
-                            new BasicParam("store_address", item.address));
-                            var query = connection.CreateCommand(command.GetCommand());
-                            int t = query.ExecuteNonQuery();
-                        }
-                        else
-                        {
-                            InsertCommand command = new InsertCommand("stores", new BasicParam("store_id", item.UniqueId.ToUpper()),
-                            new BasicParam("store_name", item.storeName.Trim()),
-                            new BasicParam("store_tel", item.Phone),
-                            new BasicParam("lat", item.lat.ToString()),
-                            new BasicParam("lng", item.lng.ToString()),
-                            new BasicParam("store_address", item.address));
-                            var query = connection.CreateCommand(command.GetCommand());
-                            int t = query.ExecuteNonQuery();
+                            if (items.ContainsKey(item.UniqueId))
+                            {
+                                UpdateCommand command = new UpdateCommand("stores", new EqFilterParam("store_id", item.UniqueId.ToUpper()),
+                                new BasicParam("store_name", item.storeName.Trim()),
+                                new BasicParam("store_tel", item.Phone),
+                                new BasicParam("lat", item.lat.ToString()),
+                                new BasicParam("lng", item.lng.ToString()),
+                                new BasicParam("store_address", item.address));
+                                var query = connection.CreateCommand(command.GetCommand());
+                                int t = query.ExecuteNonQuery();
+                            }
+                            else
+                            {
+                                InsertCommand command = new InsertCommand("stores", new BasicParam("store_id", item.UniqueId.ToUpper()),
+                                new BasicParam("store_name", item.storeName.Trim()),
+                                new BasicParam("store_tel", item.Phone),
+                                new BasicParam("lat", item.lat.ToString()),
+                                new BasicParam("lng", item.lng.ToString()),
+                                new BasicParam("store_address", item.address));
+                                var query = connection.CreateCommand(command.GetCommand());
+                                int t = query.ExecuteNonQuery();
+                            }
                         }
                     }
                     connection.Commit();
