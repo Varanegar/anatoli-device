@@ -11,8 +11,8 @@
         android:id="@+id/productSummaryRelativeLayout">
         <ImageButton
             android:src="@drawable/ic_shoppingcard_blue_24dp"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="39dp"
+            android:layout_height="35dp"
             android:id="@+id/addImageButton"
             android:layout_alignParentRight="true"
             android:scaleType="fitXY"
