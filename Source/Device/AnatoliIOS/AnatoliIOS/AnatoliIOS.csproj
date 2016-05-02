@@ -9,7 +9,8 @@
     <RootNamespace>AnatoliIOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>AnatoliIOS</AssemblyName>
-    <NuGetPackageImportStamp>35496c15</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -283,6 +284,14 @@
     <Reference Include="SDWebImage">
       <HintPath>..\packages\SDWebImage.dll</HintPath>
     </Reference>
+    <Reference Include="SQLite-net, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\SQLite-net.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCL.raw, Version=0.8.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\SQLitePCL.raw.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Net.Http.Extensions">
       <HintPath>..\..\packages\System.Net.Http.Extensions.dll</HintPath>
@@ -307,9 +316,6 @@
     </Reference>
     <Reference Include="XPComponentKeyGenerator">
       <HintPath>..\packages\XPComponentKeyGenerator.dll</HintPath>
-    </Reference>
-    <Reference Include="SQLite-net">
-      <HintPath>..\packages\SQLite-net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
