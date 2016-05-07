@@ -177,7 +177,6 @@
     <Compile Include="Fragments\ProfileFragment.cs" />
     <Compile Include="Fragments\ProformaFragment.cs" />
     <Compile Include="Fragments\ResetPasswordDialog.cs" />
-    <Compile Include="Fragments\SettingsFragment.cs" />
     <Compile Include="ListAdapters\CityRegionListAdapter.cs" />
     <Compile Include="ListAdapters\DeliveryTimeListAdapter.cs" />
     <Compile Include="ListAdapters\DeliveryTypeListAdapter.cs" />

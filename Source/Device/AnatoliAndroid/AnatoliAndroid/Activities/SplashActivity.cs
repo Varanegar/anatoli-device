@@ -24,7 +24,7 @@ namespace AnatoliAndroid.Activities
         protected override void OnStart()
         {
             base.OnStart();
-            Java.Lang.Thread.Sleep(2000);
+            Java.Lang.Thread.Sleep(1000);
         }
 
     }

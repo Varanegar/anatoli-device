@@ -429,10 +429,7 @@ namespace AnatoliAndroid.Activities
                     //    var g = await SyncDatabase();
                     //    SetFragment<FirstFragment>(new FirstFragment(), "first_fragment)");
                     //    break;
-                    case DrawerMainItem.DrawerMainItems.Settings:
-                        DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);
-                        SetFragment<SettingsFragment>(new SettingsFragment(), "settings_fragment)");
-                        break;
+
                     case DrawerMainItem.DrawerMainItems.Logout:
                         DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);
                         var result = await SaveLogoutAsync();
@@ -498,105 +495,77 @@ namespace AnatoliAndroid.Activities
             }
             return null;
         }
-        //async Task CancelSync()
-        //{
-        //    if ((await SyncManager.GetLogAsync(SyncManager.PriceTbl)) == DateTime.MinValue)
-        //    {
-        //        AlertDialog.Builder alert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
-        //        alert.SetMessage("هیچ اطلاعاتی در درسترس نیست. لطفا دوباره تلاش کنید");
-        //        alert.SetNegativeButton("بی خیال", (s3, e3) => { });
-        //        alert.SetPositiveButton("دوباره تلاش کن", async (s3, e3) => { await SyncDatabase(); });
-        //        alert.Show();
-        //    }
-        //}
-        internal async Task ClearDatabase()
+
+        internal async Task SyncDatabase()
         {
-            await SyncManager.ClearDatabase();
+            if (!AnatoliClient.GetInstance().WebClient.IsOnline())
+            {
+                AlertDialog.Builder alert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
+                alert.SetMessage(Resource.String.PleaseConnectToInternet);
+                alert.SetCancelable(false);
+                alert.SetPositiveButton(Resource.String.Ok, async delegate
+                {
+                    await SyncDatabase();
+                });
+                alert.SetNegativeButton("تنظیمات", delegate
+                {
+                    Intent intent = new Intent(Android.Provider.Settings.ActionSettings);
+                    AnatoliApp.GetInstance().Activity.StartActivity(intent);
+                });
+                alert.Show();
+                return;
+            }
+
+            var latestUpdateTime = await SyncManager.GetLogAsync(SyncManager.UpdateCompleted);
+            Android.App.ProgressDialog pDialog = new Android.App.ProgressDialog(_activity);
+            pDialog.SetCancelable(false);
+            SyncManager.ProgressChanged += (status, step) =>
+            {
+                pDialog.SetMessage(status);
+            };
+            if ((DateTime.Now - latestUpdateTime).TotalMinutes > 10)
+            {
+                try
+                {
+                    pDialog.Show();
+                    await SyncManager.SyncDatabase();
+                }
+                catch (System.Net.WebException)
+                {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
+                    alert.SetCancelable(false);
+                    alert.SetMessage("لطفا دستگاه خود را به منظور بروزرسانی اطلاعات به اینترنت متصل نمایید");
+                    alert.SetPositiveButton(Resource.String.Ok, async delegate
+                    {
+                        await SyncDatabase();
+                    });
+                    alert.SetNegativeButton("تنظیمات", delegate
+                    {
+                        Intent intent = new Intent(Android.Provider.Settings.ActionSettings);
+                        AnatoliApp.GetInstance().Activity.StartActivity(intent);
+                    });
+                    alert.Show();
+                    return;
+                }
+                catch (Exception e)
+                {
+                    e.SendTrace();
+                    AlertDialog.Builder alert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
+                    alert.SetCancelable(false);
+                    alert.SetMessage("بروزرسانی اطلاعات با خطا مواجه شد");
+                    alert.SetPositiveButton("دوباره تلاش کن", async delegate
+                    {
+                        await SyncDatabase();
+                    });
+                    alert.Show();
+                    return;
+                }
+                finally
+                {
+                    pDialog.Dismiss();
+                }
+            }
         }
-        //internal async Task<bool> SyncDatabase()
-        //{
-        //    if (!AnatoliClient.GetInstance().WebClient.IsOnline())
-        //    {
-        //        AlertDialog.Builder alert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
-        //        alert.SetMessage(Resource.String.PleaseConnectToInternet);
-        //        alert.SetPositiveButton(Resource.String.Ok, (s2, e2) =>
-        //        {
-        //            Intent intent = new Intent(Android.Provider.Settings.ActionSettings);
-        //            AnatoliApp.GetInstance().Activity.StartActivity(intent);
-        //        });
-        //        return false;
-        //    }
-        //    Android.App.ProgressDialog pDialog = new Android.App.ProgressDialog(_activity);
-        //    pDialog.SetCancelable(false);
-        //    pDialog.SetTitle(AnatoliApp.GetResources().GetText(Resource.String.Updating) + " 1 از 6");
-        //    pDialog.SetMessage(" بروز رسانی لیست شهر ها");
-        //    System.Threading.CancellationTokenSource tokenSource = new System.Threading.CancellationTokenSource();
-        //    pDialog.SetButton("بی خیال", async delegate
-        //    {
-        //        tokenSource.Cancel();
-        //        await CancelSync();
-        //    });
-        //    pDialog.Show();
-        //    try
-        //    {
-        //        await BaseTypeManager.SyncDataBaseAsync(tokenSource);
-        //        await CityRegionManager.SyncDataBaseAsync(tokenSource);
-        //        pDialog.SetTitle(AnatoliApp.GetResources().GetText(Resource.String.Updating) + " 2 از 6");
-        //        pDialog.SetMessage("بروز رسانی لیست فروشگاه ها");
-        //        await StoreManager.SyncDataBase(tokenSource);
-        //        pDialog.SetTitle(AnatoliApp.GetResources().GetText(Resource.String.Updating) + " 3 از 6");
-        //        pDialog.SetMessage("بروز رسانی گروه کالاها");
-        //        await CategoryManager.SyncDataBaseAsync(tokenSource);
-        //        pDialog.SetTitle(AnatoliApp.GetResources().GetText(Resource.String.Updating) + " 4 از 6");
-        //        pDialog.SetMessage("بروز رسانی لیست کالاها");
-        //        await ProductManager.SyncProductsAsync(tokenSource);
-        //        pDialog.SetTitle(AnatoliApp.GetResources().GetText(Resource.String.Updating) + " 5 از 6");
-        //        pDialog.SetMessage("بروز رسانی تصاویر");
-        //        await ItemImageManager.SyncDataBaseAsync(tokenSource);
-        //        pDialog.SetTitle(AnatoliApp.GetResources().GetText(Resource.String.Updating) + " 6 از 6");
-        //        pDialog.SetMessage("بروز رسانی قیمت ها");
-        //        await SyncManager.RemoveLogAsync(SyncManager.UpdateCompleted);
-        //        await ProductManager.SyncPricesAsync(tokenSource);
-        //        await ProductManager.SyncOnHandAsync(tokenSource);
-        //        await SyncManager.AddLogAsync(SyncManager.UpdateCompleted);
-        //        pDialog.Dismiss();
-        //        var p = new ProductsListFragment();
-        //        AnatoliApp.GetInstance().SetFragment<ProductsListFragment>(new ProductsListFragment(), "products_fragment");
-        //        await p.RefreshAsync();
-        //        return true;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ex.SendTrace();
-        //        pDialog.Dismiss();
-        //        AlertDialog.Builder alert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
-        //        if (ex.GetType() == typeof(Anatoli.Framework.Helper.SyncPolicyHelper.SyncPolicyException))
-        //        {
-        //            alert.SetMessage(Resource.String.PleaseConnectToInternet);
-        //            alert.SetPositiveButton(Resource.String.Ok, (s2, e2) =>
-        //            {
-        //                Intent intent = new Intent(Android.Provider.Settings.ActionSettings);
-        //                AnatoliApp.GetInstance().Activity.StartActivity(intent);
-        //            });
-        //        }
-        //        else if (ex.GetType() == typeof(TokenException))
-        //        {
-        //            alert.SetMessage(Resource.String.PleaseLogin);
-        //            alert.SetPositiveButton(Resource.String.Ok, delegate
-        //            {
-        //            });
-        //        }
-        //        else
-        //            alert.SetMessage(Resource.String.ErrorOccured);
-        //        alert.SetNegativeButton(Resource.String.Cancel, async (s2, e2) =>
-        //        {
-        //            await CancelSync();
-        //        });
-        //        alert.SetTitle(Resource.String.Error);
-        //        alert.Show();
-        //        return false;
-        //    }
-        //}
         internal void SetFragment<FragmentType>(FragmentType fragment, string tag, Tuple<string, string> parameter) where FragmentType : AnatoliFragment, new()
         {
             if (fragment == null)

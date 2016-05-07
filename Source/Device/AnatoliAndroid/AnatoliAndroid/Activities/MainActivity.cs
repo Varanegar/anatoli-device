@@ -102,27 +102,8 @@ namespace AnatoliAndroid.Activities
             _locationManager = (LocationManager)GetSystemService(LocationService);
             AnatoliApp.GetInstance().DrawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             AnatoliApp.GetInstance().LocationManager = _locationManager;
-            //await ProductManager.SyncProductTagsAsync();
             try
             {
-                var updateTime = await SyncManager.GetLogAsync(SyncManager.UpdateCompleted);
-                //if (updateTime == DateTime.MinValue)
-                //{
-                //    await AnatoliApp.GetInstance().SyncDatabase();
-                //}
-                var latestUpdateTime = await SyncManager.GetLogAsync(SyncManager.UpdateCompleted);
-                SyncManager.ProgressChanged += (status, step) =>
-                {
-                    Console.WriteLine(step.ToString() + " :: " + status);
-                };
-                if (AnatoliClient.GetInstance().WebClient.IsOnline())
-                {
-                    if ((DateTime.Now - latestUpdateTime).TotalMinutes > 10)
-                    {
-                        StartService(new Intent(this, typeof(SyncDataBaseService)));
-                    }
-                }
-
                 var defaultStore = await StoreManager.GetDefaultAsync();
                 if (defaultStore != null)
                 {
@@ -139,7 +120,7 @@ namespace AnatoliAndroid.Activities
                         {
                             if (AnatoliClient.GetInstance().WebClient.IsOnline())
                             {
-                                await OrderManager.SyncOrdersAsync(AnatoliApp.GetInstance().CustomerId);
+                                OrderManager.SyncOrdersAsync(AnatoliApp.GetInstance().CustomerId);
                                 AnatoliApp.GetInstance().RefreshCutomerProfile();
                             }
                         }
@@ -285,36 +266,43 @@ namespace AnatoliAndroid.Activities
         }
     }
 
-    [Service]
-    class SyncDataBaseService : Service
-    {
+    //[Service]
+    //class SyncDataBaseService : Service
+    //{
 
-        public override IBinder OnBind(Intent intent)
-        {
-            throw new NotImplementedException();
-        }
-        public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
-        {
-            Console.WriteLine("Service started");
-            System.Threading.Tasks.Task.Run(async () =>
-            {
-                try
-                {
-                    await SyncManager.SyncDatabase();
-                }
-                catch (System.Net.WebException)
-                {
-                    Toast.MakeText(this, "لطفا دستگاه خود را به منظور بروزرسانی اطلاعات به اینترنت متصل نمایید", ToastLength.Short).Show();
-                }
-                catch (Exception e)
-                {
-                    e.SendTrace();
-                }
-                StopSelf();
-            });
-            return StartCommandResult.Sticky;
-        }
+    //    public override IBinder OnBind(Intent intent)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+    //    public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
+    //    {
+    //        Console.WriteLine("Service started");
+    //        System.Threading.Tasks.Task.Run(async () =>
+    //        {
+    //            try
+    //            {
+    //                if (AnatoliClient.GetInstance().WebClient.IsOnline())
+    //                {
+    //                    await SyncManager.SyncDatabase();
+    //                }
+    //                else
+    //                {
+    //                    Toast.MakeText(this, "لطفا دستگاه خود را به منظور بروزرسانی اطلاعات به اینترنت متصل نمایید", ToastLength.Short).Show();
+    //                }
+    //            }
+    //            catch (System.Net.WebException)
+    //            {
+    //                Toast.MakeText(this, "لطفا دستگاه خود را به منظور بروزرسانی اطلاعات به اینترنت متصل نمایید", ToastLength.Short).Show();
+    //            }
+    //            catch (Exception e)
+    //            {
+    //                e.SendTrace();
+    //            }
+    //            StopSelf();
+    //        });
+    //        return StartCommandResult.Sticky;
+    //    }
 
-    }
+    //}
 }
 

@@ -102,63 +102,63 @@ namespace Anatoli.App.Manager
         {
             try
             {
-                OnProgressChanged("downloading base types...",1);
+                OnProgressChanged("دریافت اطلاعلات ...", 1);
                 await BaseTypeManager.SyncDataBaseAsync(null);
-                OnProgressChanged("base types saved.",1);
-                OnProgressChanged("downloading city and regions ...",2);
+                OnProgressChanged("اطلاعات اولیه ذخیره شد", 1);
+                OnProgressChanged("دریافت اطلاعات شهرها و نواحی", 2);
                 await CityRegionManager.SyncDataBaseAsync(null);
-                OnProgressChanged("city and regions saved.",2);
-                OnProgressChanged("downloading stores ...",3);
+                OnProgressChanged("شهر ها و نواحی ذخیره شدند", 2);
+                OnProgressChanged("دریافت اطلاعات فروشگاه و شعب", 3);
                 await StoreManager.SyncDataBase(null);
-                OnProgressChanged("stores saved.",3);
-                OnProgressChanged("downloading categrories ...",4);
+                OnProgressChanged("اطلاعات فروشگاه ها ذخیره شد", 3);
+                OnProgressChanged("دریافت اطلاعات دسته بندی کالا", 4);
                 await CategoryManager.SyncDataBaseAsync(null);
-                OnProgressChanged("categories saved.",4);
-                OnProgressChanged("downloading products ...",5);
+                OnProgressChanged("اطلاعات دسته بندی کالاها ذخیره شد", 4);
+                OnProgressChanged("دریافت اطلاعات محصولات", 5);
                 await ProductManager.SyncProductsAsync(null);
-                OnProgressChanged("products saved.",5);
-                OnProgressChanged("downloading images ...",6);
+                OnProgressChanged("محصولات جدید ذخیره شدند", 5);
+                OnProgressChanged("دریافت تصاویر محصولات", 6);
                 await ItemImageManager.SyncDataBaseAsync(null);
-                OnProgressChanged("images saved .",6);
-                OnProgressChanged("downloading prices ...",7);
+                OnProgressChanged("تصاویر ذخیره شدند", 6);
+                OnProgressChanged("دریافت قیمت محصولات", 7);
                 await ProductManager.SyncPricesAsync(null);
-                OnProgressChanged("prices saved.",7);
-                OnProgressChanged("downloading store on hand ...",8);
+                OnProgressChanged("قیمت کالاها بروز شد", 7);
+                OnProgressChanged("دریافت وضعیت موجودی محصولات", 8);
                 await ProductManager.SyncOnHandAsync(null);
-                OnProgressChanged("store onhand saved.",8);
+                OnProgressChanged("آخرین وضعیت موجودی محصولات ذخیره شد", 8);
                 await SyncManager.AddLogAsync(SyncManager.UpdateCompleted);
-                OnProgressChanged("Sync process finished.",8);
-				OnSyncCompleted();
+                OnProgressChanged("فرایند بروزرسانی با موفقیت انجام شد.", 8);
+                OnSyncCompleted();
             }
             catch (Exception ex)
             {
-                OnProgressChanged("Sync process finished. Error: " + ex.Message,0);
+                OnProgressChanged("Sync process finished. Error: " + ex.Message, 0);
                 throw ex;
             }
         }
 
-		static void OnProgressChanged(string s,int step)
+        static void OnProgressChanged(string s, int step)
         {
             if (ProgressChanged != null)
             {
-				ProgressChanged.Invoke(s,step);
+                ProgressChanged.Invoke(s, step);
             }
         }
         public static event ProgressChangedEventHandler ProgressChanged;
-		public delegate void ProgressChangedEventHandler(string status,int step);
+        public delegate void ProgressChangedEventHandler(string status, int step);
 
-		static void OnSyncCompleted()
-		{
-			if (SyncCompleted != null)
-			{
-				SyncCompleted.Invoke();
-			}
-		}
-		public delegate void SyncCompletedEventHandler();
-		public static event SyncCompletedEventHandler SyncCompleted;
-        
+        static void OnSyncCompleted()
+        {
+            if (SyncCompleted != null)
+            {
+                SyncCompleted.Invoke();
+            }
+        }
+        public delegate void SyncCompletedEventHandler();
+        public static event SyncCompletedEventHandler SyncCompleted;
 
-		public static async Task ClearDatabase()
+
+        public static async Task ClearDatabase()
         {
             try
             {

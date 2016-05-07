@@ -57,6 +57,7 @@ namespace AnatoliAndroid.Fragments
             base.OnStart();
             AnatoliApp.GetInstance().HideMenuIcon();
             AnatoliApp.GetInstance().ShowSearchIcon();
+            await AnatoliApp.GetInstance().SyncDatabase();
             var categories = await CategoryManager.GetFirstLevelAsync();
             if (categories != null)
             {
