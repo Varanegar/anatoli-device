@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,7 +40,7 @@ namespace AnatoliAndroid.ListAdapters
              };
             dateTextView.Text = " " + item.order_date;
             storeNameTextView.Text = " " + item.store_name;
-            priceTextView.Text = " " + item.order_price.ToCurrency() + " ÊæãÇä";
+            priceTextView.Text = " " + item.order_price.ToCurrency() + " ØªÙˆÙ…Ø§Ù† ";
             orderIdTextView.Text = item.order_id.ToString();
             orderStatusTextView.Text = PurchaseOrderStatusHistoryViewModel.GetStatusName(item.order_status);
 
