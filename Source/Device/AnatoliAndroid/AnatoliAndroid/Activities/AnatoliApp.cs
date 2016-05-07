@@ -205,7 +205,8 @@ namespace AnatoliAndroid.Activities
             {
                 if (e.AfterCount >= 3)
                 {
-                    if (AnatoliApp.GetInstance().GetCurrentFragmentType() == typeof(AnatoliAndroid.Fragments.ProductsListFragment))
+                    if (AnatoliApp.GetInstance().GetCurrentFragmentType() == typeof(AnatoliAndroid.Fragments.ProductsListFragment) ||
+                    AnatoliApp.GetInstance().GetCurrentFragmentType() == typeof(AnatoliAndroid.Fragments.FirstFragment))
                     {
                         var options = (await Anatoli.App.Manager.ProductManager.GetSuggests(_searchEditText.Text, 20));
                         if (options != null)
@@ -219,7 +220,11 @@ namespace AnatoliAndroid.Activities
                     }
                 }
             };
-            _searchEditText.ItemClick += async (s, e) => { await Search(_searchEditText.Text); };
+            _searchEditText.ItemClick += async (s, e) =>
+            {
+                HideKeyboard(_searchEditText);
+                await Search(_searchEditText.Text);
+            };
             _shoppingCardImageButton = ToolBar.FindViewById<ImageButton>(Resource.Id.shoppingCardImageButton);
             var shoppingbarRelativeLayout = ToolBar.FindViewById<RelativeLayout>(Resource.Id.shoppingbarRelativeLayout);
             shoppingbarRelativeLayout.Click += shoppingbarRelativeLayout_Click;
@@ -273,11 +278,7 @@ namespace AnatoliAndroid.Activities
         void searchImageButton_Click(object sender, EventArgs e)
         {
             DrawerLayout.CloseDrawer(GetInstance().DrawerListView);
-            if (_searchBar)
-            {
-
-            }
-            else
+            if (!_searchBar)
             {
                 OpenSearchBar();
             }

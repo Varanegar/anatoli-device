@@ -48,7 +48,7 @@ namespace AnatoliAndroid.Fragments
             try
             {
                 _listAdapter.List = await _dataManager.GetNextAsync();
-                AnatoliApp.GetInstance().SetToolbarTitle(string.Format("جستجو  \"{0}\"", value.Trim()));
+                Title = string.Format("جستجو  \"{0}\"", value.Trim());
             }
             catch (Exception ex)
             {
