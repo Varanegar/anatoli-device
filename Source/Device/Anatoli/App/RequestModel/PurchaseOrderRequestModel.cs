@@ -13,6 +13,7 @@ namespace Anatoli.App.RequestModel
         public string centerId { get; set; }
         public string poId { get; set; }
         public PurchaseOrderViewModel orderEntity { get; set; }
+        public bool getAllOrderTypes { get { return false; } }
 
     }
 }
