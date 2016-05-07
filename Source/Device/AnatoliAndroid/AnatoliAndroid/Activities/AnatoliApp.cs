@@ -306,7 +306,7 @@ namespace AnatoliAndroid.Activities
                 return null;
             }
         }
-        Fragment _currentFragment;
+        AnatoliFragment _currentFragment;
         public Activity Activity { get { return _activity; } }
         public static AnatoliApp GetInstance()
         {
@@ -597,7 +597,7 @@ namespace AnatoliAndroid.Activities
         //        return false;
         //    }
         //}
-        internal void SetFragment<FragmentType>(FragmentType fragment, string tag, Tuple<string, string> parameter) where FragmentType : Android.App.Fragment, new()
+        internal void SetFragment<FragmentType>(FragmentType fragment, string tag, Tuple<string, string> parameter) where FragmentType : AnatoliFragment, new()
         {
             if (fragment == null)
                 fragment = new FragmentType();
@@ -606,7 +606,7 @@ namespace AnatoliAndroid.Activities
             fragment.Arguments = bundle;
             SetFragment(fragment, tag);
         }
-        public void SetFragment<FragmentType>(FragmentType fragment, string tag, bool force = false) where FragmentType : Android.App.Fragment
+        public void SetFragment<FragmentType>(FragmentType fragment, string tag, bool force = false) where FragmentType : AnatoliFragment
         {
             if (_list.Count > 0)
             {
@@ -616,11 +616,12 @@ namespace AnatoliAndroid.Activities
                 }
             }
 
-            var transaction = _activity.FragmentManager.BeginTransaction();
+            var transaction = (_activity as Android.Support.V7.App.ActionBarActivity).SupportFragmentManager.BeginTransaction();
             if (fragment == null)
             {
                 throw new ArgumentNullException();
             }
+            transaction.SetCustomAnimations(Android.Resource.Animation.SlideInLeft, Android.Resource.Animation.SlideOutRight);
             transaction.Replace(Resource.Id.content_frame, fragment, tag);
             transaction.Commit();
             _toolBarTextView.Text = fragment.GetTitle();
@@ -649,7 +650,7 @@ namespace AnatoliAndroid.Activities
         }
         public bool BackFragment()
         {
-            var transaction = _activity.FragmentManager.BeginTransaction();
+            var transaction = (_activity as Android.Support.V4.App.FragmentActivity).SupportFragmentManager.BeginTransaction();
             try
             {
                 if (_list.Count <= 1)
@@ -677,9 +678,10 @@ namespace AnatoliAndroid.Activities
                         stackItem = _list.Last<StackItem>();
                     }
                     var fragment = stackItem.Fragment;
-                    transaction.Replace(Resource.Id.content_frame, fragment as Fragment, stackItem.FragmentName);
+                    transaction.SetCustomAnimations(Android.Resource.Animation.FadeIn, Android.Resource.Animation.FadeOut);
+                    transaction.Replace(Resource.Id.content_frame, fragment as AnatoliFragment, stackItem.FragmentName);
                     transaction.Commit();
-                    _toolBarTextView.Text = (fragment as Fragment).GetTitle();
+                    _toolBarTextView.Text = (fragment as AnatoliFragment).GetTitle();
                     if (fragment.GetType() != typeof(ProductsListFragment))
                     {
                         RefreshMenuItems();
@@ -847,8 +849,8 @@ namespace AnatoliAndroid.Activities
         {
             public string FragmentName;
             public Type FragmentType;
-            public Fragment Fragment;
-            public StackItem(string FragmentName, Fragment fragment)
+            public AnatoliFragment Fragment;
+            public StackItem(string FragmentName, AnatoliFragment fragment)
             {
                 this.FragmentName = FragmentName;
                 this.FragmentType = fragment.GetType();

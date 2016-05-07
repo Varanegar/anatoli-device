@@ -18,7 +18,7 @@ using Square.Picasso;
 
 namespace AnatoliAndroid.Fragments
 {
-    public class ProductDetailFragment : Fragment
+    public class ProductDetailFragment : AnatoliFragment
     {
         ProductModel _product;
         public ProductDetailFragment(ProductModel product)
@@ -50,7 +50,7 @@ namespace AnatoliAndroid.Fragments
             var favoritImageView = view.FindViewById<ImageView>(Resource.Id.favoritImageView);
 
             titleTextView.Text = _product.product_name;
-            priceTextView.Text = _product.price.ToCurrency() + " تومان";
+            priceTextView.Text = (_product.IsAvailable) ? _product.price.ToCurrency() + " تومان" : "موجود نیست";
             productCountTextView.Text = _product.count.ToString() + " عدد";
             productGroupTextView.Text = _product.cat_name;
             Picasso.With(AnatoliApp.GetInstance().Activity).Load(ProductManager.GetImageAddress(_product.product_id, _product.image)).Placeholder(Resource.Drawable.igmart).Into(productImageView);

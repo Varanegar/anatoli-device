@@ -13,7 +13,7 @@ using Android.Widget;
 
 namespace AnatoliAndroid.Fragments
 {
-    public class AnatoliFragment : Fragment
+    public class AnatoliFragment : Android.Support.V4.App.Fragment
     {
         public string Title;
     }

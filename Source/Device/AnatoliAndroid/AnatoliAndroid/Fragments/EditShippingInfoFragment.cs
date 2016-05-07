@@ -22,7 +22,7 @@ using AnatoliAndroid.ListAdapters;
 
 namespace AnatoliAndroid.Fragments
 {
-    public class EditShippingInfoFragment : DialogFragment
+    public class EditShippingInfoFragment : Android.Support.V4.App.DialogFragment
     {
         EditText _addressEditText;
         //EditText _nameEditText;

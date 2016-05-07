@@ -20,7 +20,7 @@ using Anatoli.Framework.AnatoliBase;
 namespace AnatoliAndroid.Fragments
 {
     [FragmentTitle("سفارش ها")]
-    public class OrderDetailFragment : Fragment
+    public class OrderDetailFragment : AnatoliFragment
     {
         ListView _itemsListView;
         TextView _dateTextView;
