@@ -112,7 +112,7 @@ namespace Anatoli.App.Manager
                         {
                             UpdateCommand command = new UpdateCommand(SyncManager.StoreCalendarTbl, new EqFilterParam("UniqueId", item.UniqueId),
                                 new BasicParam("StoreId", item.StoreId),
-                                new BasicParam("Date", item.Date.ConvertToUnixTimestamp().ToString()),
+                                new BasicParam("Date", item.Date),
                             new BasicParam("PDate", item.PDate),
                             new BasicParam("FromTimeString", item.FromTimeString),
                             new BasicParam("ToTimeString", item.ToTimeString),
@@ -124,7 +124,7 @@ namespace Anatoli.App.Manager
                         {
                             InsertCommand command = new InsertCommand(SyncManager.StoreCalendarTbl, new BasicParam("UniqueId", item.UniqueId),
                             new BasicParam("StoreId", item.StoreId),
-                            new BasicParam("Date", item.Date.ConvertToUnixTimestamp().ToString()),
+                            new BasicParam("Date", item.Date),
                             new BasicParam("PDate", item.PDate),
                             new BasicParam("FromTimeString", item.FromTimeString),
                             new BasicParam("ToTimeString", item.ToTimeString),

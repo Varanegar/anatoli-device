@@ -12,7 +12,7 @@ namespace Anatoli.App.Model.Store
     {
         public static string StoreOpenTime = "E4A73D47-8AC7-41D1-8EEA-21EDFBA90424";
         public static string StoreActivedeliveryTime = "D5C5E5BF-9235-48D8-B026-B7EB8DB14100";
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
         public string PDate { get; set; }
         public string FromTimeString { get; set; }
         public string ToTimeString { get; set; }
@@ -20,36 +20,16 @@ namespace Anatoli.App.Model.Store
         {
             get
             {
-                if (FromTimeString.Length == 5)
-                {
-                    var ts = TimeSpan.ParseExact(FromTimeString, @"h\:m",
-                                 CultureInfo.InvariantCulture);
-                    return ts;
-                }
-                else
-                {
-                    var ts = TimeSpan.ParseExact(FromTimeString, @"h\:m\:s",
-                                 CultureInfo.InvariantCulture);
-                    return ts;
-                }
+                var ts = TimeSpan.Parse(FromTimeString, CultureInfo.InvariantCulture);
+                return ts;
             }
         }
         public TimeSpan ToTime
         {
             get
             {
-                if (ToTimeString.Length == 5)
-                {
-                    var ts = TimeSpan.ParseExact(ToTimeString, @"h\:m",
-                                 CultureInfo.InvariantCulture);
-                    return ts;
-                }
-                else
-                {
-                    var ts = TimeSpan.ParseExact(ToTimeString, @"h\:m\:s",
-                                 CultureInfo.InvariantCulture);
-                    return ts;
-                }
+                var ts = TimeSpan.Parse(ToTimeString, CultureInfo.InvariantCulture);
+                return ts;
             }
         }
         string _storeId;
