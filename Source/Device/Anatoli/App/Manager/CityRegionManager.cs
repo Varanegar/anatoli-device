@@ -101,7 +101,7 @@ namespace Anatoli.App.Manager
         {
             try
             {
-                var query = new StringQuery("SELECT * FROM cityregion WHERE level = 1");
+                var query = new StringQuery("SELECT * FROM cityregion WHERE level = 1 ORDER BY group_name ASC");
                 var list = await BaseDataAdapter<CityRegionModel>.GetListAsync(query);
                 return list;
             }
@@ -114,7 +114,7 @@ namespace Anatoli.App.Manager
         {
             try
             {
-                var query = new StringQuery(string.Format("SELECT * FROM cityregion WHERE parent_id = '{0}'", groupId.ToUpper()));
+                var query = new StringQuery(string.Format("SELECT * FROM cityregion WHERE parent_id = '{0}' ORDER BY group_name ASC", groupId.ToUpper()));
                 query.Unlimited = true;
                 var list = await BaseDataAdapter<CityRegionModel>.GetListAsync(query);
                 return list;
