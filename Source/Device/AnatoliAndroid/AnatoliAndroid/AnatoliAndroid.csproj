@@ -984,9 +984,6 @@
     <AndroidResource Include="Resources\drawable\ic_edit_text_green_24dp.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_log_in_green.2_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable-hdpi\ic_call_green_24dp.png" />
   </ItemGroup>
   <ItemGroup>
