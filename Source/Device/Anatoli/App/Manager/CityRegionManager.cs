@@ -115,6 +115,7 @@ namespace Anatoli.App.Manager
             try
             {
                 var query = new StringQuery(string.Format("SELECT * FROM cityregion WHERE parent_id = '{0}'", groupId.ToUpper()));
+                query.Unlimited = true;
                 var list = await BaseDataAdapter<CityRegionModel>.GetListAsync(query);
                 return list;
             }
