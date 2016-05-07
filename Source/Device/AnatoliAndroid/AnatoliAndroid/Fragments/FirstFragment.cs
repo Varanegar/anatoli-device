@@ -17,6 +17,7 @@ using Android.Graphics;
 using Anatoli.App.Manager;
 using Anatoli.App.Model.Product;
 using Square.Picasso;
+using Anatoli.Framework.AnatoliBase;
 
 namespace AnatoliAndroid.Fragments
 {
@@ -57,6 +58,10 @@ namespace AnatoliAndroid.Fragments
             base.OnStart();
             AnatoliApp.GetInstance().HideMenuIcon();
             AnatoliApp.GetInstance().ShowSearchIcon();
+            if (!AnatoliClient.GetInstance().WebClient.IsOnline())
+            {
+                Toast.MakeText(Activity, "لطفا دستگاه خود را به منظور بروزرسانی اطلاعات به اینترنت متصل نمایید", ToastLength.Short).Show();
+            }
             await AnatoliApp.GetInstance().SyncDatabase();
             var categories = await CategoryManager.GetFirstLevelAsync();
             if (categories != null)

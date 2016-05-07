@@ -499,33 +499,36 @@ namespace AnatoliAndroid.Activities
 
         internal async Task SyncDatabase()
         {
-            if (!AnatoliClient.GetInstance().WebClient.IsOnline())
-            {
-                AlertDialog.Builder alert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
-                alert.SetMessage(Resource.String.PleaseConnectToInternet);
-                alert.SetCancelable(false);
-                alert.SetPositiveButton(Resource.String.Ok, async delegate
-                {
-                    await SyncDatabase();
-                });
-                alert.SetNegativeButton("تنظیمات", delegate
-                {
-                    Intent intent = new Intent(Android.Provider.Settings.ActionSettings);
-                    AnatoliApp.GetInstance().Activity.StartActivity(intent);
-                });
-                alert.Show();
-                return;
-            }
+
 
             var latestUpdateTime = await SyncManager.GetLogAsync(SyncManager.UpdateCompleted);
-            Android.App.ProgressDialog pDialog = new Android.App.ProgressDialog(_activity);
-            pDialog.SetCancelable(false);
-            SyncManager.ProgressChanged += (status, step) =>
+
+            if ((DateTime.Now - latestUpdateTime).TotalDays > 3)
             {
-                pDialog.SetMessage(status);
-            };
-            if ((DateTime.Now - latestUpdateTime).TotalMinutes > 10)
-            {
+                if (!AnatoliClient.GetInstance().WebClient.IsOnline())
+                {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
+                    alert.SetMessage(Resource.String.PleaseConnectToInternet);
+                    alert.SetCancelable(false);
+                    alert.SetPositiveButton(Resource.String.Ok, async delegate
+                    {
+                        await SyncDatabase();
+                    });
+                    alert.SetNegativeButton("تنظیمات", delegate
+                    {
+                        Intent intent = new Intent(Android.Provider.Settings.ActionSettings);
+                        AnatoliApp.GetInstance().Activity.StartActivity(intent);
+                    });
+                    alert.Show();
+                    return;
+                }
+                Android.App.ProgressDialog pDialog = new Android.App.ProgressDialog(_activity);
+                pDialog.SetCancelable(false);
+                SyncManager.ProgressChanged += (status, step) =>
+                {
+                    pDialog.SetMessage(status);
+                };
+
                 try
                 {
                     pDialog.Show();
@@ -565,6 +568,16 @@ namespace AnatoliAndroid.Activities
                 {
                     pDialog.Dismiss();
                 }
+            }
+            else if ((DateTime.Now - latestUpdateTime).TotalMinutes > 20)
+            {
+                if (!AnatoliClient.GetInstance().WebClient.IsOnline())
+                {
+                    Toast.MakeText(Activity, "لطفا دستگاه خود را به منظور بروزرسانی اطلاعات به اینترنت متصل نمایید", ToastLength.Short).Show();
+                    return;
+                }
+
+                Activity.StartService(new Intent(Activity, typeof(SyncDataBaseService)));
             }
         }
         internal void SetFragment<FragmentType>(FragmentType fragment, string tag, Tuple<string, string> parameter) where FragmentType : AnatoliFragment, new()

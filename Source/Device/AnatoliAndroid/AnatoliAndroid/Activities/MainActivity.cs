@@ -266,43 +266,39 @@ namespace AnatoliAndroid.Activities
         }
     }
 
-    //[Service]
-    //class SyncDataBaseService : Service
-    //{
+    [Service]
+    class SyncDataBaseService : Service
+    {
 
-    //    public override IBinder OnBind(Intent intent)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-    //    public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
-    //    {
-    //        Console.WriteLine("Service started");
-    //        System.Threading.Tasks.Task.Run(async () =>
-    //        {
-    //            try
-    //            {
-    //                if (AnatoliClient.GetInstance().WebClient.IsOnline())
-    //                {
-    //                    await SyncManager.SyncDatabase();
-    //                }
-    //                else
-    //                {
-    //                    Toast.MakeText(this, "لطفا دستگاه خود را به منظور بروزرسانی اطلاعات به اینترنت متصل نمایید", ToastLength.Short).Show();
-    //                }
-    //            }
-    //            catch (System.Net.WebException)
-    //            {
-    //                Toast.MakeText(this, "لطفا دستگاه خود را به منظور بروزرسانی اطلاعات به اینترنت متصل نمایید", ToastLength.Short).Show();
-    //            }
-    //            catch (Exception e)
-    //            {
-    //                e.SendTrace();
-    //            }
-    //            StopSelf();
-    //        });
-    //        return StartCommandResult.Sticky;
-    //    }
+        public override IBinder OnBind(Intent intent)
+        {
+            throw new NotImplementedException();
+        }
+        public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
+        {
+            Console.WriteLine("Service started");
+            System.Threading.Tasks.Task.Run(async () =>
+            {
+                try
+                {
+                    if (AnatoliClient.GetInstance().WebClient.IsOnline())
+                    {
+                        await SyncManager.SyncDatabase();
+                    }
+                }
+                catch (System.Net.WebException)
+                {
+                    
+                }
+                catch (Exception e)
+                {
+                    e.SendTrace();
+                }
+                StopSelf();
+            });
+            return StartCommandResult.Sticky;
+        }
 
-    //}
+    }
 }
 
