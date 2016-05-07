@@ -83,12 +83,10 @@
   </Target>
   -->
    <Target Name="AfterBuild" >
-    <MakeDir
-            Directories="bin/Debug/x86"/>
-			<MakeDir
-            Directories="bin/Debug/x64"/>
-       <Copy SourceFiles="packages\x64\sqlite3.dll" DestinationFolder="bin\Debug\x64" />
-	   <Copy SourceFiles="packages\x86\sqlite3.dll" DestinationFolder="bin\Debug\x86" />
+    <MakeDir Directories="bin/Debug/x86"/>
+	<MakeDir Directories="bin/Debug/x64"/>
+    <Copy SourceFiles="packages\64bit\sqlite3.dll" DestinationFolder="bin\Debug\x64" />
+	<Copy SourceFiles="packages\32bit\sqlite3.dll" DestinationFolder="bin\Debug\x86" />
    </Target>
    <Target Name="BeforeClean">
      <Copy SourceFiles="..\db\paa_empty.db" DestinationFiles="..\db\paa.db" />

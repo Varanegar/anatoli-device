@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,6 +32,9 @@ namespace AnatoliAndroid.Fragments
             var view = inflater.Inflate(Resource.Layout.ResetPassWordLayout, container, false);
 
             EditText codeEditText = view.FindViewById<EditText>(Resource.Id.codeEditText);
+            var editText2 = view.FindViewById<EditText>(Resource.Id.editText2);
+            var editText3 = view.FindViewById<EditText>(Resource.Id.editText3);
+
             Button okButton = view.FindViewById<Button>(Resource.Id.okButton);
             okButton.UpdateWidth();
             Dialog.SetTitle(Resource.String.ChangePassword);
@@ -39,12 +42,40 @@ namespace AnatoliAndroid.Fragments
 
             okButton.Click += async delegate
             {
+                if (string.IsNullOrEmpty(editText2.Text))
+                {
+                    var alert = new AlertDialog.Builder(Activity);
+                    alert.SetTitle(Resource.String.Error);
+                    alert.SetMessage("لطفا کلمه عبور را وارد کنید");
+                    alert.SetPositiveButton(Resource.String.Ok, delegate { });
+                    alert.Show();
+                    return;
+                }
+                if (string.IsNullOrEmpty(editText3.Text))
+                {
+                    var alert = new AlertDialog.Builder(Activity);
+                    alert.SetTitle(Resource.String.Error);
+                    alert.SetMessage("لطفا تکرار کلمه عبور را وارد کنید");
+                    alert.SetPositiveButton(Resource.String.Ok, delegate { });
+                    alert.Show();
+                    return;
+                }
+                if (!editText2.Text.Equals(editText3.Text))
+                {
+                    var alert = new AlertDialog.Builder(Activity);
+                    alert.SetTitle(Resource.String.Error);
+                    alert.SetMessage("کلمه عبور و تکرار آن یکسان نیستند");
+                    alert.SetPositiveButton(Resource.String.Ok, delegate { });
+                    alert.Show();
+                    return;
+                }
+
                 ProgressDialog pDialog = new ProgressDialog(AnatoliApp.GetInstance().Activity);
                 pDialog.SetMessage(AnatoliApp.GetResources().GetString(Resource.String.PleaseWait));
                 pDialog.Show();
                 try
                 {
-                    var result = await AnatoliUserManager.SendConfirmCode(UserName, codeEditText.Text.Trim());
+                    var result = await AnatoliUserManager.ResetPasswordByCode(UserName, editText3.Text.Trim(), codeEditText.Text.Trim());
                     pDialog.Dismiss();
                     if (result.IsValid)
                         OnPassWordChanged();
@@ -53,7 +84,7 @@ namespace AnatoliAndroid.Fragments
                 }
                 catch (Exception)
                 {
-                    OnPassWordFailed("���!");
+                    OnPassWordFailed("خطا!");
                 }
                 finally
                 {

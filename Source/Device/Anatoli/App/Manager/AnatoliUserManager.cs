@@ -170,7 +170,7 @@ namespace Anatoli.App.Manager
             var userRequestModel = new RequestModel.UserRequestModel();
             userRequestModel.username = userName;
             userRequestModel.code = code;
-            var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<BaseWebClientResult>(TokenType.AppToken, Configuration.WebService.Users.ConfirmMobile ,userRequestModel);
+            var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<BaseWebClientResult>(TokenType.AppToken, Configuration.WebService.Users.ConfirmMobile, userRequestModel);
             return result;
         }
 
@@ -190,7 +190,21 @@ namespace Anatoli.App.Manager
             var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<BaseWebClientResult>(TokenType.AppToken, Configuration.WebService.Users.ResetPassWord, userRequestModel);
             return result;
         }
-
-
+        public static async Task<BaseWebClientResult> SendPassCode(string userName)
+        {
+            var userRequestModel = new RequestModel.UserRequestModel();
+            userRequestModel.username = userName;
+            var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<BaseWebClientResult>(TokenType.AppToken, Configuration.WebService.Users.SendPassCode, userRequestModel);
+            return result;
+        }
+        public static async Task<BaseWebClientResult> ResetPasswordByCode(string userName, string passWord, string code)
+        {
+            var userRequestModel = new RequestModel.UserRequestModel();
+            userRequestModel.username = userName;
+            userRequestModel.password = passWord;
+            userRequestModel.code = code;
+            var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<BaseWebClientResult>(TokenType.AppToken, Configuration.WebService.Users.ResetPasswordByCode, userRequestModel);
+            return result;
+        }
     }
 }

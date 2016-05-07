@@ -37,8 +37,6 @@ namespace AnatoliAndroid.Fragments
             {
                 editText1.Text = UserName;
             }
-            var editText2 = view.FindViewById<EditText>(Resource.Id.editText2);
-            var editText3 = view.FindViewById<EditText>(Resource.Id.editText3);
             var button1 = view.FindViewById<Button>(Resource.Id.button1);
             button1.UpdateWidth();
             button1.Click += async delegate
@@ -60,61 +58,53 @@ namespace AnatoliAndroid.Fragments
                      eAlert.Show();
                      return;
                  }
-                 if (editText2.Text.Equals(editText3.Text))
+
+                 ProgressDialog pDialog = new ProgressDialog(AnatoliApp.GetInstance().Activity);
+                 pDialog.SetMessage(AnatoliApp.GetResources().GetString(Resource.String.PleaseWait));
+                 pDialog.Show();
+                 try
                  {
-                     ProgressDialog pDialog = new ProgressDialog(AnatoliApp.GetInstance().Activity);
-                     pDialog.SetMessage(AnatoliApp.GetResources().GetString(Resource.String.PleaseWait));
-                     pDialog.Show();
-                     try
+                     var result = await AnatoliUserManager.SendPassCode(editText1.Text);
+                     pDialog.Dismiss();
+                     ResetPasswordDialog resetDialog = new ResetPasswordDialog();
+                     resetDialog.UserName = editText1.Text;
+                     var t = AnatoliApp.GetInstance().Activity.FragmentManager.BeginTransaction();
+                     resetDialog.Show(t, "confirm_dialog");
+                     resetDialog.PassWordChanged += delegate
                      {
-                         var result = await AnatoliUserManager.ResetPassword(editText1.Text, editText2.Text);
-                         pDialog.Dismiss();
-                         ResetPasswordDialog resetDialog = new ResetPasswordDialog();
-                         resetDialog.UserName = editText1.Text;
-                         var t = AnatoliApp.GetInstance().Activity.FragmentManager.BeginTransaction();
-                         resetDialog.Show(t, "confirm_dialog");
-                         resetDialog.PassWordChanged += delegate
-                         {
-                             AlertDialog.Builder eAlert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
-                             eAlert.SetMessage("کلمه عبور با موفقیت تغییر یافت");
-                             eAlert.SetPositiveButton(Resource.String.Ok, delegate
-                             {
-                                 Dismiss();
-                             });
-                             eAlert.Show();
-                         };
-                         resetDialog.PassWordFailed += (msg) =>
-                         {
-                             AlertDialog.Builder eAlert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
-                             eAlert.SetTitle(Resource.String.Error);
-                             eAlert.SetMessage(msg);
-                             eAlert.SetPositiveButton(Resource.String.Ok, delegate
-                             {
-                                 Dismiss();
-                             });
-                             eAlert.Show();
-                         };
-                     }
-                     catch (Exception)
-                     {
-                         pDialog.Dismiss();
                          AlertDialog.Builder eAlert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
-                         eAlert.SetMessage("اجرای درخواست شما با خطا مواجه شد");
+                         eAlert.SetMessage("کلمه عبور با موفقیت تغییر یافت");
                          eAlert.SetPositiveButton(Resource.String.Ok, delegate
                          {
                              Dismiss();
                          });
                          eAlert.Show();
-                     }
+                     };
+                     resetDialog.PassWordFailed += (msg) =>
+                     {
+                         AlertDialog.Builder eAlert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
+                         eAlert.SetTitle(Resource.String.Error);
+                         eAlert.SetMessage(msg);
+                         eAlert.SetPositiveButton(Resource.String.Ok, delegate
+                         {
+                             Dismiss();
+                         });
+                         eAlert.Show();
+                     };
                  }
-                 else
+                 catch (Exception)
                  {
+                     pDialog.Dismiss();
                      AlertDialog.Builder eAlert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
-                     eAlert.SetTitle(Resource.String.Error);
-                     eAlert.SetMessage("کلمه عبور و تکرار آن یکسان نیستند");
-                     eAlert.SetPositiveButton(Resource.String.Ok, delegate { });
+                     eAlert.SetMessage("اجرای درخواست شما با خطا مواجه شد");
+                     eAlert.SetPositiveButton(Resource.String.Ok, delegate
+                     {
+                         Dismiss();
+                     });
                      eAlert.Show();
                  }
+                 
+                
              };
             return view;
         }

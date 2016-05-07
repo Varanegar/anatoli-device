@@ -75,6 +75,8 @@ namespace Anatoli.Framework.AnatoliBase
                 public static readonly string ConfirmMobile = "/api/accounts/confirmmobile/";
                 public static readonly string ResendConfirmCode = "/api/accounts/resendpasscode/";
                 public static readonly string ResetPassWord = "/api/accounts/resetpassword/";
+                public static readonly string ResetPasswordByCode = "/api/accounts/resetpasswordbycode/";
+                public static readonly string SendPassCode = "/api/accounts/sendpasscode/";
                 public static readonly string ViewProfileUrl = "/api/gateway/customer/customers";
                 public static readonly string SaveProfileUrl = "/api/gateway/customer/savesingle";
                 public static readonly string ShoppingCardSave = "/api/gateway/incompletepurchaseorder/save?privateOwnerId=3EEE33CE-E2FD-4A5D-A71C-103CC5046D0C";
