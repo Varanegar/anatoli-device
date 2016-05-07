@@ -17,9 +17,7 @@
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="0dp" />
-        <include
-            android:id="@+id/btoolbar"
-            layout="@layout/bottomToolbar" />
+       
     <!-- We use a Toolbar so that our drawer can be displayed
              in front of the action bar -->
     <!-- The rest of your content view -->
