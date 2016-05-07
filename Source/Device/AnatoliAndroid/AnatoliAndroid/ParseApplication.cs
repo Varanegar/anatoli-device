@@ -31,7 +31,6 @@ namespace AnatoliAndroid
         public override void OnCreate()
         {
             base.OnCreate();
-
             var cn = (ConnectivityManager)GetSystemService(ConnectivityService);
             AnatoliClient.GetInstance(new AndroidWebClient(cn), new SQLiteAndroid(), new AndroidFileIO());
             if (AnatoliClient.GetInstance().WebClient.IsOnline())

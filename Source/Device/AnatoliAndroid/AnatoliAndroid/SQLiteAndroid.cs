@@ -12,7 +12,8 @@ using Android.Widget;
 using Anatoli.Framework.AnatoliBase;
 using System.IO;
 using SQLite;
-
+using AnatoliAndroid.Activities;
+using AnatoliAndroid;
 
 namespace AnatoliAndroid
 {
@@ -26,39 +27,32 @@ namespace AnatoliAndroid
             return conn;
 
         }
-        public static void ExportDb()
-        {
 
-            string path = FileAccessHelper.GetLocalFilePath("paa.db");
-            System.IO.File.Copy(path, Android.OS.Environment.ExternalStorageDirectory.AbsolutePath + "/paa.db", true);
-
-        }
         public class FileAccessHelper
         {
             public static string GetLocalFilePath(string filename)
             {
                 string path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
                 string dbPath = Path.Combine(path, filename);
-
-                CopyDatabaseIfNotExists(dbPath, filename);
+                if (AnatoliApp.GetInstance().Activity.CheckFirstRun())
+                {
+                    CopyDatabase(dbPath, filename);
+                }
 
                 return dbPath;
             }
 
-            private static void CopyDatabaseIfNotExists(string dbPath, string fileName)
+            private static void CopyDatabase(string dbPath, string fileName)
             {
-                if (!File.Exists(dbPath))
+                using (var br = new BinaryReader(Application.Context.Assets.Open(fileName)))
                 {
-                    using (var br = new BinaryReader(Application.Context.Assets.Open(fileName)))
+                    using (var bw = new BinaryWriter(new FileStream(dbPath, FileMode.Create)))
                     {
-                        using (var bw = new BinaryWriter(new FileStream(dbPath, FileMode.Create)))
+                        byte[] buffer = new byte[2048];
+                        int length = 0;
+                        while ((length = br.Read(buffer, 0, buffer.Length)) > 0)
                         {
-                            byte[] buffer = new byte[2048];
-                            int length = 0;
-                            while ((length = br.Read(buffer, 0, buffer.Length)) > 0)
-                            {
-                                bw.Write(buffer, 0, length);
-                            }
+                            bw.Write(buffer, 0, length);
                         }
                     }
                 }

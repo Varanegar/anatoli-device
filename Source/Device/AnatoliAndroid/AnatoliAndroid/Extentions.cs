@@ -94,5 +94,57 @@ namespace AnatoliAndroid
                 HockeyApp.TraceWriter.WriteTrace(ex, false);
             }
         }
+
+        public static bool CheckFirstRun(this Activity context)
+        {
+
+            String PREFS_NAME = "MyPrefsFile";
+            String PREF_VERSION_CODE_KEY = "version_code";
+            int DOESNT_EXIST = -1;
+
+
+            // Get current version code
+            int currentVersionCode = 0;
+            try
+            {
+                currentVersionCode = context.PackageManager.GetPackageInfo(context.PackageName, 0).VersionCode;
+            }
+            catch
+            {
+                return true;
+            }
+
+            // Get saved version code
+            var prefs = context.GetSharedPreferences(PREFS_NAME, FileCreationMode.Private);
+            int savedVersionCode = prefs.GetInt(PREF_VERSION_CODE_KEY, DOESNT_EXIST);
+
+            // Check for first run or upgrade
+            if (currentVersionCode == savedVersionCode)
+            {
+
+                // This is just a normal run
+                return false;
+
+            }
+            else if (savedVersionCode == DOESNT_EXIST)
+            {
+
+                // TODO This is a new install (or the user cleared the shared preferences)
+                prefs.Edit().PutInt(PREF_VERSION_CODE_KEY, currentVersionCode).Commit();
+                return true;
+            }
+            else if (currentVersionCode > savedVersionCode)
+            {
+
+                // TODO This is an upgrade
+                prefs.Edit().PutInt(PREF_VERSION_CODE_KEY, currentVersionCode).Commit();
+                return true;
+            }
+            prefs.Edit().PutInt(PREF_VERSION_CODE_KEY, currentVersionCode).Commit();
+            return false;
+            // Update the shared preferences with the current version code
+
+
+        }
     }
 }

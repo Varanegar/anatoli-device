@@ -502,7 +502,7 @@ namespace AnatoliAndroid.Activities
         {
             var latestUpdateTime = await SyncManager.GetLogAsync(SyncManager.UpdateCompleted);
 
-            if ((DateTime.Now - latestUpdateTime).TotalDays > 3)
+            if ((DateTime.Now - latestUpdateTime).TotalDays > 10)
             {
                 if (!AnatoliClient.GetInstance().WebClient.IsOnline())
                 {
