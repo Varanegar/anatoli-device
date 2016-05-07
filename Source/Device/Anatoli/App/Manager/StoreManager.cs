@@ -26,7 +26,7 @@ namespace Anatoli.App.Manager
                 {
                     var data = new RequestModel.BaseRequestModel();
                     data.dateAfter = lastUpdateTime.ToString();
-                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<StoreUpdateModel>>(TokenType.AppToken, Configuration.WebService.Stores.StoresViewAfter,data);
+                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<StoreUpdateModel>>(TokenType.AppToken, Configuration.WebService.Stores.StoresViewAfter, data);
                 }
                 Dictionary<string, StoreDataModel> items = new Dictionary<string, StoreDataModel>();
                 using (var connection = AnatoliClient.GetInstance().DbClient.GetConnection())
@@ -75,8 +75,18 @@ namespace Anatoli.App.Manager
                     connection.Commit();
                 }
 
+                await SyncStoreCalendar();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
 
-
+        public static async Task SyncStoreCalendar()
+        {
+            try
+            {
                 List<StoreCalendarViewModel> list2;
                 list2 = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<StoreCalendarViewModel>>(TokenType.AppToken, Configuration.WebService.Stores.StoreCalendar);
 
@@ -127,9 +137,9 @@ namespace Anatoli.App.Manager
                 }
                 await SyncManager.AddLogAsync(SyncManager.StoreCalendarTbl);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw e;
+                throw;
             }
         }
         public static StringQuery Search(string value)
@@ -137,10 +147,11 @@ namespace Anatoli.App.Manager
             StringQuery query = new StringQuery(string.Format("SELECT * FROM stores WHERE store_name LIKE '%{0}%'", value));
             return query;
         }
-		public static StringQuery GetAll(){
-			StringQuery query = new StringQuery(string.Format("SELECT * FROM stores"));
-			return query;
-		}
+        public static StringQuery GetAll()
+        {
+            StringQuery query = new StringQuery(string.Format("SELECT * FROM stores"));
+            return query;
+        }
         public static async Task<bool> SelectAsync(StoreDataModel store)
         {
             UpdateCommand command1 = new UpdateCommand("stores", new BasicParam("selected", "0"));

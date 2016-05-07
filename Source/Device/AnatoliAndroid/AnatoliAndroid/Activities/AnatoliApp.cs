@@ -499,8 +499,6 @@ namespace AnatoliAndroid.Activities
 
         internal async Task SyncDatabase()
         {
-
-
             var latestUpdateTime = await SyncManager.GetLogAsync(SyncManager.UpdateCompleted);
 
             if ((DateTime.Now - latestUpdateTime).TotalDays > 3)
@@ -578,6 +576,15 @@ namespace AnatoliAndroid.Activities
                 }
 
                 Activity.StartService(new Intent(Activity, typeof(SyncDataBaseService)));
+            }
+            else
+            {
+                if (!AnatoliClient.GetInstance().WebClient.IsOnline())
+                {
+                    Toast.MakeText(Activity, "لطفا دستگاه خود را به منظور بروزرسانی اطلاعات به اینترنت متصل نمایید", ToastLength.Short).Show();
+                    return;
+                }
+                await StoreManager.SyncStoreCalendar();
             }
         }
         internal void SetFragment<FragmentType>(FragmentType fragment, string tag, Tuple<string, string> parameter) where FragmentType : AnatoliFragment, new()
