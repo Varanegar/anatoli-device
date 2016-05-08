@@ -9,7 +9,7 @@ namespace AnatoliIOS.Clients
     {
         public override bool IsOnline()
         {
-            if (Reachability.InternetConnectionStatus() != NetworkStatus.NotReachable)
+            if (Reachability.InternetConnectionStatus() == NetworkStatus.NotReachable)
                 return false;
             else
                 return true;
