@@ -578,15 +578,6 @@ namespace AnatoliAndroid.Activities
 
                 Activity.StartService(new Intent(Activity, typeof(SyncDataBaseService)));
             }
-            else
-            {
-                if (!AnatoliClient.GetInstance().WebClient.IsOnline())
-                {
-                    Toast.MakeText(Activity, "لطفا دستگاه خود را به منظور بروزرسانی اطلاعات به اینترنت متصل نمایید", ToastLength.Short).Show();
-                    return;
-                }
-                await StoreManager.SyncStoreCalendar();
-            }
         }
         internal void SetFragment<FragmentType>(FragmentType fragment, string tag, Tuple<string, string> parameter) where FragmentType : AnatoliFragment, new()
         {

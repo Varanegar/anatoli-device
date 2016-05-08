@@ -96,6 +96,7 @@ namespace AnatoliAndroid.Fragments
             _deliveryTimeListBox = view.FindViewById<AnatoliListBox<DeliveryTimeListAdapter, DeliveryTimeManager, DeliveryTimeModel>>(Resource.Id.timeSpinner);
             _deliveryTypeListBox = view.FindViewById<AnatoliListBox<DeliveryTypeListAdapter, DeliveryTypeManager, DeliveryTypeModel>>(Resource.Id.typeSpinner);
 
+
             _checkoutButton.Click += async (s, e) =>
             {
                 if (!AnatoliClient.GetInstance().WebClient.IsOnline())
@@ -377,6 +378,46 @@ namespace AnatoliAndroid.Fragments
                 {
                     var storef = new StoresListFragment();
                     AnatoliApp.GetInstance().SetFragment<StoresListFragment>(new StoresListFragment(), "stores_fragment");
+                }
+
+                if (!AnatoliClient.GetInstance().WebClient.IsOnline())
+                {
+                    Toast.MakeText(Activity, "لطفا دستگاه خود را به منظور بروزرسانی اطلاعات به اینترنت متصل نمایید", ToastLength.Short).Show();
+                }
+                else
+                {
+                    var progressDialog = new ProgressDialog(Activity);
+                    try
+                    {
+                        var latestUpdateTime = await SyncManager.GetLogAsync(SyncManager.StoreCalendarTbl);
+                        if ((DateTime.Now - latestUpdateTime) > TimeSpan.FromMinutes(15))
+                        {
+                            progressDialog.SetMessage("بروزرسانی اطلاعات");
+                            progressDialog.SetCancelable(false);
+                            progressDialog.SetButton(AnatoliApp.GetResources().GetString(Resource.String.Ok), delegate { progressDialog.Dismiss(); });
+                            progressDialog.Show();
+                            await StoreManager.SyncStoreCalendar();
+                        }
+                    }
+                    catch (AnatoliWebClientException ex)
+                    {
+                        var alert = new AlertDialog.Builder(Activity);
+                        alert.SetMessage(ex.MetaInfo.ModelStateString);
+                        alert.SetPositiveButton(Resource.String.Ok, delegate { });
+                        alert.Show();
+                    }
+                    catch (Exception ex)
+                    {
+                        var alert = new AlertDialog.Builder(Activity);
+                        alert.SetMessage(Resource.String.ErrorOccured);
+                        alert.SetPositiveButton(Resource.String.Ok, delegate { });
+                        alert.Show();
+                        ex.SendTrace();
+                    }
+                    finally
+                    {
+                        progressDialog.Dismiss();
+                    }
                 }
 
             }
