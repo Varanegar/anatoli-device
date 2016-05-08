@@ -143,6 +143,10 @@
     <Compile Include="ViewControllers\LoginViewController.designer.cs">
       <DependentUpon>LoginViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="ViewControllers\OrderDetailViewController.cs" />
+    <Compile Include="ViewControllers\OrderDetailViewController.designer.cs">
+      <DependentUpon>OrderDetailViewController.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewControllers\ProfileViewController.cs" />
     <Compile Include="ViewControllers\ProfileViewController.designer.cs">
       <DependentUpon>ProfileViewController.cs</DependentUpon>
@@ -284,6 +288,7 @@
       <DependentUpon>OrdersStatusViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="TableViewSources\OrderStatusTableViewSource.cs" />
+    <InterfaceDefinition Include="ViewControllers\OrderDetailViewController.xib" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="RootViewController.cs" />

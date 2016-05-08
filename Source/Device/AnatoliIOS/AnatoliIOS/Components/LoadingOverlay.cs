@@ -12,7 +12,7 @@ namespace AnatoliIOS.Components
         UIActivityIndicatorView activitySpinner;
         UILabel loadingLabel;
 
-        public LoadingOverlay(CGRect frame)
+        public LoadingOverlay(CGRect frame, bool cancelable = false)
             : base(frame)
         {
             // configurable bits
@@ -51,9 +51,32 @@ namespace AnatoliIOS.Components
             loadingLabel.Font = UIFont.FromName("IRAN", 13);
             loadingLabel.TextAlignment = UITextAlignment.Center;
             loadingLabel.AutoresizingMask = UIViewAutoresizing.All;
-            AddSubview(loadingLabel);
+            var cancelButton = new UIButton(new CGRect(
+                centerX - (labelWidth / 2),
+                centerY + 50,
+                labelWidth,
+                labelHeight
+                ));
 
+            cancelButton.SetTitleColor(UIColor.White, UIControlState.Normal);
+            cancelButton.SetTitle("بی خیال", UIControlState.Normal);
+            cancelButton.Font = UIFont.FromName("IRAN", 13);
+            cancelButton.AutoresizingMask = UIViewAutoresizing.All;
+            cancelButton.TouchUpInside += delegate
+            {
+                if (Canceled != null)
+                {
+                    Canceled.Invoke(this, new EventArgs());
+                }
+            };
+            AddSubview(loadingLabel);
+            if (cancelable)
+            {
+                AddSubview(cancelButton);
+            }
         }
+
+        public EventHandler Canceled;
 
         /// <summary>
         /// Fades out the control and then removes it from the super view

@@ -4,6 +4,8 @@ using Anatoli.App.Model.Store;
 using AnatoliIOS.TableViewCells;
 using Foundation;
 using ObjCRuntime;
+using UIKit;
+using AnatoliIOS.ViewControllers;
 
 namespace AnatoliIOS.TableViewSources
 {
@@ -26,6 +28,12 @@ namespace AnatoliIOS.TableViewSources
 		{
 			return 104;
 		}
-	}
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            tableView.DeselectRow(indexPath, true);
+            OrderDetailViewController p = new OrderDetailViewController(Items[indexPath.Row]);
+            AnatoliApp.GetInstance().PushViewController(p);
+        }
+    }
 }
 
