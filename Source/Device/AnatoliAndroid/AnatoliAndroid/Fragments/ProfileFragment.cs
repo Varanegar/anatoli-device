@@ -388,7 +388,7 @@ namespace AnatoliAndroid.Fragments
                     if (data.Data != null)
                     {
                         var path = AndroidFileIO.GetPathToImage(data.Data, AnatoliApp.GetInstance().Activity);
-                        var image = AnatoliClient.GetInstance().FileIO.ReadAllBytes(path);
+                        var imageBytes = AnatoliClient.GetInstance().FileIO.ReadAllBytes(path);
                         System.Threading.CancellationTokenSource cancelToken = new System.Threading.CancellationTokenSource();
                         _cancelImageView.Click += delegate
                         {
@@ -396,16 +396,24 @@ namespace AnatoliAndroid.Fragments
                             _progress.Visibility = ViewStates.Gone;
                             _cancelImageView.Visibility = ViewStates.Gone;
                         };
-                        await CustomerManager.UploadImageAsync(_customerViewModel.UniqueId, image, cancelToken);
+                        byte[] scaledImageBytes;
+                        Bitmap bitmap = BitmapFactory.DecodeByteArray(imageBytes, 0, imageBytes.Length);
+                        var r = bitmap.Width / 300.0;
+                        var scaledBitMap = Bitmap.CreateScaledBitmap(bitmap, 300, (int)Math.Floor(bitmap.Height / r), false);
+                        System.IO.MemoryStream stream = new System.IO.MemoryStream();
+                        scaledBitMap.Compress(Bitmap.CompressFormat.Jpeg, 100, stream);
+
+                        scaledImageBytes = stream.ToArray();
+                        await CustomerManager.UploadImageAsync(_customerViewModel.UniqueId, scaledImageBytes, cancelToken);
                         OnImageUploaded();
                     }
                 }
                 catch (Exception e)
                 {
-                    e.SendTrace();
                     if (e.GetType() != typeof(TaskCanceledException))
                     {
                         OnImageUploadFailed();
+                        e.SendTrace();
                     }
                 }
                 finally
