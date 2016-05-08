@@ -29,12 +29,6 @@
     <CodesignProvision>8e0383fd-6b2c-4edb-863a-1e57927c6020</CodesignProvision>
     <CodesignKey>iPhone Developer: Arman Fazly (G34LZVS594)</CodesignKey>
     <MtouchSdkVersion>9.2</MtouchSdkVersion>
-    <MtouchProfiling>False</MtouchProfiling>
-    <MtouchFastDev>False</MtouchFastDev>
-    <MtouchUseLlvm>False</MtouchUseLlvm>
-    <MtouchUseThumb>False</MtouchUseThumb>
-    <MtouchUseSGen>False</MtouchUseSGen>
-    <MtouchUseRefCounting>False</MtouchUseRefCounting>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
@@ -77,8 +71,8 @@
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Developer: Arman Fazly (G34LZVS594)</CodesignKey>
     <CodesignProvision>03653a1a-e19a-45eb-bebd-8d2464761e57</CodesignProvision>
-    <CodesignResourceRules />
-    <CodesignExtraArgs />
+    <CodesignExtraArgs>
+    </CodesignExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>none</DebugType>
@@ -95,8 +89,8 @@
     <CodesignKey>iPhone Distribution</CodesignKey>
     <MtouchSdkVersion>9.2</MtouchSdkVersion>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
-    <CodesignResourceRules />
-    <CodesignExtraArgs />
+    <CodesignExtraArgs>
+    </CodesignExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
     <DebugType>none</DebugType>
@@ -110,8 +104,8 @@
     <CodesignProvision>
     </CodesignProvision>
     <CodesignKey>iPhone Distribution</CodesignKey>
-    <CodesignResourceRules />
-    <CodesignExtraArgs />
+    <CodesignExtraArgs>
+    </CodesignExtraArgs>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AnatoliApp\AnatoliApp.cs" />
@@ -289,6 +283,11 @@
     </Compile>
     <Compile Include="TableViewSources\OrderStatusTableViewSource.cs" />
     <InterfaceDefinition Include="ViewControllers\OrderDetailViewController.xib" />
+    <InterfaceDefinition Include="TableViewCells\OrderHistoryItemSummaryViewCell.xib" />
+    <Compile Include="TableViewCells\OrderHistoryItemSummaryViewCell.cs" />
+    <Compile Include="TableViewCells\OrderHistoryItemSummaryViewCell.designer.cs">
+      <DependentUpon>OrderHistoryItemSummaryViewCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="RootViewController.cs" />
@@ -305,14 +304,6 @@
     <Reference Include="MonoTouch.Dialog-1" />
     <Reference Include="SDWebImage">
       <HintPath>..\packages\SDWebImage.dll</HintPath>
-    </Reference>
-    <Reference Include="SQLite-net, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\SQLite-net.dll</HintPath>
-    </Reference>
-    <Reference Include="SQLitePCL.raw, Version=0.8.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\SQLitePCL.raw.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Net.Http.Extensions">
@@ -338,6 +329,12 @@
     </Reference>
     <Reference Include="XPComponentKeyGenerator">
       <HintPath>..\packages\XPComponentKeyGenerator.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLite-net">
+      <HintPath>..\packages\SQLite-net.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCL.raw">
+      <HintPath>..\packages\SQLitePCL.raw.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -6,6 +6,8 @@ using Anatoli.App.Model.Product;
 using Foundation;
 using Anatoli.Framework.AnatoliBase;
 using SDWebImage;
+using System.Collections.Generic;
+using Anatoli.App.Model.Store;
 
 namespace AnatoliIOS
 {
@@ -114,6 +116,7 @@ namespace AnatoliIOS
             // Release any cached data, images, etc that aren't in use.
         }
     }
+
 }
 
 
