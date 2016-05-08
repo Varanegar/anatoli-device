@@ -17,6 +17,7 @@ using Anatoli.App.Manager;
 using Anatoli.App.Model.Product;
 using Java.Lang;
 using Anatoli.App.Model;
+using System.Globalization;
 
 namespace AnatoliAndroid.Fragments
 {
@@ -24,7 +25,7 @@ namespace AnatoliAndroid.Fragments
     {
         PurchaseOrderViewModel _orderViewModel;
         CustomerViewModel _customerViewModel;
-        public ProformaFragment(PurchaseOrderViewModel orderViewModel, CustomerViewModel customerViewModel )
+        public ProformaFragment(PurchaseOrderViewModel orderViewModel, CustomerViewModel customerViewModel)
         {
             _orderViewModel = orderViewModel;
             _customerViewModel = customerViewModel;
@@ -45,7 +46,8 @@ namespace AnatoliAndroid.Fragments
             Dialog.SetCanceledOnTouchOutside(false);
 
             view.FindViewById<TextView>(Resource.Id.deliveryAddressTextView).Text = _customerViewModel.MainStreet;
-            view.FindViewById<TextView>(Resource.Id.orderDateTextView).Text = "تاریخ : " + _orderViewModel.OrderDate.ToString();
+            var pc = new PersianCalendar();
+            view.FindViewById<TextView>(Resource.Id.orderDateTextView).Text = "تاریخ : " + pc.GetYear(_orderViewModel.OrderDate.Value).ToString() + "/" + pc.GetMonth(_orderViewModel.OrderDate.Value).ToString() + "/" + pc.GetDayOfMonth(_orderViewModel.OrderDate.Value).ToString();
             view.FindViewById<TextView>(Resource.Id.orderPriceTextView).Text = "مبلغ قابل پرداخت : " + _orderViewModel.NetAmount.ToCurrency();
 
             view.FindViewById<TextView>(Resource.Id.totalPriceTextView).Text = _orderViewModel.Amount.ToCurrency();
