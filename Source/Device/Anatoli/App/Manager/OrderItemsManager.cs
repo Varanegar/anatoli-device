@@ -17,13 +17,12 @@ namespace Anatoli.App.Manager
             try
             {
                 StringQuery query = new StringQuery(String.Format(@"SELECT orders.order_id as order_id,
-order_items.product_price * order_items.product_count as item_price,
+order_items.item_price as item_price,
 products.product_name as product_name,
 products.image as image,
 products.favorit as favorit,
 order_items.product_count as item_count,
-order_items.product_id as product_id,
-order_items.product_price as product_price
+order_items.product_id as product_id
 FROM
 orders JOIN order_items ON orders.order_id = order_items.order_id
 JOIN stores ON orders.store_id = stores.store_id

@@ -134,7 +134,7 @@ namespace Anatoli.App.Manager
                         p.Add(new BasicParam("order_id", order.order_id.ToString()));
                         p.Add(new BasicParam("product_id", item.ProductId.ToString().ToUpper()));
                         p.Add(new BasicParam("product_count", item.FinalQty.ToString()));
-                        p.Add(new BasicParam("product_price", item.FinalNetAmount.ToString()));
+                        p.Add(new BasicParam("item_price", item.FinalNetAmount.ToString()));
                         parametres.Add(p);
                     }
                     InsertAllCommand command2 = new InsertAllCommand("order_items", parametres);

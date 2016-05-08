@@ -15,7 +15,6 @@ namespace Anatoli.App.Model.Store
         string _productId;
         public string product_id { get { return _productId.ToUpper(); } set { _productId = value; } }
         public int item_count { get; set; }
-        public double product_price { get; set; }
         public int favorit { get; set; }
         public string image { get; set; }
         public bool IsFavorit { get { return (favorit == 1) ? true : false; } }
