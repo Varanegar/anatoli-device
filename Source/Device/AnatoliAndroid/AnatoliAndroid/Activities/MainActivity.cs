@@ -121,6 +121,7 @@ namespace AnatoliAndroid.Activities
                             {
                                 OrderManager.SyncOrdersAsync(AnatoliApp.GetInstance().CustomerId);
                                 AnatoliApp.GetInstance().RefreshCutomerProfile();
+                                AnatoliApp.GetInstance().UpdateBasketIcon();
                             }
                         }
                         catch (Exception e)

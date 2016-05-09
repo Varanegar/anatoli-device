@@ -68,7 +68,7 @@ namespace AnatoliAndroid.Activities
         void SetTotalPrice(double price)
         {
             _price = price;
-            if (!_shoppingCardTextView.Text.Equals("0"))
+            if ((int)_price != 0)
                 _shoppingPriceTextView.Visibility = ViewStates.Visible;
             else
                 _shoppingPriceTextView.Visibility = ViewStates.Invisible;
@@ -242,6 +242,12 @@ namespace AnatoliAndroid.Activities
                 SetTotalPrice(0);
                 _shoppingCardTextView.Text = "0";
             };
+        }
+
+        public async Task UpdateBasketIcon()
+        {
+            SetTotalPrice(await ShoppingCardManager.GetTotalPriceAsync());
+            _shoppingCardTextView.Text = (await ShoppingCardManager.GetItemsCountAsync()).ToString();
         }
 
         void shoppingbarRelativeLayout_Click(object sender, EventArgs e)
