@@ -373,7 +373,7 @@ namespace AnatoliAndroid.Activities
                         {
                             var p = new ProductsListFragment();
                             p.SetCatId(null);
-                            SetFragment<ProductsListFragment>(p, "products_fragment",true);
+                            SetFragment<ProductsListFragment>(p, "products_fragment", true);
                             await RefreshMenuItems("0");
                         }
                         break;
@@ -431,6 +431,12 @@ namespace AnatoliAndroid.Activities
                         var profileF = new ProfileFragment();
                         var tr = _activity.FragmentManager.BeginTransaction();
                         profileF.Show(tr, "profile_fragment");
+                        break;
+                    case DrawerMainItem.DrawerMainItems.About:
+                        DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);
+                        var aboutF = new AboutDialog();
+                        tr = _activity.FragmentManager.BeginTransaction();
+                        aboutF.Show(tr, "about_fragment");
                         break;
                     case DrawerMainItem.DrawerMainItems.Messages:
                         DrawerLayout.CloseDrawer(AnatoliApp.GetInstance().DrawerListView);
@@ -838,6 +844,12 @@ namespace AnatoliAndroid.Activities
             //settingsMenuEntry.ItemId = DrawerMainItem.DrawerMainItems.Settings;
             //settingsMenuEntry.Name = AnatoliApp.GetResources().GetText(Resource.String.Settings);
             //mainItems.Add(settingsMenuEntry);
+
+            var aboutMenuEntry = new DrawerMainItem();
+            aboutMenuEntry.ItemId = DrawerMainItem.DrawerMainItems.About;
+            aboutMenuEntry.Name = "درباره ایگ";
+            mainItems.Add(aboutMenuEntry);
+
 
             AnatoliMenuItems = mainItems;
             _drawerListView.Adapter = new DrawerMenuItems(AnatoliMenuItems, _activity);

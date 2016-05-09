@@ -161,6 +161,7 @@
     <Compile Include="Components\RoundedImageView.cs" />
     <Compile Include="Components\TypeFaceProvider.cs" />
     <Compile Include="Extentions.cs" />
+    <Compile Include="Fragments\AboutDialog.cs" />
     <Compile Include="Fragments\AnatoliFragment.cs" />
     <Compile Include="Fragments\ConfirmDialog.cs" />
     <Compile Include="Fragments\EditShippingInfoFragment.cs" />
@@ -208,6 +209,9 @@
     </AndroidAsset>
     <None Include="app.config" />
     <AndroidAsset Include="Assets\Fonts\anatoli.ttf" />
+    <AndroidResource Include="Resources\layout\AboutLayout.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
     <ProguardConfiguration Include="proguard.cfg" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
