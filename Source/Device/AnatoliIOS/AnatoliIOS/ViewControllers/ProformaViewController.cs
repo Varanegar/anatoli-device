@@ -56,7 +56,7 @@ namespace AnatoliIOS.ViewControllers
             }
             footerView.Count = count.ToString("N0");
             footerView.Tax = (_order.ChargeAmount + _order.TaxAmount).ToCurrency();
-            table.Source = new OrderItemsTableViewSource(_order.LineItems);
+            table.Source = new OrderItemsTableViewSource(_order.LineItems, _order);
             okButton.TouchUpInside += async delegate
             {
                 try
@@ -127,9 +127,11 @@ namespace AnatoliIOS.ViewControllers
     class OrderItemsTableViewSource : UITableViewSource
     {
         List<PurchaseOrderLineItemViewModel> _items;
-        public OrderItemsTableViewSource(List<PurchaseOrderLineItemViewModel> items)
+        PurchaseOrderViewModel _order;
+        public OrderItemsTableViewSource(List<PurchaseOrderLineItemViewModel> items, PurchaseOrderViewModel order)
         {
             _items = items;
+            _order = order;
         }
         public override nint RowsInSection(UITableView tableview, nint section)
         {
@@ -148,7 +150,7 @@ namespace AnatoliIOS.ViewControllers
             {
                 if (_items.Count > indexPath.Row)
                 {
-                    cell.Update(_items[indexPath.Row], tableView, indexPath);
+                    cell.Update(_items[indexPath.Row], _order, tableView, indexPath);
                 }
             }
             return cell;

@@ -4,6 +4,8 @@ using AnatoliIOS;
 using HockeyApp;
 using System;
 using System.Threading.Tasks;
+using Anatoli.Framework.AnatoliBase;
+using AnatoliIOS.Clients;
 
 namespace AnatoliIOS
 {
@@ -66,6 +68,23 @@ namespace AnatoliIOS
             UINavigationBar.Appearance.BarTintColor = UIColor.Clear.FromHex(0x085e7d);
             UINavigationBar.Appearance.TintColor = UIColor.White;
 
+            AnatoliClient.GetInstance(new IosWebClient(), new IosSqliteClient(), new IosFileIO());
+
+            if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+            {
+                var pushSettings = UIUserNotificationSettings.GetSettingsForTypes(
+                                   UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound,
+                                   new NSSet());
+
+                UIApplication.SharedApplication.RegisterUserNotificationSettings(pushSettings);
+                UIApplication.SharedApplication.RegisterForRemoteNotifications();
+            }
+            else
+            {
+                UIRemoteNotificationType notificationTypes = UIRemoteNotificationType.Alert | UIRemoteNotificationType.Badge | UIRemoteNotificationType.Sound;
+                UIApplication.SharedApplication.RegisterForRemoteNotificationTypes(notificationTypes);
+            }
+
             return true;
         }
 
@@ -98,6 +117,50 @@ namespace AnatoliIOS
         public override void WillTerminate(UIApplication application)
         {
             // Called when the application is about to terminate. Save data, if needed. See also DidEnterBackground.
+        }
+
+        public async override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
+        {
+            // Get current device token
+            var DeviceToken = deviceToken.Description;
+            if (!string.IsNullOrWhiteSpace(DeviceToken))
+            {
+                DeviceToken = DeviceToken.Trim('<').Trim('>');
+            }
+
+            // Get previous device token
+            var oldDeviceToken = NSUserDefaults.StandardUserDefaults.StringForKey("PushDeviceToken");
+
+            // Has the token changed?
+            if (string.IsNullOrEmpty(oldDeviceToken) || !oldDeviceToken.Equals(DeviceToken))
+            {
+                //TODO: Put your own logic here to notify your server that the device token has changed/been created!
+                var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<BaseWebClientResult>("http://217.218.53.71:9192/", TokenType.AppToken, "/api/notification/registerApnToken/", new Tuple<string, string>("appToken", DeviceToken));
+            }
+
+            // Save new device token 
+            NSUserDefaults.StandardUserDefaults.SetString(DeviceToken, "PushDeviceToken");
+        }
+        public override void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
+        {
+            new UIAlertView("Error registering push notifications", error.LocalizedDescription, null, "OK", null).Show();
+        }
+        public override void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)
+        {
+            if (null != userInfo && userInfo.ContainsKey(new NSString("name")))
+            {
+                string alert = (userInfo[new NSString("name")] as NSString).ToString();
+                if (!string.IsNullOrEmpty(alert))
+                {
+                    UIAlertView avAlert = new UIAlertView("Notification", alert, null, "OK", null);
+                    avAlert.Show();
+                }
+            }
+            else
+            {
+                UIAlertView avAlert = new UIAlertView("Notification", "WWWWWWW", null, "OK", null);
+                avAlert.Show();
+            }
         }
     }
 }

@@ -54,11 +54,13 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignKey>iPhone Developer: Arman Fazly (G34LZVS594)</CodesignKey>
     <MtouchDebug>True</MtouchDebug>
-    <CodesignProvision>1ba743ea-f8a8-4cf9-a01f-87f60ae65b75</CodesignProvision>
+    <CodesignProvision>a2954fce-d4ec-4888-81b4-6abb4ac70cbb</CodesignProvision>
     <MtouchSdkVersion>9.2</MtouchSdkVersion>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
     <MtouchI18n>
     </MtouchI18n>
+    <CodesignResourceRules />
+    <CodesignExtraArgs />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -69,10 +71,12 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
-    <CodesignKey>iPhone Developer: Arman Fazly (G34LZVS594)</CodesignKey>
-    <CodesignProvision>03653a1a-e19a-45eb-bebd-8d2464761e57</CodesignProvision>
+    <CodesignKey>iPhone Distribution</CodesignKey>
+    <CodesignProvision>
+    </CodesignProvision>
     <CodesignExtraArgs>
     </CodesignExtraArgs>
+    <CodesignResourceRules />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>none</DebugType>

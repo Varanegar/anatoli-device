@@ -24,14 +24,14 @@ namespace AnatoliIOS.TableViewCells
         {
         }
 
-        public async void Update(PurchaseOrderLineItemViewModel purchaseOrderLineItemViewModel, UITableView tableView, NSIndexPath indexPath)
+        public async void Update(PurchaseOrderLineItemViewModel purchaseOrderLineItemViewModel,PurchaseOrderViewModel order, UITableView tableView, NSIndexPath indexPath)
         {
             if (purchaseOrderLineItemViewModel != null)
             {
                 itemCountLabel.Text = purchaseOrderLineItemViewModel.Qty.ToString("N0");
                 itemPriceLabel.Text = purchaseOrderLineItemViewModel.NetAmount.ToCurrency();
                 itemRowLabel.Text = (indexPath.Row + 1).ToString();
-                itemNameLabel.Text = (await ProductManager.GetItemAsync(purchaseOrderLineItemViewModel.ProductId.ToString().ToUpper())).product_name;
+                itemNameLabel.Text = (await ProductManager.GetItemAsync(purchaseOrderLineItemViewModel.ProductId.ToString().ToUpper(),order.StoreGuid.ToString().ToUpper())).product_name;
             }
         }
     }
