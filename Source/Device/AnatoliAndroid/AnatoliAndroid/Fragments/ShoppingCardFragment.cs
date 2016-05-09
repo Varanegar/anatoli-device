@@ -166,7 +166,10 @@ namespace AnatoliAndroid.Fragments
                                             }
                                             else if (result.IsValid)
                                             {
-                                                await SaveOrder(result);
+                                                await ShoppingCardManager.ClearAsync();
+                                                OrderSavedDialogFragment dialog = new OrderSavedDialogFragment();
+                                                var transaction = FragmentManager.BeginTransaction();
+                                                dialog.Show(transaction, "order_saved_dialog");
                                                 proforma.Dismiss();
                                             }
                                             else
@@ -244,7 +247,10 @@ namespace AnatoliAndroid.Fragments
                                         }
                                         else if (result.IsValid)
                                         {
-                                            await SaveOrder(result);
+                                            await ShoppingCardManager.ClearAsync();
+                                            OrderSavedDialogFragment dialog = new OrderSavedDialogFragment();
+                                            var transaction = FragmentManager.BeginTransaction();
+                                            dialog.Show(transaction, "order_saved_dialog");
                                             proforma.Dismiss();
                                         }
                                         else
@@ -321,28 +327,6 @@ namespace AnatoliAndroid.Fragments
 
 
             return view;
-        }
-        async Task SaveOrder(PurchaseOrderViewModel order)
-        {
-            try
-            {
-                await OrderManager.SaveOrderAsync(order);
-                OrderSavedDialogFragment dialog = new OrderSavedDialogFragment();
-                var transaction = FragmentManager.BeginTransaction();
-                dialog.Show(transaction, "order_saved_dialog");
-                AnatoliApp.GetInstance().SetFragment<OrdersListFragment>(new OrdersListFragment(), "orders_fragment");
-                AnatoliApp.GetInstance().ShoppingCardItemCount.Text = (await ShoppingCardManager.GetItemsCountAsync()).ToString();
-                AnatoliApp.GetInstance().SetTotalPrice(await ShoppingCardManager.GetTotalPriceAsync());
-            }
-            catch (Exception ex)
-            {
-                ex.SendTrace();
-                AlertDialog.Builder alert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
-                alert.SetTitle(Resource.String.Error);
-                alert.SetMessage("سفارش شما ارسال شد");
-                alert.SetPositiveButton(Resource.String.Ok, delegate { });
-                alert.Show();
-            }
         }
 
         public async override void OnStart()
@@ -518,7 +502,7 @@ namespace AnatoliAndroid.Fragments
         {
             var builder = new AlertDialog.Builder(Activity)
                 .SetMessage("سفارش شما با موفقیت ثبت گردید. برای اطلاع از وضعیت سفارش خود به بخش پیغام ها یا سفارشات قبلی مراجعه نمایید")
-                .SetPositiveButton("Ok", delegate
+                .SetPositiveButton("باشه", delegate
                 {
                 })
                 .SetTitle("ثبت سفارش");

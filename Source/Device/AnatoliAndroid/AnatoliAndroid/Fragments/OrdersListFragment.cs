@@ -36,14 +36,22 @@ namespace AnatoliAndroid.Fragments
             };
             if (AnatoliClient.GetInstance().WebClient.IsOnline())
             {
+                ProgressDialog progressDialog = new ProgressDialog(Activity);
                 try
                 {
+                    progressDialog.SetMessage("در حال دریافت آخرین وضعیت سفارشات");
+                    progressDialog.SetButton("باشه", delegate { progressDialog.Dismiss(); });
+                    progressDialog.Show();
                     await OrderManager.SyncOrdersAsync(AnatoliApp.GetInstance().CustomerId);
                     await RefreshAsync();
                 }
                 catch (Exception ex)
                 {
                     ex.SendTrace();
+                }
+                finally
+                {
+                    progressDialog.Dismiss();
                 }
             }
             else

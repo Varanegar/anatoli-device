@@ -108,9 +108,9 @@ namespace Anatoli.Framework.DataAdapter
                     }
                 }));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                throw e;
             }
         }
     }

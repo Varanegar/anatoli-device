@@ -12,47 +12,6 @@ namespace Anatoli.App.Manager
 {
     public class OrderManager : BaseManager<OrderModel>
     {
-        public static async Task<bool> SaveOrderAsync(PurchaseOrderViewModel order)
-        {
-            try
-            {
-                InsertCommand insertCommand = new InsertCommand("orders",
-                    new BasicParam("UniqueId", order.UniqueId.ToUpper()),
-                     new BasicParam("order_price", order.FinalNetAmount.ToString()),
-                                    new BasicParam("order_id", order.AppOrderNo.ToString()),
-                                    new BasicParam("store_id", order.StoreGuid.ToString().ToUpper()),
-                                    new BasicParam("order_status", order.PurchaseOrderStatusValueId.ToString().ToUpper()),
-                                new BasicParam("order_date", order.OrderPDate));
-                var result = await DataAdapter.UpdateItemAsync(insertCommand);
-                if (result > 0)
-                {
-                    List<List<BasicParam>> parametres = new List<List<BasicParam>>();
-                    foreach (var item in order.LineItems)
-                    {
-                        var p = new List<BasicParam>();
-                        p.Add(new BasicParam("order_id", order.AppOrderNo.ToString()));
-                        p.Add(new BasicParam("product_id", item.UniqueId));
-                        p.Add(new BasicParam("product_count", item.FinalQty.ToString()));
-                        p.Add(new BasicParam("product_price", item.FinalNetAmount.ToString()));
-                        parametres.Add(p);
-                    }
-                    InsertAllCommand command2 = new InsertAllCommand("order_items", parametres);
-                    var r = await DataAdapter.UpdateItemAsync(command2);
-                    if (r > 0)
-                    {
-                        await ShoppingCardManager.ClearAsync();
-                        return true;
-                    }
-                }
-                return false;
-            }
-
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
         public static async Task<OrderModel> GetOrderByIdAsync(string orderId)
         {
             try
@@ -126,7 +85,7 @@ namespace Anatoli.App.Manager
                 var items = await DownloadOrderItemsAsync(customerId, order.UniqueId);
                 if (items.Count > 0)
                 {
-                   
+
                     List<List<BasicParam>> parametres = new List<List<BasicParam>>();
                     foreach (var item in items)
                     {

@@ -20,9 +20,9 @@ namespace Anatoli.App.Manager
             RemoteQuery q = new RemoteQuery(TokenType.AppToken, Configuration.WebService.Products.ProductsTags, HttpMethod.Get);
             var list = await BaseDataAdapter<ProductTagViewModel>.GetListAsync(q);
         }
-        public static async Task<ProductModel> GetItemAsync(string id)
+        public static async Task<ProductModel> GetItemAsync(string productId, string storeId)
         {
-            var query = new StringQuery(string.Format("SELECT * FROM products_price_view WHERE product_id='{0}'", id));
+            var query = new StringQuery(string.Format("SELECT *,store_onhand.qty as qty FROM products_price_view JOIN store_onhand ON store_onhand.product_id = products_price_view.product_id AND products_price_view.store_id='{0}' AND store_onhand.store_id='{0}' AND products_price_view.is_removed='0' AND products_price_view.product_id='{1}' ORDER BY product_name", storeId, productId).PersianToArabic());
             return await GetItemAsync(query);
         }
         public static async Task SyncProductsAsync(System.Threading.CancellationTokenSource cancellationTokenSource)

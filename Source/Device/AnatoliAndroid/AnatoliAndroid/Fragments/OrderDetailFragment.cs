@@ -111,7 +111,7 @@ namespace AnatoliAndroid.Fragments
 
 
                 List<OrderItemModel> items = await OrderItemsManager.GetItemsAsync(_orderId);
-                OrderDetailAdapter adapter = new OrderDetailAdapter(items, AnatoliApp.GetInstance().Activity);
+                OrderDetailAdapter adapter = new OrderDetailAdapter(items, order, AnatoliApp.GetInstance().Activity);
                 adapter.DataChanged += (s, e) =>
                 {
                     _itemsListView.InvalidateViews();
@@ -126,7 +126,7 @@ namespace AnatoliAndroid.Fragments
                         foreach (var item in items)
                         {
                             await Task.Delay(100);
-                            if (await ShoppingCardManager.AddProductAsync(item.product_id, item.item_count))
+                            if (await ShoppingCardManager.AddProductAsync(item.product_id, order.store_id, 1))
                             {
                                 a += item.item_count;
                             }
@@ -150,10 +150,12 @@ namespace AnatoliAndroid.Fragments
         {
             List<OrderItemModel> items;
             Activity _context;
-            public OrderDetailAdapter(List<OrderItemModel> items, Activity context)
+            OrderModel _order;
+            public OrderDetailAdapter(List<OrderItemModel> items, OrderModel order, Activity context)
             {
                 this.items = items;
                 _context = context;
+                _order = order;
             }
             public override OrderItemModel this[int position]
             {
@@ -212,7 +214,7 @@ namespace AnatoliAndroid.Fragments
                 productNameTextView.Text = item.product_name;
                 addProductImageView.Click += async (s, e) =>
                 {
-                    if (await ShoppingCardManager.AddProductAsync(item.product_id, item.item_count))
+                    if (await ShoppingCardManager.AddProductAsync(item.product_id, AnatoliApp.GetInstance().DefaultStoreId, 1))
                     {
                         AnatoliApp.GetInstance().ShoppingCardItemCount.Text = (await ShoppingCardManager.GetItemsCountAsync()).ToString();
                         AnatoliApp.GetInstance().SetTotalPrice(await ShoppingCardManager.GetTotalPriceAsync());

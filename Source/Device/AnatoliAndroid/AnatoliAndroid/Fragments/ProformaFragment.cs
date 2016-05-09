@@ -67,7 +67,7 @@ namespace AnatoliAndroid.Fragments
             };
 
             ListView itemsListView = view.FindViewById<ListView>(Resource.Id.itemsListView);
-            itemsListView.Adapter = new ProformaListAdapter(AnatoliApp.GetInstance().Activity, _orderViewModel.LineItems);
+            itemsListView.Adapter = new ProformaListAdapter(AnatoliApp.GetInstance().Activity, _orderViewModel.LineItems, _orderViewModel);
 
             return view;
         }
@@ -76,10 +76,12 @@ namespace AnatoliAndroid.Fragments
         {
             List<PurchaseOrderLineItemViewModel> _list;
             Activity _context;
-            public ProformaListAdapter(Activity context, List<PurchaseOrderLineItemViewModel> list)
+            PurchaseOrderViewModel _order;
+            public ProformaListAdapter(Activity context, List<PurchaseOrderLineItemViewModel> list, PurchaseOrderViewModel order)
             {
                 _list = list;
                 _context = context;
+                _order = order;
             }
             public override int Count
             {
@@ -101,7 +103,7 @@ namespace AnatoliAndroid.Fragments
                 view.FindViewById<TextView>(Resource.Id.rowTextView).Text = (position + 1).ToString();
                 Runnable runnable = new Runnable(async () =>
                 {
-                    var p = await ProductManager.GetItemAsync(item.ProductId.ToString().ToUpper());
+                    var p = await ProductManager.GetItemAsync(item.ProductId.ToString().ToUpper(), _order.StoreGuid.ToString());
                     view.FindViewById<TextView>(Resource.Id.itemNameTextView).Text = p.product_name;
                 });
                 runnable.Run();

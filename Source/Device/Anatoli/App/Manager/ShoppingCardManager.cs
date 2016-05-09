@@ -27,12 +27,12 @@ namespace Anatoli.App.Manager
                 return null;
             }
         }
-        public static async Task<bool> AddProductAsync(string productId, int count)
+        public static async Task<bool> AddProductAsync(string productId, string storeId, int count)
         {
             DBQuery query = null;
             try
             {
-                var item = await ProductManager.GetItemAsync(productId);
+                var item = await ProductManager.GetItemAsync(productId, storeId);
                 if (item == null || !item.IsAvailable)
                     return false;
                 if (item.count == 0)
