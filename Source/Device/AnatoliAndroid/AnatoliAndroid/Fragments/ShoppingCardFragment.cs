@@ -171,6 +171,7 @@ namespace AnatoliAndroid.Fragments
                                                 var transaction = FragmentManager.BeginTransaction();
                                                 dialog.Show(transaction, "order_saved_dialog");
                                                 proforma.Dismiss();
+                                                AnatoliApp.GetInstance().SetFragment<OrdersListFragment>(new OrdersListFragment(), "orders_fragment");
                                             }
                                             else
                                             {
@@ -252,6 +253,7 @@ namespace AnatoliAndroid.Fragments
                                             var transaction = FragmentManager.BeginTransaction();
                                             dialog.Show(transaction, "order_saved_dialog");
                                             proforma.Dismiss();
+                                            AnatoliApp.GetInstance().SetFragment<OrdersListFragment>(new OrdersListFragment(), "orders_fragment");
                                         }
                                         else
                                         {
