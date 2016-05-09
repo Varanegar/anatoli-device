@@ -373,7 +373,7 @@ namespace AnatoliAndroid.Activities
                         {
                             var p = new ProductsListFragment();
                             p.SetCatId(null);
-                            SetFragment<ProductsListFragment>(p, "products_fragment");
+                            SetFragment<ProductsListFragment>(p, "products_fragment",true);
                             await RefreshMenuItems("0");
                         }
                         break;
