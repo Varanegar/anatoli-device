@@ -8,7 +8,7 @@
 
   <AnatoliAndroid.Components.AnatoliTextView
         local:customFont="Fonts/anatoli.ttf"
-        p1:text="Text"
+        p1:text=""
         p1:layout_width="30dp"
         p1:layout_height="wrap_content"
         p1:id="@+id/rowTextView"
@@ -20,7 +20,7 @@
         p1:textDirection="rtl" />
   <AnatoliAndroid.Components.AnatoliTextView
       local:customFont="Fonts/anatoli.ttf"
-      p1:text="Text"
+      p1:text=""
       p1:layout_width="wrap_content"
       p1:layout_height="wrap_content"
       p1:id="@+id/itemNameTextView"
@@ -35,7 +35,7 @@
   <AnatoliAndroid.Components.AnatoliTextView
       local:customFont="Fonts/anatoli.ttf"
       p1:textSize="11dp"
-      p1:text="Text"
+      p1:text=""
       p1:layout_width="50dp"
       p1:layout_height="wrap_content"
       p1:id="@+id/itemPriceTextView"
@@ -45,7 +45,7 @@
       p1:layout_marginLeft="5dp" />
   <AnatoliAndroid.Components.AnatoliTextView
       local:customFont="Fonts/anatoli.ttf"
-      p1:text="Text"
+      p1:text=""
       p1:layout_width="40dp"
       p1:layout_height="wrap_content"
       p1:id="@+id/itemCountTextView"
