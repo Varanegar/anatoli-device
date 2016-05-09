@@ -40,11 +40,7 @@ namespace AnatoliAndroid.Fragments
                     }
                     AnatoliApp.GetInstance().SetDefaultStore(store);
                     AnatoliApp.GetInstance().RefreshMenuItems();
-                    if (await ShoppingCardManager.ClearAsync())
-                    {
-                        AnatoliApp.GetInstance().ShoppingCardItemCount.Text = "0";
-                        AnatoliApp.GetInstance().SetTotalPrice(0);
-                    }
+                    
                     _listAdapter.NotifyDataSetChanged();
                 };
         }

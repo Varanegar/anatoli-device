@@ -100,8 +100,7 @@ namespace AnatoliAndroid.Fragments
                                 counterLinearLayout.Visibility = ViewStates.Visible;
                             }
                             productCountTextView.Text = _product.count.ToString() + " عدد";
-                            AnatoliAndroid.Activities.AnatoliApp.GetInstance().ShoppingCardItemCount.Text = (await ShoppingCardManager.GetItemsCountAsync()).ToString();
-                            AnatoliAndroid.Activities.AnatoliApp.GetInstance().SetTotalPrice(await ShoppingCardManager.GetTotalPriceAsync());
+                            
                         }
 
                     }
@@ -138,8 +137,7 @@ namespace AnatoliAndroid.Fragments
                                 counterLinearLayout.Visibility = ViewStates.Gone;
                             }
                             productCountTextView.Text = _product.count.ToString() + " عدد";
-                            AnatoliAndroid.Activities.AnatoliApp.GetInstance().ShoppingCardItemCount.Text = (await ShoppingCardManager.GetItemsCountAsync()).ToString();
-                            AnatoliAndroid.Activities.AnatoliApp.GetInstance().SetTotalPrice(await ShoppingCardManager.GetTotalPriceAsync());
+                            
                         }
                     }
                     else

@@ -134,8 +134,6 @@ namespace AnatoliAndroid.Fragments
                         }
                         if (a > 0)
                         {
-                            AnatoliApp.GetInstance().ShoppingCardItemCount.Text = (await ShoppingCardManager.GetItemsCountAsync()).ToString();
-                            AnatoliApp.GetInstance().SetTotalPrice(await ShoppingCardManager.GetTotalPriceAsync());
                             Toast.MakeText(AnatoliApp.GetInstance().Activity, String.Format("{0} آیتم به سبد خرید اضافه شد", a.ToString()), ToastLength.Short).Show();
                             AnatoliApp.GetInstance().SetFragment<ShoppingCardFragment>(new ShoppingCardFragment(), "shopping_fragment");
                         }
@@ -216,8 +214,7 @@ namespace AnatoliAndroid.Fragments
                 {
                     if (await ShoppingCardManager.AddProductAsync(item.product_id, AnatoliApp.GetInstance().DefaultStoreId, 1))
                     {
-                        AnatoliApp.GetInstance().ShoppingCardItemCount.Text = (await ShoppingCardManager.GetItemsCountAsync()).ToString();
-                        AnatoliApp.GetInstance().SetTotalPrice(await ShoppingCardManager.GetTotalPriceAsync());
+                        
                         Toast.MakeText(_context, "به سبد خرید اضافه شد", ToastLength.Short).Show();
                     }
                     else

@@ -64,8 +64,8 @@ namespace AnatoliAndroid.Activities
             DefaultStoreId = store.store_id;
             DefaultStoreName = store.store_name;
         }
-        public TextView ShoppingCardItemCount { get { return _shoppingCardTextView; } }
-        public void SetTotalPrice(double price)
+
+        void SetTotalPrice(double price)
         {
             _price = price;
             if (!_shoppingCardTextView.Text.Equals("0"))
@@ -77,10 +77,10 @@ namespace AnatoliAndroid.Activities
             _shoppingPriceTextView.StartAnimation(anim);
             _shoppingCardTextView.StartAnimation(anim);
         }
-        public double GetTotalPrice()
-        {
-            return _price;
-        }
+        //public double GetTotalPrice()
+        //{
+        //    return _price;
+        //}
         public void HideMenuIcon()
         {
             _menuIconImageButton.Visibility = ViewStates.Gone;
@@ -231,6 +231,17 @@ namespace AnatoliAndroid.Activities
             _shoppingCardImageButton.Click += shoppingbarRelativeLayout_Click;
             _menuIconImageButton = ToolBar.FindViewById<ImageButton>(Resource.Id.menuImageButton);
             _menuIconImageButton.Click += (s, e) => { OnMenuClick(); };
+
+            ShoppingCardManager.ItemChanged += async delegate
+            {
+                SetTotalPrice(await ShoppingCardManager.GetTotalPriceAsync());
+                _shoppingCardTextView.Text = (await ShoppingCardManager.GetItemsCountAsync()).ToString();
+            };
+            ShoppingCardManager.ItemsCleared += delegate
+            {
+                SetTotalPrice(0);
+                _shoppingCardTextView.Text = "0";
+            };
         }
 
         void shoppingbarRelativeLayout_Click(object sender, EventArgs e)
@@ -912,8 +923,7 @@ namespace AnatoliAndroid.Activities
             if (result)
             {
                 AnatoliUser = null;
-                ShoppingCardItemCount.Text = "0";
-                SetTotalPrice(0);
+
                 RefreshMenuItems();
             }
             return result;

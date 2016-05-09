@@ -177,17 +177,13 @@ namespace AnatoliAndroid.ListAdapters
                         if (AnatoliApp.GetInstance().AnatoliUser != null)
                         {
                             int a = await ShoppingCardManager.GetItemsCountAsync();
-                            TextView counter = AnatoliApp.GetInstance().ShoppingCardItemCount;
-                            double p = AnatoliApp.GetInstance().GetTotalPrice();
+
                             if (await ShoppingCardManager.RemoveProductAsync(item, true))
                             {
                                 while (item.count > 0)
                                 {
                                     await Task.Delay(90);
                                     item.count--;
-                                    counter.Text = (--a).ToString();
-                                    p = p - item.price;
-                                    AnatoliApp.GetInstance().SetTotalPrice(p);
                                     NotifyDataSetChanged();
                                     OnDataChanged();
                                 }
@@ -277,8 +273,7 @@ namespace AnatoliAndroid.ListAdapters
                                     }
                                 NotifyDataSetChanged();
                                 OnDataChanged();
-                                AnatoliAndroid.Activities.AnatoliApp.GetInstance().ShoppingCardItemCount.Text = (await ShoppingCardManager.GetItemsCountAsync()).ToString();
-                                AnatoliAndroid.Activities.AnatoliApp.GetInstance().SetTotalPrice(await ShoppingCardManager.GetTotalPriceAsync());
+                                
                             }
 
                         }
@@ -323,8 +318,7 @@ namespace AnatoliAndroid.ListAdapters
                                 }
                                 NotifyDataSetChanged();
                                 OnDataChanged();
-                                AnatoliAndroid.Activities.AnatoliApp.GetInstance().ShoppingCardItemCount.Text = (await ShoppingCardManager.GetItemsCountAsync()).ToString();
-                                AnatoliAndroid.Activities.AnatoliApp.GetInstance().SetTotalPrice(await ShoppingCardManager.GetTotalPriceAsync());
+                                
                             }
                         }
                         else
