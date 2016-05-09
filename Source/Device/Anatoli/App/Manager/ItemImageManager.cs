@@ -20,7 +20,7 @@ namespace Anatoli.App.Manager
                 var lastUpdateTime = await SyncManager.GetLogAsync(SyncManager.ImagesTbl);
                 List<ItemImageViewModel> list;
                 if (lastUpdateTime == DateTime.MinValue)
-                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<ItemImageViewModel>>(TokenType.AppToken, Configuration.WebService.ImageManager.Images);
+                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<ItemImageViewModel>>(Configuration.WebService.PortalAddress,TokenType.AppToken, Configuration.WebService.ImageManager.Images);
                 else
                 {
                     var data = new RequestModel.BaseRequestModel();

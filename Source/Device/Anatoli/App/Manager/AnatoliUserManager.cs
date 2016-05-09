@@ -25,7 +25,7 @@ namespace Anatoli.App.Manager
                 passWord = passWord.Trim();
             }
             await AnatoliClient.GetInstance().WebClient.RefreshTokenAsync(new TokenRefreshParameters(userName, passWord, Configuration.AppMobileAppInfo.Scope));
-            var userModel = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<AnatoliUserModel>(TokenType.AppToken, "/api/accounts/user/" + userName);
+            var userModel = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<AnatoliUserModel>(Configuration.WebService.PortalAddress, TokenType.AppToken, "/api/accounts/user/" + userName);
             if (userModel.IsValid)
             {
                 await AnatoliUserManager.SaveUserInfoAsync(userModel);

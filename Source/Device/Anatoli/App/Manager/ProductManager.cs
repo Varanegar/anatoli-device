@@ -22,7 +22,7 @@ namespace Anatoli.App.Manager
         }
         public static async Task<ProductModel> GetItemAsync(string productId, string storeId)
         {
-            var query = new StringQuery(string.Format("SELECT *,store_onhand.qty as qty FROM products_price_view JOIN store_onhand ON store_onhand.product_id = products_price_view.product_id AND products_price_view.store_id='{0}' AND store_onhand.store_id='{0}' AND products_price_view.is_removed='0' AND products_price_view.product_id='{1}' ORDER BY product_name", storeId, productId).PersianToArabic());
+            var query = new StringQuery(string.Format("SELECT *,store_onhand.qty as qty FROM products_price_view JOIN store_onhand ON store_onhand.product_id = products_price_view.product_id AND products_price_view.store_id='{0}' AND store_onhand.store_id='{0}' AND products_price_view.is_removed='0' AND products_price_view.product_id='{1}' ORDER BY product_name", storeId.ToUpper(), productId.ToUpper()).PersianToArabic());
             return await GetItemAsync(query);
         }
         public static async Task SyncProductsAsync(System.Threading.CancellationTokenSource cancellationTokenSource)
@@ -33,7 +33,7 @@ namespace Anatoli.App.Manager
                 var lastUpdateTime = await SyncManager.GetLogAsync(SyncManager.ProductTbl);
                 List<ProductUpdateModel> list;
                 if (lastUpdateTime == DateTime.MinValue)
-                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<ProductUpdateModel>>(TokenType.AppToken, Configuration.WebService.Products.ProductsList);
+                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<ProductUpdateModel>>(Configuration.WebService.PortalAddress, TokenType.AppToken, Configuration.WebService.Products.ProductsList);
                 else
                 {
                     var data = new RequestModel.BaseRequestModel();
@@ -91,7 +91,7 @@ namespace Anatoli.App.Manager
                 var lastUpdateTime = await SyncManager.GetLogAsync(SyncManager.PriceTbl);
                 List<ProductPriceUpdateModel> list;
                 if (lastUpdateTime == DateTime.MinValue)
-                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<ProductPriceUpdateModel>>(TokenType.AppToken, Configuration.WebService.Stores.PricesView);
+                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<ProductPriceUpdateModel>>(Configuration.WebService.PortalAddress, TokenType.AppToken, Configuration.WebService.Stores.PricesView);
                 else
                 {
                     var data = new RequestModel.BaseRequestModel();
@@ -147,7 +147,7 @@ namespace Anatoli.App.Manager
                 var lastUpdateTime = await SyncManager.GetLogAsync(SyncManager.OnHand);
                 List<StoreActiveOnhandViewModel> list;
                 if (lastUpdateTime == DateTime.MinValue)
-                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<StoreActiveOnhandViewModel>>(TokenType.AppToken, Configuration.WebService.Stores.OnHand);
+                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<StoreActiveOnhandViewModel>>(Configuration.WebService.PortalAddress, TokenType.AppToken, Configuration.WebService.Stores.OnHand);
                 else
                 {
                     var data = new RequestModel.BaseRequestModel();

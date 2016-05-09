@@ -218,9 +218,9 @@ namespace Anatoli.Framework.AnatoliBase
             }
         }
 
-        public async Task<Result> SendPostRequestAsync<Result>(TokenType tokenType, string requestUri, params Tuple<string, string>[] parameters)
+        public async Task<Result> SendPostRequestAsync<Result>(string host, TokenType tokenType, string requestUri, params Tuple<string, string>[] parameters)
         {
-            var client = new RestClient(Configuration.WebService.PortalAddress);
+            var client = new RestClient(host);
             RestRequest request;
             var token = await GetTokenAsync(tokenType);
             request = CreateRequest(token, requestUri, HttpMethod.Post, parameters);

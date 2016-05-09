@@ -21,7 +21,7 @@ namespace Anatoli.App.Manager
                 var lastUpdateTime = await SyncManager.GetLogAsync(SyncManager.CityRegionTbl);
                 List<CityRegionUpdateModel> list;
                 if (lastUpdateTime == DateTime.MinValue)
-                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<CityRegionUpdateModel>>(TokenType.AppToken, Configuration.WebService.CityRegion);
+                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<CityRegionUpdateModel>>(Configuration.WebService.PortalAddress,TokenType.AppToken, Configuration.WebService.CityRegion);
                 else
                 {
                     var data = new RequestModel.BaseRequestModel();
