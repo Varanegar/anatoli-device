@@ -160,6 +160,7 @@ namespace Anatoli.App.Manager
             {
                 int clear = await DataAdapter.UpdateItemAsync(command1);
                 int result = await DataAdapter.UpdateItemAsync(command2);
+                await ShoppingCardManager.ClearAsync();
                 return (result > 0) ? true : false;
             }
             catch (Exception)
