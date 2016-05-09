@@ -102,6 +102,7 @@ namespace AnatoliAndroid.Activities
             _locationManager = (LocationManager)GetSystemService(LocationService);
             AnatoliApp.GetInstance().DrawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             AnatoliApp.GetInstance().LocationManager = _locationManager;
+            await AnatoliApp.GetInstance().UpdateBasketIcon();
             try
             {
                 var defaultStore = await StoreManager.GetDefaultAsync();
@@ -121,7 +122,6 @@ namespace AnatoliAndroid.Activities
                             {
                                 OrderManager.SyncOrdersAsync(AnatoliApp.GetInstance().CustomerId);
                                 AnatoliApp.GetInstance().RefreshCutomerProfile();
-                                AnatoliApp.GetInstance().UpdateBasketIcon();
                             }
                         }
                         catch (Exception e)
