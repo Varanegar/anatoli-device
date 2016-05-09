@@ -103,7 +103,7 @@ namespace AnatoliAndroid.Fragments
                 view.FindViewById<TextView>(Resource.Id.rowTextView).Text = (position + 1).ToString();
                 Runnable runnable = new Runnable(async () =>
                 {
-                    var p = await ProductManager.GetItemAsync(item.ProductId.ToString().ToUpper(), _order.StoreGuid.ToString());
+                    var p = await ProductManager.GetItemAsync(item.ProductId.ToString().ToUpper(), _order.StoreGuid.ToString().ToUpper());
                     view.FindViewById<TextView>(Resource.Id.itemNameTextView).Text = p.product_name;
                 });
                 runnable.Run();
