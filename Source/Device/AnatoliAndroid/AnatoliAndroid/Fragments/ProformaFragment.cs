@@ -25,6 +25,7 @@ namespace AnatoliAndroid.Fragments
     {
         PurchaseOrderViewModel _orderViewModel;
         CustomerViewModel _customerViewModel;
+        ListView _itemsListView;
         public ProformaFragment(PurchaseOrderViewModel orderViewModel, CustomerViewModel customerViewModel)
         {
             _orderViewModel = orderViewModel;
@@ -49,7 +50,6 @@ namespace AnatoliAndroid.Fragments
             var pc = new PersianCalendar();
             view.FindViewById<TextView>(Resource.Id.orderDateTextView).Text = "تاریخ : " + pc.GetYear(_orderViewModel.OrderDate.Value).ToString() + "/" + pc.GetMonth(_orderViewModel.OrderDate.Value).ToString() + "/" + pc.GetDayOfMonth(_orderViewModel.OrderDate.Value).ToString();
             view.FindViewById<TextView>(Resource.Id.orderPriceTextView).Text = "مبلغ قابل پرداخت : " + _orderViewModel.NetAmount.ToCurrency();
-
             view.FindViewById<TextView>(Resource.Id.totalPriceTextView).Text = _orderViewModel.Amount.ToCurrency();
             decimal tCount = 0;
             foreach (var item in _orderViewModel.LineItems)
@@ -66,22 +66,51 @@ namespace AnatoliAndroid.Fragments
                 OnProformaAccepted();
             };
 
-            ListView itemsListView = view.FindViewById<ListView>(Resource.Id.itemsListView);
-            itemsListView.Adapter = new ProformaListAdapter(AnatoliApp.GetInstance().Activity, _orderViewModel.LineItems, _orderViewModel);
+            _itemsListView = view.FindViewById<ListView>(Resource.Id.itemsListView);
 
             return view;
         }
+        public async override void OnStart()
+        {
+            base.OnStart();
 
+            List<ProductModel> products = new List<ProductModel>();
+            ProgressDialog p = new ProgressDialog(Activity);
+            p.SetMessage(AnatoliApp.GetResources().GetString(Resource.String.PleaseWait));
+            p.Show();
+            try
+            {
+                foreach (var item in _orderViewModel.LineItems)
+                {
+                    products.Add(await ProductManager.GetItemAsync(item.ProductId.ToString().ToUpper(), _orderViewModel.StoreGuid.ToString().ToUpper()));
+                }
+                _itemsListView.Adapter = new ProformaListAdapter(AnatoliApp.GetInstance().Activity, _orderViewModel.LineItems, products);
+            }
+            catch (System.Exception)
+            {
+                p.Dismiss();
+                var alert = new AlertDialog.Builder(Activity);
+                alert.SetMessage(Resource.String.ErrorOccured);
+                alert.SetTitle(Resource.String.Error);
+                alert.SetPositiveButton(Resource.String.Ok, delegate { });
+                alert.Show();
+            }
+            finally
+            {
+                p.Dismiss();
+            }
+
+        }
         public class ProformaListAdapter : BaseAdapter<PurchaseOrderLineItemViewModel>
         {
             List<PurchaseOrderLineItemViewModel> _list;
+            List<ProductModel> _products;
             Activity _context;
-            PurchaseOrderViewModel _order;
-            public ProformaListAdapter(Activity context, List<PurchaseOrderLineItemViewModel> list, PurchaseOrderViewModel order)
+            public ProformaListAdapter(Activity context, List<PurchaseOrderLineItemViewModel> list, List<ProductModel> products)
             {
                 _list = list;
                 _context = context;
-                _order = order;
+                _products = products;
             }
             public override int Count
             {
@@ -101,12 +130,10 @@ namespace AnatoliAndroid.Fragments
                 view.FindViewById<TextView>(Resource.Id.itemCountTextView).Text = item.Qty.ToString("N0");
                 view.FindViewById<TextView>(Resource.Id.itemPriceTextView).Text = item.NetAmount.ToCurrency();
                 view.FindViewById<TextView>(Resource.Id.rowTextView).Text = (position + 1).ToString();
-                Runnable runnable = new Runnable(async () =>
+                if (_products[position] != null)
                 {
-                    var p = await ProductManager.GetItemAsync(item.ProductId.ToString().ToUpper(), _order.StoreGuid.ToString().ToUpper());
-                    view.FindViewById<TextView>(Resource.Id.itemNameTextView).Text = p.product_name;
-                });
-                runnable.Run();
+                    view.FindViewById<TextView>(Resource.Id.itemNameTextView).Text = _products[position].product_name;
+                }
                 return view;
             }
 
