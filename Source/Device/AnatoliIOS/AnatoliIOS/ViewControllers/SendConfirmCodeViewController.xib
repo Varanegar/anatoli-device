@@ -9,6 +9,8 @@
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
                 <outlet property="codeTextField" destination="5" id="name-outlet-5"/>
                 <outlet property="sendButton" destination="11" id="name-outlet-11"/>
+                <outlet property="passwordEditText" destination="25" id="name-outlet-25"/>
+                <outlet property="password2EditText" destination="26" id="name-outlet-26"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -22,7 +24,7 @@
                     <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="11" translatesAutoresizingMaskIntoConstraints="NO">
-                    <rect key="frame" x="250" y="210" width="100" height="35"/>
+                    <rect key="frame" x="250" y="345" width="100" height="35"/>
                     <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="15"/>
                     <state key="normal" title="ارسال">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -31,7 +33,7 @@
                         <constraint id="12" firstItem="11" firstAttribute="width" constant="100"/>
                     </constraints>
                 </button>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="لطفا کد رمز دریافت شده را وارد نمایید:" lineBreakMode="tailTruncation" minimumFontSize="10" id="15" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="right">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="لطفا کد رمز دریافت شده و کلمه عبور مورد نظر و تکرار آن را وارد نمایید:" lineBreakMode="tailTruncation" minimumFontSize="10" id="15" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="right">
                     <rect key="frame" x="10" y="30" width="580" height="67"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="16"/>
@@ -41,6 +43,16 @@
                         <constraint id="19" firstItem="15" firstAttribute="height" constant="100"/>
                     </constraints>
                 </label>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="25" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="right" placeholder="کلمه عبور">
+                    <rect key="frame" x="20" y="230" width="560" height="30"/>
+                    <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                </textField>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="26" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="right" placeholder="تکرار کلمه عبور">
+                    <rect key="frame" x="20" y="285" width="560" height="30"/>
+                    <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                </textField>
             </subviews>
             <constraints>
                 <constraint id="6" firstItem="5" firstAttribute="centerX" secondItem="2" secondAttribute="centerX"/>
@@ -49,8 +61,14 @@
                 <constraint id="17" firstItem="15" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="10"/>
                 <constraint id="18" firstItem="15" firstAttribute="top" secondItem="2" secondAttribute="top" constant="30"/>
                 <constraint id="20" firstItem="5" firstAttribute="top" secondItem="15" secondAttribute="bottom" constant="30"/>
-                <constraint id="21" firstItem="11" firstAttribute="top" secondItem="5" secondAttribute="bottom" constant="20"/>
                 <constraint id="22" firstItem="2" firstAttribute="trailing" secondItem="5" secondAttribute="trailing" constant="20"/>
+                <constraint id="27" firstItem="2" firstAttribute="trailing" secondItem="25" secondAttribute="trailing" constant="20"/>
+                <constraint id="28" firstItem="25" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20"/>
+                <constraint id="29" firstItem="25" firstAttribute="top" secondItem="5" secondAttribute="bottom" constant="40"/>
+                <constraint id="30" firstItem="2" firstAttribute="trailing" secondItem="26" secondAttribute="trailing" constant="20"/>
+                <constraint id="31" firstItem="26" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20"/>
+                <constraint id="32" firstItem="26" firstAttribute="top" secondItem="25" secondAttribute="bottom" constant="25"/>
+                <constraint id="33" firstItem="11" firstAttribute="top" secondItem="26" secondAttribute="bottom" constant="30"/>
             </constraints>
         </view>
     </objects>

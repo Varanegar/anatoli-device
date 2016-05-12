@@ -29,16 +29,6 @@ namespace AnatoliIOS.ViewControllers
                 phoneTextField.ResignFirstResponder();
                 return true;
             };
-            passConformTextField.ShouldReturn += delegate
-            {
-                passConformTextField.ResignFirstResponder();
-                return true;
-            };
-            passwordTextField.ShouldReturn += delegate
-            {
-                passwordTextField.ResignFirstResponder();
-                return true;
-            };
             sendButton.TouchUpInside += async delegate
             {
 				ResignFirstResponder();
@@ -47,7 +37,7 @@ namespace AnatoliIOS.ViewControllers
                 try
                 {
                     View.AddSubview(loading);
-                    var result = await AnatoliUserManager.ResetPassword(phoneTextField.Text, passwordTextField.Text);
+                    var result = await AnatoliUserManager.RequestConfirmCode(phoneTextField.Text);
                     if (result != null && result.IsValid)
                     {
                         loading.Hidden = true;

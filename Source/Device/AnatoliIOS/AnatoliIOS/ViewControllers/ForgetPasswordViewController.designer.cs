@@ -16,14 +16,6 @@ namespace AnatoliIOS.ViewControllers
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UITextField passConformTextField { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UITextField passwordTextField { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
 		UITextField phoneTextField { get; set; }
 
 		[Outlet]
@@ -32,14 +24,6 @@ namespace AnatoliIOS.ViewControllers
 
 		void ReleaseDesignerOutlets ()
 		{
-			if (passConformTextField != null) {
-				passConformTextField.Dispose ();
-				passConformTextField = null;
-			}
-			if (passwordTextField != null) {
-				passwordTextField.Dispose ();
-				passwordTextField = null;
-			}
 			if (phoneTextField != null) {
 				phoneTextField.Dispose ();
 				phoneTextField = null;

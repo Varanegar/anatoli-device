@@ -36,15 +36,46 @@ namespace AnatoliIOS.ViewControllers
                 codeTextField.ResignFirstResponder();
                 return true;
             };
+            passwordEditText.ShouldReturn += delegate
+            {
+                passwordEditText.ResignFirstResponder();
+                return true;
+            };
+            password2EditText.ShouldReturn += delegate
+            {
+                password2EditText.ResignFirstResponder();
+                return true;
+            };
             sendButton.TouchUpInside += async delegate
             {
+                ResignFirstResponder();
+                if (string.IsNullOrEmpty(passwordEditText.Text))
+                {
+                    var alert = UIAlertController.Create("خطا", "لطفا کلمه عبور را وارد نمایید", UIAlertControllerStyle.Alert);
+                    alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, null));
+                    PresentViewController(alert, true, null);
+                    return;
+                }
+                if (string.IsNullOrEmpty(password2EditText.Text))
+                {
+                    var alert = UIAlertController.Create("خطا", "لطفا تکرار کلمه عبور را وارد نمایید", UIAlertControllerStyle.Alert);
+                    alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, null));
+                    PresentViewController(alert, true, null);
+                    return;
+                }
+                if (!passwordEditText.Text.Equals(password2EditText.Text))
+                {
+                    var alert = UIAlertController.Create("خطا", "کلمه عبور و تکرار آن یکسان نیستند", UIAlertControllerStyle.Alert);
+                    alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, null));
+                    PresentViewController(alert, true, null);
+                }
                 if (!string.IsNullOrEmpty(codeTextField.Text))
                 {
                     LoadingOverlay loading = new LoadingOverlay(View.Bounds);
                     View.AddSubview(loading);
                     try
                     {
-                        var result = await AnatoliUserManager.SendConfirmCode(_username, codeTextField.Text);
+                        var result = await AnatoliUserManager.ResetPasswordByCode(_username, passwordEditText.Text, codeTextField.Text);
                         if (result != null && result.IsValid)
                         {
                             var alert = UIAlertController.Create("", "کلمه عبور با موفقیت تغییر یافت", UIAlertControllerStyle.Alert);
@@ -87,6 +118,12 @@ namespace AnatoliIOS.ViewControllers
                     {
                         loading.Hidden = true;
                     }
+                }
+                else
+                {
+                    var alert = UIAlertController.Create("خطا", "لطفا کد رمز دریافت شده را وارد نمایید", UIAlertControllerStyle.Alert);
+                    alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, null));
+                    PresentViewController(alert, true, null);
                 }
             };
         }

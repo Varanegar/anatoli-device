@@ -20,6 +20,14 @@ namespace AnatoliIOS.ViewControllers
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UITextField password2EditText { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UITextField passwordEditText { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton sendButton { get; set; }
 
 		void ReleaseDesignerOutlets ()
@@ -27,6 +35,14 @@ namespace AnatoliIOS.ViewControllers
 			if (codeTextField != null) {
 				codeTextField.Dispose ();
 				codeTextField = null;
+			}
+			if (password2EditText != null) {
+				password2EditText.Dispose ();
+				password2EditText = null;
+			}
+			if (passwordEditText != null) {
+				passwordEditText.Dispose ();
+				passwordEditText = null;
 			}
 			if (sendButton != null) {
 				sendButton.Dispose ();
