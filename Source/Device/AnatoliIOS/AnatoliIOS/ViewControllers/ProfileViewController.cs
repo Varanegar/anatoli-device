@@ -10,6 +10,7 @@ using AnatoliIOS.Components;
 using CoreAnimation;
 using Foundation;
 using Anatoli.Framework.AnatoliBase;
+using System.Drawing;
 
 namespace AnatoliIOS.ViewControllers
 {
@@ -111,14 +112,16 @@ namespace AnatoliIOS.ViewControllers
                     if (originalImage != null)
                     {
                         // do something with the image
-                        profileImageView.Image = originalImage; // display
-                        using (NSData imageData = originalImage.AsPNG())
+                        var resizeImage = MaxResizeImage(originalImage, 300f, 300f);
+                        profileImageView.Image = resizeImage; // display
+                        using (NSData imageData = resizeImage.AsJPEG())
                         {
                             Byte[] myByteArray = new Byte[imageData.Length];
                             System.Runtime.InteropServices.Marshal.Copy(imageData.Bytes, myByteArray, 0, Convert.ToInt32(imageData.Length));
+                            imagePicker.DismissViewController(true, null);
+                            
                             try
                             {
-                                imagePicker.DismissViewController(true, null);
                                 _uploading = true;
                                 pickImageButton.SetTitle("بی خیال", UIControlState.Normal);
                                 await CustomerManager.UploadImageAsync(AnatoliApp.GetInstance().Customer.UniqueId, myByteArray, token);
@@ -126,6 +129,7 @@ namespace AnatoliIOS.ViewControllers
                             }
                             catch (Exception ex)
                             {
+                                Console.WriteLine(ex.Message);
                                 if (token.IsCancellationRequested)
                                 {
                                     pickImageButton.SetTitle("ویرایش", UIControlState.Normal);
@@ -333,6 +337,21 @@ namespace AnatoliIOS.ViewControllers
             };
 
         }
+
+        public UIImage MaxResizeImage(UIImage sourceImage, float maxWidth, float maxHeight)
+        {
+            var sourceSize = sourceImage.Size;
+            var maxResizeFactor = Math.Max(maxWidth / sourceSize.Width, maxHeight / sourceSize.Height);
+            if (maxResizeFactor > 1) return sourceImage;
+            var width = maxResizeFactor * sourceSize.Width;
+            var height = maxResizeFactor * sourceSize.Height;
+            UIGraphics.BeginImageContext(new SizeF((float)width, (float)height));
+            sourceImage.Draw(new RectangleF(0, 0, (float)width, (float)height));
+            var resultImage = UIGraphics.GetImageFromCurrentImageContext();
+            UIGraphics.EndImageContext();
+            return resultImage;
+        }
+
 
         void UpdatePickerTitle(UIButton pickerButton, RegionChooserViewController chooserViewController)
         {
