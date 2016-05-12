@@ -11,7 +11,7 @@ namespace AnatoliIOS.Components
         // control declarations
         UIActivityIndicatorView activitySpinner;
         UILabel loadingLabel;
-
+        public string Message { get { return loadingLabel.Text; } set { loadingLabel.Text = value; } }
         public LoadingOverlay(CGRect frame, bool cancelable = false)
             : base(frame)
         {

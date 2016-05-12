@@ -11,6 +11,7 @@ using Anatoli.App.Model.Store;
 using Anatoli.App.Model.AnatoliUser;
 using CoreGraphics;
 using Anatoli.App.Model.Product;
+using AnatoliIOS.Components;
 
 namespace AnatoliIOS
 {
@@ -68,20 +69,81 @@ namespace AnatoliIOS
         public async Task SyncDataBase()
         {
             var updateTime = await SyncManager.GetLogAsync(SyncManager.UpdateCompleted);
-            if (updateTime < (DateTime.Now - TimeSpan.FromMinutes(10)))
+            if ((DateTime.Now - updateTime) > TimeSpan.FromDays(3))
             {
-                try
+                if (AnatoliClient.GetInstance().WebClient.IsOnline())
                 {
-                    SyncManager.ProgressChanged += (status, step) =>
+                    LoadingOverlay loading = new LoadingOverlay(GetVisibleViewController().View.Bounds);
+                    GetVisibleViewController().View.AddSubview(loading);
+                    try
                     {
-                        Console.WriteLine(status);
-                    };
-                    await SyncManager.SyncDatabase();
-
+                        SyncManager.ProgressChanged += (status, step) =>
+                        {
+                            Console.WriteLine(status);
+                            loading.Message = status;
+                        };
+                        await SyncManager.SyncDatabase();
+                    }
+                    catch (ServerUnreachableException)
+                    {
+                        var alert = UIAlertController.Create("خطا", "لطفا دستگاه  خود را به اینترنت متصل  کنید", UIAlertControllerStyle.Alert);
+                        alert.AddAction(UIAlertAction.Create("دوباره تلاش کن", UIAlertActionStyle.Default, async delegate { await SyncDataBase(); }));
+                        PresentViewController(alert);
+                    }
+                    catch (AnatoliWebClientException ex)
+                    {
+                        var alert = UIAlertController.Create("خطا", ex.MetaInfo.ModelStateString, UIAlertControllerStyle.Alert);
+                        alert.AddAction(UIAlertAction.Create("دوباره تلاش کن", UIAlertActionStyle.Default, async delegate { await SyncDataBase(); }));
+                        PresentViewController(alert);
+                    }
+                    catch (Exception)
+                    {
+                        var alert = UIAlertController.Create("خطا", "خطا در بروزرسانی اطلاعات", UIAlertControllerStyle.Alert);
+                        alert.AddAction(UIAlertAction.Create("دوباره تلاش کن", UIAlertActionStyle.Default, async delegate { await SyncDataBase(); }));
+                        PresentViewController(alert);
+                    }
+                    finally
+                    {
+                        loading.Hide();
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    Console.WriteLine(ex.Message);
+                    var alert = UIAlertController.Create("خطا", "لطفا دستگاه  خود را به اینترنت متصل  کنید", UIAlertControllerStyle.Alert);
+                    alert.AddAction(UIAlertAction.Create("دوباره تلاش کن", UIAlertActionStyle.Default, async delegate { await SyncDataBase(); }));
+                    PresentViewController(alert);
+                }
+            }
+            else if (updateTime < (DateTime.Now - TimeSpan.FromHours(12)))
+            {
+                if (AnatoliClient.GetInstance().WebClient.IsOnline())
+                {
+                    try
+                    {
+                        SyncManager.ProgressChanged += (status, step) =>
+                        {
+                            Console.WriteLine(status);
+                        };
+                        await SyncManager.SyncDatabase();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+            }
+            else if (updateTime < (DateTime.Now - TimeSpan.FromMinutes(20)))
+            {
+                if (AnatoliClient.GetInstance().WebClient.IsOnline())
+                {
+                    try
+                    {
+                        await ProductManager.SyncOnHandAsync(null);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
                 }
             }
         }

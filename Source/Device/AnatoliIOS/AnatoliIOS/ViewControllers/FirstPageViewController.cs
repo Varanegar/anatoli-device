@@ -31,7 +31,7 @@ namespace AnatoliIOS.ViewControllers
 			StartAutomaticScroll ();
 			NavigationItem.RightBarButtonItems = new UIBarButtonItem[2] {AnatoliApp.GetInstance ().CreateMenuButton (), AnatoliApp.GetInstance().CreateBasketButton()};
             EdgesForExtendedLayout = UIRectEdge.None;
-
+            AnatoliApp.GetInstance().SyncDataBase();
         }
         public async override void ViewDidLoad()
         {

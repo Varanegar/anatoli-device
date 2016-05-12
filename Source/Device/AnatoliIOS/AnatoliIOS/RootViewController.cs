@@ -27,7 +27,6 @@ namespace AnatoliIOS
             SidebarController = new SidebarNavigation.SidebarController(this, NavController, new SideMenuController());
             SidebarController.MenuWidth = 180;
             SidebarController.ReopenOnRotate = false;
-            AnatoliApp.GetInstance().SyncDataBase();
             if (AnatoliApp.GetInstance().DefaultStore == null)
             {
                 AnatoliApp.GetInstance().PushViewController(new StoresViewController());
