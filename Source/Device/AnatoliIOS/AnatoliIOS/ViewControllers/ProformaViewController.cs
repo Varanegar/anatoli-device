@@ -9,6 +9,7 @@ using Foundation;
 using ObjCRuntime;
 using System.Collections.Generic;
 using Anatoli.App.Manager;
+using System.Globalization;
 
 namespace AnatoliIOS.ViewControllers
 {
@@ -45,7 +46,8 @@ namespace AnatoliIOS.ViewControllers
             {
                 DismissViewController(true, null);
             };
-            orderDate.Text = _order.OrderDate.ToString();
+            var pDate = new PersianCalendar();
+            orderDate.Text = pDate.GetYear(_order.OrderDate.Value) + "/" + pDate.GetMonth(_order.OrderDate.Value) + "/" + pDate.GetDayOfMonth(_order.OrderDate.Value);
             orderSum.Text = _order.NetAmount.ToCurrency() + " تومان";
             orderAddress.Text = AnatoliApp.GetInstance().Customer.MainStreet;
             footerView.Price = _order.Amount.ToCurrency();
