@@ -133,6 +133,7 @@ namespace AnatoliIOS.ViewControllers
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+            EdgesForExtendedLayout = UIRectEdge.None;
         }
     }
 }

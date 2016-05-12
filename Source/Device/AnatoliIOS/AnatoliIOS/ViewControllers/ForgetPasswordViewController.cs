@@ -6,7 +6,7 @@ using UIKit;
 
 namespace AnatoliIOS.ViewControllers
 {
-    public partial class ForgetPasswordViewController : UIViewController
+    public partial class ForgetPasswordViewController : BaseController
     {
         public ForgetPasswordViewController()
             : base("ForgetPasswordViewController", null)

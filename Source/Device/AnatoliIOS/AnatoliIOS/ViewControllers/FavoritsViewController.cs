@@ -17,13 +17,14 @@ namespace AnatoliIOS.ViewControllers
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			Title = "لیست من";
-			// Perform any additional setup after loading the view, typically from a nib.
-		}
+            // Perform any additional setup after loading the view, typically from a nib.
+        }
 		public async override void ViewDidAppear (bool animated)
 		{
 			base.ViewDidAppear (animated);
-			_tableViewSource = new ProductsTableViewSource ();
+            Title = "لیست من";
+            EdgesForExtendedLayout = UIRectEdge.None;
+            _tableViewSource = new ProductsTableViewSource ();
 			_tableViewSource.SetDataQuery (ProductManager.GetFavoritsQueryString (AnatoliApp.GetInstance().DefaultStore.store_id));
 			await _tableViewSource.RefreshAsync ();
 			tableView.Source = _tableViewSource;

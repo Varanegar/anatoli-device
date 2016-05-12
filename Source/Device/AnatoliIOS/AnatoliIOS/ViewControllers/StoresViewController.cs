@@ -19,7 +19,7 @@ namespace AnatoliIOS.ViewControllers
             base.ViewDidLoad();
             // Perform any additional setup after loading the view, typically from a nib.
 			Title = "انتخاب فروشگاه";
-
+            EdgesForExtendedLayout = UIRectEdge.None;
 
             storesTableView.RegisterNibForCellReuse(UINib.FromName("StoreSummaryTableViewCell", null), StoreSummaryTableViewCell.Key);
             StoresTableViewSource storesTableViewSource = new StoresTableViewSource();

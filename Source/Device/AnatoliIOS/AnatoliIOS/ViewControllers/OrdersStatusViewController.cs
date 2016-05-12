@@ -15,8 +15,8 @@ namespace AnatoliIOS.ViewControllers
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			Title = "سفارشات قبلی";
-		}
+            EdgesForExtendedLayout = UIRectEdge.None;
+        }
 
 		public override void DidReceiveMemoryWarning ()
 		{
@@ -26,7 +26,8 @@ namespace AnatoliIOS.ViewControllers
 		public async override void ViewDidAppear (bool animated)
 		{
 			base.ViewDidAppear (animated);
-			var source = new OrderStatusTableViewSource ();
+            Title = "سفارشات قبلی";
+            var source = new OrderStatusTableViewSource ();
 			source.SetDataQuery(OrderManager.GetOrderQueryString());
 			await source.RefreshAsync ();
 			ordersTableView.Source = source;

@@ -73,10 +73,10 @@ namespace AnatoliIOS.ViewControllers
             ShoppingCardManager.ItemChanged += UpdateLabels;
             checkoutButton.TouchUpInside += async (object sender, EventArgs e) =>
             {
-                CalcPromo();
+                await CalcPromo();
             };
         }
-        async void CalcPromo()
+        async Task CalcPromo()
         {
             try
             {
@@ -118,7 +118,7 @@ namespace AnatoliIOS.ViewControllers
                 {
                     var alert = UIAlertController.Create("خطا", "درخواست شما با خطا روبرو شد", UIAlertControllerStyle.Alert);
                     alert.AddAction(UIAlertAction.Create("بی خیال", UIAlertActionStyle.Cancel, null));
-                    alert.AddAction(UIAlertAction.Create("دوباره تلاش کن", UIAlertActionStyle.Default, delegate { CalcPromo(); }));
+                    alert.AddAction(UIAlertAction.Create("دوباره تلاش کن", UIAlertActionStyle.Default,async delegate { await CalcPromo(); }));
                     PresentViewController(alert, true, null);
                 }
                 finally
