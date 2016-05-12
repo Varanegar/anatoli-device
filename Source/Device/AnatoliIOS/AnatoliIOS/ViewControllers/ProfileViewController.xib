@@ -45,6 +45,7 @@
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
                 <outlet property="nationalCodeTextField" destination="eLC-Lh-eA4" id="name-outlet-eLC-Lh-eA4"/>
                 <outlet property="changePasswordButton" destination="37" id="name-outlet-37"/>
+                <outlet property="HeaderView" destination="d56-YI-zfz" id="name-outlet-d56-YI-zfz"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -54,8 +55,8 @@
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="duC-DQ-ONV">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <subviews>
-                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="beH-1X-c8C" misplaced="YES">
-                            <rect key="frame" x="0.0" y="-193" width="600" height="793"/>
+                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="beH-1X-c8C">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="793"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d56-YI-zfz">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="160"/>

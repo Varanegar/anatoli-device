@@ -28,6 +28,10 @@ namespace AnatoliIOS.ViewControllers
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIView HeaderView { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UITextField lastNameTextField { get; set; }
 
 		[Outlet]
@@ -91,6 +95,10 @@ namespace AnatoliIOS.ViewControllers
 			if (emailTextField != null) {
 				emailTextField.Dispose ();
 				emailTextField = null;
+			}
+			if (HeaderView != null) {
+				HeaderView.Dispose ();
+				HeaderView = null;
 			}
 			if (lastNameTextField != null) {
 				lastNameTextField.Dispose ();
