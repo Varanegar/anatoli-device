@@ -100,9 +100,9 @@ namespace Anatoli.App.Manager
                     var r = await DataAdapter.UpdateItemAsync(command2);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                throw e;
             }
         }
         public static async Task SyncOrdersAsync(string customerId)
