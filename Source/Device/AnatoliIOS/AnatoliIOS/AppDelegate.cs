@@ -143,24 +143,24 @@ namespace AnatoliIOS
         }
         public override void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
         {
-            new UIAlertView("Error registering push notifications", error.LocalizedDescription, null, "OK", null).Show();
+            //new UIAlertView("Error registering push notifications", error.LocalizedDescription, null, "OK", null).Show();
         }
         public override void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)
         {
-            if (null != userInfo && userInfo.ContainsKey(new NSString("name")))
-            {
-                string alert = (userInfo[new NSString("name")] as NSString).ToString();
-                if (!string.IsNullOrEmpty(alert))
-                {
-                    UIAlertView avAlert = new UIAlertView("Notification", alert, null, "OK", null);
-                    avAlert.Show();
-                }
-            }
-            else
-            {
-                UIAlertView avAlert = new UIAlertView("Notification", "WWWWWWW", null, "OK", null);
-                avAlert.Show();
-            }
+            //if (null != userInfo && userInfo.ContainsKey(new NSString("name")))
+            //{
+            //    string alert = (userInfo[new NSString("name")] as NSString).ToString();
+            //    if (!string.IsNullOrEmpty(alert))
+            //    {
+            //        UIAlertView avAlert = new UIAlertView("Notification", alert, null, "OK", null);
+            //        avAlert.Show();
+            //    }
+            //}
+            //else
+            //{
+            //    UIAlertView avAlert = new UIAlertView("Notification", "WWWWWWW", null, "OK", null);
+            //    avAlert.Show();
+            //}
         }
     }
 }
