@@ -26,10 +26,13 @@
     <MtouchDebug>True</MtouchDebug>
     <MtouchI18n>
     </MtouchI18n>
-    <CodesignProvision>8e0383fd-6b2c-4edb-863a-1e57927c6020</CodesignProvision>
+    <CodesignProvision>7fdad0f9-10db-461e-aa5d-2191adfd6a41</CodesignProvision>
     <CodesignKey>iPhone Developer: Arman Fazly (G34LZVS594)</CodesignKey>
     <MtouchSdkVersion>9.2</MtouchSdkVersion>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
+    <CodesignEntitlements />
+    <CodesignResourceRules />
+    <CodesignExtraArgs />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -54,7 +57,7 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignKey>iPhone Developer: Arman Fazly (G34LZVS594)</CodesignKey>
     <MtouchDebug>True</MtouchDebug>
-    <CodesignProvision>a2954fce-d4ec-4888-81b4-6abb4ac70cbb</CodesignProvision>
+    <CodesignProvision>7fdad0f9-10db-461e-aa5d-2191adfd6a41</CodesignProvision>
     <MtouchSdkVersion>9.2</MtouchSdkVersion>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
     <MtouchI18n>

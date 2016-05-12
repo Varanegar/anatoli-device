@@ -135,7 +135,7 @@ namespace AnatoliIOS
             if (string.IsNullOrEmpty(oldDeviceToken) || !oldDeviceToken.Equals(DeviceToken))
             {
                 //TODO: Put your own logic here to notify your server that the device token has changed/been created!
-                var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<BaseWebClientResult>("http://217.218.53.71:9192/", TokenType.AppToken, "/api/notification/registerApnToken/", new Tuple<string, string>("appToken", DeviceToken));
+                var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<string>("http://217.218.53.71:9192/", TokenType.AppToken, "/api/notification/registerApnToken/", new Tuple<string, string>("appToken", DeviceToken));
             }
 
             // Save new device token 
@@ -147,6 +147,7 @@ namespace AnatoliIOS
         }
         public override void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)
         {
+            Console.WriteLine("Notification recieved");
             //if (null != userInfo && userInfo.ContainsKey(new NSString("name")))
             //{
             //    string alert = (userInfo[new NSString("name")] as NSString).ToString();
