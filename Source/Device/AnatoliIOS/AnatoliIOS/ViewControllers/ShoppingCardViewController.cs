@@ -83,14 +83,14 @@ namespace AnatoliIOS.ViewControllers
                 await ShoppingCardManager.ValidateRequest(AnatoliApp.GetInstance().Customer);
                 if ((deliveryTypePicker.Model as DeliveryTypePickerViewModel).SelectedItem == null)
                 {
-                    var alert = UIAlertController.Create("خطا", "نحوه تحویا سفارش را انتخاب نمایید", UIAlertControllerStyle.Alert);
+                    var alert = UIAlertController.Create("خطا", "نحوه تحویل سفارش را انتخاب نمایید", UIAlertControllerStyle.Alert);
                     alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, null));
                     PresentViewController(alert, true, null);
                     return;
                 }
                 if ((timePicker.Model as TimePickerViewModel).SelectedItem == null)
                 {
-                    var alert = UIAlertController.Create("خذا", "زمان تحویل کالا را انتخاب نمایید", UIAlertControllerStyle.Alert);
+                    var alert = UIAlertController.Create("خطا", "زمان تحویل کالا را انتخاب نمایید", UIAlertControllerStyle.Alert);
                     alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, null));
                     PresentViewController(alert, true, null);
                     return;
@@ -187,6 +187,10 @@ namespace AnatoliIOS.ViewControllers
         public DeliveryTimeModel SelectedItem;
         public TimePickerViewModel(List<DeliveryTimeModel> items)
         {
+            if (items == null)
+            {
+                items = new List<DeliveryTimeModel>();
+            }
             _items = items;
         }
         public override string GetTitle(UIPickerView pickerView, nint row, nint component)
@@ -232,6 +236,10 @@ namespace AnatoliIOS.ViewControllers
         public DeliveryTypeModel SelectedItem;
         public DeliveryTypePickerViewModel(List<DeliveryTypeModel> items)
         {
+            if (items == null)
+            {
+                items = new List<DeliveryTypeModel>();
+            }
             _items = items;
         }
         public override string GetTitle(UIPickerView pickerView, nint row, nint component)
