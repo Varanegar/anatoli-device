@@ -56,6 +56,11 @@ namespace AnatoliIOS.TableViewCells
                     alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, null));
                     AnatoliApp.GetInstance().PresentViewController(alert);
                 }
+                else
+                {
+                    var alert = new UIAlertView("خطا", "کالای مورد نظر هم اکنون در دسترس نمی باشد. شاید در فروشگاه دیگری موجود باشد", null, "باشه");
+                    alert.Show();
+                }
             };
         }
     }
