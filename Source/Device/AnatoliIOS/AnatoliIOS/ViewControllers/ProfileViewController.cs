@@ -113,35 +113,36 @@ namespace AnatoliIOS.ViewControllers
                     {
                         // do something with the image
                         var resizeImage = MaxResizeImage(originalImage, 300f, 300f);
-                        profileImageView.Image = resizeImage; // display
                         using (NSData imageData = resizeImage.AsJPEG())
                         {
                             Byte[] myByteArray = new Byte[imageData.Length];
                             System.Runtime.InteropServices.Marshal.Copy(imageData.Bytes, myByteArray, 0, Convert.ToInt32(imageData.Length));
                             imagePicker.DismissViewController(true, null);
-                            
+                            LoadingOverlay loading = new LoadingOverlay(HeaderView.Frame, true);
+                            loading.Message = "بروزرسانی تصویر";
+                            loading.Canceled += delegate
+                            {
+                                token.Cancel();
+                            };
+                            HeaderView.AddSubview(loading);
                             try
                             {
                                 _uploading = true;
-                                pickImageButton.SetTitle("بی خیال", UIControlState.Normal);
+                                pickImageButton.SetTitle("", UIControlState.Normal);
                                 await CustomerManager.UploadImageAsync(AnatoliApp.GetInstance().Customer.UniqueId, myByteArray, token);
                                 pickImageButton.SetTitle("ویرایش", UIControlState.Normal);
+                                profileImageView.Image = resizeImage; // display
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
-                                Console.WriteLine(ex.Message);
-                                if (token.IsCancellationRequested)
-                                {
-                                    pickImageButton.SetTitle("ویرایش", UIControlState.Normal);
-                                }
-                                else
-                                {
-                                    pickImageButton.SetTitle("خطا!", UIControlState.Normal);
-                                }
+                                var alert = new UIAlertView("خطا", "تصویر ارسال نشد", null, "باشه");
+                                alert.Show();
                             }
                             finally
                             {
                                 _uploading = false;
+                                pickImageButton.SetTitle("ویرایش", UIControlState.Normal);
+                                loading.Hide();
                             }
                         }
                     }

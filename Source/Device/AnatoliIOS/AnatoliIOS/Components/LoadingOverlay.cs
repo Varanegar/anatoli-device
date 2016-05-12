@@ -31,7 +31,7 @@ namespace AnatoliIOS.Components
             activitySpinner = new UIActivityIndicatorView(UIActivityIndicatorViewStyle.WhiteLarge);
             activitySpinner.Frame = new CGRect(
                 centerX - (activitySpinner.Frame.Width / 2),
-                centerY - activitySpinner.Frame.Height - 20,
+                centerY - activitySpinner.Frame.Height,
                 activitySpinner.Frame.Width,
                 activitySpinner.Frame.Height);
             activitySpinner.AutoresizingMask = UIViewAutoresizing.All;
