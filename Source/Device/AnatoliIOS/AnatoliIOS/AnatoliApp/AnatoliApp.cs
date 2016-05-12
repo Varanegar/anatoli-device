@@ -300,7 +300,7 @@ namespace AnatoliIOS
                 {
                     source.Items.Add(new MenuItem()
                     {
-                        Title = "پروفایل ",
+                        Title = Customer.Phone,
                         Icon = UIImage.FromBundle("ic_person_gray_24dp"),
                         Type = MenuItem.MenuType.Profile
                     });
