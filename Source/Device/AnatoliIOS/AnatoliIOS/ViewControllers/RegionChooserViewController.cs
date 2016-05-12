@@ -56,6 +56,7 @@ namespace AnatoliIOS.ViewControllers
         public override void ViewDidAppear(bool animated)
         {
             base.ViewDidAppear(animated);
+            EdgesForExtendedLayout = UIRectEdge.None;
             _dataSource = new RegionTableViewSource(_items);
             _dataSource.ItemSelected += (CityRegionModel item) =>
             {
