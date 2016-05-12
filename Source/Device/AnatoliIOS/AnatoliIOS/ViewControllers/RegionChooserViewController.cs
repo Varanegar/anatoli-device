@@ -22,6 +22,8 @@ namespace AnatoliIOS.ViewControllers
 
 		public RegionChooserViewController (List<CityRegionModel> items) : this ()
 		{
+            if (items == null)
+                items = new List<CityRegionModel>();
 			SetItems (items);
 			_dataSource = new RegionTableViewSource (_items);
 		}

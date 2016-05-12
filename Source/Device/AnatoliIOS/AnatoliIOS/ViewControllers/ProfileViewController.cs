@@ -35,29 +35,34 @@ namespace AnatoliIOS.ViewControllers
 
             // Perform any additional setup after loading the view, typically from a nib.
             Title = "پروفایل";
-            View.Bounds = UIScreen.MainScreen.Bounds;
+
             if (AnatoliApp.GetInstance().Customer != null)
             {
-				nameTextField.ShouldReturn += delegate {
-					nameTextField.ResignFirstResponder();
-					return true;
-				};
-				lastNameTextField.ShouldReturn += delegate {
-					lastNameTextField.ResignFirstResponder();
-					return true;
-				};
-				emailTextField.ShouldReturn += delegate {
-					emailTextField.ResignFirstResponder ();
-					return true;
-				};
-				addressTextField.ShouldReturn += delegate {
-					addressTextField.ResignFirstResponder ();
-					return true;
-				};
-				nationalCodeTextField.ShouldReturn += delegate {
-					nationalCodeTextField.ResignFirstResponder ();
-					return true;
-				};
+                nameTextField.ShouldReturn += delegate
+                {
+                    nameTextField.ResignFirstResponder();
+                    return true;
+                };
+                lastNameTextField.ShouldReturn += delegate
+                {
+                    lastNameTextField.ResignFirstResponder();
+                    return true;
+                };
+                emailTextField.ShouldReturn += delegate
+                {
+                    emailTextField.ResignFirstResponder();
+                    return true;
+                };
+                addressTextField.ShouldReturn += delegate
+                {
+                    addressTextField.ResignFirstResponder();
+                    return true;
+                };
+                nationalCodeTextField.ShouldReturn += delegate
+                {
+                    nationalCodeTextField.ResignFirstResponder();
+                    return true;
+                };
 
                 nameTextField.Text = AnatoliApp.GetInstance().Customer.FirstName;
                 lastNameTextField.Text = AnatoliApp.GetInstance().Customer.LastName;
@@ -164,24 +169,19 @@ namespace AnatoliIOS.ViewControllers
 
 
             level1PickerViewController.SelectByGroupId(AnatoliApp.GetInstance().Customer.RegionLevel1Id);
-            level1Picker.SetTitle(level1PickerViewController.SelectedItem.group_name, UIControlState.Normal);
+            UpdatePickerTitle(level1Picker, level1PickerViewController);
             level2PickerViewController.SelectByGroupId(AnatoliApp.GetInstance().Customer.RegionLevel2Id);
-            level2Picker.SetTitle(level2PickerViewController.SelectedItem.group_name, UIControlState.Normal);
+            UpdatePickerTitle(level2Picker, level2PickerViewController);
             level3PickerViewController.SelectByGroupId(AnatoliApp.GetInstance().Customer.RegionLevel3Id);
-            level3Picker.SetTitle(level3PickerViewController.SelectedItem.group_name, UIControlState.Normal);
+            UpdatePickerTitle(level3Picker, level3PickerViewController);
             level4PickerViewController.SelectByGroupId(AnatoliApp.GetInstance().Customer.RegionLevel4Id);
-            level4Picker.SetTitle(level4PickerViewController.SelectedItem.group_name, UIControlState.Normal);
+            UpdatePickerTitle(level4Picker, level4PickerViewController);
 
             level1PickerViewController.ItemSelected += async (item) =>
             {
                 if (item != null)
-                {
-                    level1Picker.SetTitle(level1PickerViewController.SelectedItem.group_name, UIControlState.Normal);
                     level2PickerViewController.SetItems(await CityRegionManager.GetGroupsAsync(item.group_id));
-                }
-                else
-                    level1Picker.SetTitle(" - - -", UIControlState.Normal);
-                level2Picker.SetTitle(" - - -", UIControlState.Normal);
+                UpdatePickerTitle(level1Picker, level1PickerViewController);
                 level2PickerViewController.Select(0);
                 level3PickerViewController.Select(0);
                 level4PickerViewController.Select(0);
@@ -189,38 +189,21 @@ namespace AnatoliIOS.ViewControllers
             level2PickerViewController.ItemSelected += async (item) =>
             {
                 if (item != null)
-                {
-                    level2Picker.SetTitle(level2PickerViewController.SelectedItem.group_name, UIControlState.Normal);
                     level3PickerViewController.SetItems(await CityRegionManager.GetGroupsAsync(item.group_id));
-                }
-                else
-                    level2Picker.SetTitle(" - - -", UIControlState.Normal);
-                level3Picker.SetTitle(" - - -", UIControlState.Normal);
-
+                UpdatePickerTitle(level2Picker, level2PickerViewController);
                 level3PickerViewController.Select(0);
                 level4PickerViewController.Select(0);
             };
             level3PickerViewController.ItemSelected += async (item) =>
             {
                 if (item != null)
-                {
-                    level3Picker.SetTitle(level3PickerViewController.SelectedItem.group_name, UIControlState.Normal);
                     level4PickerViewController.SetItems(await CityRegionManager.GetGroupsAsync(item.group_id));
-                }
-                else
-                    level3Picker.SetTitle(" - - -", UIControlState.Normal);
-                level4Picker.SetTitle(" - - -", UIControlState.Normal);
-
+                UpdatePickerTitle(level3Picker, level3PickerViewController);
                 level4PickerViewController.Select(0);
             };
-            level4PickerViewController.ItemSelected += async (item) =>
+            level4PickerViewController.ItemSelected += (item) =>
             {
-                if (item != null)
-                {
-                    level4Picker.SetTitle(level4PickerViewController.SelectedItem.group_name, UIControlState.Normal);
-                }
-                else
-                    level4Picker.SetTitle(" - - -", UIControlState.Normal);
+                UpdatePickerTitle(level4Picker, level4PickerViewController);
             };
 
             level1Picker.TouchUpInside += delegate
@@ -351,7 +334,13 @@ namespace AnatoliIOS.ViewControllers
 
         }
 
-
+        void UpdatePickerTitle(UIButton pickerButton, RegionChooserViewController chooserViewController)
+        {
+            if (chooserViewController.SelectedItem != null)
+                pickerButton.SetTitle(chooserViewController.SelectedItem.group_name, UIControlState.Normal);
+            else
+                pickerButton.SetTitle(" - - - ", UIControlState.Normal);
+        }
     }
 
 
