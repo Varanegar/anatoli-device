@@ -60,18 +60,25 @@ namespace AnatoliAndroid.Fragments
             AnatoliApp.GetInstance().ShowSearchIcon();
             
             await AnatoliApp.GetInstance().SyncDatabase();
-            var categories = await CategoryManager.GetFirstLevelAsync();
-            if (categories != null)
+            try
             {
-                var groupAdapter = new GroupListAdapter(AnatoliApp.GetInstance().Activity, categories);
-                _groupsGridView.Adapter = groupAdapter;
-                ViewGroup.LayoutParams lparams = _groupsGridView.LayoutParameters;
-                var scale = AnatoliApp.GetResources().DisplayMetrics.Density;
-                int pixels = (int)(120 * scale + 0.5f);
-                var c = groupAdapter.Count % 2 == 0 ? groupAdapter.Count / 2 + 1 : groupAdapter.Count / 2 + 2;
-                lparams.Height = pixels * c;
-                _groupsGridView.LayoutParameters = lparams;
-                _groupsGridView.RequestLayout();
+                var categories = await CategoryManager.GetFirstLevelAsync();
+                if (categories != null)
+                {
+                    var groupAdapter = new GroupListAdapter(AnatoliApp.GetInstance().Activity, categories);
+                    _groupsGridView.Adapter = groupAdapter;
+                    ViewGroup.LayoutParams lparams = _groupsGridView.LayoutParameters;
+                    var scale = AnatoliApp.GetResources().DisplayMetrics.Density;
+                    int pixels = (int)(120 * scale + 0.5f);
+                    var c = groupAdapter.Count % 2 == 0 ? groupAdapter.Count / 2 + 1 : groupAdapter.Count / 2 + 2;
+                    lparams.Height = pixels * c;
+                    _groupsGridView.LayoutParameters = lparams;
+                    _groupsGridView.RequestLayout();
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.SendTrace();
             }
             await System.Threading.Tasks.Task.Run(() => { _slideShow.Start(); });
         }
@@ -130,7 +137,7 @@ namespace AnatoliAndroid.Fragments
 
             }
 
-            imageView1.Click += async (s, e) =>
+            imageView1.Click += (s, e) =>
             {
                 var p = new ProductsListFragment();
                 p.SetCatId(item.cat_id.ToString());
