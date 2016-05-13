@@ -30,9 +30,6 @@
     <CodesignKey>iPhone Developer: Arman Fazly (G34LZVS594)</CodesignKey>
     <MtouchSdkVersion>9.2</MtouchSdkVersion>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
-    <CodesignEntitlements />
-    <CodesignResourceRules />
-    <CodesignExtraArgs />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -62,8 +59,8 @@
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
     <MtouchI18n>
     </MtouchI18n>
-    <CodesignResourceRules />
-    <CodesignExtraArgs />
+    <CodesignExtraArgs>
+    </CodesignExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -79,7 +76,6 @@
     </CodesignProvision>
     <CodesignExtraArgs>
     </CodesignExtraArgs>
-    <CodesignResourceRules />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>none</DebugType>
@@ -91,13 +87,9 @@
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <BuildIpa>True</BuildIpa>
-    <CodesignProvision>
-    </CodesignProvision>
     <CodesignKey>iPhone Distribution</CodesignKey>
     <MtouchSdkVersion>9.2</MtouchSdkVersion>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
-    <CodesignExtraArgs>
-    </CodesignExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
     <DebugType>none</DebugType>
@@ -108,11 +100,8 @@
     <ConsolePause>False</ConsolePause>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignProvision>
-    </CodesignProvision>
-    <CodesignKey>iPhone Distribution</CodesignKey>
-    <CodesignExtraArgs>
-    </CodesignExtraArgs>
+    <CodesignProvision>3a5ed44c-4794-4f07-8426-999d1fe2898a</CodesignProvision>
+    <CodesignKey>iPhone Distribution: Arman Fazly (9739JGLK7R)</CodesignKey>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AnatoliApp\AnatoliApp.cs" />
