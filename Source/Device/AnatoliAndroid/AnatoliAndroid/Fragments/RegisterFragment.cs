@@ -170,31 +170,34 @@ namespace AnatoliAndroid.Fragments
                     alertDialog.Show();
                 }
             }
-            catch (Exception ex)
+            catch (ServerUnreachableException)
             {
-                ex.SendTrace();
-                dialog.Dismiss();
-                if (ex.GetType() == typeof(ServerUnreachableException))
-                {
-                    alertDialog.SetMessage(Resource.String.ConnectionFailed);
-                    alertDialog.SetPositiveButton(Resource.String.Ok, (s, a) => { });
-                    alertDialog.Show();
-                }
-                else if (ex.GetType() == typeof(TokenException))
-                {
-
-                    alertDialog.SetMessage(Resource.String.AuthenticationFailed);
-                    alertDialog.SetPositiveButton(Resource.String.Ok, (s, a) => { });
-                    alertDialog.Show();
-                }
-                else
-                {
-                    alertDialog.SetMessage(ex.Message);
-                    alertDialog.SetPositiveButton(Resource.String.Ok, (s, a) => { });
-                    alertDialog.Show();
-                }
+                alertDialog.SetMessage(Resource.String.ConnectionFailed);
+                alertDialog.SetPositiveButton(Resource.String.Ok, (s, a) => { });
+                alertDialog.Show();
             }
-            _registerButton.Enabled = true;
+            catch (TokenException)
+            {
+                alertDialog.SetMessage(Resource.String.AuthenticationFailed);
+                alertDialog.SetPositiveButton(Resource.String.Ok, (s, a) => { });
+                alertDialog.Show();
+            }
+            catch (AnatoliWebClientException ex)
+            {
+                alertDialog.SetMessage(ex.MetaInfo.ModelStateString);
+                alertDialog.SetPositiveButton(Resource.String.Ok, (s, a) => { });
+                alertDialog.Show();
+            }
+            catch (Exception)
+            {
+                alertDialog.SetMessage("خطای نا مشخص!");
+                alertDialog.SetPositiveButton(Resource.String.Ok, (s, a) => { });
+                alertDialog.Show();
+            }
+            finally
+            {
+                dialog.Dismiss();
+            }
         }
     }
 }
