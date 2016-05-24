@@ -63,6 +63,8 @@ namespace Anatoli.App.Manager
             }
 
             user.Email = email;
+            if (user.Email == "") user.Email = null;
+
             user.Username = tel;
             user.Password = passWord;
             user.ConfirmPassword = passWord;

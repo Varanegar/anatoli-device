@@ -42,14 +42,15 @@ namespace AnatoliAndroid.Fragments
             _groupsGridView = view.FindViewById<GridView>(Resource.Id.groupsGridView);
             _slideShow = new AnatoliSlideShow(_slideShowImageView, progress);
 
-            AnatoliAndroid.Components.AnatoliSlideShow.OnClick click1 = new AnatoliAndroid.Components.AnatoliSlideShow.OnClick(() => { Toast.MakeText(AnatoliApp.GetInstance().Activity, "Item 1 selected", ToastLength.Short).Show(); });
-            var c1 = new Tuple<string, AnatoliAndroid.Components.AnatoliSlideShow.OnClick>("http://www.psdgraphics.com/wp-content/uploads/2015/06/mosaic-background.png", click1);
+            
+            //AnatoliAndroid.Components.AnatoliSlideShow.OnClick click1 = new AnatoliAndroid.Components.AnatoliSlideShow.OnClick(() => { Toast.MakeText(AnatoliApp.GetInstance().Activity, "Item 1 selected", ToastLength.Short).Show(); });
+            var c1 = new Tuple<string, AnatoliAndroid.Components.AnatoliSlideShow.OnClick>("http://parastoo.varanegar.com:7000/Content/Images/F739D5DD-8B18-42DD-9E16-910EF346B365/original/slide-1.jpg", null);
             _slideShow.Source.Add(c1);
-            AnatoliAndroid.Components.AnatoliSlideShow.OnClick click2 = new AnatoliAndroid.Components.AnatoliSlideShow.OnClick(() => { Toast.MakeText(AnatoliApp.GetInstance().Activity, "Item 2 selected", ToastLength.Short).Show(); });
-            var c2 = new Tuple<string, AnatoliAndroid.Components.AnatoliSlideShow.OnClick>("http://www.ayuz.ir/files/photos/s1.png", click2);
+            //AnatoliAndroid.Components.AnatoliSlideShow.OnClick click2 = new AnatoliAndroid.Components.AnatoliSlideShow.OnClick(() => { Toast.MakeText(AnatoliApp.GetInstance().Activity, "Item 2 selected", ToastLength.Short).Show(); });
+            var c2 = new Tuple<string, AnatoliAndroid.Components.AnatoliSlideShow.OnClick>("http://parastoo.varanegar.com:7000/Content/Images/F739D5DD-8B18-42DD-9E16-910EF346B365/original/slide-2.jpg", null);
             _slideShow.Source.Add(c2);
-            AnatoliAndroid.Components.AnatoliSlideShow.OnClick click3 = new AnatoliAndroid.Components.AnatoliSlideShow.OnClick(() => { Toast.MakeText(AnatoliApp.GetInstance().Activity, "Item 3 selected", ToastLength.Short).Show(); });
-            var c3 = new Tuple<string, AnatoliAndroid.Components.AnatoliSlideShow.OnClick>("https://pixabay.com/static/uploads/photo/2012/11/06/03/47/background-64259_960_720.jpg", click3);
+            //AnatoliAndroid.Components.AnatoliSlideShow.OnClick click3 = new AnatoliAndroid.Components.AnatoliSlideShow.OnClick(() => { Toast.MakeText(AnatoliApp.GetInstance().Activity, "Item 3 selected", ToastLength.Short).Show(); });
+            var c3 = new Tuple<string, AnatoliAndroid.Components.AnatoliSlideShow.OnClick>("http://parastoo.varanegar.com:7000/Content/Images/F739D5DD-8B18-42DD-9E16-910EF346B365/original/slide-3.jpg", null);
             _slideShow.Source.Add(c3);
             return view;
         }
