@@ -22,9 +22,9 @@ namespace AnatoliIOS
 			cell.UpdateCellAsync(Items[indexPath.Row]);
             return cell;
         }
-        public async override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-			await AnatoliApp.GetInstance ().SelectMenuItemAsync (indexPath.Row);
+			AnatoliApp.GetInstance ().SelectMenuItem (indexPath.Row);
 //			AnatoliApp.GetInstance ().RefreshMenu ();
             tableView.DeselectRow(indexPath, true);
         }

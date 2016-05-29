@@ -372,7 +372,7 @@ namespace AnatoliIOS
         {
             (UIApplication.SharedApplication.Delegate as AppDelegate).RootViewController.SidebarController.OpenMenu();
         }
-        public async Task SelectMenuItemAsync(int index)
+        public void SelectMenuItem(int index)
         {
             var items = (MenuTableViewReference.Source as MenuTableViewSource).Items;
             switch (items[index].Type)
