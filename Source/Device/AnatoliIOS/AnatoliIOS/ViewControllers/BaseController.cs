@@ -45,7 +45,6 @@ namespace AnatoliIOS.ViewControllers
 		{
 			base.ViewDidAppear (animated);
 			NavigationItem.BackBarButtonItem = new UIBarButtonItem ("", UIBarButtonItemStyle.Plain, null);
-			NavigationItem.RightBarButtonItems = new UIBarButtonItem[2] {AnatoliApp.GetInstance ().CreateMenuButton (), AnatoliApp.GetInstance().CreateBasketButton()};
 		}
     }
 }

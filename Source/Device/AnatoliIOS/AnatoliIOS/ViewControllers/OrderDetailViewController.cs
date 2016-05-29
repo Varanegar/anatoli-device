@@ -31,7 +31,11 @@ namespace AnatoliIOS.ViewControllers
 
             // Release any cached data, images, etc that aren't in use.
         }
-
+        public override void ViewDidDisappear(bool animated)
+        {
+            base.ViewDidDisappear(animated);
+            this.SetToolbarItems(AnatoliApp.GetInstance().CreateToolbarItems(), true);
+        }
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();

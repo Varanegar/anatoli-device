@@ -23,6 +23,7 @@ namespace AnatoliIOS.ViewControllers
 		{
 			base.ViewDidAppear (animated);
             Title = "لیست من";
+            this.SetToolbarItems(AnatoliApp.GetInstance().CreateToolbarItems(), true);
             EdgesForExtendedLayout = UIRectEdge.None;
             _tableViewSource = new ProductsTableViewSource ();
 			_tableViewSource.SetDataQuery (ProductManager.GetFavoritsQueryString (AnatoliApp.GetInstance().DefaultStore.store_id));

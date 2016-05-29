@@ -13,6 +13,11 @@ namespace AnatoliIOS.ViewControllers
         {
         }
 
+        public override void ViewDidAppear(bool animated)
+        {
+            base.ViewDidAppear(animated);
+            this.SetToolbarItems(AnatoliApp.GetInstance().CreateToolbarItems(), true);
+        }
         public override void DidReceiveMemoryWarning()
         {
             base.DidReceiveMemoryWarning();

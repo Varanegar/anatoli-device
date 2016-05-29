@@ -31,6 +31,11 @@ namespace AnatoliIOS.ViewControllers
             _deliveryType = deliveryType;
         }
 
+        public override void ViewDidAppear(bool animated)
+        {
+            base.ViewDidAppear(animated);
+            this.SetToolbarItems(AnatoliApp.GetInstance().CreateToolbarItems(), true);
+        }
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();

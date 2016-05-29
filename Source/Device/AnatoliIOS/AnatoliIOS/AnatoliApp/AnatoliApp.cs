@@ -447,22 +447,46 @@ namespace AnatoliIOS
             RefreshMenu();
         }
 
-
-        public UIBarButtonItem CreateMenuButton()
+        public UIBarButtonItem[] CreateToolbarItems()
         {
-            return new UIBarButtonItem(UIImage.FromBundle("ic_reorder_white_24dp").Scale(new CoreGraphics.CGSize(26, 26))
+            var b1 = CreateToolBarButton(UIImage.FromFile("ic_list_orange_24dp"), () => { PushViewController(new FirstPageViewController()); });
+            if (GetVisibleViewController().GetType() != typeof(FirstPageViewController))
+                b1.TintColor = UIColor.DarkGray;
+            var b2 = CreateToolBarButton(UIImage.FromFile("ic_list_orange_24dp"), () => { PushViewController(new ProductsViewController()); });
+            if (GetVisibleViewController().GetType() != typeof(ProductsViewController))
+                b2.TintColor = UIColor.DarkGray;
+            UIBarButtonItem b3;
+            if (GetVisibleViewController().GetType() != typeof(ShoppingCardViewController))
+                b3 = CreateBasketButton(false);
+            else
+                b3 = CreateBasketButton(true);
+            var b4 = CreateToolBarButton(UIImage.FromFile("ic_mylist_orange_24dp"), () => { PushViewController(new FavoritsViewController()); });
+            if (GetVisibleViewController().GetType() != typeof(FavoritsViewController))
+                b4.TintColor = UIColor.DarkGray;
+            var b5 = CreateToolBarButton(UIImage.FromFile("ic_reorder_white_24dp"), () => { (UIApplication.SharedApplication.Delegate as AppDelegate).RootViewController.SidebarController.ToggleMenu(); });
+            b5.TintColor = UIColor.DarkGray;
+            var space = new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace) { Width = 50 };
+            return new UIBarButtonItem[] { b1, space, b2, space, b3, space, b4, space, b5 };
+        }
+        public UIBarButtonItem CreateToolBarButton(UIImage image, Action delCommand)
+        {
+            return new UIBarButtonItem(image.Scale(new CoreGraphics.CGSize(26, 26))
                 , UIBarButtonItemStyle.Plain
                 , (sender, args) =>
                 {
-                    (UIApplication.SharedApplication.Delegate as AppDelegate).RootViewController.SidebarController.ToggleMenu();
+                    delCommand.Invoke();
                 });
         }
 
-        public UIBarButtonItem CreateBasketButton()
+        public UIBarButtonItem CreateBasketButton(bool enabled = false)
         {
             UIView basketView = new UIView(new CGRect(0, 0, 26, 26));
 
             var button = new UIButton(new CGRect(0, 0, 26, 26));
+            if (enabled)
+                button.TintColor = UIColor.Blue;
+            else
+                button.TintColor = UIColor.DarkGray;
             button.SetBackgroundImage(UIImage.FromBundle("ic_shoppingcard_on_white_24dp").Scale(new CoreGraphics.CGSize(26, 26)), UIControlState.Normal);
             button.TouchUpInside += (object sender, EventArgs e) =>
             {

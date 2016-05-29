@@ -344,6 +344,7 @@
     <BundleResource Include="Resources\igicon.png" />
     <BundleResource Include="Resources\splash.png" />
     <BundleResource Include="Resources\ic_log_in_green_24dp.png" />
+    <BundleResource Include="Resources\ic_mylist_orange_24dp.png" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json">

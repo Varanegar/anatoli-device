@@ -19,6 +19,7 @@ namespace AnatoliIOS.ViewControllers
             base.ViewDidLoad();
             EdgesForExtendedLayout = UIRectEdge.None;
         }
+        
 
         public override void DidReceiveMemoryWarning()
         {
@@ -29,6 +30,7 @@ namespace AnatoliIOS.ViewControllers
         {
             base.ViewDidAppear(animated);
             Title = "سفارشات قبلی";
+            this.SetToolbarItems(AnatoliApp.GetInstance().CreateToolbarItems(), true);
             if (AnatoliClient.GetInstance().WebClient.IsOnline())
             {
                 LoadingOverlay loading = new LoadingOverlay(View.Bounds);

@@ -25,6 +25,9 @@ namespace AnatoliIOS.ViewControllers
 		{
 			base.ViewDidAppear (animated);
 
+            this.SetToolbarItems(AnatoliApp.GetInstance().CreateToolbarItems(), true);
+            this.NavigationController.ToolbarHidden = false;
+
             var loadingOverlay = new LoadingOverlay(View.Bounds);
             View.Add(loadingOverlay);
 
@@ -41,12 +44,6 @@ namespace AnatoliIOS.ViewControllers
 						});
 
 				});
-
-			NavigationItem.SetRightBarButtonItems (new UIBarButtonItem[] {
-				AnatoliApp.GetInstance ().CreateMenuButton (),
-				searchButton,
-				AnatoliApp.GetInstance().CreateBasketButton()
-			}, true);
 
 
 			_productsTableViewSource = new ProductsTableViewSource ();
