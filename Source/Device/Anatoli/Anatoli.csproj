@@ -89,6 +89,7 @@
     <Compile Include="App\Model\Store\PurchaseOrderLineItemViewModel.cs" />
     <Compile Include="App\Model\Store\PurchaseOrderStatusHistoryViewModel.cs" />
     <Compile Include="App\Model\Store\PurchaseOrderViewModel.cs" />
+    <Compile Include="App\Model\Store\ShoppingCardViewModel.cs" />
     <Compile Include="App\Model\Store\StoreActiveOnhandViewModel.cs" />
     <Compile Include="App\Model\Store\StoreCalendarViewModel.cs" />
     <Compile Include="App\Model\Store\StoreDataModel.cs" />

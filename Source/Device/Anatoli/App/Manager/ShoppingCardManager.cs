@@ -103,25 +103,25 @@ namespace Anatoli.App.Manager
             }
         }
 
-        public async static Task<double> GetTotalPriceAsync()
-        {
-            try
-            {
-                SelectQuery query = new SelectQuery("shopping_card_view");
-                query.Unlimited = true;
-                var result = await BaseDataAdapter<ProductModel>.GetListAsync(query);
-                double p = 0;
-                foreach (var item in result)
-                {
-                    p += (item.count * item.price);
-                }
-                return p;
-            }
-            catch (Exception)
-            {
-                return 0;
-            }
-        }
+        //public async static Task<double> GetTotalPriceAsync()
+        //{
+        //    try
+        //    {
+        //        SelectQuery query = new SelectQuery("shopping_card_view");
+        //        query.Unlimited = true;
+        //        var result = await BaseDataAdapter<ProductModel>.GetListAsync(query);
+        //        double p = 0;
+        //        foreach (var item in result)
+        //        {
+        //            p += (item.count * item.price);
+        //        }
+        //        return p;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return 0;
+        //    }
+        //}
         public static async Task<List<ProductModel>> GetAllItemsAsync()
         {
             try
@@ -152,20 +152,20 @@ namespace Anatoli.App.Manager
             return result;
         }
 
-        public static async Task<int> GetItemsCountAsync()
+        public static async Task<ShoppingCardViewModel> GetInfoAsync()
         {
-            var list = await GetAllItemsAsync();
-            if (list != null)
+            try
             {
-                int count = 0;
-                foreach (var item in list)
-                {
-                    count += item.count;
-                }
-                return count;
+                var defaultStore = await StoreManager.GetDefaultAsync();
+                StringQuery query = new StringQuery(string.Format("SELECT SUM(count) as items_count, SUM(price*count) as total_price FROM shopping_card_view JOIN store_onhand ON shopping_card_view.product_id = store_onhand.product_id WHERE store_onhand.store_id = '{0}'", defaultStore.store_id));
+                query.Unlimited = true;
+                var card = await BaseDataAdapter<ShoppingCardViewModel>.GetItemAsync(query);
+                return card;
             }
-            else
-                return 0;
+            catch (Exception)
+            {
+                return new ShoppingCardViewModel();
+            }
         }
 
         public static async Task<bool> UpdateProductCountAsyc(ProductModel item)
@@ -273,10 +273,15 @@ namespace Anatoli.App.Manager
             {
                 throw new ValidationException(ValidationErrorCode.CustomerInfo);
             }
-            if ((await ShoppingCardManager.GetItemsCountAsync()) == 0)
+            var info = await ShoppingCardManager.GetInfoAsync();
+            if (info != null)
             {
-                throw new ValidationException(ValidationErrorCode.EmptyBasket);
+                if (info.items_count == 0)
+                {
+                    throw new ValidationException(ValidationErrorCode.EmptyBasket);
+                }
             }
+
             return true;
         }
 
@@ -315,4 +320,5 @@ namespace Anatoli.App.Manager
         CustomerInfo,
         EmptyBasket
     }
+
 }
