@@ -67,10 +67,12 @@ namespace AnatoliIOS.ViewControllers
             };
             deliveryTypePicker.Select(0, 0, true);
             deliveryTypeModel.Selected(deliveryTypePicker, 0, 0);
-
-            itemCountLabel.Text = await ShoppingCardManager.GetItemsCountAsync() + " عدد";
-            totalPriceLabel.Text = (await ShoppingCardManager.GetTotalPriceAsync()).ToCurrency() + " تومان";
-            ShoppingCardManager.ItemChanged += UpdateLabels;
+            var info = await ShoppingCardManager.GetInfoAsync();
+            if (info != null)
+            {
+                itemCountLabel.Text = info.items_count + " عدد";
+                totalPriceLabel.Text = info.total_price.ToCurrency() + " تومان";
+            }
             checkoutButton.TouchUpInside += async (object sender, EventArgs e) =>
             {
                 await CalcPromo();
@@ -118,7 +120,7 @@ namespace AnatoliIOS.ViewControllers
                 {
                     var alert = UIAlertController.Create("خطا", "درخواست شما با خطا روبرو شد", UIAlertControllerStyle.Alert);
                     alert.AddAction(UIAlertAction.Create("بی خیال", UIAlertActionStyle.Cancel, null));
-                    alert.AddAction(UIAlertAction.Create("دوباره تلاش کن", UIAlertActionStyle.Default,async delegate { await CalcPromo(); }));
+                    alert.AddAction(UIAlertAction.Create("دوباره تلاش کن", UIAlertActionStyle.Default, async delegate { await CalcPromo(); }));
                     PresentViewController(alert, true, null);
                 }
                 finally
@@ -154,25 +156,25 @@ namespace AnatoliIOS.ViewControllers
             base.ViewDidLoad();
             // Perform any additional setup after loading the view, typically from a nib.
             Title = "سبد خرید";
-
+            ShoppingCardManager.ItemChanged += UpdateLabels;
         }
 
         public async void UpdateLabels(ProductModel item)
         {
-            var count = await ShoppingCardManager.GetItemsCountAsync();
-            itemCountLabel.Text = count + " عدد";
-            totalPriceLabel.Text = (await ShoppingCardManager.GetTotalPriceAsync()).ToCurrency() + " تومان";
-            if (count == 0)
+            var info = await ShoppingCardManager.GetInfoAsync();
+            if (info != null)
+            {
+                var count = info.items_count;
+                totalPriceLabel.Text = info.total_price.ToCurrency() + " تومان";
+            }
+            itemCountLabel.Text = info.items_count + " عدد";
+            if (info.items_count == 0)
             {
                 productsTableView.ReloadData();
                 tableEmptyLabel.Hidden = false;
             }
         }
-        public override void ViewDidUnload()
-        {
-            base.ViewDidUnload();
-            ShoppingCardManager.ItemChanged -= UpdateLabels;
-        }
+
         public override void DidReceiveMemoryWarning()
         {
             base.DidReceiveMemoryWarning();

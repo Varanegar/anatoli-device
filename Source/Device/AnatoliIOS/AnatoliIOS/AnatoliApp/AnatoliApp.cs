@@ -42,8 +42,12 @@ namespace AnatoliIOS
                     await AnatoliApp.GetInstance().LogOutAsync();
                     AnatoliApp.GetInstance().PushViewController(new LoginViewController());
                 };
-                ShoppingCardItemsCount = await ShoppingCardManager.GetItemsCountAsync();
-                ShoppingCardTotalPrice = await ShoppingCardManager.GetTotalPriceAsync();
+                var info = await ShoppingCardManager.GetInfoAsync();
+                if (info != null)
+                {
+                    ShoppingCardItemsCount = info.items_count;
+                    ShoppingCardTotalPrice = info.total_price;
+                }
             }
             catch (Exception)
             {
@@ -65,9 +69,14 @@ namespace AnatoliIOS
             AnatoliClient.GetInstance(new IosWebClient(), new IosSqliteClient(), new IosFileIO());
             _views = new LinkedList<Type>();
         }
-
+        bool _updating = false;
         public async Task SyncDataBase()
         {
+            if (_updating)
+            {
+                return;
+            }
+            _updating = true;
             var updateTime = await SyncManager.GetLogAsync(SyncManager.UpdateCompleted);
             if ((DateTime.Now - updateTime) > TimeSpan.FromDays(3))
             {
@@ -106,6 +115,8 @@ namespace AnatoliIOS
                     {
                         loading.Hide();
                     }
+                    _updating = false;
+                    return;
                 }
                 else
                 {
@@ -130,6 +141,8 @@ namespace AnatoliIOS
                     {
                         Console.WriteLine(ex.Message);
                     }
+                    _updating = false;
+                    return;
                 }
             }
             else if (updateTime < (DateTime.Now - TimeSpan.FromMinutes(20)))
@@ -144,8 +157,11 @@ namespace AnatoliIOS
                     {
                         Console.WriteLine(ex.Message);
                     }
+                    _updating = false;
+                    return;
                 }
             }
+            _updating = false;
         }
 
         public void ReplaceViewController(UIViewController viewController)
@@ -512,9 +528,14 @@ namespace AnatoliIOS
 
         async void UpdateBasketView(ProductModel item)
         {
-            ShoppingCardItemsCount = await ShoppingCardManager.GetItemsCountAsync();
-            ShoppingCardTotalPrice = await ShoppingCardManager.GetTotalPriceAsync();
-            _counterLabel.Text = ShoppingCardItemsCount.ToString();
+            var info = await ShoppingCardManager.GetInfoAsync();
+            if (info != null)
+            {
+                ShoppingCardItemsCount = info.items_count;
+                ShoppingCardTotalPrice = info.total_price;
+                _counterLabel.Text = ShoppingCardItemsCount.ToString();
+            }
+
             //_priceLabel.Text = ShoppingCardTotalPrice.ToCurrency () + " تومان";
         }
         void ResetBasketView()
