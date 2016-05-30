@@ -90,6 +90,18 @@
     <CodesignKey>iPhone Distribution</CodesignKey>
     <MtouchSdkVersion>9.2</MtouchSdkVersion>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
+    <CodesignProvision>112b3cbd-687e-43e4-83af-5a4a254fda3a</CodesignProvision>
+    <CodesignResourceRules />
+    <CodesignExtraArgs />
+    <MtouchLink>SdkOnly</MtouchLink>
+    <MtouchDebug>False</MtouchDebug>
+    <MtouchProfiling>False</MtouchProfiling>
+    <MtouchFastDev>False</MtouchFastDev>
+    <MtouchUseLlvm>False</MtouchUseLlvm>
+    <MtouchUseThumb>False</MtouchUseThumb>
+    <MtouchUseSGen>False</MtouchUseSGen>
+    <MtouchUseRefCounting>False</MtouchUseRefCounting>
+    <MtouchI18n />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
     <DebugType>none</DebugType>
@@ -102,6 +114,13 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignProvision>3a5ed44c-4794-4f07-8426-999d1fe2898a</CodesignProvision>
     <CodesignKey>iPhone Distribution: Arman Fazly (9739JGLK7R)</CodesignKey>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhoneSimulator'">
+    <CodesignKey>iPhone Distribution: Arman Fazly (9739JGLK7R)</CodesignKey>
+    <CodesignProvision>112b3cbd-687e-43e4-83af-5a4a254fda3a</CodesignProvision>
+    <CodesignEntitlements />
+    <CodesignResourceRules />
+    <CodesignExtraArgs />
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AnatoliApp\AnatoliApp.cs" />
