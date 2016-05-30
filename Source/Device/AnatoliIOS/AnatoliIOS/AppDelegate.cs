@@ -135,7 +135,7 @@ namespace AnatoliIOS
             if (string.IsNullOrEmpty(oldDeviceToken) || !oldDeviceToken.Equals(DeviceToken))
             {
                 //TODO: Put your own logic here to notify your server that the device token has changed/been created!
-                var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<string>("http://parastoo.varanegar.com:9192/", TokenType.AppToken, "/api/notification/registerApnToken/", new Tuple<string, string>("appToken", DeviceToken));
+                var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<string>("http://parastoo.varanegar.com:9192/", TokenType.AppToken, "/api/notification/registerApnToken/",false, new Tuple<string, string>("appToken", DeviceToken));
             }
 
             // Save new device token 

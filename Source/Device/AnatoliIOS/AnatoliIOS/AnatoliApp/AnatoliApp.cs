@@ -480,74 +480,111 @@ namespace AnatoliIOS
 
         public UIBarButtonItem CreateBasketButton(bool enabled = false)
         {
-            UIView basketView = new UIView(new CGRect(0, 0, 26, 26));
 
-            var button = new UIButton(new CGRect(0, 0, 26, 26));
-            if (enabled)
-                button.TintColor = UIColor.Blue;
-            else
-                button.TintColor = UIColor.DarkGray;
-            button.SetBackgroundImage(UIImage.FromBundle("ic_shoppingcard_on_white_24dp").Scale(new CoreGraphics.CGSize(26, 26)), UIControlState.Normal);
-            button.TouchUpInside += (object sender, EventArgs e) =>
-            {
-                if (Customer == null)
-                {
-                    var loginAlert = UIAlertController.Create("خطا", "لطفا ابتدا وارد حساب کاربری خود شوید", UIAlertControllerStyle.Alert);
-                    loginAlert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default,
-                        delegate
-                        {
-                            PushViewController(new LoginViewController());
-                        }
-                    ));
-                    loginAlert.AddAction(UIAlertAction.Create("بی خیال", UIAlertActionStyle.Cancel, null));
-                    PresentViewController(loginAlert);
-                }
-                else if (DefaultStore == null)
-                {
-                    var storeAlert = UIAlertController.Create("خطا", "لطفا ابتدا فروشگاه پیش فرض را انتخاب نمایید", UIAlertControllerStyle.Alert);
-                    storeAlert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default,
-                        delegate
-                        {
-                            PushViewController(new StoresViewController());
-                        }
-                    ));
-                    storeAlert.AddAction(UIAlertAction.Create("بی خیال", UIAlertActionStyle.Cancel, null));
-                    PresentViewController(storeAlert);
-                }
-                else
-                    AnatoliApp.GetInstance().PushViewController(new ShoppingCardViewController());
-                CloseMenu();
-            };
+            var b = new UIBarButtonItem(UIImage.FromBundle("ic_shoppingcard_on_white_24dp").Scale(new CoreGraphics.CGSize(26, 26))
+              , UIBarButtonItemStyle.Plain
+              , (sender, args) =>
+              {
+                  if (Customer == null)
+                  {
+                      var loginAlert = UIAlertController.Create("خطا", "لطفا ابتدا وارد حساب کاربری خود شوید", UIAlertControllerStyle.Alert);
+                      loginAlert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default,
+                          delegate
+                          {
+                              PushViewController(new LoginViewController());
+                          }
+                      ));
+                      loginAlert.AddAction(UIAlertAction.Create("بی خیال", UIAlertActionStyle.Cancel, null));
+                      PresentViewController(loginAlert);
+                  }
+                  else if (DefaultStore == null)
+                  {
+                      var storeAlert = UIAlertController.Create("خطا", "لطفا ابتدا فروشگاه پیش فرض را انتخاب نمایید", UIAlertControllerStyle.Alert);
+                      storeAlert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default,
+                          delegate
+                          {
+                              PushViewController(new StoresViewController());
+                          }
+                      ));
+                      storeAlert.AddAction(UIAlertAction.Create("بی خیال", UIAlertActionStyle.Cancel, null));
+                      PresentViewController(storeAlert);
+                  }
+                  else
+                      AnatoliApp.GetInstance().PushViewController(new ShoppingCardViewController());
+                  CloseMenu();
+              });
+            if (!enabled)
+                b.TintColor = UIColor.DarkGray;
+            return b;
+            
+            //UIView basketView = new UIView(new CGRect(0, 0, 26, 26));
 
-            _counterLabel = new UILabel(new CGRect(18, -3, 12, 12));
-            _counterLabel.TextAlignment = UITextAlignment.Center;
-            _counterLabel.TextColor = UIColor.White;
-            _counterLabel.Layer.MasksToBounds = true;
-            _counterLabel.Layer.CornerRadius = 6;
-            _counterLabel.BackgroundColor = UIColor.Red;
-            _counterLabel.Font = UIFont.FromName("IRAN", 9);
-            _counterLabel.Text = ShoppingCardItemsCount.ToString();
+            //var button = new UIButton(new CGRect(0, 0, 26, 26));
+            //if (enabled)
+            //    button.TintColor = UIColor.Blue;
+            //else
+            //    button.TintColor = UIColor.DarkGray;
+            //button.SetBackgroundImage(UIImage.FromBundle("ic_shoppingcard_on_white_24dp").Scale(new CoreGraphics.CGSize(26, 26)), UIControlState.Normal);
+            //button.TouchUpInside += (object sender, EventArgs e) =>
+            //{
+            //    if (Customer == null)
+            //    {
+            //        var loginAlert = UIAlertController.Create("خطا", "لطفا ابتدا وارد حساب کاربری خود شوید", UIAlertControllerStyle.Alert);
+            //        loginAlert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default,
+            //            delegate
+            //            {
+            //                PushViewController(new LoginViewController());
+            //            }
+            //        ));
+            //        loginAlert.AddAction(UIAlertAction.Create("بی خیال", UIAlertActionStyle.Cancel, null));
+            //        PresentViewController(loginAlert);
+            //    }
+            //    else if (DefaultStore == null)
+            //    {
+            //        var storeAlert = UIAlertController.Create("خطا", "لطفا ابتدا فروشگاه پیش فرض را انتخاب نمایید", UIAlertControllerStyle.Alert);
+            //        storeAlert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default,
+            //            delegate
+            //            {
+            //                PushViewController(new StoresViewController());
+            //            }
+            //        ));
+            //        storeAlert.AddAction(UIAlertAction.Create("بی خیال", UIAlertActionStyle.Cancel, null));
+            //        PresentViewController(storeAlert);
+            //    }
+            //    else
+            //        AnatoliApp.GetInstance().PushViewController(new ShoppingCardViewController());
+            //    CloseMenu();
+            //};
 
-            //			_priceLabel = new UILabel(new CGRect(-7,20,40,12));
-            //			_priceLabel.TextAlignment = UITextAlignment.Center;
-            //			_priceLabel.TextColor = UIColor.White;
-            //			_counterLabel.Layer.MasksToBounds = true;
-            //			_counterLabel.Layer.CornerRadius = 6;
-            //			_priceLabel.BackgroundColor = UIColor.Blue;
-            //			_priceLabel.Font = UIFont.FromName ("IRAN", 8);
-            //			_priceLabel.Text = ShoppingCardTotalPrice.ToCurrency () + " تومان";
+            //_counterLabel = new UILabel(new CGRect(18, -3, 12, 12));
+            //_counterLabel.TextAlignment = UITextAlignment.Center;
+            //_counterLabel.TextColor = UIColor.White;
+            //_counterLabel.Layer.MasksToBounds = true;
+            //_counterLabel.Layer.CornerRadius = 6;
+            //_counterLabel.BackgroundColor = UIColor.Red;
+            //_counterLabel.Font = UIFont.FromName("IRAN", 9);
+            //_counterLabel.Text = ShoppingCardItemsCount.ToString();
+
+            ////			_priceLabel = new UILabel(new CGRect(-7,20,40,12));
+            ////			_priceLabel.TextAlignment = UITextAlignment.Center;
+            ////			_priceLabel.TextColor = UIColor.White;
+            ////			_counterLabel.Layer.MasksToBounds = true;
+            ////			_counterLabel.Layer.CornerRadius = 6;
+            ////			_priceLabel.BackgroundColor = UIColor.Blue;
+            ////			_priceLabel.Font = UIFont.FromName ("IRAN", 8);
+            ////			_priceLabel.Text = ShoppingCardTotalPrice.ToCurrency () + " تومان";
 
 
-            ShoppingCardManager.ItemChanged -= UpdateBasketView;
-            ShoppingCardManager.ItemChanged += UpdateBasketView;
+            //ShoppingCardManager.ItemChanged -= UpdateBasketView;
+            //ShoppingCardManager.ItemChanged += UpdateBasketView;
 
-            ShoppingCardManager.ItemsCleared -= ResetBasketView;
-            ShoppingCardManager.ItemsCleared += ResetBasketView;
+            //ShoppingCardManager.ItemsCleared -= ResetBasketView;
+            //ShoppingCardManager.ItemsCleared += ResetBasketView;
 
-            //			basketView.AddSubviews (button, _counterLabel,_priceLabel);
-            basketView.AddSubviews(button, _counterLabel);
-            var barButton = new UIBarButtonItem(basketView);
-            return barButton;
+            ////			basketView.AddSubviews (button, _counterLabel,_priceLabel);
+            //basketView.AddSubviews(button, _counterLabel);
+            //var barButton = new UIBarButtonItem(basketView);
+            //return barButton;
         }
 
         async void UpdateBasketView(ProductModel item)
