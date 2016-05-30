@@ -28,8 +28,9 @@ namespace AnatoliIOS.ViewControllers
         public override void ViewDidAppear(bool animated)
         {
             base.ViewDidAppear(animated);
+            NavigationItem.BackBarButtonItem = new UIBarButtonItem("", UIBarButtonItemStyle.Plain, null);
             StartAutomaticScroll();
-            
+
             EdgesForExtendedLayout = UIRectEdge.None;
 
             this.SetToolbarItems(AnatoliApp.GetInstance().CreateToolbarItems(), true);
@@ -53,20 +54,15 @@ namespace AnatoliIOS.ViewControllers
 
             //View will be the ContentView of ParallaxViewController
             var view = new UIView(new CGRect(0, 0, UIScreen.MainScreen.Bounds.Size.Width, UIScreen.MainScreen.Bounds.Size.Height));
-
             view.BackgroundColor = UIColor.White;
-
             //You can check if the image is tapped by set the ImageTapped property
             ImageTaped = (i) =>
             {
                 UIAlertView alertView = new UIAlertView("Image tapped", "Image at index " + i, null, "Ok", null);
                 alertView.Show();
             };
-
             SetupFor(view);
             SetImages(images);
-
-            //groupsCollectionViewHeight.Constant = UIScreen.MainScreen.Bounds.Height * 0.5f;
             var groups = await CategoryManager.GetFirstLevelAsync();
             var layout = new UICollectionViewFlowLayout();
             layout.ItemSize = new CGSize(120f, 120f);
@@ -78,8 +74,6 @@ namespace AnatoliIOS.ViewControllers
             groupsCollectionView.Source = new ProductGroupsCollectionViewSource(groups);
             groupsCollectionView.ReloadData();
             view.AddSubview(groupsCollectionView);
-
-            
         }
     }
 

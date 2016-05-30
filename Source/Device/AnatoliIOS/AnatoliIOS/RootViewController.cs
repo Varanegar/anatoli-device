@@ -22,6 +22,7 @@ namespace AnatoliIOS
         public async override void ViewDidLoad()
         {
             base.ViewDidLoad();
+            NavigationItem.BackBarButtonItem = new UIBarButtonItem ("", UIBarButtonItemStyle.Plain, null);
             await AnatoliApp.GetInstance().Initialize();
             NavController = new NavController();
             SidebarController = new SidebarNavigation.SidebarController(this, NavController, new SideMenuController());
