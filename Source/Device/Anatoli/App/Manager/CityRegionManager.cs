@@ -46,14 +46,23 @@ namespace Anatoli.App.Manager
                     {
                         if (items.ContainsKey(item.UniqueId.ToUpper()))
                         {
-                            UpdateCommand command = new UpdateCommand("cityregion", new BasicParam("group_name", item.GroupName),
-                            new EqFilterParam("group_id", item.UniqueId.ToUpper()),
-                            new BasicParam("parent_id", item.ParentUniqueIdString),
-                            new BasicParam("level", item.NLevel.ToString()),
-                            new BasicParam("left", item.NLeft.ToString()),
-                            new BasicParam("right", item.NRight.ToString()));
-                            var query = connection.CreateCommand(command.GetCommand());
-                            int t = query.ExecuteNonQuery();
+                            var currentValue = items[item.UniqueId.ToUpper()];
+                            if (currentValue.IsRemoved)
+                            {
+                                DeleteCommand command = new DeleteCommand("cityregion", new EqFilterParam("group_id", item.UniqueId));
+                                connection.CreateCommand(command.GetCommand()).ExecuteNonQuery();
+                            }
+                            else
+                            {
+                                UpdateCommand command = new UpdateCommand("cityregion", new BasicParam("group_name", item.GroupName),
+                                new EqFilterParam("group_id", item.UniqueId.ToUpper()),
+                                new BasicParam("parent_id", item.ParentUniqueIdString),
+                                new BasicParam("level", item.NLevel.ToString()),
+                                new BasicParam("left", item.NLeft.ToString()),
+                                new BasicParam("right", item.NRight.ToString()));
+                                var query = connection.CreateCommand(command.GetCommand());
+                                int t = query.ExecuteNonQuery();
+                            }
                         }
                         else
                         {

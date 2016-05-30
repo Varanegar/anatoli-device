@@ -1,9 +1,12 @@
 ﻿using Anatoli.Framework.Model;
+using Newtonsoft.Json;
 using RestSharp.Portable;
 using RestSharp.Portable.Authenticators;
 using RestSharp.Portable.Deserializers;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -317,10 +320,10 @@ namespace Anatoli.Framework.AnatoliBase
             }
             catch (Exception e)
             {
-                throw new AnatoliWebClientException(respone.ResponseUri.ToString(), "Deserializer got inproper jason model at " + respone.ResponseUri.ToString() + ": " + Encoding.UTF8.GetString(respone.RawBytes, 0, respone.RawBytes.Length), e);
+                throw new AnatoliWebClientException(respone.ResponseUri.ToString(), "Deserializer got inproper json model at " + respone.ResponseUri.ToString() + ": " + Encoding.UTF8.GetString(respone.RawBytes, 0, respone.RawBytes.Length), e);
             }
         }
-        async Task<Result> ExecRequestAsync<Result>(RestClient client, RestRequest request)
+        async Task<Result> ExecRequestAsync<Result>(RestClient client, RestRequest request, bool isCompressed=false)
         {
             client.IgnoreResponseStatusCode = true;
             RestSharp.Portable.IRestResponse respone = await client.Execute(request);
@@ -328,12 +331,20 @@ namespace Anatoli.Framework.AnatoliBase
             JsonDeserializer deserializer = new JsonDeserializer();
             try
             {
-                var result = deserializer.Deserialize<Result>(respone);
-                return result;
+                if (isCompressed)
+                {
+                    var data = Unzip(respone.RawBytes);
+                    return JsonConvert.DeserializeObject<Result>(data);
+                }
+                else
+                {
+                    var result = deserializer.Deserialize<Result>(respone);
+                    return result;
+                }
             }
             catch (Exception e)
             {
-                throw new AnatoliWebClientException(respone.ResponseUri.ToString(), "Deserializer got inproper jason model at " + respone.ResponseUri.ToString() + ": " + Encoding.UTF8.GetString(respone.RawBytes, 0, respone.RawBytes.Length), e);
+                throw new AnatoliWebClientException(respone.ResponseUri.ToString(), "Deserializer got inproper json model at " + respone.ResponseUri.ToString() + ": " + Encoding.UTF8.GetString(respone.RawBytes, 0, respone.RawBytes.Length), e);
             }
         }
         async Task ExecRequestAsync(RestClient client, RestRequest request)
@@ -449,6 +460,50 @@ namespace Anatoli.Framework.AnatoliBase
         }
 
         public EventHandler TokenExpire;
+
+        public static void CopyTo(Stream src, Stream dest)
+        {
+            byte[] bytes = new byte[4096];
+
+            int cnt;
+
+            while ((cnt = src.Read(bytes, 0, bytes.Length)) != 0)
+            {
+                dest.Write(bytes, 0, cnt);
+            }
+        }
+
+        public static byte[] Zip(string str)
+        {
+            var bytes = Encoding.UTF8.GetBytes(str);
+
+            using (var msi = new MemoryStream(bytes))
+            using (var mso = new MemoryStream())
+            {
+                using (var gs = new GZipStream(mso, CompressionMode.Compress))
+                {
+                    //msi.CopyTo(gs);
+                    CopyTo(msi, gs);
+                }
+
+                return mso.ToArray();
+            }
+        }
+
+        public static string Unzip(byte[] bytes)
+        {
+            using (var msi = new MemoryStream(bytes))
+            using (var mso = new MemoryStream())
+            {
+                using (var gs = new GZipStream(msi, CompressionMode.Decompress))
+                {
+                    //gs.CopyTo(mso);
+                    CopyTo(gs, mso);
+                }
+
+                return Encoding.UTF8.GetString(mso.ToArray(), 0, (int)mso.Length);
+            }
+        }
     }
     public class AnatoliTokenInfo
     {

@@ -18,6 +18,8 @@ namespace Anatoli.App.Model.Store
         public string OrderPDate { get; set; }
         public string DeviceIMEI { get; set; }
         public string ActionSourceValueId { get; set; }
+        public String ShipAddress { get; set; }
+
         public String Comment { get; set; }
         public long AppOrderNo { get; set; }
         public decimal Amount { get; set; }

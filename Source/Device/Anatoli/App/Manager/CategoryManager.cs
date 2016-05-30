@@ -42,15 +42,24 @@ namespace Anatoli.App.Manager
                         {
                             if (items.ContainsKey(item.UniqueId))
                             {
-                                UpdateCommand command = new UpdateCommand("categories", new EqFilterParam("cat_id", item.UniqueId.ToUpper()),
-                               new BasicParam("cat_name", item.GroupName.Trim()),
-                               new BasicParam("cat_parent", item.ParentUniqueIdString.ToUpper()),
-                               new BasicParam("cat_left", item.NLeft.ToString()),
-                               new BasicParam("cat_right", item.NRight.ToString()),
-                               new BasicParam("is_removed", (item.IsRemoved) ? "1" : "0"),
-                               new BasicParam("cat_depth", item.NLevel.ToString()));
-                                var query = connection.CreateCommand(command.GetCommand());
-                                int t = query.ExecuteNonQuery();
+                                var currentValue = items[item.UniqueId.ToUpper()];
+                                if (currentValue.IsRemoved)
+                                {
+                                    DeleteCommand command = new DeleteCommand("categories", new EqFilterParam("cat_id", item.UniqueId));
+                                    connection.CreateCommand(command.GetCommand()).ExecuteNonQuery();
+                                }
+                                else
+                                {
+                                    UpdateCommand command = new UpdateCommand("categories", new EqFilterParam("cat_id", item.UniqueId.ToUpper()),
+                                       new BasicParam("cat_name", item.GroupName.Trim()),
+                                       new BasicParam("cat_parent", item.ParentUniqueIdString.ToUpper()),
+                                       new BasicParam("cat_left", item.NLeft.ToString()),
+                                       new BasicParam("cat_right", item.NRight.ToString()),
+                                       new BasicParam("is_removed", (item.IsRemoved) ? "1" : "0"),
+                                       new BasicParam("cat_depth", item.NLevel.ToString()));
+                                    var query = connection.CreateCommand(command.GetCommand());
+                                    int t = query.ExecuteNonQuery();
+                                }
                             }
                             else
                             {
