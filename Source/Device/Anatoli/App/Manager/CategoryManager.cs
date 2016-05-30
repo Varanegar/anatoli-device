@@ -19,12 +19,12 @@ namespace Anatoli.App.Manager
                 var lastUpdateTime = await SyncManager.GetLogAsync(SyncManager.GroupsTbl);
                 List<ProductGroupModel> list;
                 if (lastUpdateTime == DateTime.MinValue)
-                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<ProductGroupModel>>(Configuration.WebService.PortalAddress, TokenType.AppToken, Configuration.WebService.Products.ProductGroups);
+                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<ProductGroupModel>>(Configuration.WebService.PortalAddress, TokenType.AppToken, Configuration.WebService.Products.ProductGroups,true);
                 else
                 {
                     var data = new RequestModel.BaseRequestModel();
                     data.dateAfter = lastUpdateTime.ToString();
-                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<ProductGroupModel>>(TokenType.AppToken, Configuration.WebService.Products.ProductGroupsAfter, data);
+                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<ProductGroupModel>>(TokenType.AppToken, Configuration.WebService.Products.ProductGroupsAfter, data,true);
                 }
                 Dictionary<string, CategoryInfoModel> items = new Dictionary<string, CategoryInfoModel>();
                 using (var connection = AnatoliClient.GetInstance().DbClient.GetConnection())

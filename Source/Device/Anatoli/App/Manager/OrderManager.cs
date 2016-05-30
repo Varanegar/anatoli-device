@@ -42,7 +42,7 @@ namespace Anatoli.App.Manager
         {
             var data = new RequestModel.PurchaseOrderRequestModel();
             data.customerId = customerId;
-            var list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<PurchaseOrderViewModel>>(TokenType.AppToken, Configuration.WebService.Purchase.OrdersList, data);
+            var list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<PurchaseOrderViewModel>>(TokenType.AppToken, Configuration.WebService.Purchase.OrdersList, data, false);
             return list;
         }
 
@@ -51,7 +51,7 @@ namespace Anatoli.App.Manager
             var data = new RequestModel.PurchaseOrderRequestModel();
             data.customerId = customerId;
             data.poId = poId;
-            var list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<PurchaseOrderStatusHistoryViewModel>>(TokenType.AppToken, Configuration.WebService.Purchase.OrderHistory, data);
+            var list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<PurchaseOrderStatusHistoryViewModel>>(TokenType.AppToken, Configuration.WebService.Purchase.OrderHistory, data, false);
             return list;
         }
 
@@ -68,7 +68,7 @@ namespace Anatoli.App.Manager
             var data = new RequestModel.PurchaseOrderRequestModel();
             data.customerId = customerId;
             data.poId = poId;
-            var list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<PurchaseOrderLineItemViewModel>>(TokenType.AppToken, Configuration.WebService.Purchase.OrderItems, data);
+            var list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<PurchaseOrderLineItemViewModel>>(TokenType.AppToken, Configuration.WebService.Purchase.OrderItems, data,false);
             return list;
         }
         public static async Task SyncOrderItemsAsync(string customerId, OrderModel order)

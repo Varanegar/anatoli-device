@@ -221,21 +221,21 @@ namespace Anatoli.Framework.AnatoliBase
             }
         }
 
-        public async Task<Result> SendPostRequestAsync<Result>(string host, TokenType tokenType, string requestUri, params Tuple<string, string>[] parameters)
+        public async Task<Result> SendPostRequestAsync<Result>(string host, TokenType tokenType, string requestUri, bool isCompressed, params Tuple<string, string>[] parameters)
         {
             var client = new RestClient(host);
             RestRequest request;
             var token = await GetTokenAsync(tokenType);
             request = CreateRequest(token, requestUri, HttpMethod.Post, parameters);
-            return await ExecRequestAsync<Result>(client, request);
+            return await ExecRequestAsync<Result>(client, request, isCompressed);
         }
-        public async Task<Result> SendPostRequestAsync<Result>(TokenType tokenType, string requestUri, System.Threading.CancellationTokenSource cancelToken, params Tuple<string, string>[] parameters)
+        public async Task<Result> SendPostRequestAsync<Result>(TokenType tokenType, string requestUri, System.Threading.CancellationTokenSource cancelToken, bool isCompressed, params Tuple<string, string>[] parameters)
         {
             var client = new RestClient(Configuration.WebService.PortalAddress);
             RestRequest request;
             var token = await GetTokenAsync(tokenType);
             request = CreateRequest(token, requestUri, HttpMethod.Post, parameters);
-            return await ExecRequestAsync<Result>(client, request, cancelToken);
+            return await ExecRequestAsync<Result>(client, request, cancelToken, isCompressed);
         }
         public async Task SendPostRequestAsync(TokenType tokenType, string requestUri, params Tuple<string, string>[] parameters)
         {
@@ -245,65 +245,65 @@ namespace Anatoli.Framework.AnatoliBase
             request = CreateRequest(token, requestUri, HttpMethod.Post, parameters);
             await ExecRequestAsync(client, request);
         }
-        public async Task<Result> SendPostRequestAsync<Result>(TokenType tokenType, string requestUri, object obj)
+        public async Task<Result> SendPostRequestAsync<Result>(TokenType tokenType, string requestUri, object obj, bool isCompressed)
         {
             var client = new RestClient(Configuration.WebService.PortalAddress);
             RestRequest request;
             var token = await GetTokenAsync(tokenType);
             request = CreateRequest(token, requestUri, HttpMethod.Post, obj);
-            return await ExecRequestAsync<Result>(client, request);
+            return await ExecRequestAsync<Result>(client, request, isCompressed);
         }
-        public async Task<Result> SendPostRequestAsync<Result>(TokenType tokenType, string requestUri, object obj, System.Threading.CancellationTokenSource cancelToken)
+        public async Task<Result> SendPostRequestAsync<Result>(TokenType tokenType, string requestUri, object obj, bool isCompressed, System.Threading.CancellationTokenSource cancelToken)
         {
             var client = new RestClient(Configuration.WebService.PortalAddress);
             RestRequest request;
             var token = await GetTokenAsync(tokenType);
             request = CreateRequest(token, requestUri, HttpMethod.Post, obj);
-            return await ExecRequestAsync<Result>(client, request, cancelToken);
+            return await ExecRequestAsync<Result>(client, request, cancelToken, isCompressed);
         }
-        public async Task<Result> SendPostRequestAsync<Result>(TokenType tokenType, string requestUri, object obj, params Tuple<string, string>[] parameters)
+        public async Task<Result> SendPostRequestAsync<Result>(TokenType tokenType, string requestUri, object obj, bool isCompressed, params Tuple<string, string>[] parameters)
         {
             var client = new RestClient(Configuration.WebService.PortalAddress);
             RestRequest request;
             var token = await GetTokenAsync(tokenType);
             request = CreateRequest(token, requestUri, HttpMethod.Post, obj, parameters);
-            return await ExecRequestAsync<Result>(client, request);
+            return await ExecRequestAsync<Result>(client, request, isCompressed);
         }
-        public async Task<Result> SendPostRequestAsync<Result>(TokenType tokenType, string requestUri, object obj, System.Threading.CancellationTokenSource cancelToken, params Tuple<string, string>[] parameters)
+        public async Task<Result> SendPostRequestAsync<Result>(TokenType tokenType, string requestUri, object obj, System.Threading.CancellationTokenSource cancelToken, bool isCompressed, params Tuple<string, string>[] parameters)
         {
             var client = new RestClient(Configuration.WebService.PortalAddress);
             RestRequest request;
             var token = await GetTokenAsync(tokenType);
             request = CreateRequest(token, requestUri, HttpMethod.Post, obj, parameters);
-            return await ExecRequestAsync<Result>(client, request, cancelToken);
+            return await ExecRequestAsync<Result>(client, request, cancelToken, isCompressed);
         }
-        public async Task<Result> SendFileAsync<Result>(TokenType tokenType, string requestUri, Byte[] bytes, string fileName, System.Threading.CancellationTokenSource cancelToken)
+        public async Task<Result> SendFileAsync<Result>(TokenType tokenType, string requestUri, Byte[] bytes, string fileName, bool isCompressed, System.Threading.CancellationTokenSource cancelToken)
         {
             var client = new RestClient(Configuration.WebService.PortalAddress);
             RestRequest request;
             var token = await GetTokenAsync(tokenType);
             request = CreateRequest(token, requestUri, HttpMethod.Post);
             request.AddFile(fileName, bytes, "ttt");
-            return await ExecRequestAsync<Result>(client, request, cancelToken);
+            return await ExecRequestAsync<Result>(client, request, cancelToken, isCompressed);
         }
-        public async Task<Result> SendGetRequestAsync<Result>(TokenType tokenType, string requestUri, System.Threading.CancellationTokenSource cancelToken, params Tuple<string, string>[] parameters)
+        public async Task<Result> SendGetRequestAsync<Result>(TokenType tokenType, string requestUri, System.Threading.CancellationTokenSource cancelToken, bool isCompressed, params Tuple<string, string>[] parameters)
         {
             var client = new RestClient(Configuration.WebService.PortalAddress);
             RestRequest request;
             var token = await GetTokenAsync(tokenType);
             request = CreateRequest(token, requestUri, HttpMethod.Get, parameters);
-            return await ExecRequestAsync<Result>(client, request, cancelToken);
+            return await ExecRequestAsync<Result>(client, request, cancelToken, isCompressed);
         }
-        public async Task<Result> SendGetRequestAsync<Result>(TokenType tokenType, string requestUri, params Tuple<string, string>[] parameters)
+        public async Task<Result> SendGetRequestAsync<Result>(TokenType tokenType, string requestUri, bool isCompressed, params Tuple<string, string>[] parameters)
         {
             var client = new RestClient(Configuration.WebService.PortalAddress);
             RestRequest request;
             var token = await GetTokenAsync(tokenType);
             request = CreateRequest(token, requestUri, HttpMethod.Get, parameters);
-            return await ExecRequestAsync<Result>(client, request);
+            return await ExecRequestAsync<Result>(client, request, isCompressed);
         }
 
-        async Task<Result> ExecRequestAsync<Result>(RestClient client, RestRequest request, System.Threading.CancellationTokenSource cancelToken)
+        async Task<Result> ExecRequestAsync<Result>(RestClient client, RestRequest request, System.Threading.CancellationTokenSource cancelToken, bool isCompressed)
         {
             client.IgnoreResponseStatusCode = true;
             RestSharp.Portable.IRestResponse respone;
@@ -315,15 +315,23 @@ namespace Anatoli.Framework.AnatoliBase
             JsonDeserializer deserializer = new JsonDeserializer();
             try
             {
-                var result = deserializer.Deserialize<Result>(respone);
-                return result;
+                if (isCompressed)
+                {
+                    var data = Unzip(respone.RawBytes);
+                    return JsonConvert.DeserializeObject<Result>(data);
+                }
+                else
+                {
+                    var result = deserializer.Deserialize<Result>(respone);
+                    return result;
+                }
             }
             catch (Exception e)
             {
                 throw new AnatoliWebClientException(respone.ResponseUri.ToString(), "Deserializer got inproper json model at " + respone.ResponseUri.ToString() + ": " + Encoding.UTF8.GetString(respone.RawBytes, 0, respone.RawBytes.Length), e);
             }
         }
-        async Task<Result> ExecRequestAsync<Result>(RestClient client, RestRequest request, bool isCompressed=false)
+        async Task<Result> ExecRequestAsync<Result>(RestClient client, RestRequest request, bool isCompressed)
         {
             client.IgnoreResponseStatusCode = true;
             RestSharp.Portable.IRestResponse respone = await client.Execute(request);
@@ -461,7 +469,7 @@ namespace Anatoli.Framework.AnatoliBase
 
         public EventHandler TokenExpire;
 
-        public static void CopyTo(Stream src, Stream dest)
+        public static void CopyTo(GZipStream src, Stream dest)
         {
             byte[] bytes = new byte[4096];
 
@@ -473,22 +481,22 @@ namespace Anatoli.Framework.AnatoliBase
             }
         }
 
-        public static byte[] Zip(string str)
-        {
-            var bytes = Encoding.UTF8.GetBytes(str);
+        //public static byte[] Zip(string str)
+        //{
+        //    var bytes = Encoding.UTF8.GetBytes(str);
 
-            using (var msi = new MemoryStream(bytes))
-            using (var mso = new MemoryStream())
-            {
-                using (var gs = new GZipStream(mso, CompressionMode.Compress))
-                {
-                    //msi.CopyTo(gs);
-                    CopyTo(msi, gs);
-                }
+        //    using (var msi = new MemoryStream(bytes))
+        //    using (var mso = new MemoryStream())
+        //    {
+        //        using (var gs = new GZipStream(mso, CompressionMode.Compress))
+        //        {
+        //            //msi.CopyTo(gs);
+        //            CopyTo(msi, gs);
+        //        }
 
-                return mso.ToArray();
-            }
-        }
+        //        return mso.ToArray();
+        //    }
+        //}
 
         public static string Unzip(byte[] bytes)
         {

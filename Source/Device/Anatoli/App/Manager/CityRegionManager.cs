@@ -21,14 +21,14 @@ namespace Anatoli.App.Manager
                 var lastUpdateTime = await SyncManager.GetLogAsync(SyncManager.CityRegionTbl);
                 List<CityRegionUpdateModel> list;
                 if (lastUpdateTime == DateTime.MinValue)
-                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<CityRegionUpdateModel>>(Configuration.WebService.PortalAddress,TokenType.AppToken, Configuration.WebService.CityRegion);
+                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<CityRegionUpdateModel>>(Configuration.WebService.PortalAddress, TokenType.AppToken, Configuration.WebService.CityRegion, true);
                 else
                 {
                     var data = new RequestModel.BaseRequestModel();
                     data.dateAfter = lastUpdateTime.ToString();
-                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<CityRegionUpdateModel>>(TokenType.AppToken, Configuration.WebService.CityRegionAfter, data);
+                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<CityRegionUpdateModel>>(TokenType.AppToken, Configuration.WebService.CityRegionAfter, data, true);
                 }
-                
+
                 Dictionary<string, CityRegionModel> items = new Dictionary<string, CityRegionModel>();
                 using (var connection = AnatoliClient.GetInstance().DbClient.GetConnection())
                 {

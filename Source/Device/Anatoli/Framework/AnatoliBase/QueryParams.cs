@@ -97,6 +97,7 @@ namespace Anatoli.Framework.AnatoliBase
         public System.Threading.CancellationTokenSource cancellationTokenSource;
         public TokenType TokenType { get; private set; }
         public HttpMethod Method;
+        public bool ResultIsCompressed = false;
         RemoteQuery(HttpMethod method)
         {
             Method = method;

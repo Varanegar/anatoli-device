@@ -236,7 +236,7 @@ namespace AnatoliAndroid.Fragments
                                     pDialog2.Show();
                                     try
                                     {
-                                        var result = await ShoppingCardManager.Checkout(o,_customerViewModel);//, _customerViewModel.UniqueId, store.store_id, _deliveryTypeListBox.SelectedItem.id, _deliveryTimeListBox.SelectedItem);
+                                        var result = await ShoppingCardManager.Checkout(_customerViewModel, _customerViewModel.UniqueId, store.store_id, _deliveryTypeListBox.SelectedItem.id, _deliveryTimeListBox.SelectedItem);
                                         pDialog2.Dismiss();
                                         if (result == null)
                                         {

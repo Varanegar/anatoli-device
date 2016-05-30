@@ -20,12 +20,12 @@ namespace Anatoli.App.Manager
                 var lastUpdateTime = await SyncManager.GetLogAsync(SyncManager.BaseTypesTbl);
                 List<BaseTypeViewModel> list;
                 if (lastUpdateTime == DateTime.MinValue)
-                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<BaseTypeViewModel>>(TokenType.AppToken, Configuration.WebService.BaseDatas, cancellationTokenSource);
+                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<BaseTypeViewModel>>(TokenType.AppToken, Configuration.WebService.BaseDatas, cancellationTokenSource, true);
                 else
                 {
                     var data = new RequestModel.BaseRequestModel();
                     data.dateAfter = lastUpdateTime.ToString();
-                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<BaseTypeViewModel>>(TokenType.AppToken, Configuration.WebService.BaseDatas, data, cancellationTokenSource);
+                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<BaseTypeViewModel>>(TokenType.AppToken, Configuration.WebService.BaseDatas, data, cancellationTokenSource, true);
                 }
 
                 await DataAdapter.UpdateItemAsync(new DeleteCommand("delivery_types"));

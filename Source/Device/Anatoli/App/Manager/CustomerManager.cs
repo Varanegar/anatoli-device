@@ -86,7 +86,7 @@ namespace Anatoli.App.Manager
         {
             var data = new CustomerRequestModel();
             data.customerId = user.Id;
-            var userModel = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<CustomerViewModel>(TokenType.AppToken, Configuration.WebService.Users.ViewProfileUrl, data, CancellationTokenSource);
+            var userModel = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<CustomerViewModel>(TokenType.AppToken, Configuration.WebService.Users.ViewProfileUrl, data, CancellationTokenSource, false);
             return userModel;
         }
 
@@ -97,7 +97,8 @@ namespace Anatoli.App.Manager
             data.customerData = user;
             var userModel = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<CustomerViewModel>(TokenType.AppToken,
                 Configuration.WebService.Users.SaveProfileUrl,
-                data);
+                data,
+                false);
             return userModel;
         }
 
@@ -105,7 +106,7 @@ namespace Anatoli.App.Manager
         {
             var result = await AnatoliClient.GetInstance().WebClient.SendFileAsync<string>(
                 TokenType.UserToken,
-                Configuration.WebService.ImageManager.ImageSave + "&imageType=" + ItemImageViewModel.CustomerImageType + "&imageId=" + userId + "&token=" + userId, obj, userId, cancelToken);
+                Configuration.WebService.ImageManager.ImageSave + "&imageType=" + ItemImageViewModel.CustomerImageType + "&imageId=" + userId + "&token=" + userId, obj, userId, false, cancelToken);
             return result;
         }
 

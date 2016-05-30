@@ -26,6 +26,7 @@ namespace Anatoli.Framework.DataAdapter
                         TokenType.AppToken,
                     query.WebServiceEndpoint,
                     query.cancellationTokenSource,
+                    query.ResultIsCompressed,
                     query.Params.ToArray()
                     );
                         return response;
@@ -36,6 +37,7 @@ namespace Anatoli.Framework.DataAdapter
                         TokenType.AppToken,
                     query.WebServiceEndpoint,
                     query.cancellationTokenSource,
+                    query.ResultIsCompressed,
                     query.Params.ToArray()
                     );
                         return response;
@@ -77,6 +79,7 @@ namespace Anatoli.Framework.DataAdapter
                 var response = await AnatoliClient.GetInstance().WebClient.SendGetRequestAsync<DataModel>(
                     TokenType.UserToken,
                 query.WebServiceEndpoint,
+                query.ResultIsCompressed,
                 query.Params.ToArray()
                 );
                 if (response != null)

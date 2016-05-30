@@ -33,12 +33,12 @@ namespace Anatoli.App.Manager
                 var lastUpdateTime = await SyncManager.GetLogAsync(SyncManager.ProductTbl);
                 List<ProductUpdateModel> list;
                 if (lastUpdateTime == DateTime.MinValue)
-                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<ProductUpdateModel>>(Configuration.WebService.PortalAddress, TokenType.AppToken, Configuration.WebService.Products.ProductsList);
+                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<ProductUpdateModel>>(Configuration.WebService.PortalAddress, TokenType.AppToken, Configuration.WebService.Products.ProductsList,true);
                 else
                 {
                     var data = new RequestModel.BaseRequestModel();
                     data.dateAfter = lastUpdateTime.ToString();
-                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<ProductUpdateModel>>(TokenType.AppToken, Configuration.WebService.Products.ProductsListAfter, data);
+                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<ProductUpdateModel>>(TokenType.AppToken, Configuration.WebService.Products.ProductsListAfter, data,true);
                 }
                 Dictionary<string, ProductModel> items = new Dictionary<string, ProductModel>();
                 using (var connection = AnatoliClient.GetInstance().DbClient.GetConnection())
@@ -100,12 +100,12 @@ namespace Anatoli.App.Manager
                 var lastUpdateTime = await SyncManager.GetLogAsync(SyncManager.PriceTbl);
                 List<ProductPriceUpdateModel> list;
                 if (lastUpdateTime == DateTime.MinValue)
-                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<ProductPriceUpdateModel>>(Configuration.WebService.PortalAddress, TokenType.AppToken, Configuration.WebService.Stores.PricesView);
+                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<ProductPriceUpdateModel>>(Configuration.WebService.PortalAddress, TokenType.AppToken, Configuration.WebService.Stores.PricesView,true);
                 else
                 {
                     var data = new RequestModel.BaseRequestModel();
                     data.dateAfter = lastUpdateTime.ToString();
-                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<ProductPriceUpdateModel>>(TokenType.AppToken, Configuration.WebService.Stores.PricesViewAfter, data);
+                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<ProductPriceUpdateModel>>(TokenType.AppToken, Configuration.WebService.Stores.PricesViewAfter, data,true);
                 }
                 Dictionary<string, ProductPriceModel> items = new Dictionary<string, ProductPriceModel>();
                 using (var connection = AnatoliClient.GetInstance().DbClient.GetConnection())
@@ -162,12 +162,12 @@ namespace Anatoli.App.Manager
                 var lastUpdateTime = await SyncManager.GetLogAsync(SyncManager.OnHand);
                 List<StoreActiveOnhandViewModel> list;
                 if (lastUpdateTime == DateTime.MinValue)
-                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<StoreActiveOnhandViewModel>>(Configuration.WebService.PortalAddress, TokenType.AppToken, Configuration.WebService.Stores.OnHand);
+                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<StoreActiveOnhandViewModel>>(Configuration.WebService.PortalAddress, TokenType.AppToken, Configuration.WebService.Stores.OnHand,true);
                 else
                 {
                     var data = new RequestModel.BaseRequestModel();
                     data.dateAfter = lastUpdateTime.ToString();
-                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<StoreActiveOnhandViewModel>>(TokenType.AppToken, Configuration.WebService.Stores.OnHandAfter, data);
+                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<StoreActiveOnhandViewModel>>(TokenType.AppToken, Configuration.WebService.Stores.OnHandAfter, data,true);
                 }
                 Dictionary<string, StoreActiveOnhandViewModel> currentOnHand = new Dictionary<string, StoreActiveOnhandViewModel>();
                 using (var connection = AnatoliClient.GetInstance().DbClient.GetConnection())
@@ -222,7 +222,7 @@ namespace Anatoli.App.Manager
                 var lastUpdateTime = await SyncManager.GetLogAsync(SyncManager.BasketTbl);
                 var data = new RequestModel.BaseRequestModel();
                 data.dateAfter = lastUpdateTime.ToString();
-                var list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<BasketViewModel>>(TokenType.UserToken, Configuration.WebService.Users.BasketView, data);
+                var list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<BasketViewModel>>(TokenType.UserToken, Configuration.WebService.Users.BasketView, data,false);
                 await DataAdapter.UpdateItemAsync(new UpdateCommand("products", new BasicParam("favorit", "0")));
                 foreach (var basket in list)
                 {
@@ -282,7 +282,7 @@ namespace Anatoli.App.Manager
                 var lastUpdateTime = await SyncManager.GetLogAsync(SyncManager.BasketTbl);
                 var data = new RequestModel.BaseRequestModel();
                 data.dateAfter = lastUpdateTime.ToString();
-                var list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<BasketViewModel>>(TokenType.UserToken, Configuration.WebService.Users.BasketView, data);
+                var list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<BasketViewModel>>(TokenType.UserToken, Configuration.WebService.Users.BasketView, data,false);
                 Guid basketId = default(Guid);
                 foreach (var basket in list)
                 {
@@ -307,7 +307,7 @@ namespace Anatoli.App.Manager
                     i.BasketId = basketId;
                     items.Add(i);
                 }
-                var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<BasketItemViewModel>>(TokenType.UserToken, Configuration.WebService.Users.FavoritSaveItem, items);
+                var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<BasketItemViewModel>>(TokenType.UserToken, Configuration.WebService.Users.FavoritSaveItem, items,false);
 
             }
             catch (Exception e)
@@ -344,7 +344,7 @@ namespace Anatoli.App.Manager
                 favoritItem.ProductId = Guid.Parse(productId);
                 favoritItem.BasketId = basketId;
                 items.Add(favoritItem);
-                var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<BasketItemViewModel>>(TokenType.UserToken, Configuration.WebService.Users.FavoritDeleteItem, items);
+                var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<BasketItemViewModel>>(TokenType.UserToken, Configuration.WebService.Users.FavoritDeleteItem, items,false);
 
             }
             catch (Exception e)
