@@ -68,7 +68,15 @@ namespace AnatoliIOS
             UINavigationBar.Appearance.BarTintColor = UIColor.Clear.FromHex(0x085e7d);
             UINavigationBar.Appearance.TintColor = UIColor.White;
 
-            AnatoliClient.GetInstance(new IosWebClient(), new IosSqliteClient(), new IosFileIO());
+            var defaults = NSUserDefaults.StandardUserDefaults;
+            const string key = "CurrentVersion";
+            double latestVersion = defaults.DoubleForKey(key);
+            string version = NSBundle.MainBundle.InfoDictionary["CFBundleVersion"].ToString();
+            double currentVersion = Double.Parse(version);
+            AnatoliClient.GetInstance(new IosWebClient(), new IosSqliteClient(latestVersion, currentVersion), new IosFileIO());
+            defaults.SetDouble(currentVersion, key);
+            defaults.Synchronize();
+
 
             if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
             {
@@ -135,7 +143,7 @@ namespace AnatoliIOS
             if (string.IsNullOrEmpty(oldDeviceToken) || !oldDeviceToken.Equals(DeviceToken))
             {
                 //TODO: Put your own logic here to notify your server that the device token has changed/been created!
-                var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<string>("http://parastoo.varanegar.com:9192/", TokenType.AppToken, "/api/notification/registerApnToken/",false, new Tuple<string, string>("appToken", DeviceToken));
+                var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<string>("http://parastoo.varanegar.com:9192/", TokenType.AppToken, "/api/notification/registerApnToken/", false, new Tuple<string, string>("appToken", DeviceToken));
             }
 
             // Save new device token 

@@ -66,7 +66,6 @@ namespace AnatoliIOS
 
         private AnatoliApp()
         {
-            AnatoliClient.GetInstance(new IosWebClient(), new IosSqliteClient(), new IosFileIO());
             _views = new LinkedList<Type>();
         }
         bool _updating = false;
