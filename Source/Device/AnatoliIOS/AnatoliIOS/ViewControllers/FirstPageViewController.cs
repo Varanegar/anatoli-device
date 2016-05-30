@@ -43,7 +43,7 @@ namespace AnatoliIOS.ViewControllers
             // Perform any additional setup after loading the view, typically from a nib.
             Title = "صفحه خانگی";
 
-            SetImageHeight(UIScreen.MainScreen.Bounds.Size.Height * 0.4f);
+            SetImageHeight(UIScreen.MainScreen.Bounds.Size.Height * 0.3f);
 
             // Creting a list UIImages to present in the ParallaxViewController
             var images = new List<UIImage>();
@@ -70,7 +70,7 @@ namespace AnatoliIOS.ViewControllers
             var groups = await CategoryManager.GetFirstLevelAsync();
             var layout = new UICollectionViewFlowLayout();
             layout.ItemSize = new CGSize(120f, 120f);
-            var groupsCollectionView = new UICollectionView(new CGRect(0, 0, UIScreen.MainScreen.Bounds.Size.Width, UIScreen.MainScreen.Bounds.Size.Height * 0.6f), layout);
+            var groupsCollectionView = new UICollectionView(new CGRect(0, 0, UIScreen.MainScreen.Bounds.Size.Width, UIScreen.MainScreen.Bounds.Size.Height * 0.7f), layout);
             groupsCollectionView.BackgroundColor = UIColor.White;
             groupsCollectionView.CollectionViewLayout = layout;
             layout.SectionInset = new UIEdgeInsets(30, 30, 30, 30);
