@@ -21,12 +21,12 @@ namespace Anatoli.App.Manager
                 var lastUpdateTime = await SyncManager.GetLogAsync(SyncManager.StoresTbl);
                 List<StoreUpdateModel> list;
                 if (lastUpdateTime == DateTime.MinValue)
-                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<StoreUpdateModel>>(Configuration.WebService.PortalAddress,TokenType.AppToken, Configuration.WebService.Stores.StoresView,true);
+                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<StoreUpdateModel>>(Configuration.WebService.PortalAddress, TokenType.AppToken, Configuration.WebService.Stores.StoresView, true);
                 else
                 {
                     var data = new RequestModel.BaseRequestModel();
                     data.dateAfter = lastUpdateTime.ToString();
-                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<StoreUpdateModel>>(TokenType.AppToken, Configuration.WebService.Stores.StoresViewAfter, data,true);
+                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<StoreUpdateModel>>(TokenType.AppToken, Configuration.WebService.Stores.StoresViewAfter, data, true);
                 }
                 Dictionary<string, StoreDataModel> items = new Dictionary<string, StoreDataModel>();
                 using (var connection = AnatoliClient.GetInstance().DbClient.GetConnection())
@@ -50,23 +50,15 @@ namespace Anatoli.App.Manager
                         {
                             if (items.ContainsKey(item.UniqueId))
                             {
-                                var currentValue = items[item.UniqueId.ToUpper()];
-                                if (currentValue.IsRemoved || !item.supportAppOrder)
-                                {
-                                    DeleteCommand command = new DeleteCommand("stores", new EqFilterParam("store_id", item.UniqueId));
-                                    connection.CreateCommand(command.GetCommand()).ExecuteNonQuery();
-                                }
-                                else
-                                {
-                                    UpdateCommand command = new UpdateCommand("stores", new EqFilterParam("store_id", item.UniqueId.ToUpper()),
-                                        new BasicParam("store_name", item.storeName.Trim()),
-                                        new BasicParam("store_tel", item.Phone),
-                                        new BasicParam("lat", item.lat.ToString()),
-                                        new BasicParam("lng", item.lng.ToString()),
-                                        new BasicParam("store_address", item.address));
-                                    var query = connection.CreateCommand(command.GetCommand());
-                                    int t = query.ExecuteNonQuery();
-                                }
+                                UpdateCommand command = new UpdateCommand("stores", new EqFilterParam("store_id", item.UniqueId.ToUpper()),
+                                    new BasicParam("store_name", item.storeName.Trim()),
+                                    new BasicParam("store_tel", item.Phone),
+                                    new BasicParam("lat", item.lat.ToString()),
+                                    new BasicParam("lng", item.lng.ToString()),
+                                    new BasicParam("is_removed", (item.IsRemoved) ? "1" : "0"),
+                                    new BasicParam("store_address", item.address));
+                                var query = connection.CreateCommand(command.GetCommand());
+                                int t = query.ExecuteNonQuery();
                             }
                             else
                             {
@@ -75,6 +67,7 @@ namespace Anatoli.App.Manager
                                 new BasicParam("store_tel", item.Phone),
                                 new BasicParam("lat", item.lat.ToString()),
                                 new BasicParam("lng", item.lng.ToString()),
+                                new BasicParam("is_removed", (item.IsRemoved) ? "1" : "0"),
                                 new BasicParam("store_address", item.address));
                                 var query = connection.CreateCommand(command.GetCommand());
                                 int t = query.ExecuteNonQuery();
@@ -97,7 +90,7 @@ namespace Anatoli.App.Manager
             try
             {
                 List<StoreCalendarViewModel> list2;
-                list2 = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<StoreCalendarViewModel>>(Configuration.WebService.PortalAddress,TokenType.AppToken, Configuration.WebService.Stores.StoreCalendar,false);
+                list2 = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<StoreCalendarViewModel>>(Configuration.WebService.PortalAddress, TokenType.AppToken, Configuration.WebService.Stores.StoreCalendar, false);
 
                 Dictionary<string, StoreCalendarViewModel> timeItems = new Dictionary<string, StoreCalendarViewModel>();
                 using (var connection = AnatoliClient.GetInstance().DbClient.GetConnection())
@@ -153,12 +146,12 @@ namespace Anatoli.App.Manager
         }
         public static StringQuery Search(string value)
         {
-            StringQuery query = new StringQuery(string.Format("SELECT * FROM stores WHERE store_name LIKE '%{0}%'", value));
+            StringQuery query = new StringQuery(string.Format("SELECT * FROM stores WHERE store_name LIKE '%{0}%' AND is_removed != 1", value));
             return query;
         }
         public static StringQuery GetAll()
         {
-            StringQuery query = new StringQuery(string.Format("SELECT * FROM stores"));
+            StringQuery query = new StringQuery(string.Format("SELECT * FROM stores WHERE is_removed != 1"));
             return query;
         }
         public static async Task<bool> SelectAsync(StoreDataModel store)

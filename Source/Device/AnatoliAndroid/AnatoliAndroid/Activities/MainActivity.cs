@@ -120,7 +120,6 @@ namespace AnatoliAndroid.Activities
                         {
                             if (AnatoliClient.GetInstance().WebClient.IsOnline())
                             {
-                                OrderManager.SyncOrdersAsync(AnatoliApp.GetInstance().CustomerId);
                                 AnatoliApp.GetInstance().RefreshCutomerProfile();
                             }
                         }

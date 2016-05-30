@@ -16,6 +16,7 @@ using AnatoliAndroid.Activities;
 using System.Threading.Tasks;
 using Square.Picasso;
 using Anatoli.Framework.AnatoliBase;
+using System.Globalization;
 
 namespace AnatoliAndroid.Fragments
 {
@@ -214,7 +215,7 @@ namespace AnatoliAndroid.Fragments
                 {
                     if (await ShoppingCardManager.AddProductAsync(item.product_id, AnatoliApp.GetInstance().DefaultStoreId, 1))
                     {
-                        
+
                         Toast.MakeText(_context, "به سبد خرید اضافه شد", ToastLength.Short).Show();
                     }
                     else

@@ -16,11 +16,13 @@ namespace AnatoliIOS.ViewControllers
     {
         OrderModel _order;
 
-        public OrderDetailViewController() : base("OrderDetailViewController", null)
+        public OrderDetailViewController()
+            : base("OrderDetailViewController", null)
         {
         }
 
-        public OrderDetailViewController(OrderModel order) : this()
+        public OrderDetailViewController(OrderModel order)
+            : this()
         {
             _order = order;
         }

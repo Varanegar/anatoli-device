@@ -68,7 +68,7 @@ namespace Anatoli.App.Manager
             var data = new RequestModel.PurchaseOrderRequestModel();
             data.customerId = customerId;
             data.poId = poId;
-            var list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<PurchaseOrderLineItemViewModel>>(TokenType.AppToken, Configuration.WebService.Purchase.OrderItems, data,false);
+            var list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<PurchaseOrderLineItemViewModel>>(TokenType.AppToken, Configuration.WebService.Purchase.OrderItems, data, false);
             return list;
         }
         public static async Task SyncOrderItemsAsync(string customerId, OrderModel order)
@@ -160,7 +160,7 @@ namespace Anatoli.App.Manager
 
         public static StringQuery GetOrderQueryString()
         {
-            StringQuery query = new StringQuery("SELECT * FROM orders_view");
+            StringQuery query = new StringQuery("SELECT * FROM orders_view ORDER BY order_id DESC");
             return query;
         }
     }

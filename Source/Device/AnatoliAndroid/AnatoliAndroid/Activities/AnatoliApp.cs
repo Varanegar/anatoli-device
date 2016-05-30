@@ -236,7 +236,7 @@ namespace AnatoliAndroid.Activities
             {
                 var cardInfoChange = await ShoppingCardManager.GetInfoAsync();
                 SetTotalPrice(cardInfoChange.total_price);
-                _shoppingCardTextView.Text = (cardInfoChange.total_price).ToString();
+                _shoppingCardTextView.Text = (cardInfoChange.items_count).ToString();
             };
             ShoppingCardManager.ItemsCleared += delegate
             {
