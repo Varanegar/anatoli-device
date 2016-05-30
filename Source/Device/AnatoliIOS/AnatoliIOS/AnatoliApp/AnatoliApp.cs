@@ -449,7 +449,7 @@ namespace AnatoliIOS
 
         public UIBarButtonItem[] CreateToolbarItems()
         {
-            var b1 = CreateToolBarButton(UIImage.FromFile("ic_list_orange_24dp"), () => { PushViewController(new FirstPageViewController()); });
+            var b1 = CreateToolBarButton(UIImage.FromFile("home-256"), () => { PushViewController(new FirstPageViewController()); });
             if (GetVisibleViewController().GetType() != typeof(FirstPageViewController))
                 b1.TintColor = UIColor.DarkGray;
             var b2 = CreateToolBarButton(UIImage.FromFile("ic_list_orange_24dp"), () => { PushViewController(new ProductsViewController()); });
@@ -463,7 +463,7 @@ namespace AnatoliIOS
             var b4 = CreateToolBarButton(UIImage.FromFile("ic_mylist_orange_24dp"), () => { PushViewController(new FavoritsViewController()); });
             if (GetVisibleViewController().GetType() != typeof(FavoritsViewController))
                 b4.TintColor = UIColor.DarkGray;
-            var b5 = CreateToolBarButton(UIImage.FromFile("ic_reorder_white_24dp"), () => { (UIApplication.SharedApplication.Delegate as AppDelegate).RootViewController.SidebarController.ToggleMenu(); });
+            var b5 = CreateToolBarButton(UIImage.FromFile("126-More-128"), () => { (UIApplication.SharedApplication.Delegate as AppDelegate).RootViewController.SidebarController.ToggleMenu(); });
             b5.TintColor = UIColor.DarkGray;
             var space = new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace) { Width = 50 };
             return new UIBarButtonItem[] { b1, space, b2, space, b3, space, b4, space, b5 };
