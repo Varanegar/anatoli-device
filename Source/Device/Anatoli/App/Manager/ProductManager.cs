@@ -57,12 +57,21 @@ namespace Anatoli.App.Manager
                     {
                         if (items.ContainsKey(item.UniqueId))
                         {
-                            UpdateCommand command = new UpdateCommand("products", new EqFilterParam("product_id", item.UniqueId.ToUpper()),
-                            new BasicParam("product_name", item.StoreProductName),
-                            new BasicParam("is_removed", (item.IsRemoved == true) ? "1" : "0"),
-                            new BasicParam("cat_id", item.ProductGroupId));
-                            var query = connection.CreateCommand(command.GetCommand());
-                            int t = query.ExecuteNonQuery();
+                            var currentValue = items[item.UniqueId.ToUpper()];
+                            if (currentValue.IsRemoved)
+                            {
+                                DeleteCommand command = new DeleteCommand("products", new EqFilterParam("product_id", item.UniqueId));
+                                connection.CreateCommand(command.GetCommand()).ExecuteNonQuery();
+                            }
+                            else
+                            {
+                                UpdateCommand command = new UpdateCommand("products", new EqFilterParam("product_id", item.UniqueId.ToUpper()),
+                                    new BasicParam("product_name", item.StoreProductName),
+                                    new BasicParam("is_removed", (item.IsRemoved == true) ? "1" : "0"),
+                                    new BasicParam("cat_id", item.ProductGroupId));
+                                var query = connection.CreateCommand(command.GetCommand());
+                                int t = query.ExecuteNonQuery();
+                            }
                         }
                         else
                         {
@@ -115,11 +124,17 @@ namespace Anatoli.App.Manager
                     {
                         if (items.ContainsKey(item.ProductGuid.ToUpper() + item.StoreGuid.ToString().ToUpper()))
                         {
-                            UpdateCommand command = new UpdateCommand("products_price", new BasicParam("price", item.Price.ToString()),
-                            new EqFilterParam("product_id", item.ProductGuid.ToUpper()),
-                            new EqFilterParam("store_id", item.StoreGuid.ToString().ToUpper()));
-                            var query = connection.CreateCommand(command.GetCommand());
-                            int t = query.ExecuteNonQuery();
+                            var currentValue = items[item.ProductGuid.ToUpper() + item.StoreGuid.ToString().ToUpper()];
+                            if (items[item.ProductGuid.ToUpper() + item.StoreGuid.ToString().ToUpper()].price != item.Price.ToString())
+                            {
+
+                                UpdateCommand command = new UpdateCommand("products_price", new BasicParam("price", item.Price.ToString()),
+                                    new EqFilterParam("product_id", item.ProductGuid.ToUpper()),
+                                    new EqFilterParam("store_id", item.StoreGuid.ToString().ToUpper()));
+                                var query = connection.CreateCommand(command.GetCommand());
+                                int t = query.ExecuteNonQuery();
+                            }
+
                         }
                         else
                         {
@@ -171,11 +186,15 @@ namespace Anatoli.App.Manager
                     {
                         if (currentOnHand.ContainsKey(item.ProductGuid + item.StoreGuid))
                         {
-                            UpdateCommand command = new UpdateCommand("store_onhand", new BasicParam("qty", item.Qty.ToString()),
-                            new EqFilterParam("product_id", item.ProductGuid.ToUpper()),
-                            new EqFilterParam("store_id", item.StoreGuid.ToString().ToUpper()));
-                            var query = connection.CreateCommand(command.GetCommand());
-                            int t = query.ExecuteNonQuery();
+                            var currentValue = currentOnHand[item.ProductGuid.ToString().ToUpper() + item.StoreGuid.ToString().ToUpper()];
+                            if (currentValue.Qty != item.Qty)
+                            {
+                                UpdateCommand command = new UpdateCommand("store_onhand", new BasicParam("qty", item.Qty.ToString()),
+                                    new EqFilterParam("product_id", item.ProductGuid.ToUpper()),
+                                    new EqFilterParam("store_id", item.StoreGuid.ToString().ToUpper()));
+                                var query = connection.CreateCommand(command.GetCommand());
+                                int t = query.ExecuteNonQuery();
+                            }
                         }
                         else
                         {

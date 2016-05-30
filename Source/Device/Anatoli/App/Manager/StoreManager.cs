@@ -50,14 +50,23 @@ namespace Anatoli.App.Manager
                         {
                             if (items.ContainsKey(item.UniqueId))
                             {
-                                UpdateCommand command = new UpdateCommand("stores", new EqFilterParam("store_id", item.UniqueId.ToUpper()),
-                                new BasicParam("store_name", item.storeName.Trim()),
-                                new BasicParam("store_tel", item.Phone),
-                                new BasicParam("lat", item.lat.ToString()),
-                                new BasicParam("lng", item.lng.ToString()),
-                                new BasicParam("store_address", item.address));
-                                var query = connection.CreateCommand(command.GetCommand());
-                                int t = query.ExecuteNonQuery();
+                                var currentValue = items[item.UniqueId.ToUpper()];
+                                if (currentValue.IsRemoved || !item.supportAppOrder)
+                                {
+                                    DeleteCommand command = new DeleteCommand("stores", new EqFilterParam("store_id", item.UniqueId));
+                                    connection.CreateCommand(command.GetCommand()).ExecuteNonQuery();
+                                }
+                                else
+                                {
+                                    UpdateCommand command = new UpdateCommand("stores", new EqFilterParam("store_id", item.UniqueId.ToUpper()),
+                                        new BasicParam("store_name", item.storeName.Trim()),
+                                        new BasicParam("store_tel", item.Phone),
+                                        new BasicParam("lat", item.lat.ToString()),
+                                        new BasicParam("lng", item.lng.ToString()),
+                                        new BasicParam("store_address", item.address));
+                                    var query = connection.CreateCommand(command.GetCommand());
+                                    int t = query.ExecuteNonQuery();
+                                }
                             }
                             else
                             {

@@ -234,8 +234,9 @@ namespace AnatoliAndroid.Activities
 
             ShoppingCardManager.ItemChanged += async delegate
             {
-                SetTotalPrice(await ShoppingCardManager.GetTotalPriceAsync());
-                _shoppingCardTextView.Text = (await ShoppingCardManager.GetItemsCountAsync()).ToString();
+                var cardInfoChange = await ShoppingCardManager.GetInfoAsync();
+                SetTotalPrice(cardInfoChange.total_price);
+                _shoppingCardTextView.Text = (cardInfoChange.total_price).ToString();
             };
             ShoppingCardManager.ItemsCleared += delegate
             {
@@ -246,8 +247,10 @@ namespace AnatoliAndroid.Activities
 
         public async Task UpdateBasketIcon()
         {
-            SetTotalPrice(await ShoppingCardManager.GetTotalPriceAsync());
-            _shoppingCardTextView.Text = (await ShoppingCardManager.GetItemsCountAsync()).ToString();
+
+            var cardInfoChange = await ShoppingCardManager.GetInfoAsync();
+            SetTotalPrice(cardInfoChange.total_price);
+            _shoppingCardTextView.Text = (cardInfoChange.items_count).ToString();
         }
 
         void shoppingbarRelativeLayout_Click(object sender, EventArgs e)

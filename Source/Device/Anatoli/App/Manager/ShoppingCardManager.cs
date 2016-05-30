@@ -236,6 +236,7 @@ namespace Anatoli.App.Manager
                 order.OrderDate = DateTime.Now;
                 order.OrderTime = DateTime.Now.TimeOfDay;
                 order.DeliveryDate = DateTime.Now;
+                order.ShipAddress = customerModel.MainStreet + customerModel.OtherStreet + customerModel.Address;
                 if (deliveryTime != null)
                 {
                     order.DeliveryFromTime = deliveryTime.timespan;

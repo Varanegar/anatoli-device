@@ -176,7 +176,9 @@ namespace AnatoliAndroid.ListAdapters
                         _removeAllProductsButton.Enabled = false;
                         if (AnatoliApp.GetInstance().AnatoliUser != null)
                         {
-                            int a = await ShoppingCardManager.GetItemsCountAsync();
+                            var cardInfoChange = await ShoppingCardManager.GetInfoAsync();
+
+                            int a = cardInfoChange.items_count;
 
                             if (await ShoppingCardManager.RemoveProductAsync(item, true))
                             {

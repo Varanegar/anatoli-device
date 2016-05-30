@@ -236,7 +236,7 @@ namespace AnatoliAndroid.Fragments
                                     pDialog2.Show();
                                     try
                                     {
-                                        var result = await ShoppingCardManager.Checkout(_customerViewModel, _customerViewModel.UniqueId, store.store_id, _deliveryTypeListBox.SelectedItem.id, _deliveryTimeListBox.SelectedItem);
+                                        var result = await ShoppingCardManager.Checkout(o,_customerViewModel);//, _customerViewModel.UniqueId, store.store_id, _deliveryTypeListBox.SelectedItem.id, _deliveryTimeListBox.SelectedItem);
                                         pDialog2.Dismiss();
                                         if (result == null)
                                         {
@@ -428,16 +428,18 @@ namespace AnatoliAndroid.Fragments
             _deliveryTypeListBox.SelectItem(1);
 
 
-
-            _factorePriceTextView.Text = (await ShoppingCardManager.GetTotalPriceAsync()).ToCurrency() + " تومان";
-            _itemCountTextView.Text = (await ShoppingCardManager.GetItemsCountAsync()).ToString() + " عدد";
+            var cardInfo = await ShoppingCardManager.GetInfoAsync();
+            _factorePriceTextView.Text = cardInfo.total_price.ToCurrency() + " تومان";
+            _itemCountTextView.Text = cardInfo.items_count.ToString() + " عدد";
             _listAdapter = new ProductsListAdapter();
             _listAdapter.List = await ShoppingCardManager.GetAllItemsAsync();
             _listAdapter.NotifyDataSetChanged();
             _listAdapter.DataChanged += async (s) =>
             {
-                _factorePriceTextView.Text = (await ShoppingCardManager.GetTotalPriceAsync()).ToCurrency() + " تومان";
-                _itemCountTextView.Text = (await ShoppingCardManager.GetItemsCountAsync()).ToString() + " عدد";
+                var cardInfoDetail = await ShoppingCardManager.GetInfoAsync();
+
+                _factorePriceTextView.Text = cardInfoDetail.total_price.ToCurrency() + " تومان";
+                _itemCountTextView.Text = cardInfoDetail.items_count.ToString() + " عدد";
                 _checkoutButton.Enabled = CheckCheckout();
             };
             _listAdapter.ShoppingCardItemRemoved += (s, item) =>
@@ -458,8 +460,10 @@ namespace AnatoliAndroid.Fragments
 
             _checkoutButton.Enabled = CheckCheckout();
 
-            _factorePriceTextView.Text = (await ShoppingCardManager.GetTotalPriceAsync()).ToCurrency() + " تومان";
-            _countTextView.Text = (await ShoppingCardManager.GetItemsCountAsync()).ToString() + " عدد";
+            var cardInfoChange = await ShoppingCardManager.GetInfoAsync();
+
+            _factorePriceTextView.Text = cardInfoChange.total_price.ToCurrency() + " تومان";
+            _countTextView.Text = cardInfoChange.items_count.ToString() + " عدد";
 
 
         }
