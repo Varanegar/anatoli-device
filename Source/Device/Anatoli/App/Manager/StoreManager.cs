@@ -56,6 +56,7 @@ namespace Anatoli.App.Manager
                                     new BasicParam("lat", item.lat.ToString()),
                                     new BasicParam("lng", item.lng.ToString()),
                                     new BasicParam("is_removed", (item.IsRemoved) ? "1" : "0"),
+                                    new BasicParam("support_app_order", (item.supportAppOrder) ? "1" : "0"),
                                     new BasicParam("store_address", item.address));
                                 var query = connection.CreateCommand(command.GetCommand());
                                 int t = query.ExecuteNonQuery();
@@ -68,6 +69,7 @@ namespace Anatoli.App.Manager
                                 new BasicParam("lat", item.lat.ToString()),
                                 new BasicParam("lng", item.lng.ToString()),
                                 new BasicParam("is_removed", (item.IsRemoved) ? "1" : "0"),
+                                new BasicParam("support_app_order", (item.supportAppOrder) ? "1" : "0"),
                                 new BasicParam("store_address", item.address));
                                 var query = connection.CreateCommand(command.GetCommand());
                                 int t = query.ExecuteNonQuery();
