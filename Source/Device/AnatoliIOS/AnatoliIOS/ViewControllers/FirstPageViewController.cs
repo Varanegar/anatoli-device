@@ -43,7 +43,8 @@ namespace AnatoliIOS.ViewControllers
             EdgesForExtendedLayout = UIRectEdge.None;
             // Perform any additional setup after loading the view, typically from a nib.
             Title = "صفحه خانگی";
-            SetImageHeight(UIScreen.MainScreen.Bounds.Size.Height * 0.45f);
+            var bannerHeight = UIScreen.MainScreen.Bounds.Size.Height * 0.45f;
+            SetImageHeight(bannerHeight);
             // Creting a list UIImages to present in the ParallaxViewController
             var images = new List<UIImage>();
             View.BackgroundColor = UIColor.White;
@@ -96,7 +97,7 @@ namespace AnatoliIOS.ViewControllers
 
 
             //View will be the ContentView of ParallaxViewController
-            var view = new UIView(new CGRect(0, 0, UIScreen.MainScreen.Bounds.Size.Width, UIScreen.MainScreen.Bounds.Size.Height));
+            var view = new UIView(new CGRect(0, 0, UIScreen.MainScreen.Bounds.Size.Width, 1300));
             view.BackgroundColor = UIColor.White;
             //You can check if the image is tapped by set the ImageTapped property
             ImageTaped = (i) =>
@@ -105,11 +106,11 @@ namespace AnatoliIOS.ViewControllers
                 alertView.Show();
             };
             SetupFor(view);
-
             var groups = await CategoryManager.GetFirstLevelAsync();
             var layout = new UICollectionViewFlowLayout();
+            groups = await CategoryManager.GetFirstLevelAsync();
             layout.ItemSize = new CGSize(120f, 120f);
-            var groupsCollectionView = new UICollectionView(new CGRect(0, 0, UIScreen.MainScreen.Bounds.Size.Width, UIScreen.MainScreen.Bounds.Size.Height * 0.55f), layout);
+            var groupsCollectionView = new UICollectionView(new CGRect(0, 0, UIScreen.MainScreen.Bounds.Size.Width, (groups.Count + 1) / 2 * 150f), layout);
             groupsCollectionView.BackgroundColor = UIColor.White;
             groupsCollectionView.CollectionViewLayout = layout;
             layout.SectionInset = new UIEdgeInsets(30, 30, 30, 30);
