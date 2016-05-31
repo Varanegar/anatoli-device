@@ -20,6 +20,7 @@ namespace Anatoli.App.Model.Store
         public string store_tel { get; set; }
         public double lat { get; set; }
         public double lng { get; set; }
+        public bool support_app_order { get; set; }
         public string location
         {
             get

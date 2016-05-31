@@ -11,6 +11,7 @@ using CoreAnimation;
 using Foundation;
 using Anatoli.Framework.AnatoliBase;
 using System.Drawing;
+using SDWebImage;
 
 namespace AnatoliIOS.ViewControllers
 {
@@ -30,147 +31,10 @@ namespace AnatoliIOS.ViewControllers
             // Release any cached data, images, etc that aren't in use.
         }
 
-        public override void ViewDidAppear(bool animated)
+        public async override void ViewDidAppear(bool animated)
         {
             base.ViewDidAppear(animated);
             this.SetToolbarItems(AnatoliApp.GetInstance().CreateToolbarItems(), true);
-        }
-        public async override void ViewDidLoad()
-        {
-            base.ViewDidLoad();
-
-            // Perform any additional setup after loading the view, typically from a nib.
-            Title = "پروفایل";
-
-            if (AnatoliApp.GetInstance().Customer != null)
-            {
-                nameTextField.ShouldReturn += delegate
-                {
-                    nameTextField.ResignFirstResponder();
-                    return true;
-                };
-                lastNameTextField.ShouldReturn += delegate
-                {
-                    lastNameTextField.ResignFirstResponder();
-                    return true;
-                };
-                emailTextField.ShouldReturn += delegate
-                {
-                    emailTextField.ResignFirstResponder();
-                    return true;
-                };
-                addressTextField.ShouldReturn += delegate
-                {
-                    addressTextField.ResignFirstResponder();
-                    return true;
-                };
-                nationalCodeTextField.ShouldReturn += delegate
-                {
-                    nationalCodeTextField.ResignFirstResponder();
-                    return true;
-                };
-
-                nameTextField.Text = AnatoliApp.GetInstance().Customer.FirstName;
-                lastNameTextField.Text = AnatoliApp.GetInstance().Customer.LastName;
-                emailTextField.Text = AnatoliApp.GetInstance().Customer.Email;
-                addressTextField.Text = AnatoliApp.GetInstance().Customer.MainStreet;
-                nationalCodeTextField.Text = AnatoliApp.GetInstance().Customer.NationalCode;
-                titleLabel.Text = AnatoliApp.GetInstance().Customer.FirstName + " " + AnatoliApp.GetInstance().Customer.LastName;
-                numberLabel.Text = AnatoliApp.GetInstance().Customer.Mobile;
-                var imageUri = CustomerManager.GetImageAddress(AnatoliApp.GetInstance().Customer.UniqueId);
-                using (var url = new NSUrl(imageUri))
-                {
-                    using (var data = NSData.FromUrl(url))
-                    {
-                        if (data != null)
-                        {
-                            try
-                            {
-                                profileImageView.Image = UIImage.LoadFromData(data);
-                            }
-                            catch (Exception)
-                            {
-
-                            }
-                        }
-                    }
-                }
-                CALayer profileImageViewLayer = profileImageView.Layer;
-                profileImageViewLayer.CornerRadius = 30;
-                profileImageViewLayer.MasksToBounds = true;
-            }
-
-            System.Threading.CancellationTokenSource token = new System.Threading.CancellationTokenSource();
-
-            var imagePicker = new UIImagePickerController();
-            imagePicker.SourceType = UIImagePickerControllerSourceType.PhotoLibrary;
-            imagePicker.MediaTypes = UIImagePickerController.AvailableMediaTypes(UIImagePickerControllerSourceType.PhotoLibrary);
-            imagePicker.FinishedPickingMedia += async (object sender, UIImagePickerMediaPickedEventArgs e) =>
-            {
-                if (e.Info[UIImagePickerController.MediaType].ToString() == "public.image")
-                {
-                    NSUrl referenceURL = e.Info[new NSString("UIImagePickerControllerReferenceUrl")] as NSUrl;
-                    if (referenceURL != null)
-                        Console.WriteLine("Url:" + referenceURL.ToString());
-                    // get the original image
-                    UIImage originalImage = e.Info[UIImagePickerController.OriginalImage] as UIImage;
-                    if (originalImage != null)
-                    {
-                        // do something with the image
-                        var resizeImage = MaxResizeImage(originalImage, 300f, 300f);
-                        using (NSData imageData = resizeImage.AsJPEG())
-                        {
-                            Byte[] myByteArray = new Byte[imageData.Length];
-                            System.Runtime.InteropServices.Marshal.Copy(imageData.Bytes, myByteArray, 0, Convert.ToInt32(imageData.Length));
-                            imagePicker.DismissViewController(true, null);
-                            LoadingOverlay loading = new LoadingOverlay(HeaderView.Frame, true);
-                            loading.Message = "بروزرسانی تصویر";
-                            loading.Canceled += delegate
-                            {
-                                token.Cancel();
-                            };
-                            HeaderView.AddSubview(loading);
-                            try
-                            {
-                                _uploading = true;
-                                pickImageButton.SetTitle("", UIControlState.Normal);
-                                await CustomerManager.UploadImageAsync(AnatoliApp.GetInstance().Customer.UniqueId, myByteArray, token);
-                                pickImageButton.SetTitle("ویرایش", UIControlState.Normal);
-                                profileImageView.Image = resizeImage; // display
-                            }
-                            catch (Exception)
-                            {
-                                var alert = new UIAlertView("خطا", "تصویر ارسال نشد", null, "باشه");
-                                alert.Show();
-                            }
-                            finally
-                            {
-                                _uploading = false;
-                                pickImageButton.SetTitle("ویرایش", UIControlState.Normal);
-                                loading.Hide();
-                            }
-                        }
-                    }
-
-                }
-            };
-            imagePicker.Canceled += (object sender, EventArgs e) =>
-            {
-                imagePicker.DismissViewController(true, null);
-            };
-            pickImageButton.TouchUpInside += (object sender, EventArgs e) =>
-            {
-                if (!_uploading)
-                {
-                    PresentViewController(imagePicker, true, null);
-                }
-                else
-                {
-                    token.Cancel();
-                    _uploading = false;
-                }
-            };
-
 
             var level1PickerViewController = new RegionChooserViewController(await CityRegionManager.GetFirstLevelAsync());
             var level2PickerViewController = new RegionChooserViewController(await CityRegionManager.GetGroupsAsync(AnatoliApp.GetInstance().Customer.RegionLevel1Id));
@@ -245,11 +109,6 @@ namespace AnatoliIOS.ViewControllers
                 PresentViewController(level4PickerViewController, true, null);
             };
 
-            logoutButton.TouchUpInside += async (object sender, EventArgs e) =>
-            {
-                await AnatoliApp.GetInstance().LogOutAsync();
-                AnatoliApp.GetInstance().ReplaceViewController(new FirstPageViewController());
-            };
             saveButton.TouchUpInside += async (object sender, EventArgs e) =>
             {
                 if (String.IsNullOrEmpty(addressTextField.Text) ||
@@ -341,6 +200,152 @@ namespace AnatoliIOS.ViewControllers
                 loadingOverlay.Hide();
 
             };
+
+        }
+        public override void ViewDidLoad()
+        {
+            base.ViewDidLoad();
+
+            // Perform any additional setup after loading the view, typically from a nib.
+            Title = "پروفایل";
+
+            if (AnatoliApp.GetInstance().Customer != null)
+            {
+                nameTextField.ShouldReturn += delegate
+                {
+                    nameTextField.ResignFirstResponder();
+                    return true;
+                };
+                lastNameTextField.ShouldReturn += delegate
+                {
+                    lastNameTextField.ResignFirstResponder();
+                    return true;
+                };
+                emailTextField.ShouldReturn += delegate
+                {
+                    emailTextField.ResignFirstResponder();
+                    return true;
+                };
+                addressTextField.ShouldReturn += delegate
+                {
+                    addressTextField.ResignFirstResponder();
+                    return true;
+                };
+                nationalCodeTextField.ShouldReturn += delegate
+                {
+                    nationalCodeTextField.ResignFirstResponder();
+                    return true;
+                };
+
+                nameTextField.Text = AnatoliApp.GetInstance().Customer.FirstName;
+                lastNameTextField.Text = AnatoliApp.GetInstance().Customer.LastName;
+                emailTextField.Text = AnatoliApp.GetInstance().Customer.Email;
+                addressTextField.Text = AnatoliApp.GetInstance().Customer.MainStreet;
+                nationalCodeTextField.Text = AnatoliApp.GetInstance().Customer.NationalCode;
+                titleLabel.Text = AnatoliApp.GetInstance().Customer.FirstName + " " + AnatoliApp.GetInstance().Customer.LastName;
+                numberLabel.Text = AnatoliApp.GetInstance().Customer.Mobile;
+                var imageUri = CustomerManager.GetImageAddress(AnatoliApp.GetInstance().Customer.UniqueId);
+                using (var url = new NSUrl(imageUri))
+                {
+                    using (var data = NSData.FromUrl(url))
+                    {
+                        if (data != null)
+                        {
+                            try
+                            {
+                                profileImageView.SetImage(url, UIImage.FromBundle("ic_person_gray_24dp"));
+                            }
+                            catch (Exception)
+                            {
+
+                            }
+                        }
+                    }
+                }
+                CALayer profileImageViewLayer = profileImageView.Layer;
+                profileImageViewLayer.CornerRadius = profileImageViewLayer.Bounds.Width / 2;
+                profileImageViewLayer.MasksToBounds = true;
+            }
+
+            System.Threading.CancellationTokenSource token = new System.Threading.CancellationTokenSource();
+
+            var imagePicker = new UIImagePickerController();
+            imagePicker.SourceType = UIImagePickerControllerSourceType.PhotoLibrary;
+            imagePicker.MediaTypes = UIImagePickerController.AvailableMediaTypes(UIImagePickerControllerSourceType.PhotoLibrary);
+            imagePicker.FinishedPickingMedia += async (object sender, UIImagePickerMediaPickedEventArgs e) =>
+            {
+                if (e.Info[UIImagePickerController.MediaType].ToString() == "public.image")
+                {
+                    NSUrl referenceURL = e.Info[new NSString("UIImagePickerControllerReferenceUrl")] as NSUrl;
+                    if (referenceURL != null)
+                        Console.WriteLine("Url:" + referenceURL.ToString());
+                    // get the original image
+                    UIImage originalImage = e.Info[UIImagePickerController.OriginalImage] as UIImage;
+                    if (originalImage != null)
+                    {
+                        // do something with the image
+                        var resizeImage = MaxResizeImage(originalImage, 300f, 300f);
+                        using (NSData imageData = resizeImage.AsJPEG())
+                        {
+                            Byte[] myByteArray = new Byte[imageData.Length];
+                            System.Runtime.InteropServices.Marshal.Copy(imageData.Bytes, myByteArray, 0, Convert.ToInt32(imageData.Length));
+                            imagePicker.DismissViewController(true, null);
+                            LoadingOverlay loading = new LoadingOverlay(HeaderView.Frame, true);
+                            loading.Message = "بروزرسانی تصویر";
+                            loading.Canceled += delegate
+                            {
+                                token.Cancel();
+                            };
+                            HeaderView.AddSubview(loading);
+                            try
+                            {
+                                _uploading = true;
+                                pickImageButton.SetTitle("", UIControlState.Normal);
+                                await CustomerManager.UploadImageAsync(AnatoliApp.GetInstance().Customer.UniqueId, myByteArray, token);
+                                pickImageButton.SetTitle("ویرایش", UIControlState.Normal);
+                                profileImageView.Image = resizeImage; // display
+                            }
+                            catch (Exception)
+                            {
+                                var alert = new UIAlertView("خطا", "تصویر ارسال نشد", null, "باشه");
+                                alert.Show();
+                            }
+                            finally
+                            {
+                                _uploading = false;
+                                pickImageButton.SetTitle("ویرایش", UIControlState.Normal);
+                                loading.Hide();
+                            }
+                        }
+                    }
+
+                }
+            };
+            imagePicker.Canceled += (object sender, EventArgs e) =>
+            {
+                imagePicker.DismissViewController(true, null);
+            };
+            pickImageButton.TouchUpInside += (object sender, EventArgs e) =>
+            {
+                if (!_uploading)
+                {
+                    PresentViewController(imagePicker, true, null);
+                }
+                else
+                {
+                    token.Cancel();
+                    _uploading = false;
+                }
+            };
+
+
+            
+            logoutButton.TouchUpInside += async (object sender, EventArgs e) =>
+            {
+                await AnatoliApp.GetInstance().LogOutAsync();
+                AnatoliApp.GetInstance().ReplaceViewController(new FirstPageViewController());
+            };
+            
 
         }
 
