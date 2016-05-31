@@ -59,8 +59,7 @@ namespace AnatoliIOS.ViewControllers
                 {
                     if (image != null && finished)
                     {
-                        images.Add(image);
-                        InvokeOnMainThread(() => { SetImages(images); });
+                        InvokeOnMainThread(() => { images.Add(image); SetImages(images); });
                     }
                 }
             );
@@ -75,8 +74,7 @@ namespace AnatoliIOS.ViewControllers
                 {
                     if (image != null && finished)
                     {
-                        images.Add(image);
-                        InvokeOnMainThread(() => { SetImages(images); });
+                        InvokeOnMainThread(() => { images.Add(image); SetImages(images); });
                     }
                 }
             );
@@ -91,9 +89,7 @@ namespace AnatoliIOS.ViewControllers
                 {
                     if (image != null && finished)
                     {
-                        images.Add(image);
-                        InvokeOnMainThread(() => { SetImages(images); });
-                        
+                        InvokeOnMainThread(() => { images.Add(image); SetImages(images); });
                     }
                 }
             );
@@ -109,7 +105,7 @@ namespace AnatoliIOS.ViewControllers
                 alertView.Show();
             };
             SetupFor(view);
-            
+
             var groups = await CategoryManager.GetFirstLevelAsync();
             var layout = new UICollectionViewFlowLayout();
             layout.ItemSize = new CGSize(120f, 120f);
