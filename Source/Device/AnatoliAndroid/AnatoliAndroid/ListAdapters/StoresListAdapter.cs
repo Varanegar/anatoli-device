@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -59,13 +59,14 @@ namespace AnatoliAndroid.ListAdapters
             {
                 await Select(item);
             };
-
+            if (!item.support_app_order)
+                convertView.SetBackgroundColor(Android.Graphics.Color.ParseColor("#F7F4F4"));
             if (item.distance < 0.0005)
                 _storeDistance.Text = "";
             else if (item.distance < 1500)
                 _storeDistance.Text = AnatoliApp.GetResources().GetText(Resource.String.DistanceFromYou) + " " + Math.Round(item.distance, 0).ToString() + " " + AnatoliApp.GetResources().GetText(Resource.String.Meter);
             else
-                _storeDistance.Text = AnatoliApp.GetResources().GetText(Resource.String.DistanceFromYou) + " " +  Math.Round((item.distance / 1000), 1).ToString() + " " + AnatoliApp.GetResources().GetText(Resource.String.KMeter);
+                _storeDistance.Text = AnatoliApp.GetResources().GetText(Resource.String.DistanceFromYou) + " " + Math.Round((item.distance / 1000), 1).ToString() + " " + AnatoliApp.GetResources().GetText(Resource.String.KMeter);
 
             if (!String.IsNullOrEmpty(item.location))
             {
@@ -83,12 +84,17 @@ namespace AnatoliAndroid.ListAdapters
             //storeStatusTextView.Text = AnatoliApp.GetResources().GetText(Resource.String.Close);
             //storeStatusTextView.SetTextColor(Android.Graphics.Color.Red);
 
-            
+
             // productIimageView.SetUrlDrawable(MadanerClient.Configuration.UsersImageBaseUri + "/" + item.User.image, null, 600000);
             return convertView;
         }
         async Task Select(StoreDataModel item)
         {
+            if (!item.support_app_order)
+            {
+                Toast.MakeText(AnatoliApp.GetInstance().Activity, "این فروشگاه فروش اینترنتی ندارد", ToastLength.Short).Show();
+                return;
+            }
             if (await StoreManager.SelectAsync(item) == true)
             {
                 AnatoliApp.GetInstance().SetFragment<FirstFragment>(new FirstFragment(), "first_fragment");
