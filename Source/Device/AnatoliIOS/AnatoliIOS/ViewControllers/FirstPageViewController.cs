@@ -29,12 +29,13 @@ namespace AnatoliIOS.ViewControllers
         {
             base.ViewDidAppear(animated);
             NavigationItem.BackBarButtonItem = new UIBarButtonItem("", UIBarButtonItemStyle.Plain, null);
+            NavigationItem.HidesBackButton = true;
             StartAutomaticScroll();
 
             EdgesForExtendedLayout = UIRectEdge.None;
 
             this.SetToolbarItems(AnatoliApp.GetInstance().CreateToolbarItems(), true);
-            this.NavigationController.ToolbarHidden = false;
+            this.NavigationController.ToolbarHidden = false; 
             AnatoliApp.GetInstance().SyncDataBase();
         }
         public async override void ViewDidLoad()
