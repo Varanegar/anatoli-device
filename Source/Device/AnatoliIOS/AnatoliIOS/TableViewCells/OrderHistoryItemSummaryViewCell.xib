@@ -1,47 +1,64 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6206.8" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7026.1"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="anatoli.ttf">
+            <string>IRANSans</string>
+            <string>IRANSans</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" customClass="OrderHistoryItemSummaryViewCell" id="cxk-wN-pdQ" rowHeight="70">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="70"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="81" id="cxk-wN-pdQ" customClass="OrderHistoryItemSummaryViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="324" height="81"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cxk-wN-pdQ" id="YTl-1W-gDM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="69"/>
+                <rect key="frame" x="0.0" y="0.0" width="324" height="80"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="8" translatesAutoresizingMaskIntoConstraints="NO">
-                        <rect key="frame" x="240.5" y="5" width="69.5" height="59.5"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8">
+                        <rect key="frame" x="247" y="10" width="69" height="60"/>
                         <constraints>
-                            <constraint id="14" firstAttribute="width" secondItem="8" secondAttribute="height" multiplier="7:6"/>
+                            <constraint firstAttribute="width" secondItem="8" secondAttribute="height" multiplier="7:6" constant="-1" id="14"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" id="15" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="right">
-                        <rect key="frame" x="62" y="12" width="168.5" height="22"/>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="15">
+                        <rect key="frame" x="70" y="19" width="169" height="22"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="22" id="36"/>
+                        </constraints>
                         <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="15"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
-                        <constraints>
-                            <constraint id="36" firstItem="15" firstAttribute="height" constant="22"/>
-                        </constraints>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="19" translatesAutoresizingMaskIntoConstraints="NO">
-                        <rect key="frame" x="11" y="15" width="46" height="40"/>
-                        <state key="normal" backgroundImage="ic_shoppingcard_blue_24dp.png">
-                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                        </state>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="19">
+                        <rect key="frame" x="8" y="20" width="46" height="40"/>
                         <constraints>
-                            <constraint id="25" firstItem="19" firstAttribute="width" constant="46"/>
-                            <constraint id="26" firstItem="19" firstAttribute="height" constant="40"/>
+                            <constraint firstAttribute="width" constant="46" id="25"/>
+                            <constraint firstAttribute="height" constant="40" id="26"/>
                         </constraints>
+                        <state key="normal" backgroundImage="ic_shoppingcard_blue_24dp.png">
+                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
                     </button>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" id="28" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="right">
-                        <rect key="frame" x="62" y="43" width="168.5" height="22.5"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MCW-Yd-AUl">
+                        <rect key="frame" x="0.0" y="79" width="324" height="1"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="Q3r-3g-23M"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="28">
+                        <rect key="frame" x="70" y="42" width="169" height="23"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="14"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -49,44 +66,32 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint id="9" firstItem="YTl-1W-gDM" firstAttribute="trailing" secondItem="8" secondAttribute="trailing" constant="10"/>
-                    <constraint id="11" firstItem="8" firstAttribute="centerY" secondItem="YTl-1W-gDM" secondAttribute="centerY"/>
-                    <constraint id="13" firstItem="8" firstAttribute="top" secondItem="YTl-1W-gDM" secondAttribute="top" constant="5"/>
-                    <constraint id="16" firstItem="8" firstAttribute="leading" secondItem="15" secondAttribute="trailing" constant="10"/>
-                    <constraint id="21" firstItem="19" firstAttribute="leading" secondItem="YTl-1W-gDM" secondAttribute="leading" constant="11"/>
-                    <constraint id="22" firstItem="19" firstAttribute="centerY" secondItem="YTl-1W-gDM" secondAttribute="centerY"/>
-                    <constraint id="27" firstItem="15" firstAttribute="leading" secondItem="19" secondAttribute="trailing" constant="5"/>
-                    <constraint id="30" firstItem="8" firstAttribute="leading" secondItem="28" secondAttribute="trailing" constant="10"/>
-                    <constraint id="31" firstItem="28" firstAttribute="leading" secondItem="19" secondAttribute="trailing" constant="5"/>
-                    <constraint id="37" firstItem="8" firstAttribute="centerY" secondItem="15" secondAttribute="bottom" constant="1"/>
-                    <constraint id="38" firstItem="28" firstAttribute="top" secondItem="8" secondAttribute="centerY" constant="8"/>
+                    <constraint firstAttribute="trailing" secondItem="8" secondAttribute="trailing" constant="8" id="9"/>
+                    <constraint firstItem="8" firstAttribute="centerY" secondItem="YTl-1W-gDM" secondAttribute="centerY" id="11"/>
+                    <constraint firstItem="8" firstAttribute="top" secondItem="YTl-1W-gDM" secondAttribute="top" constant="10" id="13"/>
+                    <constraint firstItem="8" firstAttribute="leading" secondItem="15" secondAttribute="trailing" constant="8" id="16"/>
+                    <constraint firstItem="19" firstAttribute="leading" secondItem="YTl-1W-gDM" secondAttribute="leading" constant="8" id="21"/>
+                    <constraint firstItem="19" firstAttribute="centerY" secondItem="YTl-1W-gDM" secondAttribute="centerY" id="22"/>
+                    <constraint firstItem="15" firstAttribute="leading" secondItem="19" secondAttribute="trailing" constant="16" id="27"/>
+                    <constraint firstItem="8" firstAttribute="leading" secondItem="28" secondAttribute="trailing" constant="8" id="30"/>
+                    <constraint firstItem="28" firstAttribute="leading" secondItem="19" secondAttribute="trailing" constant="16" id="31"/>
+                    <constraint firstItem="8" firstAttribute="centerY" secondItem="15" secondAttribute="bottom" constant="-1" id="37"/>
+                    <constraint firstItem="28" firstAttribute="top" secondItem="8" secondAttribute="centerY" constant="2" id="38"/>
+                    <constraint firstItem="MCW-Yd-AUl" firstAttribute="leading" secondItem="YTl-1W-gDM" secondAttribute="leadingMargin" constant="-8" id="1zm-YT-M7j"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="MCW-Yd-AUl" secondAttribute="bottom" constant="-8" id="PNM-jj-FwG"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="MCW-Yd-AUl" secondAttribute="trailing" constant="-8" id="TEg-dt-Ac6"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="productNameLabel" destination="15" id="name-outlet-15"/>
-                <outlet property="productImageView" destination="8" id="name-outlet-8"/>
                 <outlet property="addButton" destination="19" id="name-outlet-19"/>
                 <outlet property="itemPriceLabel" destination="28" id="name-outlet-28"/>
+                <outlet property="productImageView" destination="8" id="name-outlet-8"/>
+                <outlet property="productNameLabel" destination="15" id="name-outlet-15"/>
             </connections>
+            <point key="canvasLocation" x="226" y="340.5"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="ic_list_orange_24dp.png" width="72" height="72"/>
-        <image name="ic_person_gray_24dp.png" width="80" height="80"/>
         <image name="ic_shoppingcard_blue_24dp.png" width="109" height="96"/>
-        <image name="anatoli.ttf" width="0" height="0"/>
-        <image name="ic_search_white_24dp.png" width="96" height="96"/>
-        <image name="ic_reorder_white_24dp.png" width="96" height="96"/>
-        <image name="ic_shopping_cart_white_24dp.png" width="96" height="96"/>
-        <image name="ic_shoppingcard_on_white_24dp.png" width="96" height="97"/>
-        <image name="ic_call_green_24dp.png" width="70" height="70"/>
-        <image name="ic_edit_text_green_24dp.png" width="70" height="71"/>
-        <image name="Icon.png" width="57" height="57"/>
-        <image name="Icon-60.png" width="60" height="60"/>
-        <image name="Icon-Small.png" width="29" height="29"/>
-        <image name="Icon-Small-40.png" width="40" height="40"/>
-        <image name="igicon.png" width="200" height="119"/>
-        <image name="splash.png" width="365" height="648"/>
-        <image name="ic_log_in_green_24dp.png" width="96" height="96"/>
     </resources>
 </document>

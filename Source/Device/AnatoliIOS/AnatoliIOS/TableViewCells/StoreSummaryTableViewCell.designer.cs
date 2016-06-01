@@ -16,6 +16,10 @@ namespace AnatoliIOS.TableViewCells
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton locationButton { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel storeAddressLabel { get; set; }
 
 		[Outlet]
@@ -32,6 +36,10 @@ namespace AnatoliIOS.TableViewCells
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (locationButton != null) {
+				locationButton.Dispose ();
+				locationButton = null;
+			}
 			if (storeAddressLabel != null) {
 				storeAddressLabel.Dispose ();
 				storeAddressLabel = null;

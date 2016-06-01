@@ -32,6 +32,11 @@ namespace AnatoliIOS.ViewControllers
             // Perform any additional setup after loading the view, typically from a nib.
             Title = "ثبت نام";
             EdgesForExtendedLayout = UIRectEdge.None;
+			phoneTextField.SetStyle ();
+			emailTextField.SetStyle ();
+			passwordTextField.SetStyle ();
+			registerButton.SetStyle (ButtonColor.Blue);
+
             phoneTextField.ShouldReturn += delegate
             {
                 emailTextField.BecomeFirstResponder();
@@ -49,8 +54,12 @@ namespace AnatoliIOS.ViewControllers
             };
             registerButton.TouchUpInside += async delegate
             {
+				phoneTextField.ResignFirstResponder();
+				emailTextField.ResignFirstResponder();
+				passwordTextField.ResignFirstResponder();
                 if (String.IsNullOrEmpty(phoneTextField.Text))
                 {
+					// todo : add alert
                     return;
                 }
 
@@ -61,7 +70,7 @@ namespace AnatoliIOS.ViewControllers
                     var result = await AnatoliUserManager.RegisterAsync(passwordTextField.Text, passwordTextField.Text, phoneTextField.Text, emailTextField.Text);
                     if (result != null && result.IsValid)
                     {
-                        var codeResult = await AnatoliUserManager.RequestConfirmCode(phoneTextField.Text);
+                        await AnatoliUserManager.RequestConfirmCode(phoneTextField.Text);
                         AnatoliApp.GetInstance().PushViewController(new ConfirmRegisterationViewController(phoneTextField.Text, passwordTextField.Text));
                     }
 

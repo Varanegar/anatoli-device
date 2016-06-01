@@ -25,8 +25,16 @@ namespace AnatoliIOS.TableViewCells
 				storeNameLabel.Text = item.store_name;
 				storeAddressLabel.Text = item.store_address;
                 storeStatusLabel.Text = "باز است";
-				storeStatusLabel.Layer.BorderColor = UIColor.Green.CGColor;
+				storeStatusLabel.Layer.BorderColor = UIColor.Black.CGColor;
 				storeStatusLabel.Layer.BorderWidth = 2.0f;
+				locationButton.TouchUpInside += (object sender, EventArgs e) => {
+					NSUrl url = new NSUrl("http://maps.apple.com/?ll=" + item.location);
+					if (UIApplication.SharedApplication.CanOpenUrl(url) && !string.IsNullOrEmpty(item.location)) {
+						UIApplication.SharedApplication.OpenUrl(url);
+					}else{
+						new UIAlertView("خطا","آدرس دقیق وجود ندارد",null,"باشه").Show();
+					}
+				};
 			}
 		}
 

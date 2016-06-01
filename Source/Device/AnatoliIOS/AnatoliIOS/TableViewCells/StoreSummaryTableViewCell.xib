@@ -5,6 +5,13 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="anatoli.ttf">
+            <string>IRANSans</string>
+            <string>IRANSans</string>
+            <string>IRANSans</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -15,21 +22,21 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="69"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="HCj-P1-s2P">
-                        <rect key="frame" x="239" y="5" width="60" height="60"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="HCj-P1-s2P">
+                        <rect key="frame" x="230" y="13" width="60" height="45"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="60" id="X2I-Fb-Nnr"/>
+                            <constraint firstAttribute="height" constant="45" id="X2I-Fb-Nnr"/>
                             <constraint firstAttribute="width" constant="60" id="bCN-d4-3OY"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BkF-Iy-q48">
-                        <rect key="frame" x="76" y="25" width="148" height="40"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BkF-Iy-q48">
+                        <rect key="frame" x="68" y="25" width="153" height="39"/>
                         <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="12"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3bI-QG-ELU">
-                        <rect key="frame" x="21" y="25" width="50" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3bI-QG-ELU">
+                        <rect key="frame" x="13" y="24" width="50" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="ksF-RT-U5R"/>
                             <constraint firstAttribute="width" constant="50" id="uOo-FE-Zd4"/>
@@ -38,46 +45,73 @@
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="2" text="نام فروشگاه">
-                        <rect key="frame" x="182" y="10" width="42" height="20"/>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="نام فروشگاه" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="2">
+                        <rect key="frame" x="170" y="8" width="51" height="23"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="15"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tmh-Zk-aQ1">
+                        <rect key="frame" x="0.0" y="68" width="230" height="1"/>
+                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="pQs-df-D2h"/>
+                            <constraint firstAttribute="width" constant="231" id="r68-tK-9JY"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="r68-tK-9JY"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ftc-Gj-uqf">
+                        <rect key="frame" x="295" y="25" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="DSd-MW-8W9"/>
+                            <constraint firstAttribute="height" constant="20" id="afm-Pq-QAT"/>
+                        </constraints>
+                        <state key="normal" backgroundImage="location-icon.png"/>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="2" firstAttribute="centerY" secondItem="YTl-1W-gDM" secondAttribute="centerY" constant="-15" id="4"/>
                     <constraint firstAttribute="centerY" secondItem="HCj-P1-s2P" secondAttribute="centerY" id="7"/>
                     <constraint firstItem="BkF-Iy-q48" firstAttribute="leading" secondItem="3bI-QG-ELU" secondAttribute="trailing" constant="5" id="12"/>
                     <constraint firstAttribute="bottom" secondItem="BkF-Iy-q48" secondAttribute="bottom" constant="5" id="13"/>
-                    <constraint firstItem="HCj-P1-s2P" firstAttribute="leading" secondItem="BkF-Iy-q48" secondAttribute="trailing" constant="15" id="C5y-VZ-O89"/>
+                    <constraint firstAttribute="trailing" secondItem="ftc-Gj-uqf" secondAttribute="trailing" constant="5" id="16"/>
+                    <constraint firstItem="tmh-Zk-aQ1" firstAttribute="leading" secondItem="YTl-1W-gDM" secondAttribute="leadingMargin" constant="-8" id="3gy-nX-Na8"/>
+                    <constraint firstItem="HCj-P1-s2P" firstAttribute="leading" secondItem="BkF-Iy-q48" secondAttribute="trailing" constant="10" id="C5y-VZ-O89"/>
+                    <constraint firstItem="ftc-Gj-uqf" firstAttribute="centerY" secondItem="YTl-1W-gDM" secondAttribute="centerY" id="Ecn-RR-Xai"/>
                     <constraint firstItem="3bI-QG-ELU" firstAttribute="centerY" secondItem="YTl-1W-gDM" secondAttribute="centerY" id="HAX-XZ-iu0"/>
-                    <constraint firstItem="HCj-P1-s2P" firstAttribute="leading" secondItem="2" secondAttribute="trailing" constant="15" id="MFf-0s-lDE"/>
+                    <constraint firstItem="2" firstAttribute="leading" secondItem="tmh-Zk-aQ1" secondAttribute="trailing" constant="-61" id="ILs-Ad-ziN"/>
+                    <constraint firstItem="HCj-P1-s2P" firstAttribute="leading" secondItem="2" secondAttribute="trailing" constant="10" id="MFf-0s-lDE"/>
                     <constraint firstItem="BkF-Iy-q48" firstAttribute="centerY" secondItem="YTl-1W-gDM" secondAttribute="centerY" constant="10" id="Nbn-fA-0ei"/>
                     <constraint firstAttribute="trailingMargin" secondItem="HCj-P1-s2P" secondAttribute="trailing" constant="5" id="QWr-9l-j1k"/>
+                    <constraint firstItem="ftc-Gj-uqf" firstAttribute="leading" secondItem="HCj-P1-s2P" secondAttribute="trailing" constant="5" id="Zla-7D-GK2"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="tmh-Zk-aQ1" secondAttribute="trailing" constant="81" id="a9e-ay-Jhb"/>
                     <constraint firstItem="3bI-QG-ELU" firstAttribute="leading" secondItem="YTl-1W-gDM" secondAttribute="leadingMargin" constant="5" id="lb5-Nv-Pfr"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="tmh-Zk-aQ1" secondAttribute="bottom" constant="-8" id="pxw-Zr-Uli"/>
                 </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="a9e-ay-Jhb"/>
+                        <exclude reference="QWr-9l-j1k"/>
+                    </mask>
+                </variation>
             </tableViewCellContentView>
             <connections>
+                <outlet property="locationButton" destination="ftc-Gj-uqf" id="name-outlet-ftc-Gj-uqf"/>
                 <outlet property="storeAddressLabel" destination="BkF-Iy-q48" id="name-outlet-BkF-Iy-q48"/>
                 <outlet property="storeImageView" destination="HCj-P1-s2P" id="name-outlet-HCj-P1-s2P"/>
                 <outlet property="storeNameLabel" destination="2" id="name-outlet-2"/>
                 <outlet property="storeStatusLabel" destination="3bI-QG-ELU" id="name-outlet-3bI-QG-ELU"/>
             </connections>
+            <point key="canvasLocation" x="8" y="29"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="Icon.png" width="57" height="57"/>
-        <image name="ic_list_orange_24dp.png" width="72" height="72"/>
-        <image name="ic_person_gray_24dp.png" width="80" height="80"/>
-        <image name="ic_shoppingcard_blue_24dp.png" width="109" height="96"/>
-        <image name="Icon-60.png" width="60" height="60"/>
-        <image name="Icon-Small.png" width="29" height="29"/>
-        <image name="Icon-Small-40.png" width="40" height="40"/>
-        <image name="igicon.png" width="200" height="119"/>
-        <image name="splash.png" width="365" height="648"/>
-        <image name="ic_log_in_green_24dp.png" width="96" height="96"/>
-        <image name="anatoli.ttf" width="0" height="0"/>
+        <image name="location-icon.png" width="1200" height="1200"/>
     </resources>
 </document>

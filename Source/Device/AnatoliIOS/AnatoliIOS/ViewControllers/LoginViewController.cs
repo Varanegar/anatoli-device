@@ -31,6 +31,8 @@ namespace AnatoliIOS.ViewControllers
             Title = "ورود";
 
             EdgesForExtendedLayout = UIRectEdge.None;
+			userNameTextField.SetStyle ();
+			passwordTextField.SetStyle ();
             userNameTextField.ShouldReturn += (textField) =>
             {
                 textField.ResignFirstResponder();
@@ -41,7 +43,9 @@ namespace AnatoliIOS.ViewControllers
                 textField.ResignFirstResponder();
                 return true;
             };
-            
+			loginButton.SetStyle (ButtonColor.Green);
+			registerButton.SetStyle (ButtonColor.Blue);
+			forgotPasswordButton.SetStyle (ButtonColor.Transparent);
             registerButton.TouchUpInside += delegate
             {
                 AnatoliApp.GetInstance().PushViewController(new RegisterViewController());
@@ -52,12 +56,14 @@ namespace AnatoliIOS.ViewControllers
             };
             loginButton.TouchUpInside += async delegate
             {
-                ResignFirstResponder();
+				userNameTextField.ResignFirstResponder();
+				passwordTextField.ResignFirstResponder();
                 if (String.IsNullOrEmpty(userNameTextField.Text) || String.IsNullOrEmpty(passwordTextField.Text))
                 {
                     var alert = UIAlertController.Create("خطا", "ورود نام کاربری و کلمه عبور اجباریست!", UIAlertControllerStyle.Alert);
                     alert.AddAction(UIAlertAction.Create("خب", UIAlertActionStyle.Default, null));
                     PresentViewController(alert, true, null);
+					return;
                 }
                 LoadingOverlay loadingOverlay;
                 var bounds = UIScreen.MainScreen.Bounds;

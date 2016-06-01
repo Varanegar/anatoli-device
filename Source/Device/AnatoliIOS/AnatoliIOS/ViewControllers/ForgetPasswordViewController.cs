@@ -24,6 +24,8 @@ namespace AnatoliIOS.ViewControllers
         {
             base.ViewDidLoad();
             EdgesForExtendedLayout = UIRectEdge.None;
+			phoneTextField.SetStyle ();
+			sendButton.SetStyle (ButtonColor.Green);
             phoneTextField.ShouldReturn += delegate
             {
                 phoneTextField.ResignFirstResponder();
@@ -31,7 +33,11 @@ namespace AnatoliIOS.ViewControllers
             };
             sendButton.TouchUpInside += async delegate
             {
-				ResignFirstResponder();
+				phoneTextField.ResignFirstResponder();
+				if (string.IsNullOrEmpty(phoneTextField.Text)) {
+					new UIAlertView("خطا","شماره موبایل خود را وارد نمایید",null,"باشه").Show();
+					return;
+				}
                 LoadingOverlay loading = new LoadingOverlay(View.Bounds);
 
                 try

@@ -32,6 +32,10 @@ namespace AnatoliIOS.ViewControllers
         {
             base.ViewDidLoad();
             EdgesForExtendedLayout = UIRectEdge.None;
+			codeTextField.SetStyle ();
+			passwordEditText.SetStyle ();
+			password2EditText.SetStyle ();
+
             codeTextField.ShouldReturn += delegate
             {
                 codeTextField.ResignFirstResponder();
@@ -49,7 +53,9 @@ namespace AnatoliIOS.ViewControllers
             };
             sendButton.TouchUpInside += async delegate
             {
-                ResignFirstResponder();
+				codeTextField.ResignFirstResponder();
+				passwordEditText.ResignFirstResponder();
+				password2EditText.ResignFirstResponder();
                 if (string.IsNullOrEmpty(passwordEditText.Text))
                 {
                     var alert = UIAlertController.Create("خطا", "لطفا کلمه عبور را وارد نمایید", UIAlertControllerStyle.Alert);
@@ -69,6 +75,7 @@ namespace AnatoliIOS.ViewControllers
                     var alert = UIAlertController.Create("خطا", "کلمه عبور و تکرار آن یکسان نیستند", UIAlertControllerStyle.Alert);
                     alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, null));
                     PresentViewController(alert, true, null);
+					return;
                 }
                 if (!string.IsNullOrEmpty(codeTextField.Text))
                 {
@@ -125,6 +132,7 @@ namespace AnatoliIOS.ViewControllers
                     var alert = UIAlertController.Create("خطا", "لطفا کد رمز دریافت شده را وارد نمایید", UIAlertControllerStyle.Alert);
                     alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, null));
                     PresentViewController(alert, true, null);
+					return;
                 }
             };
         }

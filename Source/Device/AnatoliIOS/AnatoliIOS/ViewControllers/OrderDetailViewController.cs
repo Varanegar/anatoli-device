@@ -123,7 +123,7 @@ namespace AnatoliIOS.ViewControllers
         }
         public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
-            return 45f;
+            return 52f;
         }
     }
 }

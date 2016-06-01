@@ -1,134 +1,142 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6206.8" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7026.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="anatoli.ttf">
+            <string>IRANSans</string>
+            <string>IRANSans</string>
+            <string>IRANSans</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" customClass="ProductSummaryViewCell" id="cxk-wN-pdQ" rowHeight="70">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="70" id="cxk-wN-pdQ" customClass="ProductSummaryViewCell">
             <rect key="frame" x="0.0" y="0.0" width="320" height="70"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cxk-wN-pdQ" id="YTl-1W-gDM">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="69"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" id="2" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="right" misplaced="YES">
-                        <rect key="frame" x="70" y="12.5" width="191" height="20.5"/>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="2">
+                        <rect key="frame" x="117" y="14" width="144" height="18"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="15"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" id="13" translatesAutoresizingMaskIntoConstraints="NO">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="13">
                         <rect key="frame" x="52" y="5" width="60" height="60"/>
                         <constraints>
-                            <constraint id="15" firstItem="13" firstAttribute="width" constant="60"/>
-                            <constraint id="16" firstItem="13" firstAttribute="height" constant="60"/>
+                            <constraint firstAttribute="width" constant="60" id="15"/>
+                            <constraint firstAttribute="height" constant="60" id="16"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" id="20" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="right" misplaced="YES">
-                        <rect key="frame" x="70" y="38" width="191" height="18"/>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="20">
+                        <rect key="frame" x="117" y="39" width="144" height="17"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="14"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="24" translatesAutoresizingMaskIntoConstraints="NO">
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="24">
                         <rect key="frame" x="269" y="15" width="45" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="40" id="29"/>
+                            <constraint firstAttribute="width" constant="45" id="30"/>
+                        </constraints>
                         <state key="normal" title="Button" image="ic_shoppingcard_blue_24dp.png">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
-                        <constraints>
-                            <constraint id="29" firstItem="24" firstAttribute="height" constant="40"/>
-                            <constraint id="30" firstItem="24" firstAttribute="width" constant="45"/>
-                        </constraints>
                     </button>
-                    <view contentMode="scaleToFill" id="33" translatesAutoresizingMaskIntoConstraints="NO">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="33">
                         <rect key="frame" x="0.0" y="0.0" width="50" height="70"/>
-                        <color key="backgroundColor" customColorSpace="calibratedWhite" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" minimumFontSize="10" id="39" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="center" text="233">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="233" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="39">
                                 <rect key="frame" x="0.0" y="0.0" width="50" height="30"/>
-                                <color key="backgroundColor" colorSpace="calibratedRGB" red="0.25098039215686274" green="0.50196078431372548" blue="0" alpha="1"/>
+                                <color key="backgroundColor" red="0.25098039215686274" green="0.50196078431372548" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="47"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="14"/>
-                                <color key="textColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
-                                <constraints>
-                                    <constraint id="47" firstItem="39" firstAttribute="height" constant="30"/>
-                                </constraints>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="43" translatesAutoresizingMaskIntoConstraints="NO">
-                                <rect key="frame" x="0.0" y="30.5" width="50" height="40"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="43">
+                                <rect key="frame" x="0.0" y="30" width="50" height="40"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                <state key="normal" title="-">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleColor" colorSpace="calibratedRGB" red="1" green="0" blue="0" alpha="1"/>
-                                </state>
                                 <constraints>
-                                    <constraint id="48" firstItem="43" firstAttribute="height" constant="40"/>
+                                    <constraint firstAttribute="height" constant="40" id="48"/>
                                 </constraints>
+                                <state key="normal" title="-">
+                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                             </button>
                         </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
-                            <constraint id="34" firstItem="33" firstAttribute="height" constant="70"/>
-                            <constraint id="35" firstItem="33" firstAttribute="width" constant="50"/>
-                            <constraint id="40" firstItem="39" firstAttribute="top" secondItem="33" secondAttribute="top"/>
-                            <constraint id="41" firstItem="33" firstAttribute="trailing" secondItem="39" secondAttribute="trailing"/>
-                            <constraint id="42" firstItem="39" firstAttribute="leading" secondItem="33" secondAttribute="leading"/>
-                            <constraint id="44" firstItem="33" firstAttribute="trailing" secondItem="43" secondAttribute="trailing"/>
-                            <constraint id="45" firstItem="43" firstAttribute="leading" secondItem="33" secondAttribute="leading"/>
-                            <constraint id="46" firstItem="43" firstAttribute="bottom" secondItem="33" secondAttribute="bottom"/>
+                            <constraint firstAttribute="height" constant="70" id="34"/>
+                            <constraint firstAttribute="width" constant="50" id="35"/>
+                            <constraint firstItem="39" firstAttribute="top" secondItem="33" secondAttribute="top" id="40"/>
+                            <constraint firstAttribute="trailing" secondItem="39" secondAttribute="trailing" id="41"/>
+                            <constraint firstItem="39" firstAttribute="leading" secondItem="33" secondAttribute="leading" id="42"/>
+                            <constraint firstAttribute="trailing" secondItem="43" secondAttribute="trailing" id="44"/>
+                            <constraint firstItem="43" firstAttribute="leading" secondItem="33" secondAttribute="leading" id="45"/>
+                            <constraint firstItem="43" firstAttribute="bottom" secondItem="33" secondAttribute="bottom" id="46"/>
                         </constraints>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fa9-LT-yj9">
+                        <rect key="frame" x="0.0" y="69" width="320" height="1"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="320" id="1uI-gn-O7y"/>
+                            <constraint firstAttribute="height" constant="1" id="YlB-Ib-D2b"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="1uI-gn-O7y"/>
+                            </mask>
+                        </variation>
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint id="3" firstItem="2" firstAttribute="centerY" secondItem="YTl-1W-gDM" secondAttribute="centerY" constant="-12"/>
-                    <constraint id="17" firstItem="13" firstAttribute="centerY" secondItem="YTl-1W-gDM" secondAttribute="centerY"/>
-                    <constraint id="19" firstItem="2" firstAttribute="leading" secondItem="13" secondAttribute="trailing" constant="5"/>
-                    <constraint id="21" firstItem="20" firstAttribute="trailing" secondItem="2" secondAttribute="trailing"/>
-                    <constraint id="22" firstItem="20" firstAttribute="centerY" secondItem="YTl-1W-gDM" secondAttribute="centerY" constant="12"/>
-                    <constraint id="23" firstItem="20" firstAttribute="leading" secondItem="13" secondAttribute="trailing" constant="5"/>
-                    <constraint id="25" firstItem="24" firstAttribute="centerY" secondItem="YTl-1W-gDM" secondAttribute="centerY"/>
-                    <constraint id="26" firstItem="24" firstAttribute="leading" secondItem="2" secondAttribute="trailing" constant="8"/>
-                    <constraint id="27" firstItem="24" firstAttribute="leading" secondItem="20" secondAttribute="trailing" constant="8"/>
-                    <constraint id="28" firstItem="YTl-1W-gDM" firstAttribute="trailing" secondItem="24" secondAttribute="trailing" constant="6"/>
-                    <constraint id="36" firstItem="33" firstAttribute="leading" secondItem="YTl-1W-gDM" secondAttribute="leading"/>
-                    <constraint id="37" firstItem="33" firstAttribute="centerY" secondItem="YTl-1W-gDM" secondAttribute="centerY"/>
-                    <constraint id="38" firstItem="13" firstAttribute="leading" secondItem="33" secondAttribute="trailing" constant="2"/>
+                    <constraint firstItem="2" firstAttribute="centerY" secondItem="YTl-1W-gDM" secondAttribute="centerY" constant="-12" id="3"/>
+                    <constraint firstItem="13" firstAttribute="centerY" secondItem="YTl-1W-gDM" secondAttribute="centerY" id="17"/>
+                    <constraint firstItem="2" firstAttribute="leading" secondItem="13" secondAttribute="trailing" constant="5" id="19"/>
+                    <constraint firstItem="20" firstAttribute="trailing" secondItem="2" secondAttribute="trailing" id="21"/>
+                    <constraint firstItem="20" firstAttribute="centerY" secondItem="YTl-1W-gDM" secondAttribute="centerY" constant="12" id="22"/>
+                    <constraint firstItem="20" firstAttribute="leading" secondItem="13" secondAttribute="trailing" constant="5" id="23"/>
+                    <constraint firstItem="24" firstAttribute="centerY" secondItem="YTl-1W-gDM" secondAttribute="centerY" id="25"/>
+                    <constraint firstItem="24" firstAttribute="leading" secondItem="2" secondAttribute="trailing" constant="8" id="26"/>
+                    <constraint firstItem="24" firstAttribute="leading" secondItem="20" secondAttribute="trailing" constant="8" id="27"/>
+                    <constraint firstAttribute="trailing" secondItem="24" secondAttribute="trailing" constant="6" id="28"/>
+                    <constraint firstItem="33" firstAttribute="leading" secondItem="YTl-1W-gDM" secondAttribute="leading" id="36"/>
+                    <constraint firstItem="33" firstAttribute="centerY" secondItem="YTl-1W-gDM" secondAttribute="centerY" id="37"/>
+                    <constraint firstItem="13" firstAttribute="leading" secondItem="33" secondAttribute="trailing" constant="2" id="38"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="fa9-LT-yj9" secondAttribute="trailing" constant="-8" id="1Dk-d0-0Jg"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="fa9-LT-yj9" secondAttribute="bottom" constant="-9" id="Wdp-Zl-f8B"/>
+                    <constraint firstItem="fa9-LT-yj9" firstAttribute="centerX" secondItem="YTl-1W-gDM" secondAttribute="centerX" id="ZD5-Tn-xrb"/>
+                    <constraint firstItem="fa9-LT-yj9" firstAttribute="leading" secondItem="YTl-1W-gDM" secondAttribute="leadingMargin" constant="-8" id="jeQ-TC-OMI"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="productLabel" destination="2" id="name-outlet-2"/>
-                <outlet property="productImageView" destination="13" id="name-outlet-13"/>
-                <outlet property="priceLabel" destination="20" id="name-outlet-20"/>
                 <outlet property="addProductButton" destination="24" id="name-outlet-24"/>
                 <outlet property="countLabel" destination="39" id="name-outlet-39"/>
+                <outlet property="priceLabel" destination="20" id="name-outlet-20"/>
+                <outlet property="productImageView" destination="13" id="name-outlet-13"/>
+                <outlet property="productLabel" destination="2" id="name-outlet-2"/>
                 <outlet property="removeProductButton" destination="43" id="name-outlet-43"/>
                 <outlet property="toolsView" destination="33" id="name-outlet-33"/>
                 <outlet property="toolsViewWidth" destination="35" id="name-outlet-35"/>
             </connections>
             <point key="canvasLocation" x="-9" y="-5"/>
-            <rect key="contentStretch.height" x="0.95" y="0.0" width="1" height="1"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="ic_list_orange_24dp.png" width="72" height="72"/>
-        <image name="ic_person_gray_24dp.png" width="80" height="80"/>
-        <image name="Icon.png" width="57" height="57"/>
-        <image name="Icon-60.png" width="60" height="60"/>
-        <image name="Icon-Small.png" width="29" height="29"/>
-        <image name="Icon-Small-40.png" width="40" height="40"/>
-        <image name="igicon.png" width="200" height="119"/>
-        <image name="splash.png" width="365" height="648"/>
-        <image name="ic_log_in_green_24dp.png" width="96" height="96"/>
         <image name="ic_shoppingcard_blue_24dp.png" width="109" height="96"/>
-        <image name="anatoli.ttf" width="0" height="0"/>
-        <image name="ic_search_white_24dp.png" width="96" height="96"/>
-        <image name="ic_reorder_white_24dp.png" width="96" height="96"/>
-        <image name="ic_shopping_cart_white_24dp.png" width="96" height="96"/>
-        <image name="ic_shoppingcard_on_white_24dp.png" width="96" height="97"/>
-        <image name="ic_call_green_24dp.png" width="70" height="70"/>
-        <image name="ic_edit_text_green_24dp.png" width="70" height="71"/>
     </resources>
 </document>

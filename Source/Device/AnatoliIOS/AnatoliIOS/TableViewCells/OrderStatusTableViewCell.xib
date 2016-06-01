@@ -12,6 +12,7 @@
             <string>IRANSans</string>
             <string>IRANSans</string>
             <string>IRANSans</string>
+            <string>IRANSans</string>
         </mutableArray>
     </customFonts>
     <objects>
@@ -24,40 +25,47 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="103"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="3" textAlignment="right">
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="نام فروشگاه" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="3">
                         <rect key="frame" x="21" y="33" width="278" height="21"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="14"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="5" textAlignment="right">
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="قیمت" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="5">
                         <rect key="frame" x="21" y="79" width="278" height="21"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="14"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="4" textAlignment="right">
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="وضعیت سفارش" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="4">
                         <rect key="frame" x="21" y="56" width="278" height="21"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="14"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UX3-C9-eLu">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="تاریخ" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UX3-C9-eLu">
                         <rect key="frame" x="21" y="10" width="134" height="21"/>
                         <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="14"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="2" textAlignment="right">
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="شماره سفارش" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="2">
                         <rect key="frame" x="160" y="10" width="139" height="21"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="14"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jsT-Dt-LLe">
+                        <rect key="frame" x="0.0" y="102" width="320" height="1"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="13i-YG-dfv"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstItem="5" firstAttribute="top" secondItem="4" secondAttribute="bottom" constant="2" id="1Ga-9q-ha0"/>
@@ -65,9 +73,11 @@
                     <constraint firstItem="3" firstAttribute="leading" secondItem="YTl-1W-gDM" secondAttribute="leadingMargin" constant="5" id="6gM-XV-eiN"/>
                     <constraint firstItem="2" firstAttribute="top" secondItem="YTl-1W-gDM" secondAttribute="topMargin" constant="2" id="BQI-2g-1JY"/>
                     <constraint firstAttribute="trailingMargin" secondItem="3" secondAttribute="trailing" constant="5" id="C1Q-qh-LCH"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="jsT-Dt-LLe" secondAttribute="bottom" constant="-8" id="Cb7-Au-KEg"/>
                     <constraint firstItem="UX3-C9-eLu" firstAttribute="top" secondItem="YTl-1W-gDM" secondAttribute="topMargin" constant="2" id="DtE-59-HBF"/>
                     <constraint firstItem="5" firstAttribute="leading" secondItem="YTl-1W-gDM" secondAttribute="leadingMargin" constant="5" id="EA4-21-vcG"/>
                     <constraint firstAttribute="trailingMargin" secondItem="2" secondAttribute="trailing" constant="5" id="EHh-hD-ArC"/>
+                    <constraint firstItem="jsT-Dt-LLe" firstAttribute="leading" secondItem="YTl-1W-gDM" secondAttribute="leadingMargin" constant="-8" id="FTG-Bg-OHr"/>
                     <constraint firstAttribute="trailingMargin" secondItem="5" secondAttribute="trailing" constant="5" id="Fk5-pv-pdc"/>
                     <constraint firstItem="5" firstAttribute="leading" secondItem="YTl-1W-gDM" secondAttribute="leadingMargin" constant="5" id="HWg-qg-Lca"/>
                     <constraint firstItem="2" firstAttribute="leading" secondItem="UX3-C9-eLu" secondAttribute="trailing" constant="5" id="VQp-cT-Cmm"/>
@@ -77,34 +87,16 @@
                     <constraint firstAttribute="trailingMargin" secondItem="4" secondAttribute="trailing" constant="5" id="faX-hC-tmL"/>
                     <constraint firstItem="2" firstAttribute="leading" secondItem="YTl-1W-gDM" secondAttribute="centerX" id="he3-54-7cl"/>
                     <constraint firstItem="3" firstAttribute="top" secondItem="2" secondAttribute="bottom" constant="2" id="njW-2W-mbi"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="jsT-Dt-LLe" secondAttribute="trailing" constant="-8" id="r22-eS-M9n"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="orderNoLabel" destination="2" id="name-outlet-2"/>
-                <outlet property="storeNameLabel" destination="3" id="name-outlet-3"/>
-                <outlet property="orderStatusLabel" destination="4" id="name-outlet-4"/>
-                <outlet property="orderPriceLabel" destination="5" id="name-outlet-5"/>
                 <outlet property="orderDateLabel" destination="UX3-C9-eLu" id="name-outlet-UX3-C9-eLu"/>
+                <outlet property="orderNoLabel" destination="2" id="name-outlet-2"/>
+                <outlet property="orderPriceLabel" destination="5" id="name-outlet-5"/>
+                <outlet property="orderStatusLabel" destination="4" id="name-outlet-4"/>
+                <outlet property="storeNameLabel" destination="3" id="name-outlet-3"/>
             </connections>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="ic_list_orange_24dp.png" width="72" height="72"/>
-        <image name="ic_person_gray_24dp.png" width="80" height="80"/>
-        <image name="ic_shoppingcard_blue_24dp.png" width="109" height="96"/>
-        <image name="anatoli.ttf" width="0" height="0"/>
-        <image name="ic_search_white_24dp.png" width="96" height="96"/>
-        <image name="ic_reorder_white_24dp.png" width="96" height="96"/>
-        <image name="ic_shopping_cart_white_24dp.png" width="96" height="96"/>
-        <image name="ic_shoppingcard_on_white_24dp.png" width="96" height="97"/>
-        <image name="ic_call_green_24dp.png" width="70" height="70"/>
-        <image name="ic_edit_text_green_24dp.png" width="70" height="71"/>
-        <image name="Icon.png" width="57" height="57"/>
-        <image name="Icon-60.png" width="60" height="60"/>
-        <image name="Icon-Small.png" width="29" height="29"/>
-        <image name="Icon-Small-40.png" width="40" height="40"/>
-        <image name="igicon.png" width="200" height="119"/>
-        <image name="splash.png" width="365" height="648"/>
-        <image name="ic_log_in_green_24dp.png" width="96" height="96"/>
-    </resources>
 </document>
