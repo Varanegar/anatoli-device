@@ -568,15 +568,22 @@ namespace AnatoliIOS
 			button.SetTitleColor (UIColor.White, UIControlState.Normal);
 			button.SetTitleShadowColor (UIColor.Black, UIControlState.Normal);
 			if (color == ButtonColor.Blue)
-				button.BackgroundColor = UIColor.Blue;
+				button.BackgroundColor = UIColor.Clear.FromHex (0x00c3d6);
 			else if (color == ButtonColor.Green)
-				button.BackgroundColor = UIColor.Green;
+				button.BackgroundColor = UIColor.Clear.FromHex (0x82bc00);
 			else if (color == ButtonColor.Red)
-				button.BackgroundColor = UIColor.Red;
+				button.BackgroundColor = UIColor.Clear.FromHex (0xf0592b);
 			else if (color == ButtonColor.Transparent) {
 				button.BackgroundColor = UIColor.Clear;
 				button.SetTitleColor (UIColor.Black,UIControlState.Normal);
 			}
+			button.Layer.CornerRadius = 3f;
+			button.Layer.BorderWidth = 1f;
+			button.Layer.BorderColor = UIColor.Clear.CGColor;
+			button.Layer.ShadowColor = UIColor.Black.CGColor;
+			button.Layer.ShadowRadius = 2f;
+			button.Layer.ShadowOffset = new CGSize (1, 1);
+			button.Layer.ShadowOpacity = 0.5f;
 		}
 
 		public static void SetStyle (this UITextField textField)
