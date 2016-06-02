@@ -203,6 +203,14 @@ namespace AnatoliIOS.ViewControllers
 					nationalCodeTextField.ResignFirstResponder ();
 					return true;
 				};
+				nameTextField.SetStyle ();
+				lastNameTextField.SetStyle ();
+				emailTextField.SetStyle ();
+				addressTextField.SetStyle ();
+				nationalCodeTextField.SetStyle ();
+				saveButton.SetStyle (ButtonColor.Green);
+				logoutButton.SetStyle (ButtonColor.Red);
+				changePasswordButton.SetStyle (ButtonColor.Green);
 
 				nameTextField.Text = AnatoliApp.GetInstance ().Customer.FirstName;
 				lastNameTextField.Text = AnatoliApp.GetInstance ().Customer.LastName;
