@@ -295,6 +295,7 @@
       <DependentUpon>OrderHistoryItemSummaryViewCell.cs</DependentUpon>
     </Compile>
     <BundleResource Include="Resources\location-icon.png" />
+    <BundleResource Include="Resources\arrow-back.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="RootViewController.cs" />

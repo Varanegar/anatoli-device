@@ -18,13 +18,13 @@
                             <constraints>
                                 <constraint firstAttribute="width" constant="42" id="7td-hB-7tf"/>
                             </constraints>
-                            <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="15"/>
+                            <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="14"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="نام کالا" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cLU-mK-Nms" misplaced="YES">
                             <rect key="frame" x="99" y="6" width="449" height="18"/>
-                            <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="15"/>
+                            <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="14"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -33,7 +33,7 @@
                             <constraints>
                                 <constraint firstAttribute="width" constant="42" id="JxZ-dp-fxM"/>
                             </constraints>
-                            <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="15"/>
+                            <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="14"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -42,12 +42,12 @@
                             <constraints>
                                 <constraint firstAttribute="width" constant="42" id="3hR-Cz-lGs"/>
                             </constraints>
-                            <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="15"/>
+                            <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="14"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" colorSpace="calibratedRGB" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1"/>
                     <constraints>
                         <constraint firstItem="WLJ-UN-lFO" firstAttribute="leading" secondItem="cLU-mK-Nms" secondAttribute="trailing" constant="5" id="E2G-rA-OSN"/>
                         <constraint firstItem="cLU-mK-Nms" firstAttribute="leading" secondItem="WO7-9x-JFu" secondAttribute="trailing" constant="5" id="EPf-2z-rvc"/>
@@ -72,7 +72,7 @@
         </view>
     </objects>
     <resources>
-        <image name="ic_list_orange_24dp.png" width="72" height="72"/>
+        <image name="ic_list_orange_24dp.png" width="96" height="96"/>
         <image name="ic_person_gray_24dp.png" width="80" height="80"/>
         <image name="ic_shoppingcard_blue_24dp.png" width="109" height="96"/>
         <image name="anatoli.ttf" width="0" height="0"/>
@@ -89,5 +89,9 @@
         <image name="igicon.png" width="200" height="119"/>
         <image name="splash.png" width="365" height="648"/>
         <image name="ic_log_in_green_24dp.png" width="96" height="96"/>
+        <image name="location-icon.png" width="1200" height="1200"/>
+        <image name="ic_mylist_orange_24dp.png" width="96" height="96"/>
+        <image name="126-More-128.png" width="96" height="96"/>
+        <image name="home-256.png" width="96" height="96"/>
     </resources>
 </document>

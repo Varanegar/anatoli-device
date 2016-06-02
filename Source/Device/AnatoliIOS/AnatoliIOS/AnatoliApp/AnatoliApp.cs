@@ -571,6 +571,8 @@ namespace AnatoliIOS
 				button.BackgroundColor = UIColor.Blue;
 			else if (color == ButtonColor.Green)
 				button.BackgroundColor = UIColor.Green;
+			else if (color == ButtonColor.Red)
+				button.BackgroundColor = UIColor.Red;
 			else if (color == ButtonColor.Transparent) {
 				button.BackgroundColor = UIColor.Clear;
 				button.SetTitleColor (UIColor.Black,UIControlState.Normal);
@@ -593,6 +595,7 @@ namespace AnatoliIOS
 	{
 		Green,
 		Blue,
+		Red,
 		Transparent
 	}
 

@@ -46,6 +46,10 @@ namespace AnatoliIOS.ViewControllers
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UITableView table { get; set; }
 
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIView titleView { get; set; }
+
 		void ReleaseDesignerOutlets ()
 		{
 			if (cancelButton != null) {
@@ -79,6 +83,10 @@ namespace AnatoliIOS.ViewControllers
 			if (table != null) {
 				table.Dispose ();
 				table = null;
+			}
+			if (titleView != null) {
+				titleView.Dispose ();
+				titleView = null;
 			}
 		}
 	}

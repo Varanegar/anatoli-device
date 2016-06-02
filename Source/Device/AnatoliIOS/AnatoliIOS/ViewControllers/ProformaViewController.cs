@@ -42,10 +42,18 @@ namespace AnatoliIOS.ViewControllers
             // Perform any additional setup after loading the view, typically from a nib.
             Title = "پیش فاکتور";
             EdgesForExtendedLayout = UIRectEdge.None;
+			titleView.BackgroundColor = UIColor.Clear.FromHex(0x085e7d);
+			okButton.SetStyle (ButtonColor.Green);
             var headerView = ProformHeader.Create();
+			var hframe = headerView.Frame;
+			hframe.Width = header.Frame.Width;
+			headerView.Frame = hframe;
             header.AddSubview(headerView);
 
             var footerView = FooterView.Create();
+			var fframe = footerView.Frame;
+			fframe.Width = footer.Frame.Width;
+			footerView.Frame = fframe;
             footer.AddSubview(footerView);
             cancelButton.TouchUpInside += (object sender, EventArgs e) =>
             {
@@ -163,6 +171,10 @@ namespace AnatoliIOS.ViewControllers
             }
             return cell;
         }
+		public override nfloat GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
+		{
+			return 30f;
+		}
     }
 }
 
