@@ -128,7 +128,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="46">
-                            <rect key="frame" x="8" y="19" width="40" height="40"/>
+                            <rect key="frame" x="0.0" y="19" width="40" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="40" id="50"/>
                                 <constraint firstAttribute="height" constant="40" id="72"/>
@@ -153,7 +153,7 @@
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="fEP-ZG-wgD" secondAttribute="bottom" constant="10" id="66"/>
                         <constraint firstAttribute="bottom" secondItem="46" secondAttribute="bottom" constant="9" id="67"/>
-                        <constraint firstItem="46" firstAttribute="leading" secondItem="JcC-Ce-CmE" secondAttribute="leading" constant="8" id="ccJ-XQ-Dxl"/>
+                        <constraint firstItem="46" firstAttribute="leading" secondItem="JcC-Ce-CmE" secondAttribute="leading" id="ccJ-XQ-Dxl"/>
                         <constraint firstAttribute="height" constant="64" id="sDb-Hh-pot"/>
                         <constraint firstItem="46" firstAttribute="centerY" secondItem="fEP-ZG-wgD" secondAttribute="centerY" id="tiS-Fy-PkS"/>
                         <constraint firstItem="fEP-ZG-wgD" firstAttribute="centerX" secondItem="JcC-Ce-CmE" secondAttribute="centerX" id="wPv-CP-0mr"/>
