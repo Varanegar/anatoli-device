@@ -45,176 +45,196 @@
         <view contentMode="scaleToFill" id="2">
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="11">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="11">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="249"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <color key="sectionIndexBackgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                 </tableView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="24">
-                    <rect key="frame" x="40" y="311" width="465" height="30"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="24">
+                    <rect key="frame" x="40" y="314" width="475" height="30"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="27"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="15"/>
+                    <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="14"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="نام فروشگاه : " textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="30">
-                    <rect key="frame" x="510" y="352" width="70" height="18"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="نام فروشگاه : " textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="30">
+                    <rect key="frame" x="530" y="353" width="60" height="21"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="70" id="33"/>
+                        <constraint firstAttribute="width" constant="60" id="33"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="15"/>
+                    <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="14"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="34">
-                    <rect key="frame" x="305" y="352" width="200" height="20"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="34">
+                    <rect key="frame" x="310" y="354" width="215" height="20"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="20" id="56"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="15"/>
+                    <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="14"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="37">
-                    <rect key="frame" x="200" y="444" width="200" height="30"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="37">
+                    <rect key="frame" x="225" y="444" width="150" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="39"/>
-                        <constraint firstAttribute="width" constant="200" id="40"/>
+                        <constraint firstAttribute="width" constant="150" id="40"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="15"/>
                     <state key="normal" title="تکمیل خرید">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="سبد خرید خالی است" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="51">
-                    <rect key="frame" x="10" y="115" width="580" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="سبد خرید خالی است" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="51">
+                    <rect key="frame" x="10" y="111" width="580" height="27"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="18"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text=" تعداد آیتم :‌" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="61">
-                    <rect key="frame" x="508" y="255" width="72" height="20"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text=" تعداد آیتم :‌" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="61">
+                    <rect key="frame" x="535" y="255" width="55" height="23"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="17"/>
+                    <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="15"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="63">
-                    <rect key="frame" x="20" y="253" width="42" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="63">
+                    <rect key="frame" x="425" y="256" width="100" height="21"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="65"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="17"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="جمع قابل پرداخت : " textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="67">
-                    <rect key="frame" x="462" y="281" width="118" height="20"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="17"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="72">
-                    <rect key="frame" x="20" y="274" width="42" height="20"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="17"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="79">
-                    <rect key="frame" x="20" y="352" width="205" height="20"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="20" id="nQw-Xb-J1x"/>
+                        <constraint firstAttribute="width" constant="100" id="mDO-hy-Z44"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="15"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="آدرس تحویل :" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="16">
-                    <rect key="frame" x="510" y="306" width="70" height="40"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="جمع قابل پرداخت : " textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="67">
+                    <rect key="frame" x="498" y="282" width="92" height="23"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="15"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="72">
+                    <rect key="frame" x="388" y="283" width="100" height="21"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="100" id="AjK-6z-WoK"/>
+                        <constraint firstAttribute="height" constant="21" id="oz1-3w-atY"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="15"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="79">
+                    <rect key="frame" x="10" y="354" width="225" height="20"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="nQw-Xb-J1x"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="14"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="آدرس تحویل :" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="16">
+                    <rect key="frame" x="520" y="309" width="70" height="40"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="19"/>
                         <constraint firstAttribute="width" constant="70" id="29"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="15"/>
+                    <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="14"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="شماره تماس : " textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="78">
-                    <rect key="frame" x="235" y="352" width="70" height="18"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="شماره تماس : " textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="78">
+                    <rect key="frame" x="245" y="353" width="60" height="21"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="70" id="6tp-yi-Wy5"/>
+                        <constraint firstAttribute="width" constant="60" id="6tp-yi-Wy5"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="15"/>
+                    <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="14"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleAspectFit" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wzt-0c-yaD">
-                    <rect key="frame" x="10" y="316" width="20" height="20"/>
+                <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wzt-0c-yaD">
+                    <rect key="frame" x="14" y="321" width="16" height="16"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="20" id="9M1-JR-hcN"/>
-                        <constraint firstAttribute="width" constant="20" id="D9O-Gi-4Vc"/>
+                        <constraint firstAttribute="height" constant="16" id="9M1-JR-hcN"/>
+                        <constraint firstAttribute="width" constant="16" id="D9O-Gi-4Vc"/>
                     </constraints>
                     <state key="normal" title="Button" image="ic_edit_text_green_24dp.png">
                         <color key="titleColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                 </button>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="زمان تحویل : " textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="88">
-                    <rect key="frame" x="500" y="395" width="80" height="18"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="زمان تحویل : " textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="88">
+                    <rect key="frame" x="530" y="394" width="60" height="21"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="80" id="91"/>
+                        <constraint firstAttribute="width" constant="60" id="145"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="14"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <pickerView contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="92">
-                    <rect key="frame" x="310" y="375" width="190" height="59"/>
+                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="92">
+                    <rect key="frame" x="310" y="375" width="224" height="59"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="59" id="96"/>
                     </constraints>
                 </pickerView>
-                <pickerView contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="99">
-                    <rect key="frame" x="10" y="375" width="215" height="59"/>
+                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="99">
+                    <rect key="frame" x="10" y="375" width="235" height="59"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="59" id="105"/>
                     </constraints>
                 </pickerView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="نحوه تحویل : " textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="100">
-                    <rect key="frame" x="225" y="395" width="80" height="18"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="نحوه تحویل : " textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="100">
+                    <rect key="frame" x="245" y="394" width="60" height="21"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="80" id="103"/>
+                        <constraint firstAttribute="width" constant="60" id="103"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="IRANSans" family="IRAN" pointSize="14"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FMy-k4-y9a">
+                    <rect key="frame" x="0.0" y="252" width="600" height="1"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="ZLb-2D-1br"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XKs-PC-trw">
+                    <rect key="frame" x="0.0" y="315" width="600" height="1"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="6Ti-by-Yt7"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="11" firstAttribute="top" secondItem="2" secondAttribute="top" id="12"/>
                 <constraint firstAttribute="trailing" secondItem="11" secondAttribute="trailing" id="14"/>
                 <constraint firstItem="11" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="15"/>
-                <constraint firstAttribute="trailing" secondItem="16" secondAttribute="trailing" constant="20" id="17"/>
+                <constraint firstAttribute="trailing" secondItem="16" secondAttribute="trailing" constant="10" id="17"/>
                 <constraint firstAttribute="centerY" secondItem="11" secondAttribute="bottom" multiplier="1.2" constant="1" id="22"/>
                 <constraint firstItem="16" firstAttribute="leading" secondItem="24" secondAttribute="trailing" constant="5" id="25"/>
                 <constraint firstItem="24" firstAttribute="centerY" secondItem="16" secondAttribute="centerY" id="26"/>
                 <constraint firstItem="24" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="40" id="28"/>
-                <constraint firstAttribute="trailing" secondItem="30" secondAttribute="trailing" constant="20" id="31"/>
-                <constraint firstItem="30" firstAttribute="top" secondItem="16" secondAttribute="bottom" constant="6" id="32"/>
+                <constraint firstAttribute="trailing" secondItem="30" secondAttribute="trailing" constant="10" id="31"/>
+                <constraint firstItem="30" firstAttribute="top" secondItem="16" secondAttribute="bottom" constant="4" id="32"/>
                 <constraint firstItem="30" firstAttribute="leading" secondItem="34" secondAttribute="trailing" constant="5" id="35"/>
                 <constraint firstItem="37" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="38"/>
                 <constraint firstItem="34" firstAttribute="centerY" secondItem="30" secondAttribute="centerY" id="46"/>
@@ -222,20 +242,18 @@
                 <constraint firstItem="11" firstAttribute="centerY" secondItem="51" secondAttribute="centerY" id="53"/>
                 <constraint firstItem="11" firstAttribute="trailing" secondItem="51" secondAttribute="trailing" constant="10" id="54"/>
                 <constraint firstItem="51" firstAttribute="leading" secondItem="11" secondAttribute="leading" constant="10" id="55"/>
-                <constraint firstAttribute="trailing" secondItem="61" secondAttribute="trailing" constant="20" id="62"/>
+                <constraint firstAttribute="trailing" secondItem="61" secondAttribute="trailing" constant="10" id="62"/>
                 <constraint firstItem="61" firstAttribute="top" secondItem="11" secondAttribute="bottom" constant="6" id="66"/>
-                <constraint firstAttribute="trailing" secondItem="67" secondAttribute="trailing" constant="20" id="68"/>
-                <constraint firstItem="63" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" id="69"/>
-                <constraint firstItem="61" firstAttribute="centerY" secondItem="63" secondAttribute="centerY" constant="2" id="70"/>
-                <constraint firstItem="67" firstAttribute="top" secondItem="61" secondAttribute="bottom" constant="6" id="71"/>
-                <constraint firstItem="72" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" id="73"/>
-                <constraint firstItem="67" firstAttribute="centerY" secondItem="72" secondAttribute="centerY" constant="7" id="74"/>
-                <constraint firstItem="16" firstAttribute="top" secondItem="67" secondAttribute="bottom" constant="5" id="75"/>
-                <constraint firstItem="79" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" id="82"/>
+                <constraint firstAttribute="trailing" secondItem="67" secondAttribute="trailing" constant="10" id="68"/>
+                <constraint firstItem="61" firstAttribute="centerY" secondItem="63" secondAttribute="centerY" id="70"/>
+                <constraint firstItem="67" firstAttribute="top" secondItem="61" secondAttribute="bottom" constant="4" id="71"/>
+                <constraint firstItem="67" firstAttribute="centerY" secondItem="72" secondAttribute="centerY" id="74"/>
+                <constraint firstItem="16" firstAttribute="top" secondItem="67" secondAttribute="bottom" constant="4" id="75"/>
+                <constraint firstItem="79" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="10" id="82"/>
                 <constraint firstItem="24" firstAttribute="leading" secondItem="wzt-0c-yaD" secondAttribute="trailing" constant="10" id="85"/>
                 <constraint firstItem="78" firstAttribute="centerY" secondItem="34" secondAttribute="centerY" id="87"/>
-                <constraint firstItem="88" firstAttribute="top" secondItem="30" secondAttribute="bottom" constant="25" id="89"/>
-                <constraint firstAttribute="trailing" secondItem="88" secondAttribute="trailing" constant="20" id="90"/>
+                <constraint firstItem="88" firstAttribute="top" secondItem="30" secondAttribute="bottom" constant="20" id="89"/>
+                <constraint firstAttribute="trailing" secondItem="88" secondAttribute="trailing" constant="10" id="90"/>
                 <constraint firstItem="92" firstAttribute="leading" secondItem="11" secondAttribute="centerX" constant="10" id="93"/>
                 <constraint firstItem="37" firstAttribute="top" secondItem="92" secondAttribute="bottom" constant="10" id="98"/>
                 <constraint firstItem="100" firstAttribute="trailing" secondItem="11" secondAttribute="centerX" constant="5" id="101"/>
@@ -244,16 +262,26 @@
                 <constraint firstItem="78" firstAttribute="trailing" secondItem="11" secondAttribute="centerX" constant="5" id="110"/>
                 <constraint firstItem="99" firstAttribute="trailing" secondItem="100" secondAttribute="leading" id="137"/>
                 <constraint firstItem="99" firstAttribute="centerY" secondItem="100" secondAttribute="centerY" id="138"/>
-                <constraint firstItem="92" firstAttribute="trailing" secondItem="88" secondAttribute="leading" id="139"/>
+                <constraint firstItem="92" firstAttribute="trailing" secondItem="88" secondAttribute="leading" constant="4" id="139"/>
                 <constraint firstItem="92" firstAttribute="centerY" secondItem="88" secondAttribute="centerY" id="140"/>
                 <constraint firstItem="78" firstAttribute="leading" secondItem="79" secondAttribute="trailing" constant="10" id="1EV-eN-KzH"/>
                 <constraint firstItem="78" firstAttribute="centerY" secondItem="79" secondAttribute="centerY" id="2et-FU-cYG"/>
+                <constraint firstItem="61" firstAttribute="top" secondItem="FMy-k4-y9a" secondAttribute="bottom" constant="2" id="5Y4-v6-xKZ"/>
+                <constraint firstAttribute="trailing" secondItem="XKs-PC-trw" secondAttribute="trailing" id="62k-as-GfY"/>
+                <constraint firstItem="FMy-k4-y9a" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="9xn-zC-BgY"/>
                 <constraint firstItem="78" firstAttribute="trailing" secondItem="2" secondAttribute="centerX" id="BUt-FE-Yyg"/>
-                <constraint firstItem="34" firstAttribute="leading" secondItem="2" secondAttribute="centerX" constant="5" id="J41-VE-zWD"/>
+                <constraint firstAttribute="trailing" secondItem="FMy-k4-y9a" secondAttribute="trailing" id="Hqw-Cl-OuT"/>
+                <constraint firstItem="34" firstAttribute="leading" secondItem="2" secondAttribute="centerX" constant="10" id="J41-VE-zWD"/>
+                <constraint firstItem="67" firstAttribute="leading" secondItem="72" secondAttribute="trailing" constant="10" id="LaN-Eh-xl0"/>
+                <constraint firstItem="wzt-0c-yaD" firstAttribute="top" secondItem="XKs-PC-trw" secondAttribute="bottom" constant="5" id="NBQ-Af-v6K"/>
                 <constraint firstItem="wzt-0c-yaD" firstAttribute="centerY" secondItem="24" secondAttribute="centerY" id="aEk-gU-uEn"/>
+                <constraint firstItem="61" firstAttribute="leading" secondItem="63" secondAttribute="trailing" constant="10" id="hla-7c-WX8"/>
+                <constraint firstItem="XKs-PC-trw" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="qDn-LL-K8g"/>
+                <constraint firstItem="XKs-PC-trw" firstAttribute="top" secondItem="72" secondAttribute="bottom" constant="4" id="vBv-ll-up3"/>
             </constraints>
             <variation key="default">
                 <mask key="constraints">
+                    <exclude reference="vBv-ll-up3"/>
                     <exclude reference="BUt-FE-Yyg"/>
                 </mask>
             </variation>
@@ -261,21 +289,5 @@
     </objects>
     <resources>
         <image name="ic_edit_text_green_24dp.png" width="70" height="71"/>
-        <image name="anatoli.ttf" width="0" height="0"/>
-        <image name="ic_call_green_24dp.png" width="70" height="70"/>
-        <image name="ic_list_orange_24dp.png" width="72" height="72"/>
-        <image name="ic_log_in_green_24dp.png" width="96" height="96"/>
-        <image name="ic_person_gray_24dp.png" width="80" height="80"/>
-        <image name="ic_reorder_white_24dp.png" width="96" height="96"/>
-        <image name="ic_search_white_24dp.png" width="96" height="96"/>
-        <image name="ic_shopping_cart_white_24dp.png" width="96" height="96"/>
-        <image name="ic_shoppingcard_blue_24dp.png" width="109" height="96"/>
-        <image name="ic_shoppingcard_on_white_24dp.png" width="96" height="97"/>
-        <image name="Icon-60.png" width="60" height="60"/>
-        <image name="Icon-Small-40.png" width="40" height="40"/>
-        <image name="Icon-Small.png" width="29" height="29"/>
-        <image name="Icon.png" width="57" height="57"/>
-        <image name="igicon.png" width="200" height="119"/>
-        <image name="splash.png" width="365" height="648"/>
     </resources>
 </document>

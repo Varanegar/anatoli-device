@@ -22,6 +22,7 @@ namespace AnatoliIOS.ViewControllers
         public async override void ViewDidAppear(bool animated)
         {
             base.ViewDidAppear(animated);
+			checkoutButton.SetStyle (ButtonColor.Green);
             this.SetToolbarItems(AnatoliApp.GetInstance().CreateToolbarItems(), true);
             _productTableViewSource = new ShoppingCardTableViewSource();
             _productTableViewSource.SetDataQuery(ShoppingCardManager.GetAll(AnatoliApp.GetInstance().DefaultStore.store_id));
