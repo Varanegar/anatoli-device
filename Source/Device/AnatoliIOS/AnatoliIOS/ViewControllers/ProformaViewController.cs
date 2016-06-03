@@ -84,6 +84,7 @@ namespace AnatoliIOS.ViewControllers
                     _deliveryTime);
                     if (result != null && result.IsValid)
                     {
+						await ShoppingCardManager.ClearAsync();
                         var alert = UIAlertController.Create("", "سفارش شما ثبت شد", UIAlertControllerStyle.Alert);
                         alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, delegate
                         {
