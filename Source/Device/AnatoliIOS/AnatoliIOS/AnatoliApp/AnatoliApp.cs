@@ -563,6 +563,15 @@ namespace AnatoliIOS
 			);
 		}
 
+		public static void SetBorders(this UIView view){
+			view.Layer.CornerRadius = 2f;
+			view.Layer.BorderWidth = 1f;
+			view.Layer.BorderColor = UIColor.Clear.CGColor;
+			view.Layer.ShadowColor = UIColor.Black.CGColor;
+			view.Layer.ShadowRadius = 2f;
+			view.Layer.ShadowOffset = new CGSize (1, 1);
+			view.Layer.ShadowOpacity = 0.5f;
+		}
 		public static void SetStyle (this UIButton button, ButtonColor color)
 		{
 			button.SetTitleColor (UIColor.White, UIControlState.Normal);

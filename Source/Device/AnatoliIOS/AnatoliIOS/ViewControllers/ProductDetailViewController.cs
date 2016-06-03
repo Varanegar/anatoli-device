@@ -33,9 +33,11 @@ namespace AnatoliIOS
         {
             base.ViewDidAppear(animated);
 			EdgesForExtendedLayout = UIRectEdge.None;
+			counterView.SetBorders ();
             var imgUri = ProductManager.GetImageAddress(_product.product_id, _product.image);
             if (imgUri != null)
             {
+				Console.WriteLine (imgUri);
                 try
                 {
                     using (var url = new NSUrl(imgUri))
