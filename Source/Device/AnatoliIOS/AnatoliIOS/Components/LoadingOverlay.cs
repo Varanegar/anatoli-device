@@ -52,9 +52,9 @@ namespace AnatoliIOS.Components
             loadingLabel.TextAlignment = UITextAlignment.Center;
             loadingLabel.AutoresizingMask = UIViewAutoresizing.All;
             var cancelButton = new UIButton(new CGRect(
-                centerX - (labelWidth / 2),
+                centerX - (75),
                 centerY + 50,
-                labelWidth,
+                150,
                 labelHeight
                 ));
 
@@ -62,6 +62,7 @@ namespace AnatoliIOS.Components
             cancelButton.SetTitle("بی خیال", UIControlState.Normal);
             cancelButton.Font = UIFont.FromName("IRAN", 13);
             cancelButton.AutoresizingMask = UIViewAutoresizing.All;
+			cancelButton.SetStyle (ButtonColor.Red);
             cancelButton.TouchUpInside += delegate
             {
                 if (Canceled != null)
