@@ -86,7 +86,7 @@
     <CodesignKey>iPhone Distribution: Arman Fazly (9739JGLK7R)</CodesignKey>
     <MtouchSdkVersion>9.2</MtouchSdkVersion>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
-    <CodesignProvision>112b3cbd-687e-43e4-83af-5a4a254fda3a</CodesignProvision>
+    <CodesignProvision>5a4e6661-093d-455e-bceb-b818155e2cde</CodesignProvision>
     <IpaPackageName>
     </IpaPackageName>
   </PropertyGroup>
@@ -298,6 +298,7 @@
     <BundleResource Include="Resources\arrow-back.png" />
     <BundleResource Include="Resources\favorit_gold.png" />
     <BundleResource Include="Resources\favorit_gray.png" />
+    <BundleResource Include="Resources\ic_shoppingcard_gray_24dp.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="RootViewController.cs" />

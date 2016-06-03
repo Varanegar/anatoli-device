@@ -7,9 +7,7 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.varanegar.parastoo.eigg</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2.6</string>
-	<key>CFBundleVersion</key>
-	<string>5</string>
+	<string>1.3</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
@@ -54,5 +52,7 @@
 	<array>
 		<string>remote-notification</string>
 	</array>
+	<key>CFBundleVersion</key>
+	<string>6</string>
 </dict>
 </plist>
