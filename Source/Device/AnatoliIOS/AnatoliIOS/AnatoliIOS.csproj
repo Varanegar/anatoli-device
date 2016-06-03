@@ -296,6 +296,8 @@
     </Compile>
     <BundleResource Include="Resources\location-icon.png" />
     <BundleResource Include="Resources\arrow-back.png" />
+    <BundleResource Include="Resources\favorit_gold.png" />
+    <BundleResource Include="Resources\favorit_gray.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="RootViewController.cs" />
