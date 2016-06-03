@@ -99,7 +99,7 @@
     <ConsolePause>False</ConsolePause>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignProvision>3a5ed44c-4794-4f07-8426-999d1fe2898a</CodesignProvision>
+    <CodesignProvision>18c527db-859e-4295-9de8-182ff199eff0</CodesignProvision>
     <CodesignKey>iPhone Distribution: Arman Fazly (9739JGLK7R)</CodesignKey>
     <IpaPackageName>
     </IpaPackageName>
