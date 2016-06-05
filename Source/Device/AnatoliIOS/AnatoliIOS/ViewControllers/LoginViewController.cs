@@ -78,7 +78,7 @@ namespace AnatoliIOS.ViewControllers
                         if (result.IsValid)
                         {
                             await AnatoliApp.GetInstance().LoginAsync();
-                            AnatoliApp.GetInstance().PushViewController(new ProductsViewController());
+							AnatoliApp.GetInstance().ReplaceViewController(new FirstPageViewController());
                         }
                     }
                     loadingOverlay.Hide();

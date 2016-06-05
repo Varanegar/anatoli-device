@@ -28,6 +28,10 @@ namespace AnatoliIOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton favoriteButton { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel orderCountLabel { get; set; }
 
 		[Outlet]
@@ -71,6 +75,10 @@ namespace AnatoliIOS
 			if (counterView != null) {
 				counterView.Dispose ();
 				counterView = null;
+			}
+			if (favoriteButton != null) {
+				favoriteButton.Dispose ();
+				favoriteButton = null;
 			}
 			if (orderCountLabel != null) {
 				orderCountLabel.Dispose ();

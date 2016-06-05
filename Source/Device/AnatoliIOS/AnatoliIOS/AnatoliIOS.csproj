@@ -86,7 +86,7 @@
     <CodesignKey>iPhone Distribution: Arman Fazly (9739JGLK7R)</CodesignKey>
     <MtouchSdkVersion>9.2</MtouchSdkVersion>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
-    <CodesignProvision>112b3cbd-687e-43e4-83af-5a4a254fda3a</CodesignProvision>
+    <CodesignProvision>5a4e6661-093d-455e-bceb-b818155e2cde</CodesignProvision>
     <IpaPackageName>
     </IpaPackageName>
   </PropertyGroup>
@@ -99,7 +99,7 @@
     <ConsolePause>False</ConsolePause>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignProvision>3a5ed44c-4794-4f07-8426-999d1fe2898a</CodesignProvision>
+    <CodesignProvision>18c527db-859e-4295-9de8-182ff199eff0</CodesignProvision>
     <CodesignKey>iPhone Distribution: Arman Fazly (9739JGLK7R)</CodesignKey>
     <IpaPackageName>
     </IpaPackageName>
@@ -296,6 +296,9 @@
     </Compile>
     <BundleResource Include="Resources\location-icon.png" />
     <BundleResource Include="Resources\arrow-back.png" />
+    <BundleResource Include="Resources\favorit_gold.png" />
+    <BundleResource Include="Resources\favorit_gray.png" />
+    <BundleResource Include="Resources\ic_shoppingcard_gray_24dp.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="RootViewController.cs" />

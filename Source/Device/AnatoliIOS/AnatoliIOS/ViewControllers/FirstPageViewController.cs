@@ -43,6 +43,17 @@ namespace AnatoliIOS.ViewControllers
             EdgesForExtendedLayout = UIRectEdge.None;
             // Perform any additional setup after loading the view, typically from a nib.
             Title = "صفحه خانگی";
+
+			var searchButton = new UIBarButtonItem(UIImage.FromBundle("ic_search_white_24dp").Scale(new CGSize(26, 26)),
+				UIBarButtonItemStyle.Plain,
+				(sender, args) =>
+				{
+					var p = new ProductsViewController();
+					p.SearchBar = true; 
+					AnatoliApp.GetInstance().PushViewController(p);
+				});
+			NavigationItem.SetRightBarButtonItem(searchButton, true);
+
             var bannerHeight = UIScreen.MainScreen.Bounds.Size.Height * 0.45f;
             SetImageHeight(bannerHeight);
             // Creting a list UIImages to present in the ParallaxViewController
