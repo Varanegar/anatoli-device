@@ -415,9 +415,8 @@ namespace AnatoliAndroid.Activities
                                 AnatoliApp.GetInstance().SetFragment<StoresListFragment>(s, "stores_fragment");
                                 return;
                             }
-                            var p = new ProductsListFragment();
-                            p.SetCatId(null);
-                            AnatoliApp.GetInstance().SetFragment<ProductsListFragment>(p, "products_fragment");
+                            var firstFragment = new FirstFragment();
+                            AnatoliApp.GetInstance().SetFragment<FirstFragment>(firstFragment, "first_fragment");
                         };
                         loginFragment.Show(transaction, "shipping_dialog");
                         break;

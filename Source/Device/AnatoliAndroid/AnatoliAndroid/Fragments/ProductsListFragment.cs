@@ -34,7 +34,11 @@ namespace AnatoliAndroid.Fragments
             if (!string.IsNullOrEmpty(_catId))
             {
                 await AnatoliApp.GetInstance().RefreshMenuItems(_catId);
-                Title = (await CategoryManager.GetCategoryInfoAsync(_catId)).cat_name;
+                var catInfo = await CategoryManager.GetCategoryInfoAsync(_catId);
+                if (catInfo != null)
+                {
+                    Title = catInfo.cat_name;
+                }
             }
             else
                 await AnatoliApp.GetInstance().RefreshMenuItems("0");

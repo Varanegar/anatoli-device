@@ -1664,32 +1664,35 @@ namespace AnatoliAndroid
 			// aapt resource value: 0x7f020074
 			public const int igmart = 2130837620;
 			
-			// aapt resource value: 0x7f02007d
-			public const int notification_template_icon_bg = 2130837629;
+			// aapt resource value: 0x7f02007e
+			public const int notification_template_icon_bg = 2130837630;
 			
 			// aapt resource value: 0x7f020075
-			public const int orangebutton = 2130837621;
+			public const int online_stamp = 2130837621;
 			
 			// aapt resource value: 0x7f020076
-			public const int RemoveProductImage = 2130837622;
+			public const int orangebutton = 2130837622;
 			
 			// aapt resource value: 0x7f020077
-			public const int rwrectangle = 2130837623;
+			public const int RemoveProductImage = 2130837623;
 			
 			// aapt resource value: 0x7f020078
-			public const int slidedown = 2130837624;
+			public const int rwrectangle = 2130837624;
 			
 			// aapt resource value: 0x7f020079
-			public const int slideup = 2130837625;
+			public const int slidedown = 2130837625;
 			
 			// aapt resource value: 0x7f02007a
-			public const int splash = 2130837626;
+			public const int slideup = 2130837626;
 			
 			// aapt resource value: 0x7f02007b
-			public const int splashscreen = 2130837627;
+			public const int splash = 2130837627;
 			
 			// aapt resource value: 0x7f02007c
-			public const int textcorner = 2130837628;
+			public const int splashscreen = 2130837628;
+			
+			// aapt resource value: 0x7f02007d
+			public const int textcorner = 2130837629;
 			
 			static Drawable()
 			{
@@ -1911,8 +1914,8 @@ namespace AnatoliAndroid
 			// aapt resource value: 0x7f0b000c
 			public const int disableHome = 2131427340;
 			
-			// aapt resource value: 0x7f0b0128
-			public const int distanceTextView = 2131427624;
+			// aapt resource value: 0x7f0b0129
+			public const int distanceTextView = 2131427625;
 			
 			// aapt resource value: 0x7f0b00fe
 			public const int districtTextView = 2131427582;
@@ -1995,14 +1998,14 @@ namespace AnatoliAndroid
 			// aapt resource value: 0x7f0b000d
 			public const int homeAsUp = 2131427341;
 			
-			// aapt resource value: 0x7f0b0124
-			public const int horizontalLineView = 2131427620;
+			// aapt resource value: 0x7f0b0125
+			public const int horizontalLineView = 2131427621;
 			
 			// aapt resource value: 0x7f0b0029
 			public const int icon = 2131427369;
 			
-			// aapt resource value: 0x7f0b0129
-			public const int icons = 2131427625;
+			// aapt resource value: 0x7f0b012a
+			public const int icons = 2131427626;
 			
 			// aapt resource value: 0x7f0b00d7
 			public const int idEditText = 2131427543;
@@ -2109,8 +2112,8 @@ namespace AnatoliAndroid
 			// aapt resource value: 0x7f0b00cf
 			public const int mainLinearLayout = 2131427535;
 			
-			// aapt resource value: 0x7f0b0122
-			public const int mapIconImageView = 2131427618;
+			// aapt resource value: 0x7f0b0123
+			public const int mapIconImageView = 2131427619;
 			
 			// aapt resource value: 0x7f0b00a0
 			public const int media_actions = 2131427488;
@@ -2138,6 +2141,9 @@ namespace AnatoliAndroid
 			
 			// aapt resource value: 0x7f0b0062
 			public const int okButton = 2131427426;
+			
+			// aapt resource value: 0x7f0b0122
+			public const int onlineStamp = 2131427618;
 			
 			// aapt resource value: 0x7f0b00c8
 			public const int optionslinearLayout = 2131427528;
@@ -2439,11 +2445,11 @@ namespace AnatoliAndroid
 			// aapt resource value: 0x7f0b009f
 			public const int status_bar_latest_event_content = 2131427487;
 			
-			// aapt resource value: 0x7f0b0127
-			public const int storeAddressTextView = 2131427623;
+			// aapt resource value: 0x7f0b0128
+			public const int storeAddressTextView = 2131427624;
 			
-			// aapt resource value: 0x7f0b0123
-			public const int storeImageImageView = 2131427619;
+			// aapt resource value: 0x7f0b0124
+			public const int storeImageImageView = 2131427620;
 			
 			// aapt resource value: 0x7f0b00ac
 			public const int storeNameLabelTextView = 2131427500;
@@ -2451,11 +2457,11 @@ namespace AnatoliAndroid
 			// aapt resource value: 0x7f0b0099
 			public const int storeNameTextView = 2131427481;
 			
-			// aapt resource value: 0x7f0b0125
-			public const int storeStatusTextView = 2131427621;
-			
 			// aapt resource value: 0x7f0b0126
-			public const int storeSummaryInfoLinearLayout = 2131427622;
+			public const int storeStatusTextView = 2131427622;
+			
+			// aapt resource value: 0x7f0b0127
+			public const int storeSummaryInfoLinearLayout = 2131427623;
 			
 			// aapt resource value: 0x7f0b0121
 			public const int storeSummaryRelativeLayout = 2131427617;

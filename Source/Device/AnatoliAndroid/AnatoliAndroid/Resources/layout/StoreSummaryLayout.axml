@@ -5,6 +5,13 @@
     p1:layout_height="wrap_content"
     p1:id="@+id/storeSummaryRelativeLayout">
     <ImageView
+        p1:src="@drawable/online_stamp"
+        p1:id="@+id/onlineStamp"
+        p1:layout_width="80dp"
+        p1:layout_height="80dp"
+        p1:layout_centerInParent="true"
+        p1:layout_marginRight="15dp" />
+    <ImageView
         p1:src="@drawable/ic_location_on_gray_24dp"
         p1:id="@+id/mapIconImageView"
         p1:layout_width="20dp"

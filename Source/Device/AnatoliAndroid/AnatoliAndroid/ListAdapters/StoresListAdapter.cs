@@ -60,7 +60,7 @@ namespace AnatoliAndroid.ListAdapters
                 await Select(item);
             };
             if (!item.support_app_order)
-                convertView.SetBackgroundColor(Android.Graphics.Color.ParseColor("#F7F4F4"));
+                convertView.FindViewById<ImageView>(Resource.Id.onlineStamp).Visibility = ViewStates.Invisible;
             if (item.distance < 0.0005)
                 _storeDistance.Text = "";
             else if (item.distance < 1500)
@@ -95,7 +95,24 @@ namespace AnatoliAndroid.ListAdapters
                 Toast.MakeText(AnatoliApp.GetInstance().Activity, "این فروشگاه فروش اینترنتی ندارد", ToastLength.Short).Show();
                 return;
             }
-            if (await StoreManager.SelectAsync(item) == true)
+            if ((await ShoppingCardManager.GetInfoAsync()).items_count > 0)
+            {
+                AlertDialog.Builder alert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
+                alert.SetTitle(Resource.String.Error);
+                alert.SetMessage("پس از تغییر فروشگاه سبد خرید شما خالی میشود، ادامه می دهید؟");
+                alert.SetPositiveButton(Resource.String.Ok, async delegate
+                {
+                    if (await StoreManager.SelectAsync(item) == true)
+                    {
+                        AnatoliApp.GetInstance().SetFragment<FirstFragment>(new FirstFragment(), "first_fragment");
+                        OnStoreSelected(item);
+                    }
+                });
+                alert.SetNegativeButton(Resource.String.Cancel, delegate { });
+                alert.Show();
+                return;
+            }
+            else if (await StoreManager.SelectAsync(item) == true)
             {
                 AnatoliApp.GetInstance().SetFragment<FirstFragment>(new FirstFragment(), "first_fragment");
                 OnStoreSelected(item);

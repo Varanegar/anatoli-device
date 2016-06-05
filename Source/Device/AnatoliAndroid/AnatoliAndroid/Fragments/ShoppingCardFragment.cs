@@ -406,27 +406,36 @@ namespace AnatoliAndroid.Fragments
                     }
                 }
 
+
             }
             catch (Exception)
             {
 
             }
 
-            _typeOptions = await DeliveryTypeManager.GetDeliveryTypesAsync();
-            foreach (var item in _typeOptions)
+            try
             {
-                item.UniqueId = item.id;
-                _deliveryTypeListBox.AddItem(item);
-            }
-            _deliveryTypeListBox.ItemSelected += async (item) =>
-            {
-                _timeOptions = await DeliveryTimeManager.GetAvailableDeliveryTimes(AnatoliApp.GetInstance().DefaultStoreId, DateTime.Now.ToLocalTime(), _deliveryTypeListBox.SelectedItem.id);
-                _deliveryTimeListBox.SetList(_timeOptions);
-                _deliveryTimeListBox.SelectItem(0);
-            };
-            _deliveryTimeListBox.ItemSelected += (item) => { _checkoutButton.Enabled = CheckCheckout(); };
-            _deliveryTypeListBox.SelectItem(1);
+                _typeOptions = await DeliveryTypeManager.GetDeliveryTypesAsync();
+                foreach (var item in _typeOptions)
+                {
+                    item.UniqueId = item.id;
+                    _deliveryTypeListBox.AddItem(item);
+                }
+                _deliveryTypeListBox.ItemSelected += async (item) =>
+                {
+                    _timeOptions = await DeliveryTimeManager.GetAvailableDeliveryTimes(AnatoliApp.GetInstance().DefaultStoreId, DateTime.Now.ToLocalTime(), _deliveryTypeListBox.SelectedItem.id);
+                    _deliveryTimeListBox.SetList(_timeOptions);
+                    _deliveryTimeListBox.SelectItem(0);
+                };
+                _deliveryTimeListBox.ItemSelected += (item) => { _checkoutButton.Enabled = CheckCheckout(); };
+                _deliveryTypeListBox.SelectItem(1);
 
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
 
             var cardInfo = await ShoppingCardManager.GetInfoAsync();
             _factorePriceTextView.Text = cardInfo.total_price.ToCurrency() + " تومان";
@@ -496,6 +505,10 @@ namespace AnatoliAndroid.Fragments
         }
         bool CheckCheckout()
         {
+            if (_deliveryTimeListBox == null || _deliveryTypeListBox == null)
+            {
+                return false;
+            }
             if (_deliveryTimeListBox.SelectedItem == null || _deliveryTypeListBox.SelectedItem == null || String.IsNullOrWhiteSpace(_deliveryAddress.Text) || String.IsNullOrEmpty(_deliveryAddress.Text) || _listAdapter.Count == 0)
                 return false;
             else
