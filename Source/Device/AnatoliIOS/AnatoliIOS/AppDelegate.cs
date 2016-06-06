@@ -126,7 +126,13 @@ namespace AnatoliIOS
         {
             // Called when the application is about to terminate. Save data, if needed. See also DidEnterBackground.
         }
+        public override void DidRegisterUserNotificationSettings(UIApplication application, UIUserNotificationSettings notificationSettings)
+        {
+            if (notificationSettings.Types == UIUserNotificationType.None)
+            {
 
+            }
+        }
         public async override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
         {
             // Get current device token
@@ -134,6 +140,7 @@ namespace AnatoliIOS
             if (!string.IsNullOrWhiteSpace(DeviceToken))
             {
                 DeviceToken = DeviceToken.Trim('<').Trim('>');
+                DeviceToken = DeviceToken.Replace(" ", "");
             }
 
             // Get previous device token
@@ -151,8 +158,11 @@ namespace AnatoliIOS
         }
         public override void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
         {
-            //new UIAlertView("Error registering push notifications", error.LocalizedDescription, null, "OK", null).Show();
+#if DEBUG
+            Console.WriteLine(error.LocalizedDescription);
+#endif
         }
+         
         public override void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)
         {
             Console.WriteLine("Notification recieved");
