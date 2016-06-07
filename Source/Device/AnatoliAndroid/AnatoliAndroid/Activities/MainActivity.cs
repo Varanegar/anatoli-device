@@ -7,7 +7,6 @@ using Android.Widget;
 using Android.OS;
 using Anatoli.App.Manager;
 using Android.Net;
-using Parse;
 using AnatoliAndroid.Fragments;
 using Android.Support.V4.Widget;
 using Android.Support.V4.App;
@@ -42,6 +41,9 @@ namespace AnatoliAndroid.Activities
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
+
+            var cn = (ConnectivityManager)GetSystemService(ConnectivityService);
+            AnatoliClient.GetInstance(new AndroidWebClient(cn), new SQLiteAndroid(), new AndroidFileIO());
 
             HockeyApp.CrashManager.Register(this, HOCKEYAPP_APPID, new AnatoliCrashManagerListener());
             HockeyApp.TraceWriter.Initialize();

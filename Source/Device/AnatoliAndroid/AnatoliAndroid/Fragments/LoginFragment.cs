@@ -14,7 +14,6 @@ using AnatoliAndroid.Activities;
 using Anatoli.App.Manager;
 using Anatoli.App.Model.AnatoliUser;
 using Anatoli.Framework.AnatoliBase;
-using Parse;
 using Anatoli.Framework;
 
 namespace AnatoliAndroid.Fragments
