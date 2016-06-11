@@ -23,6 +23,9 @@ using Android.Provider;
 using Android.Graphics;
 using Android.Database;
 using HockeyApp;
+using Android.Gms.Common;
+using Android.Gms.Gcm.Iid;
+using Android.Gms.Gcm;
 
 
 namespace AnatoliAndroid.Activities
@@ -101,6 +104,11 @@ namespace AnatoliAndroid.Activities
             };
             var user = await AnatoliUserManager.ReadUserInfoAsync();
             AnatoliApp.Initialize(this, user, FindViewById<ListView>(Resource.Id.drawer_list), _toolbar);
+            if (IsPlayServicesAvailable())
+            {
+                var intent = new Intent(this, typeof(RegistrationIntentService));
+                StartService(intent);
+            }
             _locationManager = (LocationManager)GetSystemService(LocationService);
             AnatoliApp.GetInstance().DrawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             AnatoliApp.GetInstance().LocationManager = _locationManager;
@@ -113,7 +121,7 @@ namespace AnatoliAndroid.Activities
                     AnatoliApp.GetInstance().SetDefaultStore(defaultStore);
                     AnatoliApp.GetInstance().Customer = await CustomerManager.ReadCustomerAsync();
                     AnatoliApp.GetInstance().RefreshMenuItems();
-                    
+
                     AnatoliApp.GetInstance().SetFragment<FirstFragment>(new FirstFragment(), "first_fragment");
                     if (AnatoliApp.GetInstance().AnatoliUser != null)
                     {
@@ -203,29 +211,27 @@ namespace AnatoliAndroid.Activities
                 Toast.MakeText(this, provider + "در حال حاضر دسترسی به موقعیت مکانی شما امکان پذیر نمی باشد", ToastLength.Short).Show();
             }
         }
-
-        //protected override async void OnActivityResult(int requestCode, Result resultCode, Intent data)
-        //{
-        //    base.OnActivityResult(requestCode, resultCode, data);
-
-        //}
-        //void OnImageUploaded()
-        //{
-        //    if (ImageUploaded != null)
-        //    {
-        //        ImageUploaded.Invoke(this, new EventArgs());
-        //    }
-        //}
-        //public EventHandler ImageUploaded;
-
-        //void OnImageUploadFailed()
-        //{
-        //    if (ImageUploadFailed != null)
-        //    {
-        //        ImageUploadFailed.Invoke(this, new EventArgs());
-        //    }
-        //}
-        //public EventHandler ImageUploadFailed;
+        bool IsPlayServicesAvailable()
+        {
+            int resultCode = GoogleApiAvailability.Instance.IsGooglePlayServicesAvailable(this);
+            if (resultCode != ConnectionResult.Success)
+            {
+                if (GoogleApiAvailability.Instance.IsUserResolvableError(resultCode))
+                {
+                    var alert = new Android.App.AlertDialog.Builder(this);
+                    alert.SetTitle(Resource.String.Error);
+                    alert.SetMessage("لطفا برنامه google play را نصب کنید");
+                    alert.SetPositiveButton(Resource.String.Ok, delegate { });
+                    alert.Show();
+                    Finish();
+                }
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
     }
 
     [BroadcastReceiver()]
@@ -289,7 +295,7 @@ namespace AnatoliAndroid.Activities
                 }
                 catch (System.Net.WebException)
                 {
-                    
+
                 }
                 catch (Exception e)
                 {
@@ -300,6 +306,44 @@ namespace AnatoliAndroid.Activities
             return StartCommandResult.Sticky;
         }
 
+    }
+
+    [Service(Exported = false)]
+    class RegistrationIntentService : IntentService
+    {
+        static object locker = new object();
+
+        public RegistrationIntentService() : base("RegistrationIntentService") { }
+
+        protected override void OnHandleIntent(Intent intent)
+        {
+            try
+            {
+                lock (locker)
+                {
+                    var instanceID = InstanceID.GetInstance(this);
+                    var token = instanceID.GetToken(
+                        "269775973801", GoogleCloudMessaging.InstanceIdScope, null);
+                    SendRegistrationToAppServer(token);
+                    Subscribe(token);
+
+                }
+            }
+            catch (Exception e)
+            {
+                return;
+            }
+        }
+
+        void SendRegistrationToAppServer(string token)
+        {
+            // Add custom implementation here as needed.
+        }
+        void Subscribe(string token)
+        {
+            var pubSub = GcmPubSub.GetInstance(this);
+            pubSub.Subscribe(token, "/topics/global", null);
+        }
     }
 }
 

@@ -162,7 +162,11 @@ namespace AnatoliIOS
             Console.WriteLine(error.LocalizedDescription);
 #endif
         }
-         
+        public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
+        {
+            Console.WriteLine("Notification recieved");
+            
+        }
         public override void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)
         {
             Console.WriteLine("Notification recieved");
