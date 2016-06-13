@@ -1,0 +1,4 @@
+AnatoliAndroid signing alias and password:
+
+password: fRAwR?c8
+alias: AnatoliAndroid
