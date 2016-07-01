@@ -84,7 +84,7 @@ namespace Anatoli.App.Manager
         public static async Task<CustomerViewModel> DownloadCustomerAsync(AnatoliUserModel user, System.Threading.CancellationTokenSource CancellationTokenSource)
         {
             var data = new CustomerRequestModel();
-            data.customerId = user.Id;
+            data.customerId = Guid.Parse(user.Id);
             var userModel = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<CustomerViewModel>(TokenType.AppToken, Configuration.WebService.Users.ViewProfileUrl, data, CancellationTokenSource, false);
             return userModel;
         }

@@ -168,6 +168,7 @@ namespace Anatoli.Framework.AnatoliBase
             : base(null)
         {
             _query = query;
+            Unlimited = true;
         }
         public override string GetCommand()
         {

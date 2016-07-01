@@ -25,7 +25,7 @@ namespace Anatoli.App.Model.Product
         public string ProductTypeId { get; set; }
         public string TaxCategoryId { get; set; }
         public string MainProductGroupIdString { get; set; }
-        public Guid ProductGroupId { get; set; }
+        public string ProductGroupId { get; set; }
         public string ManufactureIdString { get; set; }
         public double Price { get; set; }
         public int ShoppingBasketCount { get; set; }

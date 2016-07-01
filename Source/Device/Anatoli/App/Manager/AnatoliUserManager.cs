@@ -121,7 +121,7 @@ namespace Anatoli.App.Manager
                 user.Email = userInfoFields[0];
                 user.Username = userInfoFields[1];
                 user.UniqueId = Guid.Parse(userInfoFields[2]);
-                user.Id = Guid.Parse(userInfoFields[3]);
+                user.Id = userInfoFields[3];
                 return user;
             }
             catch (Exception)

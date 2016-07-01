@@ -34,7 +34,7 @@ namespace Anatoli.App.Manager
                 AnatoliClient.GetInstance().DbClient.BeginTransaction();
                 foreach (var item in list)
                 {
-                    if (item.UniqueId != Guid.Parse("169EBC7C-6112-4566-93B9-2869C3D3A112") && item.UniqueId != Guid.Parse("E54AF059 -5C22-4FAF-BC40-4169BF74C020"))
+                    if (item.UniqueId != Guid.Parse("169EBC7C-6112-4566-93B9-2869C3D3A112") && item.UniqueId != Guid.Parse("E54AF059-5C22-4FAF-BC40-4169BF74C020"))
                     {
                         if (items.ContainsKey(item.UniqueId))
                         {

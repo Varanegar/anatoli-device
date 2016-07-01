@@ -28,7 +28,7 @@ namespace Anatoli.App.Manager
                     list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<StoreModel>>(TokenType.AppToken, Configuration.WebService.Stores.StoresViewAfter, data, true);
                 }
                 Dictionary<Guid, StoreModel> items = new Dictionary<Guid, StoreModel>();
-                var currentList = AnatoliClient.GetInstance().DbClient.GetList<StoreModel>(new StringQuery("SELECT * FROM stores"));
+                var currentList = AnatoliClient.GetInstance().DbClient.GetList<StoreModel>(new StringQuery("SELECT * FROM Store"));
                 foreach (var item in currentList)
                 {
                     if (!items.ContainsKey(item.UniqueId))

@@ -73,7 +73,15 @@ ON a.UniqueId = b.UniqueId AND a.UniqueId = '{1}'", storeId.ToString(), productI
                     list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<ProductModel>>(TokenType.AppToken, Configuration.WebService.Products.ProductsListAfter, data, true);
                 }
                 Dictionary<Guid, ProductModel> items = new Dictionary<Guid, ProductModel>();
-                var currentList = AnatoliClient.GetInstance().DbClient.GetList<ProductModel>(new StringQuery("SELECT * FROM products"));
+                List<ProductModel> nulls = new List<ProductModel>();
+                foreach (var item in list)
+                {
+                    if (string.IsNullOrEmpty(item.ProductGroupId))
+                    {
+                        nulls.Add(item);
+                    }
+                }
+                var currentList = AnatoliClient.GetInstance().DbClient.GetList<ProductModel>(new StringQuery("SELECT * FROM Product"));
                 foreach (var item in currentList)
                 {
                     items.Add(item.UniqueId, item);

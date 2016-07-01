@@ -28,6 +28,8 @@ namespace UpdateDB
 
         public override SQLiteConnection GetConnection()
         {
+            if (_connection != null)
+                return _connection;
 #if (DEBUG)
             var currentPath = Environment.CurrentDirectory;
             DirectoryInfo info = new DirectoryInfo(currentPath);
@@ -39,8 +41,8 @@ namespace UpdateDB
 #if(!DEBUG)
             string path = Path.Combine(Directory.GetParent(Environment.CurrentDirectory).ToString() , "db\\paa.db");
 #endif
-            var conn = new SQLiteConnection(path);
-            return conn;
+            _connection = new SQLiteConnection(path);
+            return _connection;
         }
 
         public override void RollbackTransaction()

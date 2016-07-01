@@ -12,7 +12,7 @@ namespace Anatoli.Framework.Model
         {
 
         }
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public Guid UniqueId { get; set; }
         public bool IsSaveRequired { get; set; }
         public bool ReadOnly { get { return false; } }
