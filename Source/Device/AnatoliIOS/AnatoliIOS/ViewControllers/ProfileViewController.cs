@@ -37,7 +37,7 @@ namespace AnatoliIOS.ViewControllers
 			base.ViewDidAppear (animated);
 			this.SetToolbarItems (AnatoliApp.GetInstance ().CreateToolbarItems (), true);
 
-			var level1PickerViewController = new RegionChooserViewController (await CityRegionManager.GetFirstLevelAsync ());
+			var level1PickerViewController = new RegionChooserViewController (await CityRegionManager.GetFirstLevel ());
 			var level2PickerViewController = new RegionChooserViewController (await CityRegionManager.GetGroupsAsync (AnatoliApp.GetInstance ().Customer.RegionLevel1Id));
 			var level3PickerViewController = new RegionChooserViewController (await CityRegionManager.GetGroupsAsync (AnatoliApp.GetInstance ().Customer.RegionLevel2Id));
 			var level4PickerViewController = new RegionChooserViewController (await CityRegionManager.GetGroupsAsync (AnatoliApp.GetInstance ().Customer.RegionLevel3Id));

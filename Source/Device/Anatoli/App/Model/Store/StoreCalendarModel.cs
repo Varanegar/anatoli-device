@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Anatoli.App.Model.Store
 {
-    public class StoreCalendarViewModel : BaseViewModel
+    public class StoreCalendarModel : BaseModel
     {
         public static string StoreOpenTime = "E4A73D47-8AC7-41D1-8EEA-21EDFBA90424";
         public static string StoreActivedeliveryTime = "D5C5E5BF-9235-48D8-B026-B7EB8DB14100";
@@ -32,9 +32,8 @@ namespace Anatoli.App.Model.Store
                 return ts;
             }
         }
-        string _storeId;
-        public string StoreId { get { return _storeId == null ? null : _storeId.ToUpper(); } set { _storeId = value == null ? null : value.ToUpper(); } }
-        public string CalendarTypeValueId { get; set; }
+        public Guid StoreId { get; set; }
+        public Guid CalendarTypeValueId { get; set; }
         public string Description { get; set; }
     }
 }

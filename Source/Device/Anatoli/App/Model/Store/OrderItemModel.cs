@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Anatoli.App.Model.Store
 {
-    public class OrderItemModel : BaseViewModel
+    public class OrderItemModel : BaseModel
     {
         public long order_id { get; set; }
         public double item_price { get; set; }

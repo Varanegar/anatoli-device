@@ -12,7 +12,7 @@ using Foundation;
 namespace AnatoliIOS.TableViewSources
 {
     public abstract class BaseTableViewSource<BaseDataManager, DataModel> : UITableViewSource
-        where DataModel : BaseViewModel, new()
+        where DataModel : BaseModel, new()
         where BaseDataManager : BaseManager<DataModel>, new()
     {
         public int ItemsCount { get { return Items.Count; } }

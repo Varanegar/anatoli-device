@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Anatoli.Framework.Model;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -91,40 +92,34 @@ namespace Anatoli.Framework.AnatoliBase
             public static readonly string CityRegion = "/api/gateway/base/region/cityregions/compress/";
         }
 
-        public static async Task ReadConfigFromFile()
+        public static Setting ReadSetting(string name)
         {
-            try
-            {
-                var content = await Task.Run(() =>
-                {
-                    return AnatoliClient.GetInstance().FileIO.ReadAllText(AnatoliClient.GetInstance().FileIO.GetDataLoction(), "config");
-                });
-                if (!String.IsNullOrEmpty(content))
-                {
-                    WebService.PortalAddress = content;
-                }
-            }
-            catch (Exception)
-            {
-
-            }
-
+            return AnatoliClient.GetInstance().DbClient.GetItem<Setting>(new StringQuery(string.Format("SELECT * FROM Setting WHERE Name='{0}'", name)));
         }
-
-        public static async Task SaveConfigToFile()
+        public static List<Setting> ReadSetting()
         {
-            try
+            return AnatoliClient.GetInstance().DbClient.GetList<Setting>(new StringQuery("SELECT * FROM Setting"));
+        }
+        public static void SaveSetting(Setting setting)
+        {
+            if (ReadSetting(setting.Name) == null)
+                AnatoliClient.GetInstance().DbClient.UpdateItem(new StringQuery(string.Format("INSERT INTO Setting (Name,Value) VALUES ('{0}','{1}')", setting.Name, setting.Value)));
+            else
+                AnatoliClient.GetInstance().DbClient.UpdateItem(new StringQuery(string.Format("UPDATE Setting SET Value='{1}' WHERE Name='{0}'", setting.Name, setting.Value)));
+        }
+        public static void SaveSetting(List<Setting> settings)
+        {
+            foreach (var setting in settings)
             {
-                await Task.Run(() =>
-                {
-                    AnatoliClient.GetInstance().FileIO.WriteAllText(WebService.PortalAddress, AnatoliClient.GetInstance().FileIO.GetDataLoction(), "config");
-                });
+                SaveSetting(setting);
             }
-            catch (Exception)
-            {
+        }
+        public class Setting : BaseModel
+        {
+            public string Name { get; set; }
+            public string Value { get; set; }
 
-            }
-
+            public static string Camera = "Camera";
         }
     }
 }

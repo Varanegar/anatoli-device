@@ -26,10 +26,10 @@
     <MtouchDebug>True</MtouchDebug>
     <MtouchI18n>
     </MtouchI18n>
-    <CodesignProvision>7fdad0f9-10db-461e-aa5d-2191adfd6a41</CodesignProvision>
     <CodesignKey>iPhone Developer: Arman Fazly (G34LZVS594)</CodesignKey>
     <MtouchSdkVersion>9.2</MtouchSdkVersion>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
+    <CodesignProvision>669342e5-23b4-451b-a008-4810054c366b</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>

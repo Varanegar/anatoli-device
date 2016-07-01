@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Anatoli.App.Model.Product
 {
-    public class ProductTagValueViewModel : BaseViewModel
+    public class ProductTagValueViewModel : BaseModel
     {
         public DateTime? FromDate { get; set; }
         public string FromPDate { get; set; }

@@ -37,17 +37,17 @@ namespace UpdateDB
 
         public byte[] ReadAllBytes(string path, string fileName)
         {
-            throw new NotImplementedException();
+            return File.ReadAllBytes(Path.Combine(path, fileName));
         }
 
         public byte[] ReadAllBytes(string filePath)
         {
-            throw new NotImplementedException();
+            return File.ReadAllBytes(filePath);
         }
 
         public void DeleteFile(string path, string fileName)
         {
-            throw new NotImplementedException();
+            File.Delete(Path.Combine(path, fileName));
         }
     }
 }

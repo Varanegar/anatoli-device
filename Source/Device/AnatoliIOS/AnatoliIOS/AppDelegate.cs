@@ -73,7 +73,7 @@ namespace AnatoliIOS
             double latestVersion = defaults.DoubleForKey(key);
             string version = NSBundle.MainBundle.InfoDictionary["CFBundleVersion"].ToString();
             double currentVersion = Double.Parse(version);
-            AnatoliClient.GetInstance(new IosWebClient(), new IosSqliteClient(latestVersion, currentVersion), new IosFileIO());
+            AnatoliClient.Initialize(new IosWebClient(), new IosSqliteClient(latestVersion, currentVersion), new IosFileIO());
             defaults.SetDouble(currentVersion, key);
             defaults.Synchronize();
 

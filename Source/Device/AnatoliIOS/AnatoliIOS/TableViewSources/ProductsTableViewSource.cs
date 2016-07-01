@@ -41,16 +41,16 @@ namespace AnatoliIOS.TableViewSources
 			} else {
 				favoritAction = UITableViewRowAction.Create (UITableViewRowActionStyle.Normal, "افزودن به فهرست من", async delegate {
 					tableView.Editing = false;
-					var result = await ProductManager.AddToFavoritsAsync (Items [indexPath.Row]);
+					var result = await ProductManager.AddToFavorits (Items [indexPath.Row]);
 					if (result) {
 						Items [indexPath.Row].favorit = 1;
 					}
 				});
 			}
-			if (Items [indexPath.Row].count > 0) {
+			if (Items [indexPath.Row].ShoppingBasketCount > 0) {
 				basketAction = UITableViewRowAction.Create (UITableViewRowActionStyle.Destructive, "حذف از سبد خرید", async delegate {
 					tableView.Editing = false;
-					var result = await ShoppingCardManager.RemoveProductAsync (Items [indexPath.Row], true);
+					var result = await ShoppingCardManager.RemoveProduct (Items [indexPath.Row], true);
 					if (result) {
 						tableView.ReloadData ();
 						OnItemRemoved (tableView, indexPath);

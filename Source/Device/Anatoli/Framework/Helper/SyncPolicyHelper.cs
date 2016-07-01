@@ -41,19 +41,7 @@ namespace Anatoli.Framework.Helper
             {
                 return SYNC_POLICY.OnlineIfConnected;
             }
-            if (modelType == typeof(BasketViewModel))
-            {
-                return SYNC_POLICY.OnlineIfConnected;
-            }
-            if (modelType == typeof(ProductPriceUpdateModel))
-            {
-                return SYNC_POLICY.OnlineIfConnected;
-            }
-            if (modelType == typeof(ItemImageViewModel))
-            {
-                return SYNC_POLICY.OnlineIfConnected;
-            }
-            if (modelType == typeof(CityRegionUpdateModel))
+            if (modelType == typeof(BasketModel))
             {
                 return SYNC_POLICY.OnlineIfConnected;
             }
@@ -61,18 +49,21 @@ namespace Anatoli.Framework.Helper
             {
                 return SYNC_POLICY.OnlineIfConnected;
             }
-            if (modelType == typeof(StoreUpdateModel))
+            if (modelType == typeof(ItemImageViewModel))
             {
                 return SYNC_POLICY.OnlineIfConnected;
             }
+           
+            if (modelType == typeof(ProductPriceModel))
+            {
+                return SYNC_POLICY.OnlineIfConnected;
+            }
+           
             if (modelType == typeof(ProductGroupModel))
             {
                 return SYNC_POLICY.OnlineIfConnected;
             }
-            if (modelType == typeof(ProductUpdateModel))
-            {
-                return SYNC_POLICY.OnlineIfConnected;
-            }
+           
             if (modelType == typeof(ProductModel))
             {
                 return SYNC_POLICY.OnlineIfConnected;

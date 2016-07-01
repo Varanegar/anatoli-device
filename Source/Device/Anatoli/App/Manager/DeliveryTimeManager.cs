@@ -1,7 +1,6 @@
 ﻿using Anatoli.App.Model;
 using Anatoli.App.Model.Store;
 using Anatoli.Framework.AnatoliBase;
-using Anatoli.Framework.DataAdapter;
 using Anatoli.Framework.Manager;
 using System;
 using System.Collections.Generic;
@@ -14,16 +13,16 @@ namespace Anatoli.App.Manager
 {
     public class DeliveryTimeManager : BaseManager<DeliveryTimeModel>
     {
-        public static async Task<List<DeliveryTimeModel>> GetAvailableDeliveryTimes(string storeId, DateTime now, string deliveryType)
+        public static List<DeliveryTimeModel> GetAvailableDeliveryTimes(string storeId, DateTime now, string deliveryType)
         {
             List<DeliveryTimeModel> times = new List<DeliveryTimeModel>();
             SelectQuery query;
             if (deliveryType.Equals(DeliveryTypeModel.DeliveryType.Equals(deliveryType)))
-                query = new SelectQuery("stores_calendar", new EqFilterParam("StoreId", storeId), new EqFilterParam("CalendarTypeValueId", StoreCalendarViewModel.StoreActivedeliveryTime));
+                query = new SelectQuery("StoreCalendar", new EqFilterParam("StoreId", storeId), new EqFilterParam("CalendarTypeValueId", StoreCalendarModel.StoreActivedeliveryTime));
             else
-                query = new SelectQuery("stores_calendar", new EqFilterParam("StoreId", storeId), new EqFilterParam("CalendarTypeValueId", StoreCalendarViewModel.StoreOpenTime));
+                query = new SelectQuery("StoreCalendar", new EqFilterParam("StoreId", storeId), new EqFilterParam("CalendarTypeValueId", StoreCalendarModel.StoreOpenTime));
             query.Unlimited = true;
-            var result = await BaseDataAdapter<StoreCalendarViewModel>.GetListAsync(query);
+            var result = AnatoliClient.GetInstance().DbClient.GetList<StoreCalendarModel>(query);
             var time = new TimeSpan(DateTime.Now.Hour, 30, 0);
             if (result.Count > 0)
             {
@@ -36,13 +35,17 @@ namespace Anatoli.App.Manager
                         {
                             var t = new DeliveryTimeModel();
                             t.timespan = i;
-                            t.UniqueId = Guid.NewGuid().ToString().ToUpper();
+                            t.UniqueId = Guid.NewGuid();
                             times.Add(t);
                         }
                     }
                 }
             }
             return times;
+        }
+        public override int UpdateItem(DeliveryTimeModel model)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Anatoli.Framework.AnatoliBase
             {
                 byte[] cipherText = await Task.Run(() =>
                 {
-                    byte[] result = AnatoliClient.GetInstance().FileIO.ReadAllBytes(AnatoliClient.GetInstance().FileIO.GetDataLoction(), Configuration.tokenInfoFile);
+                    byte[] result = AnatoliClient.GetInstance().FileClient.ReadAllBytes(AnatoliClient.GetInstance().FileClient.GetDataLoction(), Configuration.tokenInfoFile);
                     return result;
                 });
                 byte[] plainText = Crypto.DecryptAES(cipherText);
@@ -81,7 +81,7 @@ namespace Anatoli.Framework.AnatoliBase
                 bool wResult = await Task.Run(() =>
                 {
                     var cipherText = Crypto.EncryptAES(content);
-                    bool result = AnatoliClient.GetInstance().FileIO.WriteAllBytes(cipherText, AnatoliClient.GetInstance().FileIO.GetDataLoction(), Configuration.tokenInfoFile);
+                    bool result = AnatoliClient.GetInstance().FileClient.WriteAllBytes(cipherText, AnatoliClient.GetInstance().FileClient.GetDataLoction(), Configuration.tokenInfoFile);
                     return true;
                 });
                 return wResult;
@@ -582,12 +582,12 @@ namespace Anatoli.Framework.AnatoliBase
         public NoInternetAccessException(string uri, string message = "No Internet Access", Exception ex = null) : base(uri, message, ex) { }
     }
 
-    public class BaseWebClientResult : BaseViewModel
+    public class BaseWebClientResult : BaseModel
     {
 
     }
 
-    public class AnatoliMetaInfo : BaseViewModel
+    public class AnatoliMetaInfo : BaseModel
     {
         public string message { get; set; }
         public Dictionary<string, string[]> modelState { get; set; }

@@ -2,7 +2,6 @@
 using Anatoli.App.Model.AnatoliUser;
 using Anatoli.App.RequestModel;
 using Anatoli.Framework.AnatoliBase;
-using Anatoli.Framework.DataAdapter;
 using Anatoli.Framework.Manager;
 using System;
 using System.Collections.Generic;
@@ -39,7 +38,7 @@ namespace Anatoli.App.Manager
             bool wResult = await Task.Run(() =>
             {
                 var cipherText = Crypto.EncryptAES(content);
-                bool result = AnatoliClient.GetInstance().FileIO.WriteAllBytes(cipherText, AnatoliClient.GetInstance().FileIO.GetDataLoction(), Configuration.customerInfoFile);
+                bool result = AnatoliClient.GetInstance().FileClient.WriteAllBytes(cipherText, AnatoliClient.GetInstance().FileClient.GetDataLoction(), Configuration.customerInfoFile);
                 return result;
             });
         }
@@ -51,7 +50,7 @@ namespace Anatoli.App.Manager
             {
                 byte[] cipherText = await Task.Run(() =>
                 {
-                    byte[] result = AnatoliClient.GetInstance().FileIO.ReadAllBytes(AnatoliClient.GetInstance().FileIO.GetDataLoction(), Configuration.customerInfoFile);
+                    byte[] result = AnatoliClient.GetInstance().FileClient.ReadAllBytes(AnatoliClient.GetInstance().FileClient.GetDataLoction(), Configuration.customerInfoFile);
                     return result;
                 });
                 byte[] plainText = Crypto.DecryptAES(cipherText);
@@ -69,11 +68,11 @@ namespace Anatoli.App.Manager
                 customer.NationalCode = cInfoFields[8];
                 customer.Phone = cInfoFields[9];
                 customer.PostalCode = cInfoFields[10];
-                customer.UniqueId = cInfoFields[11];
-                customer.RegionLevel1Id = cInfoFields[12];
-                customer.RegionLevel2Id = cInfoFields[13];
-                customer.RegionLevel3Id = cInfoFields[14];
-                customer.RegionLevel4Id = cInfoFields[15];
+                customer.UniqueId = Guid.Parse(cInfoFields[11]);
+                customer.RegionLevel1Id = Guid.Parse(cInfoFields[12]);
+                customer.RegionLevel2Id = Guid.Parse(cInfoFields[13]);
+                customer.RegionLevel3Id = Guid.Parse(cInfoFields[14]);
+                customer.RegionLevel4Id = Guid.Parse(cInfoFields[15]);
                 return customer;
             }
             catch (Exception)
@@ -119,6 +118,11 @@ namespace Anatoli.App.Manager
                 string imguri = String.Format("{2}/content/Images/73C20167-9B30-4385-95AE-1A0BA89CC415/320x320/{0}/{1}.png", customerId, customerId, Configuration.WebService.PortalAddress);
                 return imguri;
             }
+        }
+
+        public override int UpdateItem(CustomerViewModel model)
+        {
+            throw new NotImplementedException();
         }
     }
 }

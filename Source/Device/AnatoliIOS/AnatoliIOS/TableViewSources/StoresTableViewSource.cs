@@ -7,7 +7,7 @@ using UIKit;
 
 namespace AnatoliIOS.TableViewSources
 {
-	public class StoresTableViewSource : BaseTableViewSource<StoreManager, StoreDataModel>
+	public class StoresTableViewSource : BaseTableViewSource<StoreManager, StoreModel>
 	{
 		public StoresTableViewSource ()
 		{
@@ -29,12 +29,12 @@ namespace AnatoliIOS.TableViewSources
 					alert.Show ();
 					return;
 				}
-				if ((await ShoppingCardManager.GetInfoAsync ()).items_count > 0) {
+				if ((await ShoppingCardManager.GetInfo ()).Qty > 0) {
 					var alert = UIAlertController.Create ("اخطار", ".با تغییر فروشگاه سبد خرید شما خالی میشود. ادامه می دهید؟", UIAlertControllerStyle.Alert);
 					alert.AddAction (UIAlertAction.Create ("بی خیال", UIAlertActionStyle.Cancel, null));
 					alert.AddAction (UIAlertAction.Create ("باشه", UIAlertActionStyle.Default,
 						async delegate {
-							var result = await StoreManager.SelectAsync (item);
+							var result = await StoreManager.Select (item);
 							if (result) {
 								AnatoliApp.GetInstance ().DefaultStore = item;
 								AnatoliApp.GetInstance ().ReplaceViewController (new FirstPageViewController ());
@@ -42,7 +42,7 @@ namespace AnatoliIOS.TableViewSources
 						}));
 					AnatoliApp.GetInstance ().PresentViewController (alert);
 				} else {
-					var result = await StoreManager.SelectAsync (item);
+					var result = await StoreManager.Select (item);
 					if (result) {
 						AnatoliApp.GetInstance ().DefaultStore = item;
 						AnatoliApp.GetInstance ().ReplaceViewController (new FirstPageViewController ());

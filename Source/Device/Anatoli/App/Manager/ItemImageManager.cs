@@ -1,6 +1,5 @@
 ﻿using Anatoli.App.Model;
 using Anatoli.Framework.AnatoliBase;
-using Anatoli.Framework.DataAdapter;
 using Anatoli.Framework.Manager;
 using System;
 using System.Collections.Generic;
@@ -17,7 +16,7 @@ namespace Anatoli.App.Manager
         {
             try
             {
-                var lastUpdateTime = await SyncManager.GetLogAsync(SyncManager.ImagesTbl);
+                var lastUpdateTime = SyncManager.GetLog(SyncManager.ImagesTbl);
                 List<ItemImageViewModel> list;
                 if (lastUpdateTime == DateTime.MinValue)
                     list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<ItemImageViewModel>>(Configuration.WebService.PortalAddress,TokenType.AppToken, Configuration.WebService.ImageManager.Images,true);
@@ -50,13 +49,18 @@ namespace Anatoli.App.Manager
                         }
                     }
                     connection.Commit();
-                    await SyncManager.AddLogAsync(SyncManager.ImagesTbl);
+                    SyncManager.AddLog(SyncManager.ImagesTbl);
                 }
             }
             catch (Exception e)
             {
                 throw e;
             }
+        }
+
+             public override int UpdateItem(ItemImageViewModel model)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace AnatoliIOS
 		private LinkedList<Type> _views;
 		private static AnatoliApp _instance;
 		public UITableView MenuTableViewReference;
-		public StoreDataModel DefaultStore;
+		public StoreModel DefaultStore;
 		public int ShoppingCardItemsCount;
 		public double ShoppingCardTotalPrice;
 		UILabel _counterLabel;
@@ -36,15 +36,15 @@ namespace AnatoliIOS
 			try {
 				Customer = await CustomerManager.ReadCustomerAsync ();
 				User = await AnatoliUserManager.ReadUserInfoAsync ();
-				DefaultStore = await StoreManager.GetDefaultAsync ();
+				DefaultStore = StoreManager.GetDefault ();
 				AnatoliClient.GetInstance ().WebClient.TokenExpire += async delegate {
 					await AnatoliApp.GetInstance ().LogOutAsync ();
 					AnatoliApp.GetInstance ().PushViewController (new LoginViewController ());
 				};
-				var info = await ShoppingCardManager.GetInfoAsync ();
+				var info = ShoppingCardManager.GetInfo ();
 				if (info != null) {
-					ShoppingCardItemsCount = info.items_count;
-					ShoppingCardTotalPrice = info.total_price;
+					ShoppingCardItemsCount = info.Qty;
+					ShoppingCardTotalPrice = info.TotalPrice;
 				}
 			} catch (Exception) {
 
@@ -72,7 +72,7 @@ namespace AnatoliIOS
 				return;
 			}
 			_updating = true;
-			var updateTime = await SyncManager.GetLogAsync (SyncManager.UpdateCompleted);
+			var updateTime = await SyncManager.GetLog (SyncManager.UpdateCompleted);
 			if ((DateTime.Now - updateTime) > TimeSpan.FromDays (3)) {
 				if (AnatoliClient.GetInstance ().WebClient.IsOnline ()) {
 					LoadingOverlay loading = new LoadingOverlay (GetVisibleViewController ().View.Bounds);
@@ -199,7 +199,7 @@ namespace AnatoliIOS
 				Type = MenuItem.MenuType.MainMenu
 			});
 			if (catId == "0") {
-				var cats = await CategoryManager.GetFirstLevelAsync ();
+				var cats = await ProductGroupManager.GetFirstLevel ();
 				foreach (var item in cats) {
 					source.Items.Add (new MenuItem () {
 						Title = item.cat_name,
@@ -208,9 +208,9 @@ namespace AnatoliIOS
 					});
 				}
 			} else {
-				var cats = await CategoryManager.GetCategoriesAsync (catId);
-				var parent = await CategoryManager.GetParentCategoryAsync (catId);
-				var current = await CategoryManager.GetCategoryInfoAsync (catId);
+				var cats = await ProductGroupManager.GetCategoriesAsync (catId);
+				var parent = await ProductGroupManager.GetParentCategory (catId);
+				var current = await ProductGroupManager.GetCategoryInfo (catId);
 				source.Items.Add (new MenuItem () {
 					Title = "همه محصولات",
 					Type = MenuItem.MenuType.CatId,
@@ -377,7 +377,7 @@ namespace AnatoliIOS
 
 		public async Task LogOutAsync ()
 		{
-			await AnatoliUserManager.LogoutAsync ();
+			await AnatoliUserManager.Logout ();
 			Customer = null;
 			User = null;
 			RefreshMenu ();
@@ -526,10 +526,10 @@ namespace AnatoliIOS
 
 		async void UpdateBasketView (ProductModel item)
 		{
-			var info = await ShoppingCardManager.GetInfoAsync ();
+			var info = await ShoppingCardManager.GetInfo ();
 			if (info != null) {
-				ShoppingCardItemsCount = info.items_count;
-				ShoppingCardTotalPrice = info.total_price;
+				ShoppingCardItemsCount = info.Qty;
+				ShoppingCardTotalPrice = info.TotalPrice;
 				_counterLabel.Text = ShoppingCardItemsCount.ToString ();
 			}
 

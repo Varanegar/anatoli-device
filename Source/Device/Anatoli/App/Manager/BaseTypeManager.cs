@@ -1,6 +1,5 @@
 ﻿using Anatoli.App.Model;
 using Anatoli.Framework.AnatoliBase;
-using Anatoli.Framework.DataAdapter;
 using Anatoli.Framework.Manager;
 using System;
 using System.Collections.Generic;
@@ -17,7 +16,7 @@ namespace Anatoli.App.Manager
         {
             try
             {
-                var lastUpdateTime = await SyncManager.GetLogAsync(SyncManager.BaseTypesTbl);
+                var lastUpdateTime = SyncManager.GetLog(SyncManager.BaseTypesTbl);
                 List<BaseTypeViewModel> list;
                 if (lastUpdateTime == DateTime.MinValue)
                     list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<BaseTypeViewModel>>(TokenType.AppToken, Configuration.WebService.BaseDatas, cancellationTokenSource, true);
@@ -28,38 +27,32 @@ namespace Anatoli.App.Manager
                     list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<BaseTypeViewModel>>(TokenType.AppToken, Configuration.WebService.BaseDatas, data, cancellationTokenSource, true);
                 }
 
-                await DataAdapter.UpdateItemAsync(new DeleteCommand("delivery_types"));
-                await DataAdapter.UpdateItemAsync(new DeleteCommand("pay_types"));
-                using (var connection = AnatoliClient.GetInstance().DbClient.GetConnection())
+                AnatoliClient.GetInstance().DbClient.UpdateItem(new DeleteCommand("DeliveryType"));
+                AnatoliClient.GetInstance().DbClient.UpdateItem(new DeleteCommand("PayType"));
+                AnatoliClient.GetInstance().DbClient.BeginTransaction();
+                foreach (var item in list)
                 {
-                    connection.BeginTransaction();
-                    foreach (var item in list)
+                    if (item.UniqueId.Equals(BaseTypeViewModel.DeliveryType))
                     {
-                        if (item.UniqueId.ToUpper() == BaseTypeViewModel.DeliveryType)
+                        foreach (var value in item.BaseValues)
                         {
-                            foreach (var value in item.BaseValues)
-                            {
-                                InsertCommand command = new InsertCommand("delivery_types", new BasicParam("name", value.BaseValueName),
-                                 new BasicParam("id", value.UniqueId.ToString().ToUpper()));
-                                var query = connection.CreateCommand(command.GetCommand());
-                                int t = query.ExecuteNonQuery();
-                            }
-                        }
-                        else if (item.UniqueId.ToUpper() == BaseTypeViewModel.PayType)
-                        {
-                            foreach (var value in item.BaseValues)
-                            {
-                                InsertCommand command = new InsertCommand("pay_types", new BasicParam("name", value.BaseValueName),
-                                 new BasicParam("id", value.UniqueId.ToString().ToUpper()));
-                                var query = connection.CreateCommand(command.GetCommand());
-                                int t = query.ExecuteNonQuery();
-                            }
+                            InsertCommand command = new InsertCommand("DeliveryType", new BasicParam("Name", value.BaseValueName),
+                             new BasicParam("UniqueId", value.UniqueId));
+                            int t = AnatoliClient.GetInstance().DbClient.UpdateItem(command);
                         }
                     }
-
-                    connection.Commit();
+                    else if (item.UniqueId.Equals(BaseTypeViewModel.PayType))
+                    {
+                        foreach (var value in item.BaseValues)
+                        {
+                            InsertCommand command = new InsertCommand("PayType", new BasicParam("Name", value.BaseValueName),
+                             new BasicParam("UniqueId", value.UniqueId.ToString().ToUpper()));
+                            int t = AnatoliClient.GetInstance().DbClient.UpdateItem(command);
+                        }
+                    }
                 }
-                await SyncManager.AddLogAsync(SyncManager.BaseTypesTbl);
+                AnatoliClient.GetInstance().DbClient.CommitTransaction();
+                SyncManager.AddLog(SyncManager.BaseTypesTbl);
             }
             catch (Exception e)
             {
@@ -67,7 +60,9 @@ namespace Anatoli.App.Manager
             }
         }
 
-
-
+        public override int UpdateItem(BaseTypeViewModel model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

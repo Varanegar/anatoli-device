@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Anatoli.App.Model.Store
 {
-    public class DeliveryTimeModel : BaseViewModel
+    public class DeliveryTimeModel : BaseModel
     {
         public TimeSpan timespan;
         public override string ToString()

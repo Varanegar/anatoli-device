@@ -9,9 +9,9 @@ namespace Anatoli.App.RequestModel
 {
     public class PurchaseOrderRequestModel : BaseRequestModel
     {
-        public string customerId { get; set; }
-        public string centerId { get; set; }
-        public string poId { get; set; }
+        public Guid customerId { get; set; }
+        public Guid centerId { get; set; }
+        public Guid poId { get; set; }
         public PurchaseOrderViewModel orderEntity { get; set; }
         public bool getAllOrderTypes { get { return false; } }
 

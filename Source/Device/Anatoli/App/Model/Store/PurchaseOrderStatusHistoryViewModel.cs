@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Anatoli.App.Model.Store
 {
-    public class PurchaseOrderStatusHistoryViewModel : BaseViewModel
+    public class PurchaseOrderStatusHistoryViewModel : BaseModel
     {
         private string actionTimeString = "";
         public  const string PreInvoice = "5C0D43FC-6822-4D39-AB40-363B885BE464";

@@ -14,37 +14,33 @@ namespace Anatoli.Framework.AnatoliBase
         {
             get { return _webClient; }
         }
-        AnatoliSQLite _sqlite;
-        public AnatoliSQLite DbClient
+        AnatoliSQLiteClient _sqlite;
+        public AnatoliSQLiteClient DbClient
         {
             get { return _sqlite; }
         }
         IFileIO _fileIO;
-        public IFileIO FileIO
+        public IFileIO FileClient
         {
             get { return _fileIO; }
         }
 
-        private static AnatoliClient instance;
+        private static AnatoliClient _instance;
         public static AnatoliClient GetInstance()
         {
-            if (instance == null)
+            if (_instance == null)
                 throw new NullReferenceException("AnatoliClient is null. You should run GetInstance(AnatoliWebClient webClient, AnatoliSQLite sqlite, IFileIO fileIO) for the first time");
-            return instance;
+            return _instance;
         }
-        public static AnatoliClient GetInstance(AnatoliWebClient webClient, AnatoliSQLite sqlite, IFileIO fileIO)
+        public static AnatoliClient Initialize(AnatoliWebClient webClient, AnatoliSQLiteClient sqlite, IFileIO fileIO)
         {
-            if (instance == null)
-                instance = new AnatoliClient(webClient, sqlite, fileIO);
+            if (_instance == null)
+                _instance = new AnatoliClient(webClient, sqlite, fileIO);
 
-            return instance;
-
-        }
-        private AnatoliClient()
-        {
+            return _instance;
 
         }
-        private AnatoliClient(AnatoliWebClient webClient, AnatoliSQLite sqlite, IFileIO fileIO)
+        private AnatoliClient(AnatoliWebClient webClient, AnatoliSQLiteClient sqlite, IFileIO fileIO)
         {
             _webClient = webClient;
             _sqlite = sqlite;

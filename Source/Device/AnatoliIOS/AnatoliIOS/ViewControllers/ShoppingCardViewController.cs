@@ -54,7 +54,7 @@ namespace AnatoliIOS.ViewControllers
                 AnatoliApp.GetInstance().PushViewController(new ProfileViewController());
             };
 
-            var deliveryTypeModel = new DeliveryTypePickerViewModel(await DeliveryTypeManager.GetDeliveryTypesAsync());
+            var deliveryTypeModel = new DeliveryTypePickerViewModel(await DeliveryTypeManager.GetDeliveryTypes());
             deliveryTypePicker.Model = deliveryTypeModel;
             deliveryTypePicker.ReloadComponent(0);
             deliveryTypeModel.ItemSelected += async (item) =>
@@ -69,11 +69,11 @@ namespace AnatoliIOS.ViewControllers
             };
             deliveryTypePicker.Select(0, 0, true);
             deliveryTypeModel.Selected(deliveryTypePicker, 0, 0);
-            var info = await ShoppingCardManager.GetInfoAsync();
+            var info = await ShoppingCardManager.GetInfo();
             if (info != null)
             {
-                itemCountLabel.Text = info.items_count + " عدد";
-                totalPriceLabel.Text = info.total_price.ToCurrency() + " تومان";
+                itemCountLabel.Text = info.Qty + " عدد";
+                totalPriceLabel.Text = info.TotalPrice.ToCurrency() + " تومان";
             }
             checkoutButton.TouchUpInside += async (object sender, EventArgs e) =>
             {
@@ -163,14 +163,14 @@ namespace AnatoliIOS.ViewControllers
 
         public async void UpdateLabels(ProductModel item)
         {
-            var info = await ShoppingCardManager.GetInfoAsync();
+            var info = await ShoppingCardManager.GetInfo();
             if (info != null)
             {
-                var count = info.items_count;
-                totalPriceLabel.Text = info.total_price.ToCurrency() + " تومان";
+                var count = info.Qty;
+                totalPriceLabel.Text = info.TotalPrice.ToCurrency() + " تومان";
             }
-            itemCountLabel.Text = info.items_count + " عدد";
-            if (info.items_count == 0)
+            itemCountLabel.Text = info.Qty + " عدد";
+            if (info.Qty == 0)
             {
                 productsTableView.ReloadData();
                 tableEmptyLabel.Hidden = false;

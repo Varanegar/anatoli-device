@@ -6,16 +6,14 @@ using System.Threading.Tasks;
 
 namespace Anatoli.Framework.Model
 {
-    public abstract class BaseViewModel
+    public abstract class BaseModel
     {
-        public BaseViewModel()
+        public BaseModel()
         {
 
         }
-        string _id;
-        public string Id { get { return (_id != null) ? _id.ToUpper() : null; } set { _id = (value != null) ? value.ToUpper() : null; } }
-        string _uniqueId;
-        public string UniqueId { get { return (_uniqueId != null) ? _uniqueId.ToUpper() : null; } set { _uniqueId = (value != null) ? value.ToUpper() : null; } }
+        public Guid Id { get; set; }
+        public Guid UniqueId { get; set; }
         public bool IsSaveRequired { get; set; }
         public bool ReadOnly { get { return false; } }
         public bool IsRemoved { get; set; }

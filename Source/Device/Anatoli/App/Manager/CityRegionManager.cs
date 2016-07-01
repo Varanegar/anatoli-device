@@ -1,7 +1,6 @@
 ﻿using Anatoli.App.Model.Product;
 using Anatoli.App.Model.Store;
 using Anatoli.Framework.AnatoliBase;
-using Anatoli.Framework.DataAdapter;
 using Anatoli.Framework.Manager;
 using System;
 using System.Collections.Generic;
@@ -18,100 +17,92 @@ namespace Anatoli.App.Manager
         {
             try
             {
-                var lastUpdateTime = await SyncManager.GetLogAsync(SyncManager.CityRegionTbl);
-                List<CityRegionUpdateModel> list;
+                var lastUpdateTime = SyncManager.GetLog(SyncManager.CityRegionTbl);
+                List<CityRegionModel> list;
                 if (lastUpdateTime == DateTime.MinValue)
-                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<CityRegionUpdateModel>>(Configuration.WebService.PortalAddress, TokenType.AppToken, Configuration.WebService.CityRegion, true);
+                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<CityRegionModel>>(Configuration.WebService.PortalAddress, TokenType.AppToken, Configuration.WebService.CityRegion, true);
                 else
                 {
                     var data = new RequestModel.BaseRequestModel();
                     data.dateAfter = lastUpdateTime.ToString();
-                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<CityRegionUpdateModel>>(TokenType.AppToken, Configuration.WebService.CityRegionAfter, data, true);
+                    list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<CityRegionModel>>(TokenType.AppToken, Configuration.WebService.CityRegionAfter, data, true);
                 }
 
-                Dictionary<string, CityRegionModel> items = new Dictionary<string, CityRegionModel>();
-                using (var connection = AnatoliClient.GetInstance().DbClient.GetConnection())
+                Dictionary<Guid, CityRegionModel> items = new Dictionary<Guid, CityRegionModel>();
+                var currentList = AnatoliClient.GetInstance().DbClient.GetList<CityRegionModel>(new StringQuery("SELECT * FROM cityregion"));
+                foreach (var item in currentList)
                 {
-                    var query = connection.CreateCommand("SELECT * FROM cityregion");
-                    var currentList = query.ExecuteQuery<CityRegionModel>();
-                    foreach (var item in currentList)
+                    items.Add(item.UniqueId, item);
+                }
+                AnatoliClient.GetInstance().DbClient.BeginTransaction();
+                foreach (var item in list)
+                {
+                    if (items.ContainsKey(item.UniqueId))
                     {
-                        items.Add(item.group_id, item);
+                        var currentValue = items[item.UniqueId];
+                        UpdateCommand command = new UpdateCommand("CityRegion", new BasicParam("GroupName", item.GroupName),
+                        new EqFilterParam("UniqueId", item.UniqueId),
+                        new BasicParam("ParentId", item.ParentUniqueIdString),
+                        new BasicParam("NLevel", item.NLevel.ToString()),
+                        new BasicParam("NLeft", item.NLeft.ToString()),
+                        new BasicParam("NRight", item.NRight.ToString()));
+                        int t = AnatoliClient.GetInstance().DbClient.UpdateItem(command);
+                    }
+                    else
+                    {
+                        InsertCommand command = new InsertCommand("cityregion", new BasicParam("GroupName", item.GroupName),
+                            new BasicParam("UniqueId", item.UniqueId),
+                            new BasicParam("ParentId", item.ParentUniqueIdString),
+                            new BasicParam("NLevel", item.NLevel.ToString()),
+                            new BasicParam("NLeft", item.NLeft.ToString()),
+                            new BasicParam("NRight", item.NRight.ToString()));
+                        int t = AnatoliClient.GetInstance().DbClient.UpdateItem(command);
                     }
                 }
-                using (var connection = AnatoliClient.GetInstance().DbClient.GetConnection())
-                {
-                    connection.BeginTransaction();
-                    foreach (var item in list)
-                    {
-                        if (items.ContainsKey(item.UniqueId.ToUpper()))
-                        {
-                            var currentValue = items[item.UniqueId.ToUpper()];
-                            if (currentValue.IsRemoved)
-                            {
-                                DeleteCommand command = new DeleteCommand("cityregion", new EqFilterParam("group_id", item.UniqueId));
-                                connection.CreateCommand(command.GetCommand()).ExecuteNonQuery();
-                            }
-                            else
-                            {
-                                UpdateCommand command = new UpdateCommand("cityregion", new BasicParam("group_name", item.GroupName),
-                                new EqFilterParam("group_id", item.UniqueId.ToUpper()),
-                                new BasicParam("parent_id", item.ParentUniqueIdString),
-                                new BasicParam("level", item.NLevel.ToString()),
-                                new BasicParam("left", item.NLeft.ToString()),
-                                new BasicParam("right", item.NRight.ToString()));
-                                var query = connection.CreateCommand(command.GetCommand());
-                                int t = query.ExecuteNonQuery();
-                            }
-                        }
-                        else
-                        {
-                            InsertCommand command = new InsertCommand("cityregion", new BasicParam("group_name", item.GroupName),
-                                new BasicParam("group_id", item.UniqueId.ToUpper()),
-                                new BasicParam("parent_id", item.ParentUniqueIdString),
-                                new BasicParam("level", item.NLevel.ToString()),
-                                new BasicParam("left", item.NLeft.ToString()),
-                                new BasicParam("right", item.NRight.ToString()));
-                            var query = connection.CreateCommand(command.GetCommand());
-                            int t = query.ExecuteNonQuery();
-                        }
-                    }
-
-                    connection.Commit();
-                }
-                await SyncManager.AddLogAsync(SyncManager.CityRegionTbl);
+                AnatoliClient.GetInstance().DbClient.CommitTransaction();
+                SyncManager.AddLog(SyncManager.CityRegionTbl);
             }
             catch (Exception e)
             {
                 throw e;
             }
         }
-        public static GroupLeftRightModel GetLeftRight(string groupId)
+        public static GroupLeftRightModel GetLeftRight()
         {
             try
             {
-                using (var connection = AnatoliClient.GetInstance().DbClient.GetConnection())
-                {
-                    SQLite.SQLiteCommand query;
-                    if (groupId == null)
-                        query = connection.CreateCommand("SELECT min(left) as left , max(right) as right FROM cityregion");
-                    else
-                        query = connection.CreateCommand(String.Format("SELECT left , right FROM cityregion WHERE cat_id ='{0}'", groupId));
-                    var lr = query.ExecuteQuery<GroupLeftRightModel>();
-                    return lr.First();
-                }
+                var connection = AnatoliClient.GetInstance().DbClient.GetConnection();
+                SQLite.SQLiteCommand query;
+                query = connection.CreateCommand("SELECT min(NLeft) as left , max(NRight) as right FROM CityRegion");
+                var lr = query.ExecuteQuery<GroupLeftRightModel>();
+                return lr.First();
             }
             catch (Exception)
             {
                 return null;
             }
         }
-        public static async Task<List<CityRegionModel>> GetFirstLevelAsync()
+        public static GroupLeftRightModel GetLeftRight(Guid groupId)
         {
             try
             {
-                var query = new StringQuery("SELECT * FROM cityregion WHERE level = 1 ORDER BY group_name ASC");
-                var list = await BaseDataAdapter<CityRegionModel>.GetListAsync(query);
+                var connection = AnatoliClient.GetInstance().DbClient.GetConnection();
+                SQLite.SQLiteCommand query;
+                query = connection.CreateCommand(String.Format("SELECT NLeft as left , NRight as right FROM CityRegion WHERE UniqueId ='{0}'", groupId));
+                var lr = query.ExecuteQuery<GroupLeftRightModel>();
+                return lr.First();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+        public static List<CityRegionModel> GetFirstLevel()
+        {
+            try
+            {
+                var query = new StringQuery("SELECT * FROM CityRegion WHERE NLevel = 1 ORDER BY GroupName ASC");
+                var list = AnatoliClient.GetInstance().DbClient.GetList<CityRegionModel>(query);
                 return list;
             }
             catch (Exception)
@@ -119,13 +110,13 @@ namespace Anatoli.App.Manager
                 return null;
             }
         }
-        public static async Task<List<CityRegionModel>> GetGroupsAsync(string groupId)
+        public static List<CityRegionModel> GetGroups(Guid groupId)
         {
             try
             {
-                var query = new StringQuery(string.Format("SELECT * FROM cityregion WHERE parent_id = '{0}' ORDER BY group_name ASC", groupId.ToUpper()));
+                var query = new StringQuery(string.Format("SELECT * FROM CityRegion WHERE ParentId = '{0}' ORDER BY GroupName ASC", groupId));
                 query.Unlimited = true;
-                var list = await BaseDataAdapter<CityRegionModel>.GetListAsync(query);
+                var list = AnatoliClient.GetInstance().DbClient.GetList<CityRegionModel>(query);
                 return list;
             }
             catch (Exception)
@@ -134,12 +125,12 @@ namespace Anatoli.App.Manager
             }
         }
 
-        public static async Task<CityRegionModel> GetParentGroupAsync(string p)
+        public static CityRegionModel GetParentGroup(Guid groupId)
         {
             try
             {
-                var current = await BaseDataAdapter<CityRegionModel>.GetItemAsync(new StringQuery(string.Format("SELECT * FROM cityregion WHERE group_id='{0}'", p.ToUpper())));
-                var parent = await BaseDataAdapter<CityRegionModel>.GetItemAsync(new StringQuery(string.Format("SELECT * FROM cityregion WHERE group_id='{0}'", current.parent_id.ToUpper())));
+                var current = AnatoliClient.GetInstance().DbClient.GetItem<CityRegionModel>(new StringQuery(string.Format("SELECT * FROM CityRegion WHERE UniqueId='{0}'", groupId)));
+                var parent = AnatoliClient.GetInstance().DbClient.GetItem<CityRegionModel>(new StringQuery(string.Format("SELECT * FROM CityRegion WHERE UniqueId='{0}'", current.ParentId)));
                 return parent;
             }
             catch (Exception)
@@ -148,17 +139,22 @@ namespace Anatoli.App.Manager
             }
         }
 
-        public static async Task<CityRegionModel> GetGroupInfoAsync(string p)
+        public static CityRegionModel GetGroupInfoAsync(Guid grouId)
         {
             try
             {
-                var c = await BaseDataAdapter<CityRegionModel>.GetItemAsync(new StringQuery(string.Format("SELECT * FROM cityregion WHERE group_id='{0}'", p.ToUpper())));
+                var c = AnatoliClient.GetInstance().DbClient.GetItem<CityRegionModel>(new StringQuery(string.Format("SELECT * FROM CityRegion WHERE UniqueId='{0}'", grouId)));
                 return c;
             }
             catch (Exception)
             {
                 return null;
             }
+        }
+
+        public override int UpdateItem(CityRegionModel model)
+        {
+            throw new NotImplementedException();
         }
     }
 }

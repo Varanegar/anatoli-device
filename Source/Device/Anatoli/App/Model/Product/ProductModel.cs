@@ -9,34 +9,36 @@ using SQLite;
 
 namespace Anatoli.App.Model.Product
 {
-    [Table("products")]
-    public class ProductModel : BaseViewModel
+    public class ProductModel : BaseModel
     {
-        public int order_count { get; set; }
-        public string cat_id { get; set; }
-        public string cat_name { get; set; }
-        public int brand_id { get; set; }
-        public string product_name { get; set; }
-        public string product_id { get; set; }
-        public double price { get; set; }
-        public int favorit { get; set; }
-        public int count { get; set; }
-        public string image { get; set; }
-        public int is_group { get; set; }
-        public decimal qty { get; set; }
-        public int cat_left { get; set; }
-        public int cat_right { get; set; }
-        public bool IsGroup
-        {
-            get { return is_group == 1 ? true : false; }
-        }
+        public string ProductCode { get; set; }
+        public string ProductName { get; set; }
+        public string StoreProductName { get; set; }
+        public decimal? PackVolume { get; set; }
+        public decimal? PackWeight { get; set; }
+        public decimal QtyPerPack { get; set; }
+        public decimal RateValue { get; set; }
+        public string SmallPicURL { get; set; }
+        public string LargePicURL { get; set; }
+        public string Desctription { get; set; }
+        public string PackUnitId { get; set; }
+        public string ProductTypeId { get; set; }
+        public string TaxCategoryId { get; set; }
+        public string MainProductGroupIdString { get; set; }
+        public Guid ProductGroupId { get; set; }
+        public string ManufactureIdString { get; set; }
+        public double Price { get; set; }
+        public int ShoppingBasketCount { get; set; }
+        public int FavoritBasketCount { get; set; }
+        public string ImageAddress { get; set; }
+        public decimal Qty { get; set; }
         public bool IsFavorit
         {
-            get { return favorit == 1 ? true : false; }
+            get { return FavoritBasketCount > 0 ? true : false; }
         }
         public bool IsAvailable
         {
-            get { return qty > 0 ? true : false; }
+            get { return Qty > 0 ? true : false; }
         }
     }
 

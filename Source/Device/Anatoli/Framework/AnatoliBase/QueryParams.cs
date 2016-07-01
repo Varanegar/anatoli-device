@@ -25,6 +25,11 @@ namespace Anatoli.Framework.AnatoliBase
             Name = name;
             Value = value;
         }
+        public BasicParam(string name, Guid value)
+        {
+            Name = name;
+            Value = value.ToString().ToUpper();
+        }
     }
     public abstract class FilterParam : QueryParameter
     {
@@ -46,10 +51,20 @@ namespace Anatoli.Framework.AnatoliBase
         {
 
         }
+        public SearchFilterParam(string Name, Guid Value)
+            : base(Name, Value.ToString().ToUpper())
+        {
+
+        }
     }
     public class EqFilterParam : SearchFilterParam
     {
         public EqFilterParam(string Name, string Value)
+            : base(Name, Value)
+        {
+
+        }
+        public EqFilterParam(string Name, Guid Value)
             : base(Name, Value)
         {
 
@@ -62,10 +77,20 @@ namespace Anatoli.Framework.AnatoliBase
         {
 
         }
+        public GreaterFilterParam(string Name, Guid Value)
+            : base(Name, Value)
+        {
+
+        }
     }
     public class SmallerFilterParam : SearchFilterParam
     {
         public SmallerFilterParam(string Name, string Value)
+            : base(Name, Value)
+        {
+
+        }
+        public SmallerFilterParam(string Name, Guid Value)
             : base(Name, Value)
         {
 

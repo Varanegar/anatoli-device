@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Anatoli.App.Model.Store
 {
-    public class ProductPriceModel : BaseViewModel
+    public class ProductPriceModel : BaseModel
     {
-        public string price { get; set; }
-        public string product_id { get; set; }
-        public string store_id { get; set; }
+        public Guid StoreGuid { get; set; }
+        public Guid ProductGuid { get; set; }
+        public decimal? Price { get; set; }
     }
 }

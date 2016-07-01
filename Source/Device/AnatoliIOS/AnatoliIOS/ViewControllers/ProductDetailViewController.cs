@@ -37,7 +37,7 @@ namespace AnatoliIOS
 			base.ViewDidAppear (animated);
 			EdgesForExtendedLayout = UIRectEdge.None;
 			counterView.SetBorders ();
-			var imgUri = ProductManager.GetImageAddress (_product.product_id, _product.image);
+			var imgUri = ProductManager.GetImageAddress (_product.product_id, _product.ImageAddress);
 			if (imgUri != null) {
 				Console.WriteLine (imgUri);
 				try {
@@ -57,7 +57,7 @@ namespace AnatoliIOS
 				addButton.Enabled = true;
 				productTitleLabel.TextColor = UIColor.Black;
 				productPriceLabel.TextColor = UIColor.Black;
-				productPriceLabel.Text = _product.price.ToCurrency () + " تومان";
+				productPriceLabel.Text = _product.Price.ToCurrency () + " تومان";
 			}
 			favoriteButton.TouchUpInside += async (object sender, EventArgs e) => {
 				if (_product.IsFavorit) {
@@ -65,7 +65,7 @@ namespace AnatoliIOS
 					if (result)
 						favoriteButton.SetBackgroundImage (UIImage.FromBundle ("favorit_gray"), UIControlState.Normal);
 				} else {
-					var result = await ProductManager.AddToFavoritsAsync (_product);
+					var result = await ProductManager.AddToFavorits (_product);
 					if (result)
 						favoriteButton.SetBackgroundImage (UIImage.FromBundle ("favorit_gold"), UIControlState.Normal);
 					
@@ -77,34 +77,34 @@ namespace AnatoliIOS
 			} else {
 				favoriteButton.SetBackgroundImage (UIImage.FromBundle ("favorit_gray"), UIControlState.Normal);
 			}
-			if (_product.count > 0) {
+			if (_product.ShoppingBasketCount > 0) {
 				counterView.Hidden = false;
 			} else
 				counterView.Hidden = true;
 			productGroupLabel.Text = _product.cat_name;
-			orderCountLabel.Text = _product.count + " عدد";
+			orderCountLabel.Text = _product.ShoppingBasketCount + " عدد";
 			addButton.TouchUpInside += async (object sender, EventArgs e) => {
 				addButton.Enabled = false;
-				if (_product.count + 1 > _product.qty) {
+				if (_product.ShoppingBasketCount + 1 > _product.qty) {
 					var alert = UIAlertController.Create ("خطا", "موجودی کافی نیست", UIAlertControllerStyle.Alert);
 					alert.AddAction (UIAlertAction.Create ("باشه", UIAlertActionStyle.Default, null));
 					AnatoliApp.GetInstance ().PresentViewController (alert);
 					addButton.Enabled = true;
 					return;
 				}
-				var result = await ShoppingCardManager.AddProductAsync (_product);
+				var result = await ShoppingCardManager.AddProduct (_product);
 				addButton.Enabled = true;
 				if (result) {
 					counterView.Hidden = false;
-					orderCountLabel.Text = _product.count.ToString () + " عدد";
+					orderCountLabel.Text = _product.ShoppingBasketCount.ToString () + " عدد";
 				}
 			};
 			removeButton.TouchUpInside += async (object sender, EventArgs e) => {
-				if (_product.count > 0) {
-					var result = await ShoppingCardManager.RemoveProductAsync (_product);
+				if (_product.ShoppingBasketCount > 0) {
+					var result = await ShoppingCardManager.RemoveProduct (_product);
 					if (result) {
-						orderCountLabel.Text = _product.count.ToString () + " عدد";
-						if (_product.count == 0) {
+						orderCountLabel.Text = _product.ShoppingBasketCount.ToString () + " عدد";
+						if (_product.ShoppingBasketCount == 0) {
 							counterView.Hidden = true;
 						}
 					}

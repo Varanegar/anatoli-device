@@ -85,7 +85,7 @@ namespace AnatoliIOS.ViewControllers
                 PresentViewController(alert, true, null);
             }
 
-            var items = await OrderItemsManager.GetItemsAsync(_order.order_id.ToString());
+            var items = await OrderItemsManager.GetItems(_order.order_id.ToString());
             OrderHistoryItemsTableViewSource source = new OrderHistoryItemsTableViewSource(items);
             itemsTableView.Source = source;
             itemsTableView.ReloadData();

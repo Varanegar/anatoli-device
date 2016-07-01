@@ -7,14 +7,11 @@ using System.Threading.Tasks;
 
 namespace Anatoli.App.Model.Store
 {
-    public class StoreActiveOnhandViewModel : BaseViewModel
+    public class StoreActiveOnhandViewModel : BaseModel
     {
-        public string store_id { get; set; }
-        public string product_id { get; set; }
-        public decimal qty { get; set; }
-        public string StoreGuid { get { return (store_id == null) ? null : store_id.ToUpper(); } set { store_id = (value == null) ? null : value.ToUpper(); } }
-        public string ProductGuid { get { return (product_id == null) ? null : product_id.ToUpper(); } set { product_id = (value == null) ? null : value.ToUpper(); } }
-        public decimal Qty { get { return qty; } set { qty = value; } }
+        public Guid StoreGuid { get; set; }
+        public Guid ProductGuid { get; set; }
+        public decimal Qty { get; set; }
 
     }
 }

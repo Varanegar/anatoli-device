@@ -117,9 +117,9 @@ namespace AnatoliIOS.ViewControllers
                 alertView.Show();
             };
             SetupFor(view);
-            var groups = await CategoryManager.GetFirstLevelAsync();
+            var groups = await ProductGroupManager.GetFirstLevel();
             var layout = new UICollectionViewFlowLayout();
-            groups = await CategoryManager.GetFirstLevelAsync();
+            groups = await ProductGroupManager.GetFirstLevel();
             layout.ItemSize = new CGSize(120f, 120f);
             var groupsCollectionView = new UICollectionView(new CGRect(0, 0, UIScreen.MainScreen.Bounds.Size.Width, (groups.Count + 1) / 2 * 150f), layout);
             groupsCollectionView.BackgroundColor = UIColor.White;

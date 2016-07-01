@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Anatoli.Framework.Manager;
 using Anatoli.App.Model.AnatoliUser;
 using Anatoli.Framework.AnatoliBase;
-using Anatoli.Framework.DataAdapter;
 using PCLCrypto;
 using Anatoli.App.Model;
 using Anatoli.Framework.Model;
@@ -25,7 +24,7 @@ namespace Anatoli.App.Manager
                 passWord = passWord.Trim();
             }
             await AnatoliClient.GetInstance().WebClient.RefreshTokenAsync(new TokenRefreshParameters(userName, passWord, Configuration.AppMobileAppInfo.Scope));
-            var userModel = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<AnatoliUserModel>(Configuration.WebService.PortalAddress, TokenType.AppToken, "/api/accounts/user/" + userName,false);
+            var userModel = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<AnatoliUserModel>(Configuration.WebService.PortalAddress, TokenType.AppToken, "/api/accounts/user/" + userName, false);
             if (userModel.IsValid)
             {
                 await AnatoliUserManager.SaveUserInfoAsync(userModel);
@@ -101,7 +100,7 @@ namespace Anatoli.App.Manager
             bool wResult = await Task.Run(() =>
                 {
                     var cipherText = Crypto.EncryptAES(content);
-                    bool result = AnatoliClient.GetInstance().FileIO.WriteAllBytes(cipherText, AnatoliClient.GetInstance().FileIO.GetDataLoction(), Configuration.userInfoFile);
+                    bool result = AnatoliClient.GetInstance().FileClient.WriteAllBytes(cipherText, AnatoliClient.GetInstance().FileClient.GetDataLoction(), Configuration.userInfoFile);
                     return result;
                 });
         }
@@ -112,7 +111,7 @@ namespace Anatoli.App.Manager
             {
                 byte[] cipherText = await Task.Run(() =>
                 {
-                    byte[] result = AnatoliClient.GetInstance().FileIO.ReadAllBytes(AnatoliClient.GetInstance().FileIO.GetDataLoction(), Configuration.userInfoFile);
+                    byte[] result = AnatoliClient.GetInstance().FileClient.ReadAllBytes(AnatoliClient.GetInstance().FileClient.GetDataLoction(), Configuration.userInfoFile);
                     return result;
                 });
                 byte[] plainText = Crypto.DecryptAES(cipherText);
@@ -121,8 +120,8 @@ namespace Anatoli.App.Manager
                 AnatoliUserModel user = new AnatoliUserModel();
                 user.Email = userInfoFields[0];
                 user.Username = userInfoFields[1];
-                user.UniqueId = userInfoFields[2];
-                user.Id = userInfoFields[3];
+                user.UniqueId = Guid.Parse(userInfoFields[2]);
+                user.Id = Guid.Parse(userInfoFields[3]);
                 return user;
             }
             catch (Exception)
@@ -131,24 +130,18 @@ namespace Anatoli.App.Manager
             }
         }
 
-        public static async Task<bool> LogoutAsync()
+        public static bool Logout()
         {
-            var fileIO = AnatoliClient.GetInstance().FileIO;
+            var fileIO = AnatoliClient.GetInstance().FileClient;
             try
             {
-                await Task.Run(() =>
-                    {
-                        fileIO.DeleteFile(fileIO.GetDataLoction(), Configuration.userInfoFile);
-                        fileIO.DeleteFile(fileIO.GetDataLoction(), Configuration.tokenInfoFile);
-                        fileIO.DeleteFile(fileIO.GetDataLoction(), Configuration.customerInfoFile);
-
-                    }
-                    );
-                await DataAdapter.UpdateItemAsync(new DeleteCommand("messages"));
-                await DataAdapter.UpdateItemAsync(new DeleteCommand("order_items"));
-                await DataAdapter.UpdateItemAsync(new DeleteCommand("orders"));
-                await DataAdapter.UpdateItemAsync(new DeleteCommand("shipping_info"));
-                await ShoppingCardManager.ClearAsync();
+                fileIO.DeleteFile(fileIO.GetDataLoction(), Configuration.userInfoFile);
+                fileIO.DeleteFile(fileIO.GetDataLoction(), Configuration.tokenInfoFile);
+                fileIO.DeleteFile(fileIO.GetDataLoction(), Configuration.customerInfoFile);
+                AnatoliClient.GetInstance().DbClient.UpdateItem(new DeleteCommand("Message"));
+                AnatoliClient.GetInstance().DbClient.UpdateItem(new DeleteCommand("OrderItem"));
+                AnatoliClient.GetInstance().DbClient.UpdateItem(new DeleteCommand("Order"));
+                ShoppingCardManager.Clear();
                 return true;
             }
             catch (Exception)
@@ -164,7 +157,7 @@ namespace Anatoli.App.Manager
             obj.ConfirmPassword = p2;
             obj.NewPassword = p2;
             obj.OldPassword = p1;
-            var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<ChangePasswordBindingModel>(TokenType.UserToken, Configuration.WebService.Users.ChangePasswordUri, obj,false);
+            var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<ChangePasswordBindingModel>(TokenType.UserToken, Configuration.WebService.Users.ChangePasswordUri, obj, false);
             return result;
         }
 
@@ -173,7 +166,7 @@ namespace Anatoli.App.Manager
             var userRequestModel = new RequestModel.UserRequestModel();
             userRequestModel.username = userName;
             userRequestModel.code = code;
-            var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<BaseWebClientResult>(TokenType.AppToken, Configuration.WebService.Users.ConfirmMobile, userRequestModel,false);
+            var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<BaseWebClientResult>(TokenType.AppToken, Configuration.WebService.Users.ConfirmMobile, userRequestModel, false);
             return result;
         }
 
@@ -181,7 +174,7 @@ namespace Anatoli.App.Manager
         {
             var userRequestModel = new RequestModel.UserRequestModel();
             userRequestModel.username = userName;
-            var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<BaseWebClientResult>(TokenType.AppToken, Configuration.WebService.Users.ResendConfirmCode, userRequestModel,false);
+            var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<BaseWebClientResult>(TokenType.AppToken, Configuration.WebService.Users.ResendConfirmCode, userRequestModel, false);
             return result;
         }
 
@@ -190,14 +183,14 @@ namespace Anatoli.App.Manager
             var userRequestModel = new RequestModel.UserRequestModel();
             userRequestModel.username = userName;
             userRequestModel.password = passWord;
-            var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<BaseWebClientResult>(TokenType.AppToken, Configuration.WebService.Users.ResetPassWord, userRequestModel,false);
+            var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<BaseWebClientResult>(TokenType.AppToken, Configuration.WebService.Users.ResetPassWord, userRequestModel, false);
             return result;
         }
         public static async Task<BaseWebClientResult> SendPassCode(string userName)
         {
             var userRequestModel = new RequestModel.UserRequestModel();
             userRequestModel.username = userName;
-            var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<BaseWebClientResult>(TokenType.AppToken, Configuration.WebService.Users.SendPassCode, userRequestModel,false);
+            var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<BaseWebClientResult>(TokenType.AppToken, Configuration.WebService.Users.SendPassCode, userRequestModel, false);
             return result;
         }
         public static async Task<BaseWebClientResult> ResetPasswordByCode(string userName, string passWord, string code)
@@ -206,7 +199,7 @@ namespace Anatoli.App.Manager
             userRequestModel.username = userName;
             userRequestModel.password = passWord;
             userRequestModel.code = code;
-            var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<BaseWebClientResult>(TokenType.AppToken, Configuration.WebService.Users.ResetPasswordByCode, userRequestModel,false);
+            var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<BaseWebClientResult>(TokenType.AppToken, Configuration.WebService.Users.ResetPasswordByCode, userRequestModel, false);
             return result;
         }
     }

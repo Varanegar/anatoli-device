@@ -8,8 +8,24 @@ using System.Threading.Tasks;
 
 namespace UpdateDB
 {
-    class CSqliteClient : Anatoli.Framework.AnatoliBase.AnatoliSQLite
+    class CSqliteClient : Anatoli.Framework.AnatoliBase.AnatoliSQLiteClient
     {
+        SQLite.SQLiteConnection _connection;
+        public override void BeginTransaction()
+        {
+            _connection.BeginTransaction();
+        }
+
+        public override void CommitTransaction()
+        {
+            _connection.Commit();
+        }
+
+        public override void Create()
+        {
+            
+        }
+
         public override SQLiteConnection GetConnection()
         {
 #if (DEBUG)
@@ -25,6 +41,26 @@ namespace UpdateDB
 #endif
             var conn = new SQLiteConnection(path);
             return conn;
+        }
+
+        public override void RollbackTransaction()
+        {
+            _connection.Rollback();
+        }
+
+        public override void RollbackTransactionTo(string savePoint)
+        {
+            _connection.RollbackTo(savePoint);
+        }
+
+        public override string SaveTransactionPoint()
+        {
+            return _connection.SaveTransactionPoint();
+        }
+
+        public override void Upgrade(int currentVersion, int ollVersion)
+        {
+            
         }
     }
 }

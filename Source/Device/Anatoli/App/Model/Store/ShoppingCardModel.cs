@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Anatoli.App.Model.Store
 {
-    public class ShoppingCardViewModel : BaseViewModel
+    public class ShoppingCardModel : BaseModel
     {
-        public int items_count { get; set; }
-        public double total_price { get; set; }
+        public int Qty { get; set; }
+        public double TotalPrice { get; set; }
     }
 }

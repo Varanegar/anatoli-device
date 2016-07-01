@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Anatoli.App.Model.Store
 {
-    public class PurchaseOrderLineItemViewModel : BaseViewModel
+    public class PurchaseOrderLineItemViewModel : BaseModel
     {
         public Guid? FinalProductId { get; set; }
         public Guid ProductId { get; set; }

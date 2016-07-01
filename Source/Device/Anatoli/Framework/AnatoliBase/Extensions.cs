@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Anatoli.Framework.AnatoliBase
 {
-    public static class Extentions
+    public static class Extensions
     {
         public static string ToCurrency(this double value)
         {

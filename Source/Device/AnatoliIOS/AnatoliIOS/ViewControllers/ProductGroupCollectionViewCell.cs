@@ -25,7 +25,7 @@ namespace AnatoliIOS
 		public void UpdateCell(CategoryInfoModel item){
 			groupImageView.Image = UIImage.FromBundle("igicon");
 			groupNameLable.Text = item.cat_name;
-			var imgUri = CategoryManager.GetImageAddress(item.cat_id,item.cat_image);
+			var imgUri = ProductGroupManager.GetImageAddress(item.cat_id,item.cat_image);
 			if (imgUri != null) {
 				try {
 					using (var url = new NSUrl (imgUri)) {

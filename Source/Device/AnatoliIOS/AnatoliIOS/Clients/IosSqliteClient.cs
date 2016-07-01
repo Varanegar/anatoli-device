@@ -6,7 +6,7 @@ using System.IO;
 
 namespace AnatoliIOS.Clients
 {
-    class IosSqliteClient : AnatoliSQLite
+    class IosSqliteClient : AnatoliSQLiteClient
     {
         double _latestVersion;
         double _currentVersion;
@@ -35,5 +35,39 @@ namespace AnatoliIOS.Clients
             return conn;
         }
 
+        public override void Upgrade(int currentVersion, int ollVersion)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Create()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void BeginTransaction()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void CommitTransaction()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void RollbackTransactionTo(string savePoint)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void RollbackTransaction()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string SaveTransactionPoint()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Anatoli.App.Model.AnatoliUser
 {
-    public class AnatoliUserModel : BaseViewModel
+    public class AnatoliUserModel : BaseModel
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

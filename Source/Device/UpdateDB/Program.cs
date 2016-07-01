@@ -15,7 +15,7 @@ namespace UpdateDB
             Console.WriteLine("Syncronising Anatoli database started...");
             try
             {
-                AnatoliClient.GetInstance(new CWebClient(), new CSqliteClient(), new CFileIO());
+                AnatoliClient.Initialize(new CWebClient(), new CSqliteClient(), new CFileIO());
                 Console.WriteLine("Data base connection established successfully.");
                 SyncManager.ProgressChanged += (status, step) => { Console.WriteLine(status); };
                 SyncManager.SyncDatabase().Wait();

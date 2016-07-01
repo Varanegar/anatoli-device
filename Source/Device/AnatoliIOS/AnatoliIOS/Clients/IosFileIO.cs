@@ -53,8 +53,16 @@ namespace AnatoliIOS.Clients
 
         public byte[] ReadAllBytes(string path, string fileName)
         {
-            string filePath = System.IO.Path.Combine(path, fileName);
-            return System.IO.File.ReadAllBytes(filePath);
+            try
+            {
+                string filePath = System.IO.Path.Combine(path, fileName);
+                var bytes = System.IO.File.ReadAllBytes(filePath);
+                return bytes;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public byte[] ReadAllBytes(string filePath)

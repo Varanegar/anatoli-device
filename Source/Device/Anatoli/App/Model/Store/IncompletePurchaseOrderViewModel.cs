@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Anatoli.App.Model.Store
 {
-    public class IncompletePurchaseOrderViewModel : BaseViewModel
+    public class IncompletePurchaseOrderViewModel : BaseModel
     {
         public Guid CustomerId { get; set; }
         public Guid StoreId { get; set; }

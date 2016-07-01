@@ -1,6 +1,5 @@
 ﻿using Anatoli.Framework.AnatoliBase;
 using Anatoli.App.Model.Product;
-using Anatoli.Framework.DataAdapter;
 using Anatoli.Framework.Manager;
 using Anatoli.Framework.Model;
 using System;
@@ -15,34 +14,22 @@ namespace Anatoli.App.Manager
 {
     public class ShoppingCardManager : BaseManager<ProductModel>
     {
-        public static async Task<ProductModel> GetItemAsync(string id)
-        {
-            try
-            {
-                SelectQuery query = new SelectQuery("shopping_card_view", new EqFilterParam("product_id", id.ToString().ToUpper()));
-                return await BaseDataAdapter<ProductModel>.GetItemAsync(query);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-        public static async Task<bool> AddProductAsync(string productId, string storeId, int count)
+        public static bool AddProduct(Guid productId, Guid storeId, int count)
         {
             DBQuery query = null;
             try
             {
-                var item = await ProductManager.GetItemAsync(productId, storeId);
+                var item = ProductManager.GetItem(productId, storeId);
                 if (item == null || !item.IsAvailable)
                     return false;
-                if (item.count == 0)
+                if (item.ShoppingBasketCount == 0)
                     query = new InsertCommand("shopping_card", new BasicParam("count", (count).ToString()), new BasicParam("product_id", productId));
                 else
-                    query = new UpdateCommand("shopping_card", new BasicParam("count", (item.count + count).ToString()), new EqFilterParam("product_id", item.product_id.ToString()));
-                var result = await DataAdapter.UpdateItemAsync(query) > 0 ? true : false;
+                    query = new UpdateCommand("shopping_card", new BasicParam("count", (item.ShoppingBasketCount + count).ToString()), new EqFilterParam("product_id", item.UniqueId.ToString()));
+                var result = AnatoliClient.GetInstance().DbClient.UpdateItem(query) > 0 ? true : false;
                 if (result)
                 {
-                    item.count += count;
+                    item.ShoppingBasketCount += count;
                     OnItemChanged(item);
                 }
                 return result;
@@ -52,19 +39,19 @@ namespace Anatoli.App.Manager
                 return false;
             }
         }
-        public static async Task<bool> AddProductAsync(ProductModel item)
+        public static bool AddProduct(ProductModel item)
         {
             try
             {
                 DBQuery query = null;
-                if (item.count == 0)
-                    query = new InsertCommand("shopping_card", new BasicParam("count", (item.count + 1).ToString()), new BasicParam("product_id", item.product_id.ToString()));
+                if (item.ShoppingBasketCount == 0)
+                    query = new InsertCommand("shopping_card", new BasicParam("count", (item.ShoppingBasketCount + 1).ToString()), new BasicParam("product_id", item.UniqueId.ToString()));
                 else
-                    query = new UpdateCommand("shopping_card", new BasicParam("count", (item.count + 1).ToString()), new EqFilterParam("product_id", item.product_id.ToString()));
-                var result = await DataAdapter.UpdateItemAsync(query) > 0 ? true : false;
+                    query = new UpdateCommand("shopping_card", new BasicParam("count", (item.ShoppingBasketCount + 1).ToString()), new EqFilterParam("product_id", item.UniqueId.ToString()));
+                var result = AnatoliClient.GetInstance().DbClient.UpdateItem(query) > 0 ? true : false;
                 if (result)
                 {
-                    item.count++;
+                    item.ShoppingBasketCount++;
                     OnItemChanged(item);
                 }
                 return result;
@@ -74,25 +61,25 @@ namespace Anatoli.App.Manager
                 return false;
             }
         }
-        public static async Task<bool> RemoveProductAsync(ProductModel item, bool all = false)
+        public static bool RemoveProduct(ProductModel item, bool all = false)
         {
             try
             {
                 DBQuery query = null;
-                if (item.count <= 1 || all)
-                    query = new DeleteCommand("shopping_card", new SearchFilterParam("product_id", item.product_id.ToString()));
+                if (item.ShoppingBasketCount <= 1 || all)
+                    query = new DeleteCommand("shopping_card", new SearchFilterParam("product_id", item.UniqueId.ToString()));
                 else
-                    query = new UpdateCommand("shopping_card", new BasicParam("count", (item.count - 1).ToString()), new EqFilterParam("product_id", item.product_id.ToString()));
-                var result = await DataAdapter.UpdateItemAsync(query) > 0 ? true : false;
+                    query = new UpdateCommand("shopping_card", new BasicParam("count", (item.ShoppingBasketCount - 1).ToString()), new EqFilterParam("product_id", item.UniqueId.ToString()));
+                var result = AnatoliClient.GetInstance().DbClient.UpdateItem(query) > 0 ? true : false;
                 if (result)
                     if (all)
                     {
-                        item.count = 0;
+                        item.ShoppingBasketCount = 0;
                         OnItemChanged(item);
                     }
                     else
                     {
-                        item.count--;
+                        item.ShoppingBasketCount--;
                         OnItemChanged(item);
                     }
                 return result;
@@ -122,14 +109,14 @@ namespace Anatoli.App.Manager
         //        return 0;
         //    }
         //}
-        public static async Task<List<ProductModel>> GetAllItemsAsync()
+        public static List<ProductModel> GetAllItems()
         {
             try
             {
-                var defaultStore = await StoreManager.GetDefaultAsync();
-                StringQuery query = new StringQuery(string.Format("SELECT * FROM shopping_card_view LEFT JOIN store_onhand ON shopping_card_view.product_id = store_onhand.product_id WHERE store_onhand.store_id = '{0}'", defaultStore.store_id));
+                var defaultStore = StoreManager.GetDefault();
+                StringQuery query = new StringQuery(string.Format("SELECT * FROM shopping_card_view LEFT JOIN store_onhand ON shopping_card_view.product_id = store_onhand.product_id WHERE store_onhand.store_id = '{0}'", defaultStore.UniqueId));
                 query.Unlimited = true;
-                var list = await BaseDataAdapter<ProductModel>.GetListAsync(query);
+                var list = AnatoliClient.GetInstance().DbClient.GetList<ProductModel>(query);
                 return list;
             }
             catch (Exception)
@@ -143,39 +130,39 @@ namespace Anatoli.App.Manager
             query.Unlimited = false;
             return query;
         }
-        public static async Task<bool> ClearAsync()
+        public static bool Clear()
         {
             DeleteCommand command = new DeleteCommand("shopping_card");
-            var result = (await DataAdapter.UpdateItemAsync(command) > 0) ? true : false;
+            var result = (AnatoliClient.GetInstance().DbClient.UpdateItem(command) > 0) ? true : false;
             if (result)
                 OnItemsCleared();
             return result;
         }
 
-        public static async Task<ShoppingCardViewModel> GetInfoAsync()
+        public static ShoppingCardModel GetInfo()
         {
             try
             {
-                var defaultStore = await StoreManager.GetDefaultAsync();
-                StringQuery query = new StringQuery(string.Format("SELECT SUM(count) as items_count, SUM(price*count) as total_price FROM shopping_card_view JOIN store_onhand ON shopping_card_view.product_id = store_onhand.product_id WHERE store_onhand.store_id = '{0}'", defaultStore.store_id));
+                var defaultStore = StoreManager.GetDefault();
+                StringQuery query = new StringQuery(string.Format("SELECT SUM(count) as items_count, SUM(price*count) as total_price FROM shopping_card_view JOIN store_onhand ON shopping_card_view.product_id = store_onhand.product_id WHERE store_onhand.store_id = '{0}'", defaultStore.UniqueId));
                 query.Unlimited = true;
-                var card = await BaseDataAdapter<ShoppingCardViewModel>.GetItemAsync(query);
+                var card = AnatoliClient.GetInstance().DbClient.GetItem<ShoppingCardModel>(query);
                 return card;
             }
             catch (Exception)
             {
-                return new ShoppingCardViewModel();
+                return new ShoppingCardModel();
             }
         }
 
-        public static async Task<bool> UpdateProductCountAsyc(ProductModel item)
+        public static bool UpdateProductCount(ProductModel item)
         {
             DBQuery query = null;
-            if (item.count == 0)
-                query = new DeleteCommand("shopping_card", new SearchFilterParam("product_id", item.product_id.ToString()));
+            if (item.ShoppingBasketCount == 0)
+                query = new DeleteCommand("shopping_card", new SearchFilterParam("product_id", item.UniqueId.ToString()));
             else
-                query = new UpdateCommand("shopping_card", new BasicParam("count", (item.count).ToString()), new EqFilterParam("product_id", item.product_id.ToString()));
-            var result = await DataAdapter.UpdateItemAsync(query) > 0 ? true : false;
+                query = new UpdateCommand("shopping_card", new BasicParam("count", (item.ShoppingBasketCount).ToString()), new EqFilterParam("product_id", item.UniqueId.ToString()));
+            var result = AnatoliClient.GetInstance().DbClient.UpdateItem(query) > 0 ? true : false;
             if (result)
             {
                 OnItemChanged(item);
@@ -187,7 +174,7 @@ namespace Anatoli.App.Manager
         {
             try
             {
-                var products = await GetAllItemsAsync();
+                var products = GetAllItems();
                 PurchaseOrderViewModel order = new PurchaseOrderViewModel();
                 order.Customer = customerModel;
                 order.DeliveryTypeId = Guid.Parse(deliveryTypeId);
@@ -207,8 +194,8 @@ namespace Anatoli.App.Manager
                 foreach (var item in products)
                 {
                     PurchaseOrderLineItemViewModel line = new PurchaseOrderLineItemViewModel();
-                    line.ProductId = Guid.Parse(item.product_id);
-                    line.Qty = item.count;
+                    line.ProductId = Guid.Parse(item.UniqueId.ToString());
+                    line.Qty = item.ShoppingBasketCount;
                     order.LineItems.Add(line);
                 }
                 var requestModel = new RequestModel.PurchaseOrderRequestModel();
@@ -227,7 +214,7 @@ namespace Anatoli.App.Manager
         {
             try
             {
-                var products = await GetAllItemsAsync();
+                var products = GetAllItems();
                 PurchaseOrderViewModel order = new PurchaseOrderViewModel();
                 order.Customer = customerModel;
                 order.DeliveryTypeId = Guid.Parse(deliveryTypeId);
@@ -248,8 +235,8 @@ namespace Anatoli.App.Manager
                 foreach (var item in products)
                 {
                     PurchaseOrderLineItemViewModel line = new PurchaseOrderLineItemViewModel();
-                    line.ProductId = Guid.Parse(item.product_id);
-                    line.Qty = item.count;
+                    line.ProductId = Guid.Parse(item.UniqueId.ToString());
+                    line.Qty = item.ShoppingBasketCount;
                     order.LineItems.Add(line);
                 }
                 var requestModel = new RequestModel.PurchaseOrderRequestModel();
@@ -274,10 +261,10 @@ namespace Anatoli.App.Manager
             {
                 throw new ValidationException(ValidationErrorCode.CustomerInfo);
             }
-            var info = await ShoppingCardManager.GetInfoAsync();
+            var info = GetInfo();
             if (info != null)
             {
-                if (info.items_count == 0)
+                if (info.Qty == 0)
                 {
                     throw new ValidationException(ValidationErrorCode.EmptyBasket);
                 }
@@ -303,6 +290,25 @@ namespace Anatoli.App.Manager
                 ItemChanged.Invoke(item);
             }
         }
+
+        public static ProductModel GetItem(Guid uniqueId)
+        {
+            try
+            {
+                SelectQuery query = new SelectQuery("shopping_card_view", new EqFilterParam("product_id", uniqueId.ToString().ToUpper()));
+                return AnatoliClient.GetInstance().DbClient.GetItem<ProductModel>(query);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public override int UpdateItem(ProductModel model)
+        {
+            throw new NotImplementedException();
+        }
+
         public static event ItemChangedEventHandler ItemChanged;
         public delegate void ItemChangedEventHandler(ProductModel item);
     }

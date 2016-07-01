@@ -45,7 +45,7 @@ namespace AnatoliIOS.TableViewCells
                     addProductButton.Enabled = true;
                     return;
                 }
-                if (item.count + 1 > item.qty)
+                if (item.ShoppingBasketCount + 1 > item.qty)
                 {
                     var alert = UIAlertController.Create("خطا", "موجودی کافی نیست", UIAlertControllerStyle.Alert);
                     alert.AddAction(UIAlertAction.Create("باشه", UIAlertActionStyle.Default, null));
@@ -53,12 +53,12 @@ namespace AnatoliIOS.TableViewCells
                     addProductButton.Enabled = true;
                     return;
                 }
-                var result = await ShoppingCardManager.AddProductAsync(item);
+                var result = await ShoppingCardManager.AddProduct(item);
                 addProductButton.Enabled = true;
                 if (result)
                 {
                     toolsViewWidth.Constant = 50;
-                    countLabel.Text = item.count.ToString() + " عدد";
+                    countLabel.Text = item.ShoppingBasketCount.ToString() + " عدد";
                 }
             };
             removeProductButton.TouchUpInside += async (object sender, EventArgs e) =>
@@ -75,13 +75,13 @@ namespace AnatoliIOS.TableViewCells
                     addProductButton.Enabled = true;
                     return;
                 }
-                if (item.count > 0)
+                if (item.ShoppingBasketCount > 0)
                 {
-                    var result = await ShoppingCardManager.RemoveProductAsync(item);
+                    var result = await ShoppingCardManager.RemoveProduct(item);
                     if (result)
                     {
-                        countLabel.Text = item.count.ToString() + " عدد";
-                        if (item.count == 0)
+                        countLabel.Text = item.ShoppingBasketCount.ToString() + " عدد";
+                        if (item.ShoppingBasketCount == 0)
                         {
                             toolsViewWidth.Constant = 0;
 
@@ -96,16 +96,16 @@ namespace AnatoliIOS.TableViewCells
         {
             productLabel.Text = item.product_name;
 
-            if (item.count > 0)
+            if (item.ShoppingBasketCount > 0)
             {
                 toolsViewWidth.Constant = 50;
-                countLabel.Text = item.count.ToString() + " عدد";
+                countLabel.Text = item.ShoppingBasketCount.ToString() + " عدد";
             }
             else
             {
                 toolsViewWidth.Constant = 0;
             }
-            var imgUri = ProductManager.GetImageAddress(item.product_id, item.image);
+            var imgUri = ProductManager.GetImageAddress(item.product_id, item.ImageAddress);
             if (imgUri != null)
             {
                 try
@@ -135,7 +135,7 @@ namespace AnatoliIOS.TableViewCells
                 addProductButton.Enabled = true;
                 productLabel.TextColor = UIColor.Black;
                 priceLabel.TextColor = UIColor.Black;
-                priceLabel.Text = item.price.ToCurrency() + " تومان";
+                priceLabel.Text = item.Price.ToCurrency() + " تومان";
             }
 
 

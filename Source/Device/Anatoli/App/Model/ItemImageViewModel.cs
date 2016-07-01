@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Anatoli.App.Model
 {
-    public class ItemImageViewModel : BaseViewModel
+    public class ItemImageViewModel : BaseModel
     {
         public static string ProductImageType = "635126C3-D648-4575-A27C-F96C595CDAC5";
         public static string CenterImageType = "9CED6F7E-D08E-40D7-94BF-A6950EE23915";

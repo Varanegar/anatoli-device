@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Anatoli.App.Model
 {
-    public class BaseValueViewModel : BaseViewModel
+    public class BaseValueViewModel : BaseModel
     {
         public string BaseValueName { get; set; }
     }

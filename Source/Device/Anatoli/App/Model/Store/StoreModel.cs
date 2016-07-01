@@ -8,19 +8,15 @@ using System.Threading.Tasks;
 
 namespace Anatoli.App.Model.Store
 {
-    public class StoreDataModel : BaseViewModel
+    public class StoreModel : BaseModel
     {
-        public string store_name { get; set; }
-        public string store_address { get; set; }
-        public string store_zone { get; set; }
-        public string store_city { get; set; }
-        public string store_province { get; set; }
-        public string store_id { get; set; }
+        public string storeName { get; set; }
         public int selected { get; set; }
-        public string store_tel { get; set; }
         public double lat { get; set; }
         public double lng { get; set; }
-        public bool support_app_order { get; set; }
+        public string address { get; set; }
+        public string Phone { get; set; }
+        public bool supportAppOrder { get; set; }
         public string location
         {
             get
