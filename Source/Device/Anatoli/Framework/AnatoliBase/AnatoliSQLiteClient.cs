@@ -134,10 +134,11 @@ namespace Anatoli.Framework.AnatoliBase
         //}
         public int UpdateItem(DBQuery query)
         {
+            SQLiteCommand command;
             try
             {
                 var connection = GetConnection();
-                var command = connection.CreateCommand(query.GetCommand());
+                command = connection.CreateCommand(query.GetCommand());
                 lock (connection)
                 {
                     var qResult = command.ExecuteNonQuery();
@@ -145,10 +146,10 @@ namespace Anatoli.Framework.AnatoliBase
                 }
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                throw;
+                throw e;
             }
         }
     }

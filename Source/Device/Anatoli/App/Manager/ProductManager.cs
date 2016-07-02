@@ -73,14 +73,6 @@ ON a.UniqueId = b.UniqueId AND a.UniqueId = '{1}'", storeId.ToString(), productI
                     list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<ProductModel>>(TokenType.AppToken, Configuration.WebService.Products.ProductsListAfter, data, true);
                 }
                 Dictionary<Guid, ProductModel> items = new Dictionary<Guid, ProductModel>();
-                List<ProductModel> nulls = new List<ProductModel>();
-                foreach (var item in list)
-                {
-                    if (string.IsNullOrEmpty(item.ProductGroupId))
-                    {
-                        nulls.Add(item);
-                    }
-                }
                 var currentList = AnatoliClient.GetInstance().DbClient.GetList<ProductModel>(new StringQuery("SELECT * FROM Product"));
                 foreach (var item in currentList)
                 {
@@ -97,7 +89,7 @@ ON a.UniqueId = b.UniqueId AND a.UniqueId = '{1}'", storeId.ToString(), productI
                             new BasicParam("ProductName", item.ProductName),
                             new BasicParam("StoreProductName", item.StoreProductName),
                             new BasicParam("IsRemoved", (item.IsRemoved == true) ? "1" : "0"),
-                            new BasicParam("ProductGroupId", item.ProductGroupId));
+                            new BasicParam("ProductGroupId", item.ProductGroupId.ToString().ToUpper()));
                         int t = AnatoliClient.GetInstance().DbClient.UpdateItem(command);
 
                     }
@@ -107,7 +99,7 @@ ON a.UniqueId = b.UniqueId AND a.UniqueId = '{1}'", storeId.ToString(), productI
                          new BasicParam("ProductName", item.ProductName),
                             new BasicParam("StoreProductName", item.StoreProductName),
                             new BasicParam("IsRemoved", (item.IsRemoved == true) ? "1" : "0"),
-                            new BasicParam("ProductGroupId", item.ProductGroupId));
+                            new BasicParam("ProductGroupId", item.ProductGroupId.ToString().ToUpper()));
                         int t = AnatoliClient.GetInstance().DbClient.UpdateItem(command);
                     }
                 }
@@ -134,7 +126,7 @@ ON a.UniqueId = b.UniqueId AND a.UniqueId = '{1}'", storeId.ToString(), productI
                     list = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<List<ProductPriceModel>>(TokenType.AppToken, Configuration.WebService.Stores.PricesViewAfter, data, true);
                 }
                 Dictionary<string, ProductPriceModel> items = new Dictionary<string, ProductPriceModel>();
-                var currentList = AnatoliClient.GetInstance().DbClient.GetList<ProductPriceModel>(new StringQuery("SELECT * FROM products_price"));
+                var currentList = AnatoliClient.GetInstance().DbClient.GetList<ProductPriceModel>(new StringQuery("SELECT * FROM ProductPrice"));
                 foreach (var item in currentList)
                 {
                     items.Add(item.ProductGuid.ToString().ToUpper() + item.StoreGuid.ToString().ToUpper(), item);
@@ -155,9 +147,11 @@ ON a.UniqueId = b.UniqueId AND a.UniqueId = '{1}'", storeId.ToString(), productI
                     }
                     else
                     {
-                        InsertCommand command = new InsertCommand("ProductPrice", new BasicParam("Price", item.Price.ToString()),
-                        new BasicParam("ProductGuid", item.ProductGuid),
-                        new BasicParam("StoreGuid", item.StoreGuid));
+                        InsertCommand command = new InsertCommand("ProductPrice",
+                            new BasicParam("UniqueId", item.UniqueId),
+                            new BasicParam("Price", item.Price.ToString()),
+                            new BasicParam("ProductGuid", item.ProductGuid),
+                            new BasicParam("StoreGuid", item.StoreGuid));
                         int t = AnatoliClient.GetInstance().DbClient.UpdateItem(command);
                     }
                 }
@@ -207,9 +201,11 @@ ON a.UniqueId = b.UniqueId AND a.UniqueId = '{1}'", storeId.ToString(), productI
                     }
                     else
                     {
-                        InsertCommand command = new InsertCommand("StoreOnhand", new BasicParam("Qty", item.Qty.ToString()),
-                        new BasicParam("ProductGuid", item.ProductGuid),
-                        new BasicParam("StoreGuid", item.StoreGuid));
+                        InsertCommand command = new InsertCommand("StoreOnhand",
+                            new BasicParam("UniqueId", item.UniqueId),
+                            new BasicParam("Qty", item.Qty.ToString()),
+                            new BasicParam("ProductGuid", item.ProductGuid),
+                            new BasicParam("StoreGuid", item.StoreGuid));
                         int t = AnatoliClient.GetInstance().DbClient.UpdateItem(command);
                     }
                 }

@@ -31,14 +31,25 @@ namespace Anatoli.App.Manager
                 {
                     items.Add(item.UniqueId, item);
                 }
+                if (!items.ContainsKey(ProductGroupModel.NullGroupId))
+                {
+                    InsertCommand command = new InsertCommand("ProductGroup", new BasicParam("UniqueId", ProductGroupModel.NullGroupId),
+                           new BasicParam("GroupName", ""),
+                           new BasicParam("ParentId", ""),
+                           new BasicParam("NLeft", int.MaxValue.ToString()),
+                           new BasicParam("IsRemoved", "0"),
+                           new BasicParam("NRight", int.MinValue.ToString()),
+                           new BasicParam("NLevel", "0"));
+                    int t = AnatoliClient.GetInstance().DbClient.UpdateItem(command);
+                }
                 AnatoliClient.GetInstance().DbClient.BeginTransaction();
                 foreach (var item in list)
                 {
-                    if (item.UniqueId != Guid.Parse("169EBC7C-6112-4566-93B9-2869C3D3A112") && item.UniqueId != Guid.Parse("E54AF059-5C22-4FAF-BC40-4169BF74C020"))
+                    if (item.UniqueId != Guid.Parse("169EBC7C-6112-4566-93B9-2869C3D3A112"))
                     {
                         if (items.ContainsKey(item.UniqueId))
                         {
-                            UpdateCommand command = new UpdateCommand("ProductGroup", new EqFilterParam("UniqueId", item.UniqueId.ToString()),
+                            UpdateCommand command = new UpdateCommand("ProductGroup", new EqFilterParam("UniqueId", item.UniqueId),
                                new BasicParam("GroupName", item.GroupName.Trim()),
                                new BasicParam("ParentId", item.ParentUniqueIdString),
                                new BasicParam("NLeft", item.NLeft.ToString()),
@@ -49,7 +60,7 @@ namespace Anatoli.App.Manager
                         }
                         else
                         {
-                            InsertCommand command = new InsertCommand("ProductGroup", new BasicParam("UniqueId", item.UniqueId.ToString()),
+                            InsertCommand command = new InsertCommand("ProductGroup", new BasicParam("UniqueId", item.UniqueId),
                            new BasicParam("GroupName", item.GroupName.Trim()),
                            new BasicParam("ParentId", item.ParentUniqueIdString.ToUpper()),
                            new BasicParam("NLeft", item.NLeft.ToString()),
@@ -57,6 +68,10 @@ namespace Anatoli.App.Manager
                            new BasicParam("NRight", item.NRight.ToString()),
                            new BasicParam("NLevel", item.NLevel.ToString()));
                             int t = AnatoliClient.GetInstance().DbClient.UpdateItem(command);
+                            if (t == 0)
+                            {
+                                var s = item.GroupName;
+                            }
                         }
                     }
                 }

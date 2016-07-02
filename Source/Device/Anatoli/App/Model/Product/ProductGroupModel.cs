@@ -9,6 +9,7 @@ namespace Anatoli.App.Model.Product
 {
     public class ProductGroupModel : BaseModel
     {
+        public static Guid NullGroupId = Guid.Parse("5c2782e7-57e6-45b8-b438-7f05f48703a7");
         public string UniqueIdString { get; set; }
         public int ParentId { get; set; }
         public string ParentUniqueIdString { get; set; }
