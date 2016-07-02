@@ -72,7 +72,7 @@ namespace AnatoliIOS
 				return;
 			}
 			_updating = true;
-			var updateTime = await SyncManager.GetLog (SyncManager.UpdateCompleted);
+			var updateTime = SyncManager.GetLog (SyncManager.UpdateCompleted);
 			if ((DateTime.Now - updateTime) > TimeSpan.FromDays (3)) {
 				if (AnatoliClient.GetInstance ().WebClient.IsOnline ()) {
 					LoadingOverlay loading = new LoadingOverlay (GetVisibleViewController ().View.Bounds);

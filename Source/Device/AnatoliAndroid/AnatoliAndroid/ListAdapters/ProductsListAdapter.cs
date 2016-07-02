@@ -95,27 +95,27 @@ namespace AnatoliAndroid.ListAdapters
                         _groupImageView.Visibility = ViewStates.Invisible;
                     }
                 }
-                _groupNameTextView.Text = item.product_name;
-                _groupNameTextView.Click += async (s, e) =>
+                _groupNameTextView.Text = item.StoreProductName;
+                _groupNameTextView.Click += (s, e) =>
                 {
                     var p = new ProductsListFragment();
-                    p.SetCatId(item.cat_id.ToString());
-                    AnatoliApp.GetInstance().PushFragment<ProductsListFragment>(p, "products_fragment", true);
+                    p.SetCatId((Guid)item.ProductGroupId);
+                    AnatoliApp.GetInstance().PushFragment(p, "products_fragment", true);
                 };
                 if (_groupImageView != null)
                 {
-                    _groupImageView.Click += async (s, e) =>
+                    _groupImageView.Click += (s, e) =>
                     {
                         var p = new ProductsListFragment();
-                        p.SetCatId(item.cat_id.ToString());
-                        AnatoliApp.GetInstance().PushFragment<ProductsListFragment>(p, "products_fragment", true);
+                        p.SetCatId((Guid)item.ProductGroupId);
+                        AnatoliApp.GetInstance().PushFragment(p, "products_fragment", true);
                     };
                 }
                 return view;
             }
             else
             {
-                string imguri = ProductManager.GetImageAddress(item.product_id, item.image);
+                string imguri = ProductManager.GetImageAddress(item.UniqueId, item.ImageAddress);
                 if (imguri != null)
                 {
                     Picasso.With(AnatoliApp.GetInstance().Activity).Load(imguri).Placeholder(Resource.Drawable.igmart).Into(_productIimageView);
@@ -275,7 +275,7 @@ namespace AnatoliAndroid.ListAdapters
                                     }
                                 NotifyDataSetChanged();
                                 OnDataChanged();
-                                
+
                             }
 
                         }
@@ -320,7 +320,7 @@ namespace AnatoliAndroid.ListAdapters
                                 }
                                 NotifyDataSetChanged();
                                 OnDataChanged();
-                                
+
                             }
                         }
                         else

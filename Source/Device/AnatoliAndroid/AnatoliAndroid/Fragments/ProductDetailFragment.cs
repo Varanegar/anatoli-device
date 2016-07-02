@@ -52,7 +52,7 @@ namespace AnatoliAndroid.Fragments
             titleTextView.Text = _product.StoreProductName;
             priceTextView.Text = (_product.IsAvailable) ? _product.Price.ToCurrency() + " تومان" : "موجود نیست";
             productCountTextView.Text = _product.ShoppingBasketCount.ToString() + " عدد";
-            productGroupTextView.Text = _product.cat_name;
+            productGroupTextView.Text = _product.GroupName;
             Picasso.With(AnatoliApp.GetInstance().Activity).Load(ProductManager.GetImageAddress(_product.UniqueId, _product.ImageAddress)).Placeholder(Resource.Drawable.igmart).Into(productImageView);
             if (_product.IsFavorit)
                 favoritImageView.SetImageResource(Android.Resource.Drawable.ButtonStarBigOn);

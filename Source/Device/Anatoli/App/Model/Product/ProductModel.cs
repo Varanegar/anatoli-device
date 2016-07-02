@@ -33,6 +33,7 @@ namespace Anatoli.App.Model.Product
         public int FavoritBasketCount { get; set; }
         public string ImageAddress { get; set; }
         public decimal Qty { get; set; }
+        public string GroupName { get; set; }
         public bool IsFavorit
         {
             get { return FavoritBasketCount > 0 ? true : false; }

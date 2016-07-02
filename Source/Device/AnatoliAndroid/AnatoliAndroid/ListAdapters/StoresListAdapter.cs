@@ -64,9 +64,9 @@ namespace AnatoliAndroid.ListAdapters
             if (item.distance < 0.0005)
                 _storeDistance.Text = "";
             else if (item.distance < 1500)
-                _storeDistance.Text = _context.Resources.GetText(Resource.String.DistanceFromYou) + " " + Math.Round(item.distance, 0).ToString() + " " + AnatoliApp.GetResources().GetText(Resource.String.Meter);
+                _storeDistance.Text = _context.Resources.GetText(Resource.String.DistanceFromYou) + " " + Math.Round(item.distance, 0).ToString() + " " + _context.Resources.GetText(Resource.String.Meter);
             else
-                _storeDistance.Text = _context.Resources.GetText(Resource.String.DistanceFromYou) + " " + Math.Round((item.distance / 1000), 1).ToString() + " " + AnatoliApp.GetResources().GetText(Resource.String.KMeter);
+                _storeDistance.Text = _context.Resources.GetText(Resource.String.DistanceFromYou) + " " + Math.Round((item.distance / 1000), 1).ToString() + " " + _context.Resources.GetText(Resource.String.KMeter);
 
             if (!String.IsNullOrEmpty(item.location))
             {
