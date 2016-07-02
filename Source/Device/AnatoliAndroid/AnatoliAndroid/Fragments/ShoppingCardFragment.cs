@@ -14,7 +14,6 @@ using Anatoli.App.Manager;
 using AnatoliAndroid.ListAdapters;
 using Anatoli.App.Model.AnatoliUser;
 using Anatoli.App.Model;
-using Anatoli.Framework.DataAdapter;
 using Anatoli.Framework.AnatoliBase;
 using AnatoliAndroid.Activities;
 using System.Threading.Tasks;
@@ -108,7 +107,7 @@ namespace AnatoliAndroid.Fragments
                     alertDialog.Show();
                     return;
                 }
-                var store = await StoreManager.GetDefaultAsync();
+                var store = StoreManager.GetDefault();
                 if (AnatoliApp.GetInstance().AnatoliUser == null)
                 {
                     AlertDialog.Builder lAlert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
@@ -135,11 +134,11 @@ namespace AnatoliAndroid.Fragments
                             lAlert.SetPositiveButton(Resource.String.Yes, async delegate
                             {
                                 pDialog.SetCancelable(false);
-                                pDialog.SetMessage(AnatoliApp.GetResources().GetText(Resource.String.PleaseWait));
+                                pDialog.SetMessage(Resources.GetText(Resource.String.PleaseWait));
                                 pDialog.SetTitle("در حال ارسال سفارش");
                                 pDialog.Show();
                                 // "BE2919AB-5564-447A-BE49-65A81E6AF712"
-                                var o = await ShoppingCardManager.CalcPromo(AnatoliApp.GetInstance().Customer, _customerViewModel.UniqueId, store.store_id, _deliveryTypeListBox.SelectedItem.id, _deliveryTimeListBox.SelectedItem);
+                                var o = await ShoppingCardManager.CalcPromo(AnatoliApp.GetInstance().Customer, _customerViewModel.UniqueId, store.UniqueId, _deliveryTypeListBox.SelectedItem.UniqueId, _deliveryTimeListBox.SelectedItem);
                                 pDialog.Dismiss();
                                 if (o.IsValid)
                                 {
@@ -154,7 +153,7 @@ namespace AnatoliAndroid.Fragments
                                         pDialog2.Show();
                                         try
                                         {
-                                            var result = await ShoppingCardManager.Checkout(_customerViewModel, _customerViewModel.UniqueId, store.store_id, _deliveryTypeListBox.SelectedItem.id, _deliveryTimeListBox.SelectedItem);
+                                            var result = await ShoppingCardManager.Checkout(_customerViewModel, _customerViewModel.UniqueId, store.UniqueId, _deliveryTypeListBox.SelectedItem.UniqueId, _deliveryTimeListBox.SelectedItem);
                                             pDialog2.Dismiss();
                                             if (result == null)
                                             {
@@ -166,12 +165,12 @@ namespace AnatoliAndroid.Fragments
                                             }
                                             else if (result.IsValid)
                                             {
-                                                await ShoppingCardManager.ClearAsync();
+                                                ShoppingCardManager.Clear();
                                                 OrderSavedDialogFragment dialog = new OrderSavedDialogFragment();
                                                 var transaction = FragmentManager.BeginTransaction();
                                                 dialog.Show(transaction, "order_saved_dialog");
                                                 proforma.Dismiss();
-                                                AnatoliApp.GetInstance().SetFragment<OrdersListFragment>(new OrdersListFragment(), "orders_fragment");
+                                                AnatoliApp.GetInstance().PushFragment(new OrdersListFragment(), "orders_fragment");
                                             }
                                             else
                                             {
@@ -211,17 +210,17 @@ namespace AnatoliAndroid.Fragments
                             lAlert.SetNegativeButton(Resource.String.Cancel, delegate
                             {
                                 Toast.MakeText(AnatoliApp.GetInstance().Activity, "سفارش شما کنسل شد", ToastLength.Short).Show();
-                                AnatoliApp.GetInstance().SetFragment<ProductsListFragment>(new ProductsListFragment(), "products_fragment");
+                                AnatoliApp.GetInstance().PushFragment(new ProductsListFragment(), "products_fragment");
                             });
                             lAlert.Show();
                         }
                         else
                         {
                             pDialog.SetCancelable(false);
-                            pDialog.SetMessage(AnatoliApp.GetResources().GetText(Resource.String.PleaseWait));
+                            pDialog.SetMessage(Resources.GetText(Resource.String.PleaseWait));
                             pDialog.SetTitle("در حال ارسال سفارش");
                             pDialog.Show();
-                            var o = await ShoppingCardManager.CalcPromo(AnatoliApp.GetInstance().Customer, _customerViewModel.UniqueId, store.store_id, _deliveryTypeListBox.SelectedItem.id, _deliveryTimeListBox.SelectedItem);
+                            var o = await ShoppingCardManager.CalcPromo(AnatoliApp.GetInstance().Customer, _customerViewModel.UniqueId, store.UniqueId, _deliveryTypeListBox.SelectedItem.UniqueId, _deliveryTimeListBox.SelectedItem);
                             pDialog.Dismiss();
                             if (o.IsValid)
                             {
@@ -236,7 +235,7 @@ namespace AnatoliAndroid.Fragments
                                     pDialog2.Show();
                                     try
                                     {
-                                        var result = await ShoppingCardManager.Checkout(_customerViewModel, _customerViewModel.UniqueId, store.store_id, _deliveryTypeListBox.SelectedItem.id, _deliveryTimeListBox.SelectedItem);
+                                        var result = await ShoppingCardManager.Checkout(_customerViewModel, _customerViewModel.UniqueId, store.UniqueId, _deliveryTypeListBox.SelectedItem.UniqueId, _deliveryTimeListBox.SelectedItem);
                                         pDialog2.Dismiss();
                                         if (result == null)
                                         {
@@ -248,12 +247,12 @@ namespace AnatoliAndroid.Fragments
                                         }
                                         else if (result.IsValid)
                                         {
-                                            await ShoppingCardManager.ClearAsync();
+                                            ShoppingCardManager.Clear();
                                             OrderSavedDialogFragment dialog = new OrderSavedDialogFragment();
                                             var transaction = FragmentManager.BeginTransaction();
                                             dialog.Show(transaction, "order_saved_dialog");
                                             proforma.Dismiss();
-                                            AnatoliApp.GetInstance().SetFragment<OrdersListFragment>(new OrdersListFragment(), "orders_fragment");
+                                            AnatoliApp.GetInstance().PushFragment(new OrdersListFragment(), "orders_fragment");
                                         }
                                         else
                                         {
@@ -339,10 +338,10 @@ namespace AnatoliAndroid.Fragments
 
             try
             {
-                var defaultStore = await StoreManager.GetDefaultAsync();
+                var defaultStore = StoreManager.GetDefault();
                 if (defaultStore != null)
                 {
-                    string tel = defaultStore.store_tel;
+                    string tel = defaultStore.Phone;
                     if (String.IsNullOrEmpty(tel))
                     {
                         _storeTelTextView.Text = "نا مشخص";
@@ -363,7 +362,7 @@ namespace AnatoliAndroid.Fragments
                 else
                 {
                     var storef = new StoresListFragment();
-                    AnatoliApp.GetInstance().SetFragment<StoresListFragment>(new StoresListFragment(), "stores_fragment");
+                    AnatoliApp.GetInstance().PushFragment(new StoresListFragment(), "stores_fragment");
                 }
 
                 if (!AnatoliClient.GetInstance().WebClient.IsOnline())
@@ -375,12 +374,12 @@ namespace AnatoliAndroid.Fragments
                     var progressDialog = new ProgressDialog(Activity);
                     try
                     {
-                        var latestUpdateTime = await SyncManager.GetLogAsync(SyncManager.StoreCalendarTbl);
+                        var latestUpdateTime = SyncManager.GetLog(SyncManager.StoreCalendarTbl);
                         if ((DateTime.Now - latestUpdateTime) > TimeSpan.FromMinutes(15))
                         {
                             progressDialog.SetMessage("بروزرسانی اطلاعات");
                             progressDialog.SetCancelable(false);
-                            progressDialog.SetButton(AnatoliApp.GetResources().GetString(Resource.String.Ok), delegate { progressDialog.Dismiss(); });
+                            progressDialog.SetButton(Resources.GetString(Resource.String.Ok), delegate { progressDialog.Dismiss(); });
                             progressDialog.Show();
                             await StoreManager.SyncStoreCalendar();
                         }
@@ -415,15 +414,15 @@ namespace AnatoliAndroid.Fragments
 
             try
             {
-                _typeOptions = await DeliveryTypeManager.GetDeliveryTypesAsync();
+                _typeOptions = DeliveryTypeManager.GetDeliveryTypes();
                 foreach (var item in _typeOptions)
                 {
-                    item.UniqueId = item.id;
+                    item.UniqueId = item.UniqueId;
                     _deliveryTypeListBox.AddItem(item);
                 }
-                _deliveryTypeListBox.ItemSelected += async (item) =>
+                _deliveryTypeListBox.ItemSelected += (item) =>
                 {
-                    _timeOptions = await DeliveryTimeManager.GetAvailableDeliveryTimes(AnatoliApp.GetInstance().DefaultStoreId, DateTime.Now.ToLocalTime(), _deliveryTypeListBox.SelectedItem.id);
+                    _timeOptions = DeliveryTimeManager.GetAvailableDeliveryTimes(AnatoliApp.GetInstance().DefaultStore.UniqueId, DateTime.Now.ToLocalTime(), _deliveryTypeListBox.SelectedItem.UniqueId);
                     _deliveryTimeListBox.SetList(_timeOptions);
                     _deliveryTimeListBox.SelectItem(0);
                 };
@@ -437,18 +436,18 @@ namespace AnatoliAndroid.Fragments
                 throw;
             }
 
-            var cardInfo = await ShoppingCardManager.GetInfoAsync();
-            _factorePriceTextView.Text = cardInfo.total_price.ToCurrency() + " تومان";
-            _itemCountTextView.Text = cardInfo.items_count.ToString() + " عدد";
+            var cardInfo = ShoppingCardManager.GetInfo();
+            _factorePriceTextView.Text = cardInfo.TotalPrice.ToCurrency() + " تومان";
+            _itemCountTextView.Text = cardInfo.Qty.ToString() + " عدد";
             _listAdapter = new ProductsListAdapter();
-            _listAdapter.List = await ShoppingCardManager.GetAllItemsAsync();
+            _listAdapter.List = ShoppingCardManager.GetAllItems();
             _listAdapter.NotifyDataSetChanged();
-            _listAdapter.DataChanged += async (s) =>
+            _listAdapter.DataChanged += (s) =>
             {
-                var cardInfoDetail = await ShoppingCardManager.GetInfoAsync();
+                var cardInfoDetail = ShoppingCardManager.GetInfo();
 
-                _factorePriceTextView.Text = cardInfoDetail.total_price.ToCurrency() + " تومان";
-                _itemCountTextView.Text = cardInfoDetail.items_count.ToString() + " عدد";
+                _factorePriceTextView.Text = cardInfoDetail.TotalPrice.ToCurrency() + " تومان";
+                _itemCountTextView.Text = cardInfoDetail.Qty.ToString() + " عدد";
                 _checkoutButton.Enabled = CheckCheckout();
             };
             _listAdapter.ShoppingCardItemRemoved += (s, item) =>
@@ -469,10 +468,10 @@ namespace AnatoliAndroid.Fragments
 
             _checkoutButton.Enabled = CheckCheckout();
 
-            var cardInfoChange = await ShoppingCardManager.GetInfoAsync();
+            var cardInfoChange = ShoppingCardManager.GetInfo();
 
-            _factorePriceTextView.Text = cardInfoChange.total_price.ToCurrency() + " تومان";
-            _countTextView.Text = cardInfoChange.items_count.ToString() + " عدد";
+            _factorePriceTextView.Text = cardInfoChange.TotalPrice.ToCurrency() + " تومان";
+            _countTextView.Text = cardInfoChange.Qty.ToString() + " عدد";
 
 
         }

@@ -171,7 +171,7 @@ namespace Anatoli.App.Manager
             }
         }
 
-        public static bool UpdateDistance(string store_id, float dist)
+        public static bool UpdateDistance(Guid store_id, float dist)
         {
             UpdateCommand command = new UpdateCommand("Store", new BasicParam("distance", dist.ToString()), new EqFilterParam("UniqueId", store_id));
             try

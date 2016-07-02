@@ -28,7 +28,7 @@ namespace AnatoliIOS
 			titleLabel.Text = item.Title;
 			iconImageView.Image = item.Icon;
 			if (item.Type == MenuItem.MenuType.CatId) {
-				var info = await ProductGroupManager.GetCategoryInfo(item.Id);
+				var info = await ProductGroupManager.GetGroupInfo(item.Id);
 				if (info != null) {
 					var x = titleLabel.Center.X - (10f * info.cat_depth);
 					titleLabel.Center = new CGPoint (x, titleLabel.Center.Y);

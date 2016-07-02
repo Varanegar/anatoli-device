@@ -13,7 +13,7 @@ namespace Anatoli.App.Manager
 {
     public class DeliveryTimeManager : BaseManager<DeliveryTimeModel>
     {
-        public static List<DeliveryTimeModel> GetAvailableDeliveryTimes(string storeId, DateTime now, string deliveryType)
+        public static List<DeliveryTimeModel> GetAvailableDeliveryTimes(Guid storeId, DateTime now, Guid deliveryType)
         {
             List<DeliveryTimeModel> times = new List<DeliveryTimeModel>();
             SelectQuery query;

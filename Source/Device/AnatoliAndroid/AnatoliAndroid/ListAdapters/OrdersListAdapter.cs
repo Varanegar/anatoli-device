@@ -36,7 +36,7 @@ namespace AnatoliAndroid.ListAdapters
             
             convertView.Click += (s, e) =>
              {
-                 AnatoliApp.GetInstance().SetFragment<OrderDetailFragment>(null, "order_detail_fragment", new Tuple<string, string>("order_id", item.order_id.ToString()));
+                 AnatoliApp.GetInstance().PushFragment<OrderDetailFragment>(null, "order_detail_fragment", new Tuple<string, string>("order_id", item.order_id.ToString()));
              };
             dateTextView.Text = " " + item.order_date;
             storeNameTextView.Text = " " + item.store_name;

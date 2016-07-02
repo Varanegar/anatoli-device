@@ -117,9 +117,9 @@ namespace AnatoliIOS.ViewControllers
                 alertView.Show();
             };
             SetupFor(view);
-            var groups = await ProductGroupManager.GetFirstLevel();
+            var groups = ProductGroupManager.GetFirstLevel();
             var layout = new UICollectionViewFlowLayout();
-            groups = await ProductGroupManager.GetFirstLevel();
+            groups = ProductGroupManager.GetFirstLevel();
             layout.ItemSize = new CGSize(120f, 120f);
             var groupsCollectionView = new UICollectionView(new CGRect(0, 0, UIScreen.MainScreen.Bounds.Size.Width, (groups.Count + 1) / 2 * 150f), layout);
             groupsCollectionView.BackgroundColor = UIColor.White;
@@ -134,8 +134,8 @@ namespace AnatoliIOS.ViewControllers
 
     class ProductGroupsCollectionViewSource : UICollectionViewSource
     {
-        List<CategoryInfoModel> _items;
-        public ProductGroupsCollectionViewSource(List<CategoryInfoModel> items)
+        List<ProductGroupModel> _items;
+        public ProductGroupsCollectionViewSource(List<ProductGroupModel> items)
         {
             _items = items;
         }
@@ -152,7 +152,7 @@ namespace AnatoliIOS.ViewControllers
         public override void ItemSelected(UICollectionView collectionView, NSIndexPath indexPath)
         {
             var productsViewController = new ProductsViewController();
-            productsViewController.GroupId = _items[indexPath.Row].cat_id;
+            productsViewController.GroupId = _items[indexPath.Row].UniqueId;
             AnatoliApp.GetInstance().PushViewController(productsViewController);
         }
         public override nint NumberOfSections(UICollectionView collectionView)

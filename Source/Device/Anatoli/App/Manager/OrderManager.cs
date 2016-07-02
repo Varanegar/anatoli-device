@@ -11,7 +11,7 @@ namespace Anatoli.App.Manager
 {
     public class OrderManager : BaseManager<OrderModel>
     {
-        public static OrderModel GetOrderByIdAsync(string orderId)
+        public static OrderModel GetOrderById(string orderId)
         {
             try
             {

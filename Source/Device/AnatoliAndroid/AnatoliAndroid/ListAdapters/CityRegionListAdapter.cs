@@ -25,7 +25,7 @@ namespace AnatoliAndroid.ListAdapters
             else
                 return convertView;
             TextView textView = convertView.FindViewById<TextView>(Resource.Id.textView);
-            textView.Text = item.group_name;
+            textView.Text = item.GroupName;
             return convertView;
         }
     }

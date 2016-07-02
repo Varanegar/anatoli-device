@@ -20,13 +20,13 @@ using System.Threading.Tasks;
 
 namespace AnatoliAndroid.ListAdapters
 {
-    class StoresListAdapter : BaseListAdapter<StoreManager, StoreDataModel>
+    class StoresListAdapter : BaseListAdapter<StoreManager, StoreModel>
     {
         public override View GetItemView(int position, View convertView, ViewGroup parent)
         {
             convertView = _context.LayoutInflater.Inflate(Resource.Layout.StoreSummaryLayout, null);
 
-            StoreDataModel item = null;
+            StoreModel item = null;
             if (List != null)
                 item = List[position];
             else
@@ -44,42 +44,42 @@ namespace AnatoliAndroid.ListAdapters
             LinearLayout storeSummaryInfoLinearLayout = convertView.FindViewById<LinearLayout>(Resource.Id.storeSummaryInfoLinearLayout);
             ImageView storeImageView = convertView.FindViewById<ImageView>(Resource.Id.storeImageImageView);
 
-            storeNameTextView.Text = item.store_name;
-            storeAddressTextView.Text = item.store_address;
+            storeNameTextView.Text = item.storeName;
+            storeAddressTextView.Text = item.address;
 
-            storeStatusTextView.Click += async (s, e) =>
+            storeStatusTextView.Click += (s, e) =>
             {
-                await Select(item);
+                Select(item);
             };
-            storeImageView.Click += async (s, e) =>
+            storeImageView.Click += (s, e) =>
             {
-                await Select(item);
+                Select(item);
             };
-            storeSummaryInfoLinearLayout.Click += async (s, e) =>
+            storeSummaryInfoLinearLayout.Click += (s, e) =>
             {
-                await Select(item);
+                Select(item);
             };
-            if (!item.support_app_order)
+            if (!item.supportAppOrder)
                 convertView.FindViewById<ImageView>(Resource.Id.onlineStamp).Visibility = ViewStates.Invisible;
             if (item.distance < 0.0005)
                 _storeDistance.Text = "";
             else if (item.distance < 1500)
-                _storeDistance.Text = AnatoliApp.GetResources().GetText(Resource.String.DistanceFromYou) + " " + Math.Round(item.distance, 0).ToString() + " " + AnatoliApp.GetResources().GetText(Resource.String.Meter);
+                _storeDistance.Text = _context.Resources.GetText(Resource.String.DistanceFromYou) + " " + Math.Round(item.distance, 0).ToString() + " " + AnatoliApp.GetResources().GetText(Resource.String.Meter);
             else
-                _storeDistance.Text = AnatoliApp.GetResources().GetText(Resource.String.DistanceFromYou) + " " + Math.Round((item.distance / 1000), 1).ToString() + " " + AnatoliApp.GetResources().GetText(Resource.String.KMeter);
+                _storeDistance.Text = _context.Resources.GetText(Resource.String.DistanceFromYou) + " " + Math.Round((item.distance / 1000), 1).ToString() + " " + AnatoliApp.GetResources().GetText(Resource.String.KMeter);
 
             if (!String.IsNullOrEmpty(item.location))
             {
                 _mapIconImageView.Click += (s, e) =>
                 {
-                    OpenMap(item.location, item.store_address);
+                    OpenMap(item.location, item.address);
                 };
             }
 
             // todo : add store close open 
 
-            storeStatusTextView.Text = AnatoliApp.GetResources().GetText(Resource.String.Open);
-            storeStatusTextView.SetTextColor(AnatoliApp.GetResources().GetColor(Resource.Color.green));
+            storeStatusTextView.Text = _context.Resources.GetText(Resource.String.Open);
+            storeStatusTextView.SetTextColor(_context.Resources.GetColor(Resource.Color.green));
 
             //storeStatusTextView.Text = AnatoliApp.GetResources().GetText(Resource.String.Close);
             //storeStatusTextView.SetTextColor(Android.Graphics.Color.Red);
@@ -88,23 +88,23 @@ namespace AnatoliAndroid.ListAdapters
             // productIimageView.SetUrlDrawable(MadanerClient.Configuration.UsersImageBaseUri + "/" + item.User.image, null, 600000);
             return convertView;
         }
-        async Task Select(StoreDataModel item)
+        void Select(StoreModel item)
         {
-            if (!item.support_app_order)
+            if (!item.supportAppOrder)
             {
                 Toast.MakeText(AnatoliApp.GetInstance().Activity, "این فروشگاه فروش اینترنتی ندارد", ToastLength.Short).Show();
                 return;
             }
-            if ((await ShoppingCardManager.GetInfoAsync()).items_count > 0)
+            if (ShoppingCardManager.GetInfo().Qty > 0)
             {
                 AlertDialog.Builder alert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
                 alert.SetTitle(Resource.String.Error);
                 alert.SetMessage("پس از تغییر فروشگاه سبد خرید شما خالی میشود، ادامه می دهید؟");
-                alert.SetPositiveButton(Resource.String.Ok, async delegate
+                alert.SetPositiveButton(Resource.String.Ok, delegate
                 {
-                    if (await StoreManager.SelectAsync(item) == true)
+                    if (StoreManager.Select(item) == true)
                     {
-                        AnatoliApp.GetInstance().SetFragment<FirstFragment>(new FirstFragment(), "first_fragment");
+                        AnatoliApp.GetInstance().PushFragment(new FirstFragment(), "first_fragment");
                         OnStoreSelected(item);
                     }
                 });
@@ -112,9 +112,9 @@ namespace AnatoliAndroid.ListAdapters
                 alert.Show();
                 return;
             }
-            else if (await StoreManager.SelectAsync(item) == true)
+            else if (StoreManager.Select(item) == true)
             {
-                AnatoliApp.GetInstance().SetFragment<FirstFragment>(new FirstFragment(), "first_fragment");
+                AnatoliApp.GetInstance().PushFragment(new FirstFragment(), "first_fragment");
                 OnStoreSelected(item);
             }
         }
@@ -133,7 +133,7 @@ namespace AnatoliAndroid.ListAdapters
 
             }
         }
-        void OnStoreSelected(StoreDataModel store)
+        void OnStoreSelected(StoreModel store)
         {
             if (StoreSelected != null)
             {
@@ -141,6 +141,6 @@ namespace AnatoliAndroid.ListAdapters
             }
         }
         public event StoreSelectedHandler StoreSelected;
-        public delegate void StoreSelectedHandler(StoreDataModel item);
+        public delegate void StoreSelectedHandler(StoreModel item);
     }
 }

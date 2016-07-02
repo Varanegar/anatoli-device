@@ -22,7 +22,7 @@ namespace AnatoliIOS
 		{
 		}
 
-		public void UpdateCell(CategoryInfoModel item){
+		public void UpdateCell(ProductGroupModel item){
 			groupImageView.Image = UIImage.FromBundle("igicon");
 			groupNameLable.Text = item.cat_name;
 			var imgUri = ProductGroupManager.GetImageAddress(item.cat_id,item.cat_image);

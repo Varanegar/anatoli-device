@@ -76,13 +76,13 @@ namespace AnatoliAndroid.Fragments
 
             List<ProductModel> products = new List<ProductModel>();
             ProgressDialog p = new ProgressDialog(Activity);
-            p.SetMessage(AnatoliApp.GetResources().GetString(Resource.String.PleaseWait));
+            p.SetMessage(Resources.GetString(Resource.String.PleaseWait));
             p.Show();
             try
             {
                 foreach (var item in _orderViewModel.LineItems)
                 {
-                    products.Add(await ProductManager.GetItemAsync(item.ProductId.ToString().ToUpper(), _orderViewModel.StoreGuid.ToString().ToUpper()));
+                    products.Add(ProductManager.GetItem(item.ProductId, _orderViewModel.StoreGuid));
                 }
                 _itemsListView.Adapter = new ProformaListAdapter(AnatoliApp.GetInstance().Activity, _orderViewModel.LineItems, products);
             }
@@ -132,7 +132,7 @@ namespace AnatoliAndroid.Fragments
                 view.FindViewById<TextView>(Resource.Id.rowTextView).Text = (position + 1).ToString();
                 if (_products[position] != null)
                 {
-                    view.FindViewById<TextView>(Resource.Id.itemNameTextView).Text = _products[position].product_name;
+                    view.FindViewById<TextView>(Resource.Id.itemNameTextView).Text = _products[position].StoreProductName;
                 }
                 return view;
             }

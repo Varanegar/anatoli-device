@@ -129,7 +129,7 @@ namespace Anatoli.App.Manager
                 return null;
             }
         }
-        public static List<ProductGroupModel> GetProductGroup(string catId)
+        public static List<ProductGroupModel> GetProductGroups(Guid catId)
         {
             try
             {
@@ -142,7 +142,7 @@ namespace Anatoli.App.Manager
                 return null;
             }
         }
-        public static ProductGroupModel GetParentCategory(string catId)
+        public static ProductGroupModel GetParentCategory(Guid catId)
         {
             try
             {
@@ -156,7 +156,7 @@ namespace Anatoli.App.Manager
             }
         }
 
-        public static ProductGroupModel GetCategoryInfo(string catId)
+        public static ProductGroupModel GetGroupInfo(Guid catId)
         {
             try
             {
@@ -168,9 +168,9 @@ namespace Anatoli.App.Manager
                 return null;
             }
         }
-        public static string GetImageAddress(string catId, string imageId)
+        public static string GetImageAddress(Guid catId, string imageId)
         {
-            if (string.IsNullOrEmpty(catId) || string.IsNullOrEmpty(imageId))
+            if (string.IsNullOrEmpty(imageId))
                 return null;
             else
             {

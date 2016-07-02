@@ -71,19 +71,19 @@ namespace AnatoliAndroid.Fragments
                     _customerViewModel.MainStreet = _addressEditText.Text;
                     if (_level1List.SelectedItem != null)
                     {
-                        _customerViewModel.RegionLevel1Id = _level1List.SelectedItem.group_id;
+                        _customerViewModel.RegionLevel1Id = _level1List.SelectedItem.UniqueId;
                     }
                     if (_level2List.SelectedItem != null)
                     {
-                        _customerViewModel.RegionLevel2Id = _level2List.SelectedItem.group_id;
+                        _customerViewModel.RegionLevel2Id = _level2List.SelectedItem.UniqueId;
                     }
                     if (_level3List.SelectedItem != null)
                     {
-                        _customerViewModel.RegionLevel3Id = _level3List.SelectedItem.group_id;
+                        _customerViewModel.RegionLevel3Id = _level3List.SelectedItem.UniqueId;
                     }
                     if (_level4List.SelectedItem != null)
                     {
-                        _customerViewModel.RegionLevel4Id = _level4List.SelectedItem.group_id;
+                        _customerViewModel.RegionLevel4Id = _level4List.SelectedItem.UniqueId;
                     }
                     AlertDialog.Builder errDialog = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
                     if (!AnatoliClient.GetInstance().WebClient.IsOnline())
@@ -102,8 +102,8 @@ namespace AnatoliAndroid.Fragments
                     ProgressDialog pDialog = new ProgressDialog(AnatoliApp.GetInstance().Activity);
                     try
                     {
-                        pDialog.SetTitle(AnatoliApp.GetResources().GetText(Resource.String.Updating));
-                        pDialog.SetMessage(AnatoliApp.GetResources().GetText(Resource.String.PleaseWait));
+                        pDialog.SetTitle(Resources.GetText(Resource.String.Updating));
+                        pDialog.SetMessage(Resources.GetText(Resource.String.PleaseWait));
                         pDialog.Show();
                         var result = await CustomerManager.UploadCustomerAsync(_customerViewModel);
                         pDialog.Dismiss();
@@ -156,36 +156,36 @@ namespace AnatoliAndroid.Fragments
                 _level1List.ItemSelected += _level1_ItemSelected;
                 _level2List.ItemSelected += _level2_ItemSelected;
                 _level3List.ItemSelected += _level3_ItemSelected;
-                var list = await CityRegionManager.GetFirstLevelAsync();
+                var list = CityRegionManager.GetFirstLevel();
                 foreach (var item in list)
                 {
-                    item.UniqueId = item.group_id;
+                    item.UniqueId = item.UniqueId;
                 }
                 _level1List.SetList(list);
-                if (!String.IsNullOrEmpty(_customerViewModel.RegionLevel1Id))
+                if (_customerViewModel.RegionLevel1Id != null)
                 {
-                    var level1 = await CityRegionManager.GetGroupInfoAsync(_customerViewModel.RegionLevel1Id);
-                    _level1List.SelectItem(level1.group_id);
+                    var level1 = CityRegionManager.GetGroupInfo((Guid)_customerViewModel.RegionLevel1Id);
+                    _level1List.SelectItem(level1.UniqueId);
                 }
             }
 
         }
 
 
-        async void _level2_ItemSelected(CityRegionModel item)
+        void _level2_ItemSelected(CityRegionModel item)
         {
             try
             {
-                var list = await CityRegionManager.GetGroupsAsync(item.group_id);
+                var list = CityRegionManager.GetGroups(item.UniqueId);
                 foreach (var t in list)
                 {
-                    t.UniqueId = t.group_id;
+                    t.UniqueId = t.UniqueId;
                 }
                 _level3List.SetList(list);
-                if (!string.IsNullOrEmpty(_customerViewModel.RegionLevel3Id))
+                if (_customerViewModel.RegionLevel3Id != null)
                 {
-                    var level3 = await CityRegionManager.GetGroupInfoAsync(_customerViewModel.RegionLevel3Id);
-                    _level3List.SelectItem(level3.group_id);
+                    var level3 = CityRegionManager.GetGroupInfo((Guid)_customerViewModel.RegionLevel3Id);
+                    _level3List.SelectItem(level3.UniqueId);
                 }
                 else
                 {
@@ -198,20 +198,20 @@ namespace AnatoliAndroid.Fragments
             }
         }
 
-        async void _level3_ItemSelected(CityRegionModel item)
+        void _level3_ItemSelected(CityRegionModel item)
         {
             try
             {
-                var list = await CityRegionManager.GetGroupsAsync(item.group_id);
+                var list = CityRegionManager.GetGroups(item.UniqueId);
                 foreach (var t in list)
                 {
-                    t.UniqueId = t.group_id;
+                    t.UniqueId = t.UniqueId;
                 }
                 _level4List.SetList(list);
-                if (!string.IsNullOrEmpty(_customerViewModel.RegionLevel4Id))
+                if (_customerViewModel.RegionLevel4Id != null)
                 {
-                    var level4 = await CityRegionManager.GetGroupInfoAsync(_customerViewModel.RegionLevel4Id);
-                    _level4List.SelectItem(level4.group_id);
+                    var level4 = CityRegionManager.GetGroupInfo((Guid)_customerViewModel.RegionLevel4Id);
+                    _level4List.SelectItem(level4.UniqueId);
                 }
                 else
                 {
@@ -224,20 +224,20 @@ namespace AnatoliAndroid.Fragments
             }
         }
 
-        async void _level1_ItemSelected(CityRegionModel item)
+        void _level1_ItemSelected(CityRegionModel item)
         {
             try
             {
-                var list = await CityRegionManager.GetGroupsAsync(item.group_id);
+                var list = CityRegionManager.GetGroups(item.UniqueId);
                 foreach (var t in list)
                 {
-                    t.UniqueId = t.group_id;
+                    t.UniqueId = t.UniqueId;
                 }
                 _level2List.SetList(list);
-                if (!string.IsNullOrEmpty(_customerViewModel.RegionLevel2Id))
+                if (_customerViewModel.RegionLevel2Id != null)
                 {
-                    var level2 = await CityRegionManager.GetGroupInfoAsync(_customerViewModel.RegionLevel2Id);
-                    _level2List.SelectItem(level2.group_id);
+                    var level2 = CityRegionManager.GetGroupInfo((Guid)_customerViewModel.RegionLevel2Id);
+                    _level2List.SelectItem(level2.UniqueId);
                 }
                 else
                 {

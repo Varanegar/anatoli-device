@@ -18,12 +18,12 @@ namespace AnatoliAndroid.Components
 {
     class AnatoliListBox<DataListAdapter, DataManager, DataModel> : AnatoliTextView
         where DataListAdapter : ListAdapters.BaseListAdapter<DataManager, DataModel>, new()
-        where DataModel : BaseViewModel, new()
+        where DataModel : BaseModel, new()
         where DataManager : BaseManager<DataModel>, new()
     {
         private new const string Tag = "AnatoliListBox";
         DataListAdapter _listAdapter;
-        Dictionary<string, DataModel> _dict;
+        Dictionary<Guid, DataModel> _dict;
         ListBoxDialog<DataListAdapter, DataManager, DataModel> _listDialog;
         public DataModel SelectedItem { get; private set; }
         
@@ -38,7 +38,7 @@ namespace AnatoliAndroid.Components
         void CreateListBox()
         {
             _listAdapter = new DataListAdapter();
-            _dict = new Dictionary<string, DataModel>();
+            _dict = new Dictionary<Guid, DataModel>();
             Click += delegate
             {
                 if (_listAdapter.List.Count == 0)
@@ -55,7 +55,7 @@ namespace AnatoliAndroid.Components
                 _listDialog.Show(t, "list_dialog");
             };
         }
-        public void SelectItem(string uniqueId)
+        public void SelectItem(Guid uniqueId)
         {
             if (_dict.ContainsKey(uniqueId))
             {
@@ -117,7 +117,7 @@ namespace AnatoliAndroid.Components
         internal void SetList(List<DataModel> list)
         {
             _listAdapter.List = list;
-            _dict = new Dictionary<string, DataModel>();
+            _dict = new Dictionary<Guid, DataModel>();
             foreach (var item in list)
             {
                 _dict.Add(item.UniqueId, item);
@@ -128,7 +128,7 @@ namespace AnatoliAndroid.Components
 
     class ListBoxDialog<DataListAdapter, DataManager, DataModel> : DialogFragment
         where DataListAdapter : ListAdapters.BaseListAdapter<DataManager, DataModel>, new()
-        where DataModel : BaseViewModel, new()
+        where DataModel : BaseModel, new()
         where DataManager : BaseManager<DataModel>, new()
     {
         ListView _listView;

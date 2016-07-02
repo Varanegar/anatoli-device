@@ -210,7 +210,7 @@ namespace AnatoliIOS
 			} else {
 				var cats = await ProductGroupManager.GetCategoriesAsync (catId);
 				var parent = await ProductGroupManager.GetParentCategory (catId);
-				var current = await ProductGroupManager.GetCategoryInfo (catId);
+				var current = await ProductGroupManager.GetGroupInfo (catId);
 				source.Items.Add (new MenuItem () {
 					Title = "همه محصولات",
 					Type = MenuItem.MenuType.CatId,

@@ -101,23 +101,18 @@ namespace Anatoli.App.Manager
             return userModel;
         }
 
-        public static async Task<string> UploadImageAsync(string userId, Byte[] obj, System.Threading.CancellationTokenSource cancelToken)
+        public static async Task<string> UploadImageAsync(Guid userId, Byte[] obj, System.Threading.CancellationTokenSource cancelToken)
         {
             var result = await AnatoliClient.GetInstance().WebClient.SendFileAsync<string>(
                 TokenType.UserToken,
-                Configuration.WebService.ImageManager.ImageSave + "&imageType=" + ItemImageViewModel.CustomerImageType + "&imageId=" + userId + "&token=" + userId, obj, userId, false, cancelToken);
+                Configuration.WebService.ImageManager.ImageSave + "&imageType=" + ItemImageViewModel.CustomerImageType + "&imageId=" + userId + "&token=" + userId, obj, userId.ToString(), false, cancelToken);
             return result;
         }
 
-        public static string GetImageAddress(string customerId)
+        public static string GetImageAddress(Guid customerId)
         {
-            if (string.IsNullOrEmpty(customerId))
-                return null;
-            else
-            {
-                string imguri = String.Format("{2}/content/Images/73C20167-9B30-4385-95AE-1A0BA89CC415/320x320/{0}/{1}.png", customerId, customerId, Configuration.WebService.PortalAddress);
-                return imguri;
-            }
+            string imguri = String.Format("{2}/content/Images/73C20167-9B30-4385-95AE-1A0BA89CC415/320x320/{0}/{1}.png", customerId, customerId, Configuration.WebService.PortalAddress);
+            return imguri;
         }
 
         public override int UpdateItem(CustomerViewModel model)

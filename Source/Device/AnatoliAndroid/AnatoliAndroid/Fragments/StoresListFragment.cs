@@ -22,14 +22,13 @@ using System.Threading.Tasks;
 namespace AnatoliAndroid.Fragments
 {
     [FragmentTitle("انتخاب فروشگاه")]
-    class StoresListFragment : BaseListFragment<StoreManager, StoresListAdapter, StoreDataModel>
+    class StoresListFragment : BaseListFragment<StoreManager, StoresListAdapter, StoreModel>
     {
         Location _currentLocation;
         public StoresListFragment()
         {
-            StringQuery query = new StringQuery("SELECT * FROM stores");
-            _dataManager.SetQueries(query, null);
-            _listAdapter.StoreSelected += async (store) =>
+            _dataManager.Query = StoreManager.GetAllQueryString();
+            _listAdapter.StoreSelected += (store) =>
                 {
                     foreach (var item in _listAdapter.List)
                     {
@@ -38,7 +37,7 @@ namespace AnatoliAndroid.Fragments
                         else
                             item.selected = 1;
                     }
-                    AnatoliApp.GetInstance().SetDefaultStore(store);
+                    AnatoliApp.GetInstance().DefaultStore = store;
                     AnatoliApp.GetInstance().RefreshMenuItems();
                     
                     _listAdapter.NotifyDataSetChanged();
@@ -52,7 +51,7 @@ namespace AnatoliAndroid.Fragments
             for (int i = _listView.FirstVisiblePosition; i < _listView.LastVisiblePosition; i++)
             {
                 var item = _listView.Adapter.GetItem(i);
-                var store = item.Cast<StoreDataModel>();
+                var store = item.Cast<StoreModel>();
                 if (store != null && !String.IsNullOrEmpty(store.location))
                 {
                     Location loc = new Location("destination");
@@ -62,7 +61,7 @@ namespace AnatoliAndroid.Fragments
                     loc.Longitude = langitude;
                     var dist = CalcDistance(_currentLocation, loc);
                     store.distance = dist;
-                    await StoreManager.UpdateDistanceAsync(store.store_id.ToString(), dist);
+                    StoreManager.UpdateDistance(store.UniqueId, dist);
                     _listAdapter.NotifyDataSetChanged();
                 }
             }

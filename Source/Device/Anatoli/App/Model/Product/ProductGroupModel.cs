@@ -18,5 +18,6 @@ namespace Anatoli.App.Model.Product
         public int NRight { get; set; }
         public int NLevel { get; set; }
         public string CharGroupIdString { get; set; }
+        public string Image { get; set; }
     }
 }

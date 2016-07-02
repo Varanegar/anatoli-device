@@ -49,21 +49,21 @@ namespace AnatoliAndroid.Fragments
             var productImageView = view.FindViewById<ImageView>(Resource.Id.productImageView);
             var favoritImageView = view.FindViewById<ImageView>(Resource.Id.favoritImageView);
 
-            titleTextView.Text = _product.product_name;
-            priceTextView.Text = (_product.IsAvailable) ? _product.price.ToCurrency() + " تومان" : "موجود نیست";
-            productCountTextView.Text = _product.count.ToString() + " عدد";
+            titleTextView.Text = _product.StoreProductName;
+            priceTextView.Text = (_product.IsAvailable) ? _product.Price.ToCurrency() + " تومان" : "موجود نیست";
+            productCountTextView.Text = _product.ShoppingBasketCount.ToString() + " عدد";
             productGroupTextView.Text = _product.cat_name;
-            Picasso.With(AnatoliApp.GetInstance().Activity).Load(ProductManager.GetImageAddress(_product.product_id, _product.image)).Placeholder(Resource.Drawable.igmart).Into(productImageView);
+            Picasso.With(AnatoliApp.GetInstance().Activity).Load(ProductManager.GetImageAddress(_product.UniqueId, _product.ImageAddress)).Placeholder(Resource.Drawable.igmart).Into(productImageView);
             if (_product.IsFavorit)
                 favoritImageView.SetImageResource(Android.Resource.Drawable.ButtonStarBigOn);
             else
                 favoritImageView.SetImageResource(Android.Resource.Drawable.ButtonStarBigOff);
 
-            favoritImageView.Click += async delegate
+            favoritImageView.Click += delegate
             {
                 if (!_product.IsFavorit)
                 {
-                    var result = await ProductManager.AddToFavoritsAsync(_product);
+                    var result = ProductManager.AddToFavorits(_product);
                     if (result)
                     {
                         favoritImageView.SetImageResource(Android.Resource.Drawable.ButtonStarBigOn);
@@ -71,18 +71,18 @@ namespace AnatoliAndroid.Fragments
                 }
                 else
                 {
-                    var result = await ProductManager.RemoveFavoritAsync(_product);
+                    var result = ProductManager.RemoveFavorit(_product);
                     if (result)
                     {
                         favoritImageView.SetImageResource(Android.Resource.Drawable.ButtonStarBigOff);
                     }
                 }
             };
-            addImageButton.Click += async delegate
+            addImageButton.Click += delegate
             {
                 try
                 {
-                    if (_product.count + 1 > _product.qty)
+                    if (_product.ShoppingBasketCount + 1 > _product.Qty)
                     {
                         AlertDialog.Builder alert = new AlertDialog.Builder(AnatoliApp.GetInstance().Activity);
                         alert.SetMessage("موجودی کالا کافی نیست");
@@ -93,13 +93,13 @@ namespace AnatoliAndroid.Fragments
                     addImageButton.Enabled = false;
                     if (AnatoliApp.GetInstance().AnatoliUser != null)
                     {
-                        if (await ShoppingCardManager.AddProductAsync(_product))
+                        if (ShoppingCardManager.AddProduct(_product))
                         {
-                            if (_product.count == 1)
+                            if (_product.ShoppingBasketCount == 1)
                             {
                                 counterLinearLayout.Visibility = ViewStates.Visible;
                             }
-                            productCountTextView.Text = _product.count.ToString() + " عدد";
+                            productCountTextView.Text = _product.ShoppingBasketCount.ToString() + " عدد";
                             
                         }
 
@@ -123,20 +123,20 @@ namespace AnatoliAndroid.Fragments
                 }
             };
 
-            removeProductImageView.Click += async delegate
+            removeProductImageView.Click += delegate
             {
                 try
                 {
                     removeProductImageView.Enabled = false;
                     if (AnatoliApp.GetInstance().AnatoliUser != null)
                     {
-                        if (await ShoppingCardManager.RemoveProductAsync(_product))
+                        if (ShoppingCardManager.RemoveProduct(_product))
                         {
-                            if (_product.count == 0)
+                            if (_product.ShoppingBasketCount == 0)
                             {
                                 counterLinearLayout.Visibility = ViewStates.Gone;
                             }
-                            productCountTextView.Text = _product.count.ToString() + " عدد";
+                            productCountTextView.Text = _product.ShoppingBasketCount.ToString() + " عدد";
                             
                         }
                     }

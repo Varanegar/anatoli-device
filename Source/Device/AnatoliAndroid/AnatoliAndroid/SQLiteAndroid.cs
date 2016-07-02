@@ -17,15 +17,54 @@ using AnatoliAndroid;
 
 namespace AnatoliAndroid
 {
-    class SQLiteAndroid : AnatoliSQLite
+    class SQLiteAndroid : AnatoliSQLiteClient
     {
+        SQLiteConnection _connection;
+        string _fileName = "paa.db";
+        public override void BeginTransaction()
+        {
+            _connection.BeginTransaction();
+        }
+
+        public override void CommitTransaction()
+        {
+            _connection.Commit();
+        }
+
+        public override void Create()
+        {
+            var path = FileAccessHelper.GetLocalFilePath(_fileName);
+            FileAccessHelper.CopyDatabase(path, _fileName);
+        }
 
         public override SQLiteConnection GetConnection()
         {
-            string path = FileAccessHelper.GetLocalFilePath("paa.db");
-            var conn = new SQLite.SQLiteConnection(path);
-            return conn;
+            if (_connection == null)
+            {
+                string path = FileAccessHelper.GetLocalFilePath(_fileName);
+                _connection = new SQLite.SQLiteConnection(path);
+            }
+            return _connection;
+        }
 
+        public override void RollbackTransaction()
+        {
+            _connection.Rollback();
+        }
+
+        public override void RollbackTransactionTo(string savePoint)
+        {
+            _connection.RollbackTo(savePoint);
+        }
+
+        public override string SaveTransactionPoint()
+        {
+            return _connection.SaveTransactionPoint();
+        }
+
+        public override void Upgrade(int currentVersion, int ollVersion)
+        {
+            Create();
         }
 
         public class FileAccessHelper
@@ -34,15 +73,10 @@ namespace AnatoliAndroid
             {
                 string path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
                 string dbPath = Path.Combine(path, filename);
-                if (AnatoliApp.GetInstance().Activity.CheckFirstRun())
-                {
-                    CopyDatabase(dbPath, filename);
-                }
-
                 return dbPath;
             }
 
-            private static void CopyDatabase(string dbPath, string fileName)
+            public static void CopyDatabase(string dbPath, string fileName)
             {
                 using (var br = new BinaryReader(Application.Context.Assets.Open(fileName)))
                 {

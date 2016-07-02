@@ -85,7 +85,7 @@ namespace AnatoliAndroid.ListAdapters
             {
                 if (!string.IsNullOrEmpty(item.message) && item.message.Equals("group"))
                 {
-                    var imguriii = CategoryManager.GetImageAddress(item.cat_id, item.image);
+                    var imguriii = ProductGroupManager.GetImageAddress(item.cat_id, item.image);
                     if (imguriii != null)
                     {
                         Picasso.With(AnatoliApp.GetInstance().Activity).Load(imguriii).Placeholder(Resource.Drawable.igmart).Into(_groupImageView);
@@ -100,7 +100,7 @@ namespace AnatoliAndroid.ListAdapters
                 {
                     var p = new ProductsListFragment();
                     p.SetCatId(item.cat_id.ToString());
-                    AnatoliApp.GetInstance().SetFragment<ProductsListFragment>(p, "products_fragment", true);
+                    AnatoliApp.GetInstance().PushFragment<ProductsListFragment>(p, "products_fragment", true);
                 };
                 if (_groupImageView != null)
                 {
@@ -108,7 +108,7 @@ namespace AnatoliAndroid.ListAdapters
                     {
                         var p = new ProductsListFragment();
                         p.SetCatId(item.cat_id.ToString());
-                        AnatoliApp.GetInstance().SetFragment<ProductsListFragment>(p, "products_fragment", true);
+                        AnatoliApp.GetInstance().PushFragment<ProductsListFragment>(p, "products_fragment", true);
                     };
                 }
                 return view;
@@ -123,22 +123,22 @@ namespace AnatoliAndroid.ListAdapters
 
                 if (item.IsFavorit)
                 {
-                    _favoritsTextView.Text = AnatoliApp.GetResources().GetText(Resource.String.RemoveFromList);
+                    _favoritsTextView.Text = _context.Resources.GetText(Resource.String.RemoveFromList);
                     _favoritsButton.SetImageResource(Resource.Drawable.ic_mylist_orange_24dp);
                     _favoritsTextView.SetTextColor(Android.Graphics.Color.Red);
                 }
                 else
                 {
-                    _favoritsTextView.Text = AnatoliApp.GetResources().GetText(Resource.String.AddToList);
+                    _favoritsTextView.Text = _context.Resources.GetText(Resource.String.AddToList);
                     _favoritsTextView.SetTextColor(Android.Graphics.Color.DarkGreen);
                     _favoritsButton.SetImageResource(Resource.Drawable.ic_mylist_green_24dp);
                 }
 
-                _productCountTextView.Text = item.count.ToString() + " عدد";
-                _productNameTextView.Text = item.product_name;
+                _productCountTextView.Text = item.ShoppingBasketCount.ToString() + " عدد";
+                _productNameTextView.Text = item.StoreProductName;
                 if (item.IsAvailable)
                 {
-                    _productPriceTextView.Text = string.Format(" {0} تومان", item.price.ToCurrency());
+                    _productPriceTextView.Text = string.Format(" {0} تومان", item.Price.ToCurrency());
                     _productIimageView.Alpha = 1f;
                     _productAddButton.Alpha = 1f;
                     _productNameTextView.Alpha = 1f;
@@ -152,9 +152,9 @@ namespace AnatoliAndroid.ListAdapters
                     _productAddButton.Enabled = false;
                 }
 
-                if (item.product_name.Equals(_productNameTextView.Text))
+                if (item.StoreProductName.Equals(_productNameTextView.Text))
                 {
-                    if (item.count > 0)
+                    if (item.ShoppingBasketCount > 0)
                     {
                         _counterLinearLayout.Visibility = ViewStates.Visible;
                         _removeAllRelativeLayout.Visibility = ViewStates.Visible;
@@ -176,20 +176,20 @@ namespace AnatoliAndroid.ListAdapters
                         _removeAllProductsButton.Enabled = false;
                         if (AnatoliApp.GetInstance().AnatoliUser != null)
                         {
-                            var cardInfoChange = await ShoppingCardManager.GetInfoAsync();
+                            var cardInfoChange = ShoppingCardManager.GetInfo();
 
-                            int a = cardInfoChange.items_count;
+                            int a = cardInfoChange.Qty;
 
-                            if (await ShoppingCardManager.RemoveProductAsync(item, true))
+                            if (ShoppingCardManager.RemoveProduct(item, true))
                             {
-                                while (item.count > 0)
+                                while (item.Qty > 0)
                                 {
                                     await Task.Delay(90);
-                                    item.count--;
+                                    item.Qty--;
                                     NotifyDataSetChanged();
                                     OnDataChanged();
                                 }
-                                if (item.product_name.Equals(_productNameTextView.Text))
+                                if (item.StoreProductName.Equals(_productNameTextView.Text))
                                 {
                                     _counterLinearLayout.Visibility = ViewStates.Gone;
                                     _removeAllRelativeLayout.Visibility = ViewStates.Invisible;
@@ -223,23 +223,23 @@ namespace AnatoliAndroid.ListAdapters
 
                 var _favoritsTouchlistener = new OnTouchListener();
                 _favoritsTextView.SetOnTouchListener(_favoritsTouchlistener);
-                _favoritsTouchlistener.Click += async (s, e) =>
+                _favoritsTouchlistener.Click += (s, e) =>
                 {
                     _favoritsButton.Enabled = false;
                     if (this[position].IsFavorit)
                     {
-                        if (await ProductManager.RemoveFavoritAsync(this[position]) == true)
+                        if (ProductManager.RemoveFavorit(this[position]) == true)
                         {
-                            this[position].favorit = 0;
+                            this[position].FavoritBasketCount = 0;
                             NotifyDataSetChanged();
                             OnFavoritRemoved(this[position]);
                         }
                     }
                     else
                     {
-                        if (await ProductManager.AddToFavoritsAsync(this[position]) == true)
+                        if (ProductManager.AddToFavorits(this[position]) == true)
                         {
-                            this[position].favorit = 1;
+                            this[position].FavoritBasketCount = 1;
                             NotifyDataSetChanged();
                             OnFavoritAdded(this[position]);
                         }
@@ -253,11 +253,11 @@ namespace AnatoliAndroid.ListAdapters
                 alert1.SetPositiveButton(Resource.String.Ok, delegate { });
                 alert1.SetCancelable(false);
                 _addTouchlistener = new OnTouchListener();
-                _addTouchlistener.Click += async (s, e) =>
+                _addTouchlistener.Click += (s, e) =>
                 {
                     try
                     {
-                        if (item.count + 1 > item.qty)
+                        if (item.ShoppingBasketCount + 1 > item.Qty)
                         {
                             alert1.Show();
                             return;
@@ -265,10 +265,10 @@ namespace AnatoliAndroid.ListAdapters
                         _productAddButton.Enabled = false;
                         if (AnatoliApp.GetInstance().AnatoliUser != null)
                         {
-                            if (await ShoppingCardManager.AddProductAsync(item))
+                            if (ShoppingCardManager.AddProduct(item))
                             {
-                                if (item.product_name.Equals(_productNameTextView.Text))
-                                    if (item.count == 1)
+                                if (item.StoreProductName.Equals(_productNameTextView.Text))
+                                    if (item.ShoppingBasketCount == 1)
                                     {
                                         _counterLinearLayout.Visibility = ViewStates.Visible;
                                         _removeAllRelativeLayout.Visibility = ViewStates.Visible;
@@ -300,18 +300,18 @@ namespace AnatoliAndroid.ListAdapters
                 _productAddButton.SetOnTouchListener(_addTouchlistener);
 
                 var _removeTouchlistener = new OnTouchListener();
-                _removeTouchlistener.Click += async (s, e) =>
+                _removeTouchlistener.Click += (s, e) =>
                 {
                     try
                     {
                         _productRemoveButton.Enabled = false;
                         if (AnatoliApp.GetInstance().AnatoliUser != null)
                         {
-                            if (await ShoppingCardManager.RemoveProductAsync(item))
+                            if (ShoppingCardManager.RemoveProduct(item))
                             {
-                                if (item.count == 0)
+                                if (item.ShoppingBasketCount == 0)
                                 {
-                                    if (item.product_name.Equals(_productNameTextView.Text))
+                                    if (item.StoreProductName.Equals(_productNameTextView.Text))
                                     {
                                         _counterLinearLayout.Visibility = ViewStates.Gone;
                                         _removeAllRelativeLayout.Visibility = ViewStates.Invisible;
@@ -344,17 +344,17 @@ namespace AnatoliAndroid.ListAdapters
                 _productIimageView.Click += delegate
                 {
                     var d = new ProductDetailFragment(item);
-                    AnatoliApp.GetInstance().SetFragment<ProductDetailFragment>(d, "product_detail");
+                    AnatoliApp.GetInstance().PushFragment(d, "product_detail");
                 };
                 _productNameTextView.Click += delegate
                 {
                     var d = new ProductDetailFragment(item);
-                    AnatoliApp.GetInstance().SetFragment<ProductDetailFragment>(d, "product_detail");
+                    AnatoliApp.GetInstance().PushFragment(d, "product_detail");
                 };
                 _productPriceTextView.Click += delegate
                 {
                     var d = new ProductDetailFragment(item);
-                    AnatoliApp.GetInstance().SetFragment<ProductDetailFragment>(d, "product_detail");
+                    AnatoliApp.GetInstance().PushFragment(d, "product_detail");
                 };
                 return view;
             }

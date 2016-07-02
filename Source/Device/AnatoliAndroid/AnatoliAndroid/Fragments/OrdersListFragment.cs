@@ -22,7 +22,7 @@ namespace AnatoliAndroid.Fragments
         public OrdersListFragment()
         {
             StringQuery query = OrderManager.GetOrderQueryString();
-            _dataManager.SetQueries(query, null);
+            _dataManager.Query = query;
         }
         public async override void OnResume()
         {
@@ -43,7 +43,7 @@ namespace AnatoliAndroid.Fragments
                     progressDialog.SetButton("باشه", delegate { progressDialog.Dismiss(); });
                     progressDialog.Show();
                     await OrderManager.SyncOrdersAsync(AnatoliApp.GetInstance().CustomerId);
-                    await RefreshAsync();
+                    Refresh();
                 }
                 catch (Exception ex)
                 {

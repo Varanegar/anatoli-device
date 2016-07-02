@@ -11,7 +11,6 @@ using Android.Views;
 using Android.Widget;
 using Anatoli.Framework.Manager;
 using Anatoli.Framework.Model;
-using Anatoli.Framework.DataAdapter;
 using AnatoliAndroid.ListAdapters;
 using Anatoli.Framework.AnatoliBase;
 using System.Threading.Tasks;
@@ -24,7 +23,7 @@ namespace AnatoliAndroid.Fragments
     abstract class BaseListFragment<BaseDataManager, DataListAdapter, DataModel> : BaseListFragment
         where BaseDataManager : BaseManager<DataModel>, new()
         where DataListAdapter : BaseListAdapter<BaseDataManager, DataModel>, new()
-        where DataModel : BaseViewModel, new()
+        where DataModel : BaseModel, new()
     {
         protected View _view;
         protected ListView _listView;
@@ -63,7 +62,7 @@ namespace AnatoliAndroid.Fragments
             base.OnStart();
             if (_refreshAtStart)
             {
-                RefreshAsync();
+                Refresh();
             }
         }
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -84,12 +83,12 @@ namespace AnatoliAndroid.Fragments
             };
             return _view;
         }
-        protected async override Task RefreshAsync()
+        protected override void Refresh()
         {
             try
             {
                 _dataManager.Reset();
-                _listAdapter.List = await _dataManager.GetNextAsync();
+                _listAdapter.List = _dataManager.GetNext();
                 if (_listAdapter.Count == 0)
                     OnEmptyList();
                 else
@@ -103,7 +102,7 @@ namespace AnatoliAndroid.Fragments
             }
         }
        
-        async void _listView_ScrollStateChanged(object sender, AbsListView.ScrollStateChangedEventArgs e)
+        void _listView_ScrollStateChanged(object sender, AbsListView.ScrollStateChangedEventArgs e)
         {
             if (e.ScrollState == ScrollState.Idle)
             {
@@ -111,7 +110,7 @@ namespace AnatoliAndroid.Fragments
                 {
                     try
                     {
-                        var list = await _dataManager.GetNextAsync();
+                        var list = _dataManager.GetNext();
                         if (list.Count > 0)
                         {
                             _listAdapter.List.AddRange(list);
@@ -146,6 +145,6 @@ namespace AnatoliAndroid.Fragments
 
     public abstract class BaseListFragment : AnatoliFragment
     {
-        protected abstract Task RefreshAsync();
+        protected abstract void Refresh();
     }
 }

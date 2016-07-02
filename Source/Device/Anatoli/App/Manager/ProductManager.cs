@@ -439,9 +439,9 @@ ON a.UniqueId = b.UniqueId AND a.UniqueId = '{1}'", storeId.ToString(), productI
             return query;
         }
 
-        public static string GetImageAddress(string productId, string imageId)
+        public static string GetImageAddress(Guid productId, string imageId)
         {
-            if (String.IsNullOrEmpty(productId) || string.IsNullOrEmpty(imageId))
+            if (string.IsNullOrEmpty(imageId))
                 return null;
             else
             {
@@ -462,7 +462,7 @@ ON a.UniqueId = b.UniqueId AND a.UniqueId = '{1}'", storeId.ToString(), productI
             }
         }
 
-        public static StringQuery GetFavoritsQueryString(string storeId)
+        public static StringQuery GetFavoritsQueryString(Guid storeId)
         {
             var query = new StringQuery(string.Format("SELECT * FROM ProductStoreView WHERE FavoritBasketCount > 0 AND ProductStoreView.StoreGuid = '{0}' AND ProductStoreView.IsRemoved='0' ORDER BY StoreProductName", storeId));
             return query;
@@ -512,7 +512,7 @@ ON a.UniqueId = b.UniqueId AND a.UniqueId = '{1}'", storeId.ToString(), productI
             return query;
         }
 
-        public static StringQuery GetAll(string storeId)
+        public static StringQuery GetAll(Guid storeId)
         {
             StringQuery query = new StringQuery(string.Format("SELECT * FROM ProductStoreView StoreGuid = '{0}' AND IsRemoved='0' ORDER BY StoreProductName", storeId).PersianToArabic());
             return query;

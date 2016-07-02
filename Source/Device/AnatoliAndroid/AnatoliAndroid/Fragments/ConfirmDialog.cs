@@ -40,7 +40,7 @@ namespace AnatoliAndroid.Fragments
             okButton.Click += async (s, e) =>
             {
                 ProgressDialog pDialog = new ProgressDialog(AnatoliApp.GetInstance().Activity);
-                pDialog.SetMessage(AnatoliApp.GetResources().GetString(Resource.String.PleaseWait));
+                pDialog.SetMessage(Resources.GetString(Resource.String.PleaseWait));
                 pDialog.Show();
                 try
                 {

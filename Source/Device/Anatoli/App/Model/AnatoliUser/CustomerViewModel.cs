@@ -25,11 +25,11 @@ namespace Anatoli.App.Model
         public string MainStreet { get; set; }
         public string OtherStreet { get; set; }
         public string RegionInfoId { get; set; }
-        public Guid RegionLevel1Id { get; set; }
-        public Guid RegionLevel2Id { get; set; }
-        public Guid RegionLevel3Id { get; set; }
-        public Guid RegionLevel4Id { get; set; }
-        public Guid DefauleStoreId { get; set; }
+        public Guid? RegionLevel1Id { get; set; }
+        public Guid? RegionLevel2Id { get; set; }
+        public Guid? RegionLevel3Id { get; set; }
+        public Guid? RegionLevel4Id { get; set; }
+        public Guid? DefauleStoreId { get; set; }
 
     }
 }

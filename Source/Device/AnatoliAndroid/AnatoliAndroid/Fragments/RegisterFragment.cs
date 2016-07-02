@@ -53,7 +53,7 @@ namespace AnatoliAndroid.Fragments
             }
             if (String.IsNullOrEmpty(_telEditText.Text) || String.IsNullOrEmpty(_passwordEditText.Text))
             {
-                alertDialog.SetMessage(AnatoliApp.GetResources().GetText(Resource.String.EneterUserNamePass));
+                alertDialog.SetMessage(Resources.GetText(Resource.String.EneterUserNamePass));
                 alertDialog.SetTitle(Resource.String.Error);
                 alertDialog.SetPositiveButton(Resource.String.Ok, (s, ev) => { });
                 alertDialog.Show();
@@ -61,7 +61,7 @@ namespace AnatoliAndroid.Fragments
             }
             if (_passwordEditText.Text.Length < 4)
             {
-                alertDialog.SetMessage(AnatoliApp.GetResources().GetText(Resource.String.PassLengthError));
+                alertDialog.SetMessage(Resources.GetText(Resource.String.PassLengthError));
                 alertDialog.SetTitle(Resource.String.Error);
                 alertDialog.SetPositiveButton(Resource.String.Ok, (s, ev) => { });
                 alertDialog.Show();
@@ -69,7 +69,7 @@ namespace AnatoliAndroid.Fragments
             }
             _registerButton.Enabled = false;
             ProgressDialog dialog = new ProgressDialog(AnatoliApp.GetInstance().Activity);
-            dialog.SetMessage(AnatoliApp.GetResources().GetText(Resource.String.PleaseWait));
+            dialog.SetMessage(Resources.GetText(Resource.String.PleaseWait));
             dialog.Show();
 
             try
@@ -78,7 +78,7 @@ namespace AnatoliAndroid.Fragments
                 dialog.Dismiss();
                 if (result.IsValid) // register success
                 {
-                    alertDialog.SetMessage(AnatoliApp.GetResources().GetText(Resource.String.SaveSuccess));
+                    alertDialog.SetMessage(Resources.GetText(Resource.String.SaveSuccess));
                     alertDialog.SetPositiveButton(Resource.String.Ok, (s, a) =>
                     {
                         // Show confirmation dialog
@@ -104,7 +104,7 @@ namespace AnatoliAndroid.Fragments
                                     try
                                     {
                                         Dismiss();
-                                        AnatoliApp.GetInstance().SetFragment<ProductsListFragment>(new ProductsListFragment(), "products_fragment");
+                                        AnatoliApp.GetInstance().PushFragment(new ProductsListFragment(), "products_fragment");
                                     }
                                     catch (Exception ex)
                                     {

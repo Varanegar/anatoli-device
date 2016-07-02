@@ -63,13 +63,13 @@ namespace AnatoliAndroid.Fragments
             await AnatoliApp.GetInstance().SyncDatabase();
             try
             {
-                var categories = await CategoryManager.GetFirstLevelAsync();
+                var categories = ProductGroupManager.GetFirstLevel();
                 if (categories != null)
                 {
                     var groupAdapter = new GroupListAdapter(AnatoliApp.GetInstance().Activity, categories);
                     _groupsGridView.Adapter = groupAdapter;
                     ViewGroup.LayoutParams lparams = _groupsGridView.LayoutParameters;
-                    var scale = AnatoliApp.GetResources().DisplayMetrics.Density;
+                    var scale = Resources.DisplayMetrics.Density;
                     int pixels = (int)(120 * scale + 0.5f);
                     var c = groupAdapter.Count % 2 == 0 ? groupAdapter.Count / 2 + 1 : groupAdapter.Count / 2 + 2;
                     lparams.Height = pixels * c;
@@ -87,16 +87,16 @@ namespace AnatoliAndroid.Fragments
 
     }
 
-    public class GroupListAdapter : BaseAdapter<CategoryInfoModel>
+    public class GroupListAdapter : BaseAdapter<ProductGroupModel>
     {
-        List<CategoryInfoModel> _list;
+        List<ProductGroupModel> _list;
         Activity _context;
-        public GroupListAdapter(Activity context, List<CategoryInfoModel> list)
+        public GroupListAdapter(Activity context, List<ProductGroupModel> list)
         {
             _list = list;
             _context = context;
         }
-        public override CategoryInfoModel this[int position]
+        public override ProductGroupModel this[int position]
         {
             get { return _list[position]; }
         }
@@ -115,7 +115,7 @@ namespace AnatoliAndroid.Fragments
         {
             convertView = _context.LayoutInflater.Inflate(Resource.Layout.ProductGroupGridViewItem, null);
 
-            CategoryInfoModel item = null;
+            ProductGroupModel item = null;
             if (_list != null)
                 item = _list[position];
             else
@@ -123,9 +123,9 @@ namespace AnatoliAndroid.Fragments
 
             ImageView imageView1 = convertView.FindViewById<ImageView>(Resource.Id.imageView1);
             TextView textView1 = convertView.FindViewById<TextView>(Resource.Id.textView1);
-            textView1.Text = item.cat_name;
+            textView1.Text = item.GroupName;
 
-            string imguri = CategoryManager.GetImageAddress(item.cat_id, item.cat_image);
+            string imguri = ProductGroupManager.GetImageAddress(item.UniqueId, item.Image);
             try
             {
                 if (imguri != null)
@@ -141,8 +141,8 @@ namespace AnatoliAndroid.Fragments
             imageView1.Click += (s, e) =>
             {
                 var p = new ProductsListFragment();
-                p.SetCatId(item.cat_id.ToString());
-                AnatoliApp.GetInstance().SetFragment<ProductsListFragment>(p, "products_fragment");
+                p.SetCatId(item.UniqueId);
+                AnatoliApp.GetInstance().PushFragment(p, "products_fragment");
 
             };
             return convertView;

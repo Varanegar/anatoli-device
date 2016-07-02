@@ -46,7 +46,7 @@ namespace AnatoliAndroid.Activities
             base.OnCreate(bundle);
 
             var cn = (ConnectivityManager)GetSystemService(ConnectivityService);
-            AnatoliClient.GetInstance(new AndroidWebClient(cn), new SQLiteAndroid(), new AndroidFileIO());
+            AnatoliClient.Initialize(new AndroidWebClient(cn), new SQLiteAndroid(), new AndroidFileIO());
 
             HockeyApp.CrashManager.Register(this, HOCKEYAPP_APPID, new AnatoliCrashManagerListener());
             HockeyApp.TraceWriter.Initialize();
@@ -90,9 +90,9 @@ namespace AnatoliAndroid.Activities
         {
             base.OnPostCreate(savedInstanceState);
 
-            AnatoliClient.GetInstance().WebClient.TokenExpire += async (s, e) =>
+            AnatoliClient.GetInstance().WebClient.TokenExpire += (s, e) =>
             {
-                await AnatoliApp.GetInstance().SaveLogoutAsync();
+                AnatoliApp.GetInstance().SaveLogout();
                 var currentFragmentType = AnatoliApp.GetInstance().GetCurrentFragmentType();
                 if (currentFragmentType == typeof(ProfileFragment))
                 {
@@ -112,17 +112,17 @@ namespace AnatoliAndroid.Activities
             _locationManager = (LocationManager)GetSystemService(LocationService);
             AnatoliApp.GetInstance().DrawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             AnatoliApp.GetInstance().LocationManager = _locationManager;
-            await AnatoliApp.GetInstance().UpdateBasketIcon();
+            AnatoliApp.GetInstance().UpdateBasketIcon();
             try
             {
-                var defaultStore = await StoreManager.GetDefaultAsync();
+                var defaultStore = StoreManager.GetDefault();
                 if (defaultStore != null)
                 {
-                    AnatoliApp.GetInstance().SetDefaultStore(defaultStore);
+                    AnatoliApp.GetInstance().DefaultStore = defaultStore;
                     AnatoliApp.GetInstance().Customer = await CustomerManager.ReadCustomerAsync();
                     AnatoliApp.GetInstance().RefreshMenuItems();
 
-                    AnatoliApp.GetInstance().SetFragment<FirstFragment>(new FirstFragment(), "first_fragment");
+                    AnatoliApp.GetInstance().PushFragment(new FirstFragment(), "first_fragment");
                     if (AnatoliApp.GetInstance().AnatoliUser != null)
                     {
 #pragma warning disable
@@ -144,7 +144,7 @@ namespace AnatoliAndroid.Activities
                 else
                 {
                     var storesF = new StoresListFragment();
-                    AnatoliApp.GetInstance().SetFragment<StoresListFragment>(storesF, "stores_fragment");
+                    AnatoliApp.GetInstance().PushFragment(storesF, "stores_fragment");
                 }
             }
             catch (Exception)

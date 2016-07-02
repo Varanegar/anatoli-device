@@ -75,17 +75,17 @@ namespace AnatoliAndroid.ListAdapters
             //}
             if (item.ImageResId != -1)
                 itemImageView.SetImageResource(item.ImageResId);
-            else if (item.GetType() == typeof(DrawerPCItem))
+            else if (item.GetType() == typeof(DrawerProductGroupItem))
             {
-                var pcItem = item as DrawerPCItem;
-                if (pcItem.ItemType == DrawerPCItem.ItemTypes.Parent)
+                var pcItem = item as DrawerProductGroupItem;
+                if (pcItem.ItemType == DrawerProductGroupItem.ItemTypes.Parent)
                 {
                     itemImageView.SetImageResource(Resource.Drawable.ic_clear_white_24dp);
                 }
                 else
                 {
                     itemImageView.Visibility = ViewStates.Invisible;
-                    if (pcItem.ItemType == DrawerPCItem.ItemTypes.Leaf)
+                    if (pcItem.ItemType == DrawerProductGroupItem.ItemTypes.Leaf)
                     {
                         convertView.SetBackgroundResource(Resource.Color.lightgray);
                     }
@@ -137,11 +137,11 @@ namespace AnatoliAndroid.ListAdapters
             ImageResId = imageResId;
         }
     }
-    class DrawerPCItem : DrawerItemType
+    class DrawerProductGroupItem : DrawerItemType
     {
         public ItemTypes ItemType;
 
-        public DrawerPCItem(string itemId, string itemName, ItemTypes type = ItemTypes.Normal)
+        public DrawerProductGroupItem(string itemId, string itemName, ItemTypes type = ItemTypes.Normal)
             : base(itemId, itemName, -1)
         {
             ItemType = type;

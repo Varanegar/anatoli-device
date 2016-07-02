@@ -50,7 +50,7 @@ namespace AnatoliIOS.ViewControllers
 				}
 			}
 			if (!String.IsNullOrEmpty (GroupId)) {
-				var info = await ProductGroupManager.GetCategoryInfo (GroupId);
+				var info = await ProductGroupManager.GetGroupInfo (GroupId);
 				await AnatoliApp.GetInstance ().RefreshMenu (GroupId);
 				if (info != null) {
 					Title = info.cat_name;
@@ -104,7 +104,7 @@ namespace AnatoliIOS.ViewControllers
 			_searchBar.CancelButtonClicked += async (object sender, EventArgs e) => {
 				_searchBar.ResignFirstResponder ();
 				if (!String.IsNullOrEmpty (GroupId)) {
-					var info = await ProductGroupManager.GetCategoryInfo (GroupId);
+					var info = await ProductGroupManager.GetGroupInfo (GroupId);
 					await AnatoliApp.GetInstance ().RefreshMenu (GroupId);
 					if (info != null) {
 						Title = info.cat_name;

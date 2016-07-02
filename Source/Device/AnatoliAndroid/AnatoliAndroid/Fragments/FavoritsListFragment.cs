@@ -15,7 +15,6 @@ using Anatoli.App.Manager;
 using AnatoliAndroid.ListAdapters;
 using Anatoli.Framework.AnatoliBase;
 using Anatoli.Framework.Manager;
-using Anatoli.Framework.DataAdapter;
 using AnatoliAndroid.Activities;
 
 namespace AnatoliAndroid.Fragments
@@ -31,8 +30,8 @@ namespace AnatoliAndroid.Fragments
         public FavoritsListFragment()
         {
             _listAdapter.FavoritRemoved += _listAdapter_FavoritRemoved;
-            var query = ProductManager.GetFavoritsQueryString(AnatoliApp.GetInstance().DefaultStoreId);
-            _dataManager.SetQueries(query, null);
+            var query = ProductManager.GetFavoritsQueryString(AnatoliApp.GetInstance().DefaultStore.UniqueId);
+            _dataManager.Query = query;
         }
 
         void _listAdapter_FavoritRemoved(object sender, ProductModel item)

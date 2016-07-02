@@ -170,17 +170,17 @@ namespace Anatoli.App.Manager
             return result;
         }
 
-        public static async Task<PurchaseOrderViewModel> CalcPromo(CustomerViewModel customerModel, string userId, string storeId, string deliveryTypeId, DeliveryTimeModel deliveryTime)
+        public static async Task<PurchaseOrderViewModel> CalcPromo(CustomerViewModel customerModel, Guid userId, Guid storeId, Guid deliveryTypeId, DeliveryTimeModel deliveryTime)
         {
             try
             {
                 var products = GetAllItems();
                 PurchaseOrderViewModel order = new PurchaseOrderViewModel();
                 order.Customer = customerModel;
-                order.DeliveryTypeId = Guid.Parse(deliveryTypeId);
+                order.DeliveryTypeId = deliveryTypeId;
                 order.PaymentTypeValueId = Guid.Parse("3a27504c-a9ba-46ce-9376-a63403bfe82a");
-                order.StoreGuid = Guid.Parse(storeId);
-                order.UserId = Guid.Parse(userId);
+                order.StoreGuid = storeId;
+                order.UserId = userId;
                 order.OrderDate = DateTime.Now;
                 order.OrderTime = DateTime.Now.TimeOfDay;
                 order.DeliveryDate = DateTime.Now;
@@ -200,7 +200,7 @@ namespace Anatoli.App.Manager
                 }
                 var requestModel = new RequestModel.PurchaseOrderRequestModel();
                 requestModel.orderEntity = order;
-                var o = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<PurchaseOrderViewModel>(TokenType.AppToken, Configuration.WebService.Purchase.CalcPromo, requestModel,false);
+                var o = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<PurchaseOrderViewModel>(TokenType.AppToken, Configuration.WebService.Purchase.CalcPromo, requestModel, false);
                 return o;
             }
             catch (Exception ex)
@@ -210,16 +210,16 @@ namespace Anatoli.App.Manager
             }
         }
 
-        public static async Task<PurchaseOrderViewModel> Checkout(CustomerViewModel customerModel, string userId, string storeId, string deliveryTypeId, DeliveryTimeModel deliveryTime)
+        public static async Task<PurchaseOrderViewModel> Checkout(CustomerViewModel customerModel, Guid userId, Guid storeId, Guid deliveryTypeId, DeliveryTimeModel deliveryTime)
         {
             try
             {
                 var products = GetAllItems();
                 PurchaseOrderViewModel order = new PurchaseOrderViewModel();
                 order.Customer = customerModel;
-                order.DeliveryTypeId = Guid.Parse(deliveryTypeId);
+                order.DeliveryTypeId = deliveryTypeId;
                 order.PaymentTypeValueId = Guid.Parse("3a27504c-a9ba-46ce-9376-a63403bfe82a");
-                order.StoreGuid = Guid.Parse(storeId);
+                order.StoreGuid = storeId;
                 order.OrderDate = DateTime.Now;
                 order.OrderTime = DateTime.Now.TimeOfDay;
                 order.DeliveryDate = DateTime.Now;
@@ -230,7 +230,7 @@ namespace Anatoli.App.Manager
                     order.DeliveryToTime = deliveryTime.timespan + TimeSpan.FromMinutes(30);
                 }
                 order.PurchaseOrderStatusValueId = Guid.Parse("A591658A-E46B-440D-9ADB-E3E5B01B7489");
-                order.UserId = Guid.Parse(userId);
+                order.UserId = userId;
                 order.ActionSourceValueId = "65DEC223-059E-48BA-8281-E4FAAFF6E32D";
                 foreach (var item in products)
                 {
@@ -241,7 +241,7 @@ namespace Anatoli.App.Manager
                 }
                 var requestModel = new RequestModel.PurchaseOrderRequestModel();
                 requestModel.orderEntity = order;
-                var o = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<PurchaseOrderViewModel>(TokenType.AppToken, Configuration.WebService.Purchase.Create, requestModel,false);
+                var o = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<PurchaseOrderViewModel>(TokenType.AppToken, Configuration.WebService.Purchase.Create, requestModel, false);
                 return o;
             }
             catch (Exception ex)

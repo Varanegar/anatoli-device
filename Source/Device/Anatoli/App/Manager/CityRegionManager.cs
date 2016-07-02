@@ -139,7 +139,7 @@ namespace Anatoli.App.Manager
             }
         }
 
-        public static CityRegionModel GetGroupInfoAsync(Guid grouId)
+        public static CityRegionModel GetGroupInfo(Guid grouId)
         {
             try
             {

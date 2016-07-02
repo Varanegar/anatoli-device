@@ -11,13 +11,12 @@ using Android.Views;
 using Android.Widget;
 using Anatoli.Framework.Model;
 using AnatoliAndroid.Activities;
-using Anatoli.Framework.DataAdapter;
 using Anatoli.Framework.Manager;
 
 namespace AnatoliAndroid.ListAdapters
 {
     class BaseListAdapter<BaseDataManager, DataModel> : BaseAdapter<DataModel>
-        where DataModel : BaseViewModel, new()
+        where DataModel : BaseModel, new()
         where BaseDataManager : BaseManager<DataModel>, new()
     {
         public List<DataModel> List;

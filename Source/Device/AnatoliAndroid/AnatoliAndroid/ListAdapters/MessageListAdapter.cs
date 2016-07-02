@@ -44,9 +44,9 @@ namespace AnatoliAndroid.ListAdapters
                 OnMessageView(item.msg_id);
             }
             
-            removeButton.Click += async (s, e) =>
+            removeButton.Click += (s, e) =>
                 {
-                    if (await MessageManager.DeleteAsync(item.msg_id))
+                    if (MessageManager.Delete(item.msg_id))
                     {
                         OnMessageDeleted(item);
                     }

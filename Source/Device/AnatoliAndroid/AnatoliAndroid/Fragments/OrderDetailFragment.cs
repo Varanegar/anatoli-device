@@ -67,7 +67,7 @@ namespace AnatoliAndroid.Fragments
             }
             else
             {
-                OrderModel order = await OrderManager.GetOrderByIdAsync(_orderId);
+                OrderModel order = OrderManager.GetOrderById(_orderId);
                 _dateTextView.Text = " " + order.order_date;
                 _storeNameTextView.Text = " " + order.store_name;
                 _priceTextView.Text = " " + order.order_price.ToCurrency() + " تومان";
@@ -89,7 +89,7 @@ namespace AnatoliAndroid.Fragments
                     {
                         await Task.Run(async delegate
                         {
-                            await OrderManager.SyncOrderItemsAsync(AnatoliApp.GetInstance().CustomerId, order);
+                            await OrderManager.SyncOrderItemsAsync(AnatoliApp.GetInstance().Customer.UniqueId, order);
                         });
                     }
                     catch (Exception ex)
@@ -111,7 +111,7 @@ namespace AnatoliAndroid.Fragments
                 }
 
 
-                List<OrderItemModel> items = await OrderItemsManager.GetItemsAsync(_orderId);
+                List<OrderItemModel> items = OrderItemsManager.GetItems(_orderId);
                 OrderDetailAdapter adapter = new OrderDetailAdapter(items, order, AnatoliApp.GetInstance().Activity);
                 adapter.DataChanged += (s, e) =>
                 {
@@ -127,7 +127,7 @@ namespace AnatoliAndroid.Fragments
                         foreach (var item in items)
                         {
                             await Task.Delay(100);
-                            if (await ShoppingCardManager.AddProductAsync(item.product_id, order.store_id, 1))
+                            if ( ShoppingCardManager.AddProduct(item.UniqueId, order.store_id, 1))
                             {
                                 a += item.item_count;
                             }
@@ -136,7 +136,7 @@ namespace AnatoliAndroid.Fragments
                         if (a > 0)
                         {
                             Toast.MakeText(AnatoliApp.GetInstance().Activity, String.Format("{0} آیتم به سبد خرید اضافه شد", a.ToString()), ToastLength.Short).Show();
-                            AnatoliApp.GetInstance().SetFragment<ShoppingCardFragment>(new ShoppingCardFragment(), "shopping_fragment");
+                            AnatoliApp.GetInstance().PushFragment(new ShoppingCardFragment(), "shopping_fragment");
                         }
                         else
                             Toast.MakeText(AnatoliApp.GetInstance().Activity, "کالای مورد نظر هم اکنون در دسترس نمی باشد", ToastLength.Short).Show();
@@ -211,9 +211,9 @@ namespace AnatoliAndroid.Fragments
                 productPriceTextView.Text = " (" + item.item_price.ToCurrency() + " تومان) ";
                 productCountTextView.Text = item.item_count.ToString();
                 productNameTextView.Text = item.product_name;
-                addProductImageView.Click += async (s, e) =>
+                addProductImageView.Click += (s, e) =>
                 {
-                    if (await ShoppingCardManager.AddProductAsync(item.product_id, AnatoliApp.GetInstance().DefaultStoreId, 1))
+                    if (ShoppingCardManager.AddProduct(item.product_id, AnatoliApp.GetInstance().DefaultStore.UniqueId, 1))
                     {
 
                         Toast.MakeText(_context, "به سبد خرید اضافه شد", ToastLength.Short).Show();
