@@ -40,7 +40,7 @@ namespace Anatoli.App.Manager
                 foreach (var item in list)
                 {
                     // ستاد مرکزی را اضافه نمیکنیم
-                    if (!item.UniqueId.Equals("680D21FE-5D68-4396-A99F-60814DF27D07"))
+                    if (!item.UniqueId.Equals(Guid.Parse("680D21FE-5D68-4396-A99F-60814DF27D07")))
                     {
                         if (items.ContainsKey(item.UniqueId))
                         {

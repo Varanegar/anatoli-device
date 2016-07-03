@@ -15,7 +15,7 @@ namespace Anatoli.App.Model
         public static Guid CustomerImageType = Guid.Parse("73C20167-9B30-4385-95AE-1A0BA89CC415");
         public byte[] image { get; set; }
         public string ImageName { get; set; }
-        public string ImageType { get; set; }
+        public Guid ImageType { get; set; }
 
         public Guid BaseDataId { get; set; }
     }

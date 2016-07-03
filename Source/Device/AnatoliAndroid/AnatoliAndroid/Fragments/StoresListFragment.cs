@@ -21,13 +21,11 @@ using System.Threading.Tasks;
 
 namespace AnatoliAndroid.Fragments
 {
-    [FragmentTitle("انتخاب فروشگاه")]
     class StoresListFragment : BaseListFragment<StoreManager, StoresListAdapter, StoreModel>
     {
         Location _currentLocation;
         public StoresListFragment()
         {
-            _dataManager.Query = StoreManager.GetAllQueryString();
             _listAdapter.StoreSelected += (store) =>
                 {
                     foreach (var item in _listAdapter.List)
@@ -39,12 +37,11 @@ namespace AnatoliAndroid.Fragments
                     }
                     AnatoliApp.GetInstance().DefaultStore = store;
                     AnatoliApp.GetInstance().RefreshMenuItems();
-                    
                     _listAdapter.NotifyDataSetChanged();
                 };
         }
 
-        private async void UpdateDistances()
+        private void UpdateDistances()
         {
             if (_currentLocation == null)
                 return;
@@ -70,6 +67,7 @@ namespace AnatoliAndroid.Fragments
         public override void OnStart()
         {
             base.OnStart();
+            Title = "انتخاب فروشگاه";
             AnatoliApp.GetInstance().HideSearchIcon();
             AnatoliApp.GetInstance().StartLocationUpdates();
             AnatoliApp.GetInstance().LocationChanged += StoresListFragment_LocationChanged;

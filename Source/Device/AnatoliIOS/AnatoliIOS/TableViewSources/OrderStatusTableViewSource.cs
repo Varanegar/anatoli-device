@@ -9,7 +9,7 @@ using AnatoliIOS.ViewControllers;
 
 namespace AnatoliIOS.TableViewSources
 {
-	public class OrderStatusTableViewSource : BaseTableViewSource<OrderManager,OrderModel>
+	public class OrderStatusTableViewSource : BaseTableViewSource<PurchaseOrderManager,OrderModel>
 	{
 		public OrderStatusTableViewSource ()
 		{

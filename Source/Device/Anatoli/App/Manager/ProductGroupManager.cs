@@ -68,10 +68,6 @@ namespace Anatoli.App.Manager
                            new BasicParam("NRight", item.NRight.ToString()),
                            new BasicParam("NLevel", item.NLevel.ToString()));
                             int t = AnatoliClient.GetInstance().DbClient.UpdateItem(command);
-                            if (t == 0)
-                            {
-                                var s = item.GroupName;
-                            }
                         }
                     }
                 }

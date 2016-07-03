@@ -37,7 +37,7 @@ namespace AnatoliIOS.ViewControllers
                 View.AddSubview(loading);
                 try
                 {
-                    await OrderManager.SyncOrdersAsync(AnatoliApp.GetInstance().Customer.UniqueId);
+                    await PurchaseOrderManager.SyncOrdersAsync(AnatoliApp.GetInstance().Customer.UniqueId);
                 }
                 catch (AnatoliWebClientException ex)
                 {
@@ -61,7 +61,7 @@ namespace AnatoliIOS.ViewControllers
             }
 
             var source = new OrderStatusTableViewSource();
-            source.SetDataQuery(OrderManager.GetOrderQueryString());
+            source.SetDataQuery(PurchaseOrderManager.GetOrderQueryString());
             await source.RefreshAsync();
             ordersTableView.Source = source;
             ordersTableView.ReloadData();

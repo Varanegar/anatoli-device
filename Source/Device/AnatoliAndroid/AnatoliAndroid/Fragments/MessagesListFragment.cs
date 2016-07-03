@@ -18,7 +18,6 @@ using AnatoliAndroid.Activities;
 
 namespace AnatoliAndroid.Fragments
 {
-    [FragmentTitle("پیغام ها")]
     class MessagesListFragment : BaseListFragment<MessageManager, MessageListAdapter, MessageModel>
     {
         List<int> msgIds;
@@ -50,6 +49,7 @@ namespace AnatoliAndroid.Fragments
         {
             base.OnStart();
             AnatoliApp.GetInstance().HideSearchIcon();
+            Title = "پیغام ها";
         }
 
       

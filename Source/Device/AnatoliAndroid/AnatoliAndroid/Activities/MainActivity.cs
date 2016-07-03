@@ -31,46 +31,32 @@ using Android.Gms.Gcm;
 namespace AnatoliAndroid.Activities
 {
     [Activity(Label = "ایگ", Icon = "@drawable/icon", ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.ScreenSize)]
-    public class MainActivity : ActionBarActivity, ILocationListener
+    public class MainActivity : AppCompatActivity, ILocationListener
     {
         Toolbar _toolbar;
         LocationManager _locationManager;
         public const string HOCKEYAPP_APPID = "74cf61c0125342949c98afc10b5f9e21";
-        //public static readonly int OpenImageRequestCode = 1234;
-        protected override void OnSaveInstanceState(Bundle outState)
-        {
-
-        }
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
 
             var cn = (ConnectivityManager)GetSystemService(ConnectivityService);
             AnatoliClient.Initialize(new AndroidWebClient(cn), new SQLiteAndroid(), new AndroidFileIO());
-
-            HockeyApp.CrashManager.Register(this, HOCKEYAPP_APPID, new AnatoliCrashManagerListener());
-            HockeyApp.TraceWriter.Initialize();
-            // Wire up Unhandled Expcetion handler from Android
+            CrashManager.Register(this, HOCKEYAPP_APPID, new AnatoliCrashManagerListener());
+            TraceWriter.Initialize();
             AndroidEnvironment.UnhandledExceptionRaiser += (sender, args) =>
                 {
-                    // Use the trace writer to log exceptions so HockeyApp finds them
-                    HockeyApp.TraceWriter.WriteTrace(args.Exception);
+                    TraceWriter.WriteTrace(args.Exception);
                     args.Handled = true;
                 };
             AppDomain.CurrentDomain.UnhandledException +=
-            (sender, args) => HockeyApp.TraceWriter.WriteTrace(args.ExceptionObject);
-
-            // Wire up the unobserved task exception handler
+            (sender, args) => TraceWriter.WriteTrace(args.ExceptionObject);
             TaskScheduler.UnobservedTaskException +=
-                (sender, args) => HockeyApp.TraceWriter.WriteTrace(args.Exception);
-
-
+                (sender, args) => TraceWriter.WriteTrace(args.Exception);
             SetContentView(Resource.Layout.Main);
-
             _broadcastReceiver = new NetworkStatusBroadcastReceiver();
             _broadcastReceiver.ConnectionStatusChanged += OnNetworkStatusChanged;
             Application.Context.RegisterReceiver(_broadcastReceiver, new IntentFilter(ConnectivityManager.ConnectivityAction));
-
             _locBroadCastReciever = new LocationManagerBroadcastReceiver();
             _locBroadCastReciever.LocationManagerStatusChanged += (s, e) =>
             {
@@ -78,21 +64,19 @@ namespace AnatoliAndroid.Activities
             };
             Application.Context.RegisterReceiver(_locBroadCastReciever, new IntentFilter(LocationManager.ProvidersChangedAction));
 
-            if (Build.VERSION.SdkInt > Build.VERSION_CODES.Lollipop)
+            if (Build.VERSION.SdkInt > Android.OS.BuildVersionCodes.Lollipop)
             {
                 Window.AddFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);
             }
             _toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(_toolbar);
         }
-
         protected async override void OnPostCreate(Bundle savedInstanceState)
         {
             base.OnPostCreate(savedInstanceState);
-
             AnatoliClient.GetInstance().WebClient.TokenExpire += (s, e) =>
             {
-                AnatoliApp.GetInstance().SaveLogout();
+                AnatoliApp.GetInstance().Logout();
                 var currentFragmentType = AnatoliApp.GetInstance().GetCurrentFragmentType();
                 if (currentFragmentType == typeof(ProfileFragment))
                 {
@@ -113,6 +97,22 @@ namespace AnatoliAndroid.Activities
             AnatoliApp.GetInstance().DrawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             AnatoliApp.GetInstance().LocationManager = _locationManager;
             AnatoliApp.GetInstance().UpdateBasketIcon();
+            if (AnatoliApp.GetInstance().AnatoliUser != null)
+            {
+#pragma warning disable
+                try
+                {
+                    if (AnatoliClient.GetInstance().WebClient.IsOnline())
+                    {
+                        AnatoliApp.GetInstance().RefreshCutomerProfile();
+                    }
+                }
+                catch (Exception e)
+                {
+                    e.SendTrace();
+                }
+#pragma warning restore
+            }
             try
             {
                 var defaultStore = StoreManager.GetDefault();
@@ -121,30 +121,13 @@ namespace AnatoliAndroid.Activities
                     AnatoliApp.GetInstance().DefaultStore = defaultStore;
                     AnatoliApp.GetInstance().Customer = await CustomerManager.ReadCustomerAsync();
                     AnatoliApp.GetInstance().RefreshMenuItems();
-
-                    AnatoliApp.GetInstance().PushFragment(new FirstFragment(), "first_fragment");
-                    if (AnatoliApp.GetInstance().AnatoliUser != null)
-                    {
-#pragma warning disable
-                        try
-                        {
-                            if (AnatoliClient.GetInstance().WebClient.IsOnline())
-                            {
-                                AnatoliApp.GetInstance().RefreshCutomerProfile();
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            e.SendTrace();
-                        }
-#pragma warning restore
-                    }
-
+                    AnatoliApp.GetInstance().PushFragment(new FirstFragment(), "first_fragment", true, true);
                 }
                 else
                 {
                     var storesF = new StoresListFragment();
-                    AnatoliApp.GetInstance().PushFragment(storesF, "stores_fragment");
+                    storesF.SetQuery(StoreManager.GetAllQueryString());
+                    AnatoliApp.GetInstance().PushFragment(storesF, "stores_fragment", true, true);
                 }
             }
             catch (Exception)
@@ -259,12 +242,6 @@ namespace AnatoliAndroid.Activities
                 LocationManagerStatusChanged(this, EventArgs.Empty);
         }
     }
-
-    public class TestClass
-    {
-        public string name { get; set; }
-    }
-
     class AnatoliCrashManagerListener : CrashManagerListener
     {
         public override bool ShouldAutoUploadCrashes()

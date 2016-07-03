@@ -20,7 +20,6 @@ using System.Globalization;
 
 namespace AnatoliAndroid.Fragments
 {
-    [FragmentTitle("سفارش ها")]
     public class OrderDetailFragment : AnatoliFragment
     {
         ListView _itemsListView;
@@ -30,7 +29,7 @@ namespace AnatoliAndroid.Fragments
         TextView _orderIdTextView;
         TextView _orderStatusTextView;
         Button _addAllButton;
-        string _orderId;
+        string _appOrderNumber;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -49,30 +48,31 @@ namespace AnatoliAndroid.Fragments
             _addAllButton.UpdateWidth();
             try
             {
-                _orderId = Arguments.GetString("order_id");
+                _appOrderNumber = Arguments.GetString("AppOrderNo");
             }
             catch (Exception)
             {
                 AnatoliApp.GetInstance().BackFragment();
-                _orderId = "-1";
+                _appOrderNumber = "-1";
             }
             return view;
         }
         public async override void OnStart()
         {
             base.OnStart();
-            if (_orderId.Equals("-1"))
+            Title = "سفارش ها";
+            if (_appOrderNumber.Equals("-1"))
             {
                 AnatoliApp.GetInstance().BackFragment();
             }
             else
             {
-                OrderModel order = OrderManager.GetOrderById(_orderId);
-                _dateTextView.Text = " " + order.order_date;
-                _storeNameTextView.Text = " " + order.store_name;
-                _priceTextView.Text = " " + order.order_price.ToCurrency() + " تومان";
-                _orderIdTextView.Text = order.order_id.ToString();
-                _orderStatusTextView.Text = PurchaseOrderStatusHistoryViewModel.GetStatusName(order.order_status);
+                PurchaseOrderViewModel order = PurchaseOrderManager.GetOrderByAppOrderNumber(long.Parse(_appOrderNumber));
+                _dateTextView.Text = " " + order.OrderPDate;
+                _storeNameTextView.Text = " " + order.StoreName;
+                _priceTextView.Text = " " + order.FinalNetAmount.ToCurrency() + " تومان";
+                _orderIdTextView.Text = order.AppOrderNo.ToString();
+                _orderStatusTextView.Text = PurchaseOrderStatusHistoryViewModel.GetStatusName(order.PurchaseOrderStatusValueId);
 
 
                 if (AnatoliClient.GetInstance().WebClient.IsOnline())
@@ -89,7 +89,7 @@ namespace AnatoliAndroid.Fragments
                     {
                         await Task.Run(async delegate
                         {
-                            await OrderManager.SyncOrderItemsAsync(AnatoliApp.GetInstance().Customer.UniqueId, order);
+                            await PurchaseOrderManager.SyncOrderItemsAsync(AnatoliApp.GetInstance().Customer.UniqueId, order);
                         });
                     }
                     catch (Exception ex)
@@ -111,7 +111,7 @@ namespace AnatoliAndroid.Fragments
                 }
 
 
-                List<OrderItemModel> items = OrderItemsManager.GetItems(_orderId);
+                List<PurchaseOrderLineItemViewModel> items = OrderItemsManager.GetItems(order.UniqueId);
                 OrderDetailAdapter adapter = new OrderDetailAdapter(items, order, AnatoliApp.GetInstance().Activity);
                 adapter.DataChanged += (s, e) =>
                 {
@@ -123,13 +123,13 @@ namespace AnatoliAndroid.Fragments
                 {
                     if (items != null)
                     {
-                        int a = 0;
+                        decimal a = 0;
                         foreach (var item in items)
                         {
                             await Task.Delay(100);
-                            if ( ShoppingCardManager.AddProduct(item.UniqueId, order.store_id, 1))
+                            if (ShoppingCardManager.AddProduct(item.UniqueId, order.StoreGuid, 1))
                             {
-                                a += item.item_count;
+                                a += item.FinalQty;
                             }
 
                         }
@@ -145,18 +145,18 @@ namespace AnatoliAndroid.Fragments
             }
         }
 
-        class OrderDetailAdapter : BaseAdapter<OrderItemModel>
+        class OrderDetailAdapter : BaseAdapter<PurchaseOrderLineItemViewModel>
         {
-            List<OrderItemModel> items;
+            List<PurchaseOrderLineItemViewModel> items;
             Activity _context;
-            OrderModel _order;
-            public OrderDetailAdapter(List<OrderItemModel> items, OrderModel order, Activity context)
+            PurchaseOrderViewModel _order;
+            public OrderDetailAdapter(List<PurchaseOrderLineItemViewModel> items, PurchaseOrderViewModel order, Activity context)
             {
                 this.items = items;
                 _context = context;
                 _order = order;
             }
-            public override OrderItemModel this[int position]
+            public override PurchaseOrderLineItemViewModel this[int position]
             {
                 get
                 {
@@ -180,7 +180,7 @@ namespace AnatoliAndroid.Fragments
             public override View GetView(int position, View convertView, ViewGroup parent)
             {
                 convertView = _context.LayoutInflater.Inflate(Resource.Layout.OrderItemModelLayout, null);
-                OrderItemModel item = null;
+                PurchaseOrderLineItemViewModel item = null;
                 if (items != null)
                     item = items[position];
                 else
@@ -190,9 +190,9 @@ namespace AnatoliAndroid.Fragments
                 TextView productNameTextView = convertView.FindViewById<TextView>(Resource.Id.productNameTextView);
                 ImageView addProductImageView = convertView.FindViewById<ImageView>(Resource.Id.addProductImageView);
                 ImageView productSummaryImageView = convertView.FindViewById<ImageView>(Resource.Id.productSummaryImageView);
-                if (!String.IsNullOrEmpty(item.image))
+                if (!String.IsNullOrEmpty(item.ProductImage))
                 {
-                    string imguri = ProductManager.GetImageAddress(item.product_id, item.image);
+                    string imguri = ProductManager.GetImageAddress(item.ProductId, item.ProductImage);
                     if (imguri != null)
                         Picasso.With(AnatoliApp.GetInstance().Activity).Load(imguri).Placeholder(Resource.Drawable.igmart).Into(productSummaryImageView);
                     else
@@ -208,12 +208,12 @@ namespace AnatoliAndroid.Fragments
                 //    addToFavoritsImageView.SetImageResource(Resource.Drawable.ic_assignment_white_24dp);
                 //else
                 //    addToFavoritsImageView.SetImageResource(Resource.Drawable.ic_assignment_white_24dp);
-                productPriceTextView.Text = " (" + item.item_price.ToCurrency() + " تومان) ";
-                productCountTextView.Text = item.item_count.ToString();
-                productNameTextView.Text = item.product_name;
+                productPriceTextView.Text = " (" + item.FinalNetAmount.ToCurrency() + " تومان) ";
+                productCountTextView.Text = item.FinalQty.ToString();
+                productNameTextView.Text = item.ProductName;
                 addProductImageView.Click += (s, e) =>
                 {
-                    if (ShoppingCardManager.AddProduct(item.product_id, AnatoliApp.GetInstance().DefaultStore.UniqueId, 1))
+                    if (ShoppingCardManager.AddProduct(item.ProductId, AnatoliApp.GetInstance().DefaultStore.UniqueId, 1))
                     {
 
                         Toast.MakeText(_context, "به سبد خرید اضافه شد", ToastLength.Short).Show();

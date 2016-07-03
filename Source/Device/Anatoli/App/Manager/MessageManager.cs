@@ -43,5 +43,9 @@ namespace Anatoli.App.Manager
         {
             throw new NotImplementedException();
         }
+        public static StringQuery GetAllQueryString()
+        {
+            return new StringQuery("SELECT * FROM Message");
+        }
     }
 }

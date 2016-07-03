@@ -462,9 +462,9 @@ ON a.UniqueId = b.UniqueId AND a.UniqueId = '{1}'", storeId.ToString(), productI
             }
         }
 
-        public static StringQuery GetFavoritsQueryString(Guid storeId)
+        public static StringQuery GetFavoritsQueryString()
         {
-            var query = new StringQuery(string.Format("SELECT * FROM ProductStoreView WHERE FavoritBasketCount > 0 AND ProductStoreView.StoreGuid = '{0}' AND ProductStoreView.IsRemoved='0' ORDER BY StoreProductName", storeId));
+            var query = new StringQuery(string.Format("SELECT * FROM ProductView WHERE FavoritBasketCount > 0 ORDER BY StoreProductName"));
             return query;
         }
 
@@ -506,15 +506,15 @@ ON a.UniqueId = b.UniqueId AND a.UniqueId = '{1}'", storeId.ToString(), productI
             var leftRight = ProductGroupManager.GetLeftRight(catId);
             StringQuery query;
             if (leftRight != null)
-                query = new StringQuery(string.Format("SELECT * FROM ProductStoreView StoreGuid = '{2}' AND IsRemoved='0' WHERE NLeft >= {0} AND NRight <= {1} ORDER BY StoreProductName", leftRight.left, leftRight.right, storeId).PersianToArabic());
+                query = new StringQuery(string.Format("SELECT * FROM ProductStoreView WHERE NLeft >= {0} AND NRight <= {1} AND StoreGuid = '{2}' AND IsRemoved='0'ORDER BY StoreProductName", leftRight.left, leftRight.right, storeId).PersianToArabic());
             else
-                query = new StringQuery(string.Format("SELECT * FROM ProductStoreView StoreGuid = '{0}'  AND IsRemoved='0' ORDER BY StoreProductName", storeId).PersianToArabic());
+                query = new StringQuery(string.Format("SELECT * FROM ProductStoreView WHERE StoreGuid = '{0}'  AND IsRemoved='0' ORDER BY StoreProductName", storeId).PersianToArabic());
             return query;
         }
 
         public static StringQuery GetAll(Guid storeId)
         {
-            StringQuery query = new StringQuery(string.Format("SELECT * FROM ProductStoreView StoreGuid = '{0}' AND IsRemoved='0' ORDER BY StoreProductName", storeId).PersianToArabic());
+            StringQuery query = new StringQuery(string.Format("SELECT * FROM ProductStoreView WHERE StoreGuid = '{0}' AND IsRemoved='0' ORDER BY StoreProductName", storeId).PersianToArabic());
             return query;
         }
 

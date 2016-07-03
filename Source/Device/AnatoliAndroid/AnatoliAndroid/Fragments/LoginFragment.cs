@@ -18,7 +18,6 @@ using Anatoli.Framework;
 
 namespace AnatoliAndroid.Fragments
 {
-    [FragmentTitle("ورود")]
     public class LoginFragment : DialogFragment
     {
         EditText _userNameEditText;
@@ -106,7 +105,7 @@ namespace AnatoliAndroid.Fragments
                 pDialog.Dismiss();
                 if (userModel != null && userModel.IsValid)
                 {
-                    await AnatoliApp.GetInstance().SaveLoginAsync(userModel);
+                    await AnatoliApp.GetInstance().LoginAsync(userModel);
                     Dismiss();
                     OnLoginSuccess();
                 }
@@ -160,7 +159,7 @@ namespace AnatoliAndroid.Fragments
                                 {
                                     try
                                     {
-                                        await AnatoliApp.GetInstance().SaveLoginAsync(userModel);
+                                        await AnatoliApp.GetInstance().LoginAsync(userModel);
                                         Dismiss();
                                         OnLoginSuccess();
                                     }

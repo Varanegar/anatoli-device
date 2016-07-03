@@ -18,12 +18,12 @@ using System.Threading.Tasks;
 
 namespace AnatoliAndroid.ListAdapters
 {
-    class OrdersListAdapter : BaseListAdapter<OrderManager, OrderModel>
+    class OrdersListAdapter : BaseListAdapter<PurchaseOrderManager, PurchaseOrderViewModel>
     {
         public override View GetItemView(int position, View convertView, ViewGroup parent)
         {
             convertView = _context.LayoutInflater.Inflate(Resource.Layout.OrderItemLayout, null);
-            OrderModel item = null;
+            PurchaseOrderViewModel item = null;
             if (List != null)
                 item = List[position];
             else
@@ -33,16 +33,16 @@ namespace AnatoliAndroid.ListAdapters
             TextView priceTextView = convertView.FindViewById<TextView>(Resource.Id.priceTextView);
             TextView orderIdTextView = convertView.FindViewById<TextView>(Resource.Id.orderNoTextView);
             TextView orderStatusTextView = convertView.FindViewById<TextView>(Resource.Id.orderStatusTextView);
-            
+
             convertView.Click += (s, e) =>
              {
-                 AnatoliApp.GetInstance().PushFragment<OrderDetailFragment>(null, "order_detail_fragment", new Tuple<string, string>("order_id", item.order_id.ToString()));
+                 AnatoliApp.GetInstance().PushFragment(null, "order_detail_fragment", new Tuple<string, string>("AppOrderNo", item.AppOrderNo.ToString()));
              };
-            dateTextView.Text = " " + item.order_date;
-            storeNameTextView.Text = " " + item.store_name;
-            priceTextView.Text = " " + item.order_price.ToCurrency() + " تومان ";
-            orderIdTextView.Text = item.order_id.ToString();
-            orderStatusTextView.Text = PurchaseOrderStatusHistoryViewModel.GetStatusName(item.order_status);
+            dateTextView.Text = " " + item.OrderPDate;
+            storeNameTextView.Text = " " + item.StoreName;
+            priceTextView.Text = " " + item.FinalNetAmount.ToCurrency() + " تومان ";
+            orderIdTextView.Text = item.AppOrderNo.ToString();
+            orderStatusTextView.Text = PurchaseOrderStatusHistoryViewModel.GetStatusName(item.PurchaseOrderStatusValueId);
 
             return convertView;
         }

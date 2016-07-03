@@ -20,7 +20,7 @@ using Anatoli.Framework;
 
 namespace AnatoliAndroid.Fragments
 {
-    abstract class BaseListFragment<BaseDataManager, DataListAdapter, DataModel> : BaseListFragment
+    abstract class BaseListFragment<BaseDataManager, DataListAdapter, DataModel> : AnatoliFragment
         where BaseDataManager : BaseManager<DataModel>, new()
         where DataListAdapter : BaseListAdapter<BaseDataManager, DataModel>, new()
         where DataModel : BaseModel, new()
@@ -30,40 +30,22 @@ namespace AnatoliAndroid.Fragments
         TextView _resultTextView;
         protected DataListAdapter _listAdapter;
         protected BaseDataManager _dataManager;
-        protected bool _refreshAtStart = true;
         public BaseListFragment()
             : base()
         {
             _listAdapter = new DataListAdapter();
             _dataManager = new BaseDataManager();
         }
-        //public virtual async Task Search(DBQuery query, string value)
-        //{
-        //    _dataManager.SetQueries(query, null);
-        //    try
-        //    {
-        //        _listAdapter.List = await _dataManager.GetNextAsync();
-        //        AnatoliApp.GetInstance().SetToolbarTitle(string.Format("جستجو  \"{0}\"", value.Trim()));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ex.SendTrace();
-        //    }
-        //}
-
         protected virtual View InflateLayout(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = inflater.Inflate(
                 Resource.Layout.ItemsListLayout, container, false);
             return view;
         }
-        public override void OnStart()
+        public void SetQuery(StringQuery query)
         {
-            base.OnStart();
-            if (_refreshAtStart)
-            {
-                Refresh();
-            }
+            query.Unlimited = false;
+            _dataManager.Query = query;
         }
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -83,12 +65,19 @@ namespace AnatoliAndroid.Fragments
             };
             return _view;
         }
-        protected override void Refresh()
+        public override void OnStart()
+        {
+            base.OnStart();
+            if (_listView != null)
+            {
+                Refresh();
+            }
+        }
+        protected void Refresh()
         {
             try
             {
-                _dataManager.Reset();
-                _listAdapter.List = _dataManager.GetNext();
+                _listAdapter.List.AddRange(_dataManager.GetNext());
                 if (_listAdapter.Count == 0)
                     OnEmptyList();
                 else
@@ -101,8 +90,8 @@ namespace AnatoliAndroid.Fragments
                 ex.SendTrace();
             }
         }
-       
-        void _listView_ScrollStateChanged(object sender, AbsListView.ScrollStateChangedEventArgs e)
+
+        async void _listView_ScrollStateChanged(object sender, AbsListView.ScrollStateChangedEventArgs e)
         {
             if (e.ScrollState == ScrollState.Idle)
             {
@@ -110,12 +99,18 @@ namespace AnatoliAndroid.Fragments
                 {
                     try
                     {
-                        var list = _dataManager.GetNext();
-                        if (list.Count > 0)
-                        {
-                            _listAdapter.List.AddRange(list);
-                            _listAdapter.NotifyDataSetChanged();
-                        }
+                        await Task.Run(
+                            () =>
+                                {
+                                    var list = _dataManager.GetNext();
+                                    if (list.Count > 0)
+                                    {
+                                        _listAdapter.List.AddRange(list);
+                                        _listAdapter.NotifyDataSetChanged();
+                                    }
+                                }
+                            );
+
                     }
                     catch (Exception ex)
                     {
@@ -141,10 +136,5 @@ namespace AnatoliAndroid.Fragments
             }
         }
         public event EventHandler FullList;
-    }
-
-    public abstract class BaseListFragment : AnatoliFragment
-    {
-        protected abstract void Refresh();
     }
 }

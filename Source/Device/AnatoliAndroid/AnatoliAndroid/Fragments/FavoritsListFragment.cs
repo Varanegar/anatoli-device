@@ -19,20 +19,19 @@ using AnatoliAndroid.Activities;
 
 namespace AnatoliAndroid.Fragments
 {
-    [FragmentTitle("فهرست من")]
     class FavoritsListFragment : BaseListFragment<ProductManager, ProductsListAdapter, ProductModel>
     {
         public override void OnStart()
         {
             base.OnStart();
             AnatoliApp.GetInstance().HideSearchIcon();
+            Title = "فهرست من";
         }
         public FavoritsListFragment()
         {
             _listAdapter.FavoritRemoved += _listAdapter_FavoritRemoved;
-            var query = ProductManager.GetFavoritsQueryString(AnatoliApp.GetInstance().DefaultStore.UniqueId);
-            _dataManager.Query = query;
         }
+
 
         void _listAdapter_FavoritRemoved(object sender, ProductModel item)
         {

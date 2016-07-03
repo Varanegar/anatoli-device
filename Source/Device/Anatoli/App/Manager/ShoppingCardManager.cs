@@ -23,9 +23,18 @@ namespace Anatoli.App.Manager
                 if (item == null || !item.IsAvailable)
                     return false;
                 if (item.ShoppingBasketCount == 0)
-                    query = new InsertCommand("shopping_card", new BasicParam("count", (count).ToString()), new BasicParam("product_id", productId));
+                    query = new InsertCommand("BasketItem",
+                        new BasicParam("UniqueId", Guid.NewGuid()),
+                        new BasicParam("ProductId", productId),
+                        new BasicParam("BasketId", Guid.NewGuid()),
+                        new BasicParam("BasketTypeValueId", BasketModel.CheckOutBasketTypeId),
+                        new BasicParam("Qty", count.ToString()));
                 else
-                    query = new UpdateCommand("shopping_card", new BasicParam("count", (item.ShoppingBasketCount + count).ToString()), new EqFilterParam("product_id", item.UniqueId.ToString()));
+                    query = new UpdateCommand("BasketItem",
+                        new EqFilterParam("ProductId", item.UniqueId.ToString()),
+                        new EqFilterParam("BasketTypeValueId", BasketModel.CheckOutBasketTypeId),
+                        new BasicParam("Qty", (item.ShoppingBasketCount + count).ToString())
+                        );
                 var result = AnatoliClient.GetInstance().DbClient.UpdateItem(query) > 0 ? true : false;
                 if (result)
                 {
@@ -45,9 +54,18 @@ namespace Anatoli.App.Manager
             {
                 DBQuery query = null;
                 if (item.ShoppingBasketCount == 0)
-                    query = new InsertCommand("shopping_card", new BasicParam("count", (item.ShoppingBasketCount + 1).ToString()), new BasicParam("product_id", item.UniqueId.ToString()));
+                    query = new InsertCommand("BasketItem",
+                        new BasicParam("UniqueId", Guid.NewGuid()),
+                        new BasicParam("ProductId", item.UniqueId),
+                        new BasicParam("BasketId", Guid.NewGuid()),
+                        new BasicParam("BasketTypeValueId", BasketModel.CheckOutBasketTypeId),
+                        new BasicParam("Qty", (item.ShoppingBasketCount + 1).ToString())
+                        );
                 else
-                    query = new UpdateCommand("shopping_card", new BasicParam("count", (item.ShoppingBasketCount + 1).ToString()), new EqFilterParam("product_id", item.UniqueId.ToString()));
+                    query = new UpdateCommand("BasketItem",
+                        new EqFilterParam("ProductId", item.UniqueId.ToString()),
+                        new EqFilterParam("BasketTypeValueId", BasketModel.CheckOutBasketTypeId),
+                        new BasicParam("Qty", (item.ShoppingBasketCount + 1).ToString()));
                 var result = AnatoliClient.GetInstance().DbClient.UpdateItem(query) > 0 ? true : false;
                 if (result)
                 {
@@ -67,9 +85,14 @@ namespace Anatoli.App.Manager
             {
                 DBQuery query = null;
                 if (item.ShoppingBasketCount <= 1 || all)
-                    query = new DeleteCommand("shopping_card", new SearchFilterParam("product_id", item.UniqueId.ToString()));
+                    query = new DeleteCommand("BasketItem",
+                        new EqFilterParam("ProductId", item.UniqueId.ToString()),
+                        new EqFilterParam("BasketTypeValueId", BasketModel.CheckOutBasketTypeId));
                 else
-                    query = new UpdateCommand("shopping_card", new BasicParam("count", (item.ShoppingBasketCount - 1).ToString()), new EqFilterParam("product_id", item.UniqueId.ToString()));
+                    query = new UpdateCommand("BasketItem",
+                        new BasicParam("Qty", (item.ShoppingBasketCount - 1).ToString()),
+                        new EqFilterParam("ProductId", item.UniqueId.ToString()),
+                        new EqFilterParam("BasketTypeValueId", BasketModel.CheckOutBasketTypeId));
                 var result = AnatoliClient.GetInstance().DbClient.UpdateItem(query) > 0 ? true : false;
                 if (result)
                     if (all)
@@ -114,7 +137,7 @@ namespace Anatoli.App.Manager
             try
             {
                 var defaultStore = StoreManager.GetDefault();
-                StringQuery query = new StringQuery(string.Format("SELECT * FROM shopping_card_view LEFT JOIN store_onhand ON shopping_card_view.product_id = store_onhand.product_id WHERE store_onhand.store_id = '{0}'", defaultStore.UniqueId));
+                StringQuery query = new StringQuery(string.Format("SELECT * FROM ProductStoreView WHERE ShoppingBasketCount > 0 and StoreGuid = '{0}'", defaultStore.UniqueId));
                 query.Unlimited = true;
                 var list = AnatoliClient.GetInstance().DbClient.GetList<ProductModel>(query);
                 return list;
@@ -126,13 +149,13 @@ namespace Anatoli.App.Manager
         }
         public static StringQuery GetAll(string storeId)
         {
-            StringQuery query = new StringQuery(string.Format("SELECT * FROM shopping_card_view LEFT JOIN store_onhand ON shopping_card_view.product_id = store_onhand.product_id WHERE store_onhand.store_id = '{0}'", storeId));
+            StringQuery query = new StringQuery(string.Format("SELECT * FROM ProductStoreView WHERE ShoppingBasketCount > 0 and StoreGuid = '{0}'", storeId));
             query.Unlimited = false;
             return query;
         }
         public static bool Clear()
         {
-            DeleteCommand command = new DeleteCommand("shopping_card");
+            DeleteCommand command = new DeleteCommand("BasketItem", new EqFilterParam("BasketTypeValueId", BasketModel.CheckOutBasketTypeId));
             var result = (AnatoliClient.GetInstance().DbClient.UpdateItem(command) > 0) ? true : false;
             if (result)
                 OnItemsCleared();
@@ -144,7 +167,7 @@ namespace Anatoli.App.Manager
             try
             {
                 var defaultStore = StoreManager.GetDefault();
-                StringQuery query = new StringQuery(string.Format("SELECT SUM(count) as items_count, SUM(price*count) as total_price FROM shopping_card_view JOIN store_onhand ON shopping_card_view.product_id = store_onhand.product_id WHERE store_onhand.store_id = '{0}'", defaultStore.UniqueId));
+                StringQuery query = new StringQuery(string.Format("SELECT SUM(Price) as TotalPrice, SUM(ShoppingBasketCount) as Qty FROM ProductStoreView WHERE ShoppingBasketCount > 0 and StoreGuid = '{0}' ", defaultStore.UniqueId));
                 query.Unlimited = true;
                 var card = AnatoliClient.GetInstance().DbClient.GetItem<ShoppingCardModel>(query);
                 return card;
@@ -159,9 +182,9 @@ namespace Anatoli.App.Manager
         {
             DBQuery query = null;
             if (item.ShoppingBasketCount == 0)
-                query = new DeleteCommand("shopping_card", new SearchFilterParam("product_id", item.UniqueId.ToString()));
+                query = new DeleteCommand("BasketItem", new EqFilterParam("ProductId", item.UniqueId), new EqFilterParam("BasketTypeValueId", BasketModel.CheckOutBasketTypeId));
             else
-                query = new UpdateCommand("shopping_card", new BasicParam("count", (item.ShoppingBasketCount).ToString()), new EqFilterParam("product_id", item.UniqueId.ToString()));
+                query = new UpdateCommand("BasketItem", new BasicParam("Qty", (item.ShoppingBasketCount).ToString()), new EqFilterParam("ProductId", item.UniqueId), new EqFilterParam("BasketTypeValueId", BasketModel.CheckOutBasketTypeId));
             var result = AnatoliClient.GetInstance().DbClient.UpdateItem(query) > 0 ? true : false;
             if (result)
             {
@@ -251,7 +274,7 @@ namespace Anatoli.App.Manager
             }
         }
 
-        public static async Task<bool> ValidateRequest(CustomerViewModel customer)
+        public static bool ValidateRequest(CustomerViewModel customer)
         {
             if (customer == null)
             {
@@ -295,7 +318,7 @@ namespace Anatoli.App.Manager
         {
             try
             {
-                SelectQuery query = new SelectQuery("shopping_card_view", new EqFilterParam("product_id", uniqueId.ToString().ToUpper()));
+                SelectQuery query = new SelectQuery("ProductStoreView", new EqFilterParam("UniqueId", uniqueId));
                 return AnatoliClient.GetInstance().DbClient.GetItem<ProductModel>(query);
             }
             catch (Exception)

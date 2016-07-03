@@ -19,13 +19,13 @@ using System.Threading.Tasks;
 
 namespace AnatoliAndroid.Fragments
 {
-    [FragmentTitle("دسته بندی کالا")]
     class ProductsListFragment : BaseListFragment<ProductManager, ProductsListAdapter, ProductModel>
     {
         Guid? _catId;
-        public async override void OnStart()
+        public override void OnStart()
         {
             base.OnStart();
+            Title = "دسته بندی کالا";
             AnatoliApp.GetInstance().ShowSearchIcon();
             if (_catId != null)
             {
@@ -40,38 +40,37 @@ namespace AnatoliAndroid.Fragments
                 AnatoliApp.GetInstance().RefreshMenuItems();
         }
 
-        public async Task Search(DBQuery query, string value)
+        public void Search(DBQuery query, string value)
         {
-            _refreshAtStart = false;
-            _dataManager.ShowGroups = true;
-            _dataManager.Query = query;
-            try
-            {
-                _listAdapter.List = _dataManager.GetNext();
-                Title = string.Format("جستجو  \"{0}\"", value.Trim());
-            }
-            catch (Exception ex)
-            {
-                ex.SendTrace();
-            }
+            //_dataManager.ShowGroups = true;
+            //_dataManager.Query = query;
+            //try
+            //{
+            //    _listAdapter.List = _dataManager.GetNext();
+            //    Title = string.Format("جستجو  \"{0}\"", value.Trim());
+            //}
+            //catch (Exception ex)
+            //{
+            //    ex.SendTrace();
+            //}
 
-            var groups = ProductGroupManager.Search(value);
-            List<ProductModel> pl = new List<ProductModel>();
-            foreach (var item in groups)
-            {
-                var p = new ProductModel();
-                p.cat_id = item.cat_id;
-                p.product_name = item.cat_name;
-                p.is_group = 1;
-                p.message = "group";
-                p.image = ProductGroupManager.GetGroupInfo(item.UniqueId).Image;
-                pl.Add(p);
-            }
-            _listAdapter.List.InsertRange(0, pl);
-            if (_listAdapter.List.Count > 0)
-                OnFullList();
-            else
-                OnEmptyList();
+            //var groups = ProductGroupManager.Search(value);
+            //List<ProductModel> pl = new List<ProductModel>();
+            //foreach (var item in groups)
+            //{
+            //    var p = new ProductModel();
+            //    p.cat_id = item.cat_id;
+            //    p.product_name = item.cat_name;
+            //    p.is_group = 1;
+            //    p.message = "group";
+            //    p.image = ProductGroupManager.GetGroupInfo(item.UniqueId).Image;
+            //    pl.Add(p);
+            //}
+            //_listAdapter.List.InsertRange(0, pl);
+            //if (_listAdapter.List.Count > 0)
+            //    OnFullList();
+            //else
+            //    OnEmptyList();
         }
         public void SetCatId(Guid id)
         {
@@ -79,6 +78,7 @@ namespace AnatoliAndroid.Fragments
             {
                 _dataManager.ShowGroups = false;
                 var query = ProductManager.GetGroupQueryString(id, AnatoliApp.GetInstance().DefaultStore.UniqueId);
+                query.Unlimited = false;
                 _dataManager.Query = query;
                 _catId = id;
             }

@@ -21,7 +21,6 @@ using Anatoli.Framework.AnatoliBase;
 
 namespace AnatoliAndroid.Fragments
 {
-    [FragmentTitle("")]
     public class FirstFragment : AnatoliFragment
     {
         ImageView _slideShowImageView;
@@ -59,7 +58,7 @@ namespace AnatoliAndroid.Fragments
             base.OnStart();
             AnatoliApp.GetInstance().HideMenuIcon();
             AnatoliApp.GetInstance().ShowSearchIcon();
-            
+            Title = "ایگ مارکت";
             await AnatoliApp.GetInstance().SyncDatabase();
             try
             {

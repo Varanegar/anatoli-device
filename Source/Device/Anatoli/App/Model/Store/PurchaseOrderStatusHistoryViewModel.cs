@@ -32,10 +32,10 @@ namespace Anatoli.App.Model.Store
         public string Comment { get; set; }
         public Guid PurchaseOrderId { get; set; }
 
-        public static string GetStatusName(string statusId)
+        public static string GetStatusName(Guid statusId)
         {
             string status = "نا مشخص";
-            switch (statusId)
+            switch (statusId.ToString().ToUpper())
             {
                 case PreInvoice:
                     status = "صدور پیش فاکتور";

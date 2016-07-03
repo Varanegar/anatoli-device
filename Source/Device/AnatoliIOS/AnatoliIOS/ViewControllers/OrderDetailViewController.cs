@@ -67,7 +67,7 @@ namespace AnatoliIOS.ViewControllers
                 try
                 {
                     View.AddSubview(loading);
-                    await OrderManager.SyncOrderItemsAsync(AnatoliApp.GetInstance().Customer.UniqueId, _order);
+                    await PurchaseOrderManager.SyncOrderItemsAsync(AnatoliApp.GetInstance().Customer.UniqueId, _order);
                 }
                 catch (Exception)
                 {

@@ -9,6 +9,7 @@ namespace Anatoli.App.Model.Store
 {
     public class PurchaseOrderViewModel : BaseModel
     {
+        public string StoreName { get; set; }
         public Guid UserId { get; set; }
         public Guid StoreGuid { get; set; }
         public Guid PurchaseOrderStatusValueId { get; set; }

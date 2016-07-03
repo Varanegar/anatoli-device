@@ -53,7 +53,7 @@
     <Compile Include="App\Manager\DeliveryTypeManager.cs" />
     <Compile Include="App\Manager\MessageManager.cs" />
     <Compile Include="App\Manager\OrderItemsManager.cs" />
-    <Compile Include="App\Manager\OrderManager.cs" />
+    <Compile Include="App\Manager\PurchaseOrderManager.cs" />
     <Compile Include="App\Manager\ShoppingCardManager.cs" />
     <Compile Include="App\Manager\ProductManager.cs" />
     <Compile Include="App\Manager\StoreManager.cs" />
@@ -77,8 +77,6 @@
     <Compile Include="App\Model\Product\ProductModel.cs" />
     <Compile Include="App\Model\Store\CityRegionModel.cs" />
     <Compile Include="App\Model\Store\MessageModel.cs" />
-    <Compile Include="App\Model\Store\OrderItemModel.cs" />
-    <Compile Include="App\Model\Store\OrderModel.cs" />
     <Compile Include="App\Model\Store\ProductPriceModel.cs" />
     <Compile Include="App\Model\Store\PurchaseOrderLineItemViewModel.cs" />
     <Compile Include="App\Model\Store\PurchaseOrderStatusHistoryViewModel.cs" />

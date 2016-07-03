@@ -18,7 +18,6 @@ using Anatoli.Framework;
 
 namespace AnatoliAndroid.Fragments
 {
-    [FragmentTitle("ورود")]
     public class ChangePassFragment : DialogFragment
     {
         EditText _currentPassEditText;
@@ -33,7 +32,7 @@ namespace AnatoliAndroid.Fragments
         {
             base.OnCreate(savedInstanceState);
             var view = inflater.Inflate(Resource.Layout.ChangePassLayout, container, false);
-
+            
             Dialog.SetCanceledOnTouchOutside(false);
 
             _currentPassEditText = view.FindViewById<EditText>(Resource.Id.currentPassEditText);

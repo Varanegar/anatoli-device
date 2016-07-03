@@ -28,7 +28,6 @@ using AnatoliAndroid.ListAdapters;
 
 namespace AnatoliAndroid.Fragments
 {
-    [FragmentTitle("مشخصات من")]
     public class ProfileFragment : DialogFragment
     {
         EditText _firstNameEditText;
@@ -211,7 +210,7 @@ namespace AnatoliAndroid.Fragments
                 {
                     try
                     {
-                        bool result = AnatoliApp.GetInstance().SaveLogout();
+                        bool result = AnatoliApp.GetInstance().Logout();
                         if (result)
                         {
                             AnatoliApp.GetInstance().PushFragment(new FirstFragment(), "first_fragment");

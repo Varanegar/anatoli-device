@@ -52,15 +52,15 @@ namespace AnatoliAndroid.ListAdapters
             else
                 return view;
 
-            if (item.IsGroup)
-                if (!string.IsNullOrEmpty(item.message) && item.message.Equals("group"))
-                    view = _context.LayoutInflater.Inflate(Resource.Layout.GroupDetailLayout, null);
-                else
-                    view = _context.LayoutInflater.Inflate(Resource.Layout.GroupSummaryLayout, null);
-            else
+            //if (item.IsGroup)
+            //    if (!string.IsNullOrEmpty(item.message) && item.message.Equals("group"))
+            //        view = _context.LayoutInflater.Inflate(Resource.Layout.GroupDetailLayout, null);
+            //    else
+            //        view = _context.LayoutInflater.Inflate(Resource.Layout.GroupSummaryLayout, null);
+            //else
                 view = _context.LayoutInflater.Inflate(Resource.Layout.ProductSummaryLayout, null);
 
-            if (item.IsGroup)
+            if (false)
             {
                 _groupNameTextView = view.FindViewById<TextView>(Resource.Id.textView1);
                 _groupImageView = view.FindViewById<ImageView>(Resource.Id.groupImageView);
@@ -81,37 +81,37 @@ namespace AnatoliAndroid.ListAdapters
                 _counterLinearLayout = view.FindViewById<LinearLayout>(Resource.Id.counterLinearLayout);
                 _optionslinearLayout = view.FindViewById<LinearLayout>(Resource.Id.optionslinearLayout);
             }
-            if (item.IsGroup)
+            if (false)
             {
-                if (!string.IsNullOrEmpty(item.message) && item.message.Equals("group"))
-                {
-                    var imguriii = ProductGroupManager.GetImageAddress(item.cat_id, item.image);
-                    if (imguriii != null)
-                    {
-                        Picasso.With(AnatoliApp.GetInstance().Activity).Load(imguriii).Placeholder(Resource.Drawable.igmart).Into(_groupImageView);
-                    }
-                    else
-                    {
-                        _groupImageView.Visibility = ViewStates.Invisible;
-                    }
-                }
-                _groupNameTextView.Text = item.StoreProductName;
-                _groupNameTextView.Click += (s, e) =>
-                {
-                    var p = new ProductsListFragment();
-                    p.SetCatId((Guid)item.ProductGroupId);
-                    AnatoliApp.GetInstance().PushFragment(p, "products_fragment", true);
-                };
-                if (_groupImageView != null)
-                {
-                    _groupImageView.Click += (s, e) =>
-                    {
-                        var p = new ProductsListFragment();
-                        p.SetCatId((Guid)item.ProductGroupId);
-                        AnatoliApp.GetInstance().PushFragment(p, "products_fragment", true);
-                    };
-                }
-                return view;
+                //if (!string.IsNullOrEmpty(item.message) && item.message.Equals("group"))
+                //{
+                //    var imguriii = ProductGroupManager.GetImageAddress(item.cat_id, item.image);
+                //    if (imguriii != null)
+                //    {
+                //        Picasso.With(AnatoliApp.GetInstance().Activity).Load(imguriii).Placeholder(Resource.Drawable.igmart).Into(_groupImageView);
+                //    }
+                //    else
+                //    {
+                //        _groupImageView.Visibility = ViewStates.Invisible;
+                //    }
+                //}
+                //_groupNameTextView.Text = item.StoreProductName;
+                //_groupNameTextView.Click += (s, e) =>
+                //{
+                //    var p = new ProductsListFragment();
+                //    p.SetCatId((Guid)item.ProductGroupId);
+                //    AnatoliApp.GetInstance().PushFragment(p, "products_fragment", true);
+                //};
+                //if (_groupImageView != null)
+                //{
+                //    _groupImageView.Click += (s, e) =>
+                //    {
+                //        var p = new ProductsListFragment();
+                //        p.SetCatId((Guid)item.ProductGroupId);
+                //        AnatoliApp.GetInstance().PushFragment(p, "products_fragment", true);
+                //    };
+                //}
+                //return view;
             }
             else
             {

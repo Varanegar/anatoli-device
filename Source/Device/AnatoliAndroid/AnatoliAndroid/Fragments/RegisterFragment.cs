@@ -15,7 +15,6 @@ using Anatoli.Framework;
 
 namespace AnatoliAndroid.Fragments
 {
-    [FragmentTitle("ثبت نام")]
     public class RegisterFragment : DialogFragment
     {
         EditText _passwordEditText;
@@ -100,11 +99,11 @@ namespace AnatoliAndroid.Fragments
                                 pDialog.Dismiss();
                                 if (userModel.IsValid)
                                 {
-                                    await AnatoliApp.GetInstance().SaveLoginAsync(userModel);
+                                    await AnatoliApp.GetInstance().LoginAsync(userModel);
                                     try
                                     {
                                         Dismiss();
-                                        AnatoliApp.GetInstance().PushFragment(new ProductsListFragment(), "products_fragment");
+                                        AnatoliApp.GetInstance().PushFragment(new FirstFragment(), "first_fragment");
                                     }
                                     catch (Exception ex)
                                     {

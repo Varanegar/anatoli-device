@@ -19,20 +19,6 @@ namespace AnatoliAndroid
 {
     public static class Extentions
     {
-        public static string GetTitle(this AnatoliFragment fragment)
-        {
-            if (fragment is AnatoliFragment)
-            {
-                if ((fragment as AnatoliFragment).Title != null)
-                    return (fragment as AnatoliFragment).Title;
-            }
-            var title = Attribute.GetCustomAttribute(fragment.GetType(), typeof(FragmentTitle));
-            if (title != null)
-                return (title as FragmentTitle).Title;
-            else
-                return "";
-        }
-
         public static void UpdateWidth(this Button button)
         {
             Android.Util.DisplayMetrics metrics = new Android.Util.DisplayMetrics();
@@ -59,14 +45,6 @@ namespace AnatoliAndroid
                 {
                     using (var stream = response.GetResponseStream())
                     {
-                        //    byte[] imageBytes = new byte[2097152];
-                        //    int totalBytes = 0;
-                        //    int bytesRead;
-                        //    do
-                        //    {
-                        //        bytesRead = stream.Read(imageBytes, 0, imageBytes.Length);
-                        //        totalBytes += bytesRead;
-                        //    } while (bytesRead != 0);
                         imageBitmap = BitmapFactory.DecodeStream(stream);
                     }
                 }

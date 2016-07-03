@@ -25,7 +25,6 @@ using Anatoli.Framework;
 
 namespace AnatoliAndroid.Fragments
 {
-    [FragmentTitle("سبد خرید")]
     class ShoppingCardFragment : AnatoliFragment
     {
         ListView _itemsListView;
@@ -170,7 +169,9 @@ namespace AnatoliAndroid.Fragments
                                                 var transaction = FragmentManager.BeginTransaction();
                                                 dialog.Show(transaction, "order_saved_dialog");
                                                 proforma.Dismiss();
-                                                AnatoliApp.GetInstance().PushFragment(new OrdersListFragment(), "orders_fragment");
+                                                var orders = new OrdersListFragment();
+                                                orders.SetQuery(PurchaseOrderManager.GetOrderQueryString());
+                                                AnatoliApp.GetInstance().PushFragment(orders, "orders_fragment");
                                             }
                                             else
                                             {
@@ -210,7 +211,7 @@ namespace AnatoliAndroid.Fragments
                             lAlert.SetNegativeButton(Resource.String.Cancel, delegate
                             {
                                 Toast.MakeText(AnatoliApp.GetInstance().Activity, "سفارش شما کنسل شد", ToastLength.Short).Show();
-                                AnatoliApp.GetInstance().PushFragment(new ProductsListFragment(), "products_fragment");
+                                AnatoliApp.GetInstance().PushFragment(new FirstFragment(), "products_fragment");
                             });
                             lAlert.Show();
                         }
@@ -252,7 +253,9 @@ namespace AnatoliAndroid.Fragments
                                             var transaction = FragmentManager.BeginTransaction();
                                             dialog.Show(transaction, "order_saved_dialog");
                                             proforma.Dismiss();
-                                            AnatoliApp.GetInstance().PushFragment(new OrdersListFragment(), "orders_fragment");
+                                            var orders = new OrdersListFragment();
+                                            orders.SetQuery(PurchaseOrderManager.GetOrderQueryString());
+                                            AnatoliApp.GetInstance().PushFragment(orders, "orders_fragment");
                                         }
                                         else
                                         {
@@ -333,6 +336,7 @@ namespace AnatoliAndroid.Fragments
         public async override void OnStart()
         {
             base.OnStart();
+            Title = "سبد خرید";
             AnatoliApp.GetInstance().HideMenuIcon();
             AnatoliApp.GetInstance().HideSearchIcon();
 
@@ -362,6 +366,7 @@ namespace AnatoliAndroid.Fragments
                 else
                 {
                     var storef = new StoresListFragment();
+                    storef.SetQuery(StoreManager.GetAllQueryString());
                     AnatoliApp.GetInstance().PushFragment(new StoresListFragment(), "stores_fragment");
                 }
 

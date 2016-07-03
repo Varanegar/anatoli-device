@@ -17,13 +17,8 @@ using AnatoliAndroid.Activities;
 
 namespace AnatoliAndroid.Fragments
 {
-    class OrdersListFragment : BaseListFragment<OrderManager, OrdersListAdapter, OrderModel>
+    class OrdersListFragment : BaseListFragment<PurchaseOrderManager, OrdersListAdapter, PurchaseOrderViewModel>
     {
-        public OrdersListFragment()
-        {
-            StringQuery query = OrderManager.GetOrderQueryString();
-            _dataManager.Query = query;
-        }
         public async override void OnResume()
         {
             base.OnResume();
@@ -42,7 +37,7 @@ namespace AnatoliAndroid.Fragments
                     progressDialog.SetMessage("در حال دریافت آخرین وضعیت سفارشات");
                     progressDialog.SetButton("باشه", delegate { progressDialog.Dismiss(); });
                     progressDialog.Show();
-                    await OrderManager.SyncOrdersAsync(AnatoliApp.GetInstance().CustomerId);
+                    await PurchaseOrderManager.SyncOrdersAsync(AnatoliApp.GetInstance().Customer.UniqueId);
                     Refresh();
                 }
                 catch (Exception ex)
