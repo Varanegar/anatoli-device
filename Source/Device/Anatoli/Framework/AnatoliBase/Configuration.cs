@@ -17,11 +17,11 @@ namespace Anatoli.Framework.AnatoliBase
         public static readonly string tokenInfoFile = "tk.info";
         public struct AppMobileAppInfo
         {
-            public static readonly string UserName = "AnatoliMobileApp";
-            public static readonly string Password = "Anatoli@App@Vn";
+            public static string UserName = "AnatoliMobileApp";
+            public static string Password = "Anatoli@App@Vn";
             //public static readonly string UserName = "petropay";
             //public static readonly string Password = "petropay";
-            public static readonly string Scope = "79A0D598-0BD2-45B1-BAAA-0A9CF9EFF240,3EEE33CE-E2FD-4A5D-A71C-103CC5046D0C";
+            public static string Scope = "79A0D598-0BD2-45B1-BAAA-0A9CF9EFF240,3EEE33CE-E2FD-4A5D-A71C-103CC5046D0C";
         }
         public struct WebService
         {

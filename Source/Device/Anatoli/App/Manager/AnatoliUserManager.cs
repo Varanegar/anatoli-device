@@ -150,17 +150,22 @@ namespace Anatoli.App.Manager
             }
         }
 
-
-        public static async Task<ChangePasswordBindingModel> ChangePassword(string p1, string p2)
+        /// <summary>
+        /// Changes the password of the user given the old one
+        /// </summary>
+        /// <param name="oldPassword"></param>
+        /// <param name="newPassword"></param>
+        /// <returns></returns>
+        public static async Task<ChangePasswordBindingModel> ChangePassword(string oldPassword, string newPassword)
         {
             var obj = new ChangePasswordBindingModel();
-            obj.ConfirmPassword = p2;
-            obj.NewPassword = p2;
-            obj.OldPassword = p1;
+            obj.ConfirmPassword = newPassword;
+            obj.NewPassword = newPassword;
+            obj.OldPassword = oldPassword;
             var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<ChangePasswordBindingModel>(TokenType.UserToken, Configuration.WebService.Users.ChangePasswordUri, obj, false);
             return result;
         }
-
+      
         public static async Task<BaseWebClientResult> SendConfirmCode(string userName, string code)
         {
             var userRequestModel = new RequestModel.UserRequestModel();
@@ -169,7 +174,11 @@ namespace Anatoli.App.Manager
             var result = await AnatoliClient.GetInstance().WebClient.SendPostRequestAsync<BaseWebClientResult>(TokenType.AppToken, Configuration.WebService.Users.ConfirmMobile, userRequestModel, false);
             return result;
         }
-
+        /// <summary>
+        /// A confirm code will be send to the user after call this function
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
         public static async Task<BaseWebClientResult> RequestConfirmCode(string userName)
         {
             var userRequestModel = new RequestModel.UserRequestModel();
